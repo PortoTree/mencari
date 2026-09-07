@@ -82,7 +82,12 @@ export default function Login() {
               value={formData.identifier} onChange={e => setFormData({...formData, identifier: e.target.value})} />
           </div>
           <div>
-            <label className="block text-sm font-bold mb-1 text-gray-800">Password</label>
+            <div className="flex justify-between items-center mb-1">
+              <label className="block text-sm font-bold text-gray-800">Password</label>
+              <Link href="/forgot-password" className="text-sm font-semibold text-emerald-600 hover:text-emerald-700 hover:underline">
+                Lupa password?
+              </Link>
+            </div>
             <div className="relative">
               <input type={showPassword ? "text" : "password"} placeholder="••••••••" required
                 className="w-full border-2 border-gray-200 p-3.5 pr-14 rounded-xl focus:outline-none focus:border-emerald-500 transition-colors"

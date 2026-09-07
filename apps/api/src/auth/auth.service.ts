@@ -172,4 +172,59 @@ export class AuthService {
       }
     };
   }
+
+  async forgotPassword(data: any) {
+    if (data.turnstileToken) {
+      await this.verifyTurnstile(data.turnstileToken);
+    }
+    
+    const identifier = data.identifier;
+    const user = await this.usersService.findOneByEmailOrUsername(identifier);
+    if (!user) throw new BadRequestException('Akun tidak ditemukan');
+
+    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 menit
+
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: { resetOtpCode: otpCode, resetOtpExpiresAt: expiresAt }
+    });
+
+    try {
+      await this.resend.emails.send({
+        from: 'Mencari.online <noreply@nearhomey.email>',
+        to: user.email,
+        subject: 'Reset Password - Mencari.online',
+        html: `Kode OTP reset password lu adalah: <strong>${otpCode}</strong>. Kode ini berlaku selama 10 menit.`
+      });
+    } catch (e) {
+      console.error(e);
+    }
+
+    return { message: "Kode OTP telah dikirim ke email.", email: user.email };
+  }
+
+  async resetPassword(data: any) {
+    const user = await this.prisma.user.findFirst({
+      where: { email: data.email, resetOtpCode: data.otp }
+    });
+
+    if (!user) throw new BadRequestException('OTP salah atau tidak ditemukan');
+    if (!user.resetOtpExpiresAt || user.resetOtpExpiresAt < new Date()) {
+      throw new BadRequestException('OTP sudah kadaluarsa');
+    }
+
+    const hashedPassword = await bcrypt.hash(data.password, 10);
+    
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: {
+        passwordHash: hashedPassword,
+        resetOtpCode: null,
+        resetOtpExpiresAt: null
+      }
+    });
+
+    return { message: "Password berhasil diubah" };
+  }
 }
