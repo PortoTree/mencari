@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<body style="background: #eee; text-align: center; margin: 0; padding: 50px;">
+  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 400px; margin: 0 auto; background: white; padding: 40px; position: relative;">
+    
+    <div style="position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: red; z-index: 10;"></div>
+    
+    <img id="logo" src="" style="height: 80px; object-fit: contain; position: relative; z-index: 5;" />
+    
+    <h2 style="font-size: 24px; font-weight: bold; margin-top: 20px; position: relative; z-index: 5;">Pengecekan Keamanan</h2>
+    <p>Tunggu sebentar...</p>
+    
+  </div>
+  
+  <script>
+    fetch('/logo-horizontal.png').then(r => r.blob()).then(blob => {
+      // not available on file://
+    });
+  </script>
+</body>
+</html>

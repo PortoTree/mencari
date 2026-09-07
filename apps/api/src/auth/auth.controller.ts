@@ -30,6 +30,11 @@ export class AuthController {
     return this.authService.forgotPassword(body);
   }
 
+  @Post('verify-reset-otp')
+  async verifyResetOtp(@Body() body: any) {
+    return this.authService.verifyResetOtp(body);
+  }
+
   @Post('reset-password')
   async resetPassword(@Body() body: any) {
     return this.authService.resetPassword(body);

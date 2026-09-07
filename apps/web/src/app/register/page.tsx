@@ -1,11 +1,33 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Turnstile } from '@marsidev/react-turnstile';
+import { useRouter, useSearchParams } from "next/navigation";
 
-export default function Register() {
+const getPasswordStrength = (pass: string) => {
+  if (!pass) return { level: 0, label: '', color: '' };
+  
+  if (pass.length < 8) {
+    return { level: 1, label: 'Minimal 8 karakter', color: 'bg-red-500', textColor: 'text-red-500' };
+  }
+  
+  const hasUpper = /[A-Z]/.test(pass);
+  const hasNumber = /\d/.test(pass);
+  const hasSpecial = /[^A-Za-z0-9]/.test(pass);
+
+  if (hasUpper && hasNumber && hasSpecial) {
+    return { level: 4, label: 'Sangat kuat', color: 'bg-emerald-600', textColor: 'text-emerald-600' };
+  }
+  if (hasNumber || hasSpecial) {
+    return { level: 3, label: 'Kuat', color: 'bg-emerald-400', textColor: 'text-emerald-500' };
+  }
+  
+  return { level: 2, label: 'Sedang', color: 'bg-yellow-500', textColor: 'text-yellow-600' };
+};
+
+function RegisterContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const secureToken = searchParams.get("secure");
   
   // State manajemen alur
   const [step, setStep] = useState(1);
@@ -18,6 +40,17 @@ export default function Register() {
     password: "",
     turnstileToken: "" 
   });
+
+  useEffect(() => {
+    if (!secureToken && !formData.turnstileToken) {
+      router.replace("/secure?next=/register");
+    } else if (secureToken && !formData.turnstileToken) {
+      setFormData(prev => ({ ...prev, turnstileToken: secureToken }));
+      // Optional: clean up URL
+      router.replace("/register");
+    }
+  }, [secureToken, formData.turnstileToken, router]);
+
   const [usernameStatus, setUsernameStatus] = useState<'idle' | 'checking' | 'available' | 'taken'>('idle');
   const [otpCode, setOtpCode] = useState("");
   const [loading, setLoading] = useState(false);
@@ -180,12 +213,18 @@ export default function Register() {
   };
 
   return (
-    <main className="flex min-h-[100dvh] flex-col items-center justify-center bg-white sm:bg-gray-100 text-slate-800 font-sans pt-24 pb-8 sm:p-24">
+    <main className="flex min-h-[100dvh] flex-col items-center justify-center bg-white sm:bg-gray-100 text-slate-800 font-sans pt-16 pb-12 sm:p-24">
+      {/* Header Khusus Mobile (Murni fixed di root viewport) */}
+      <div className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-50 flex justify-center py-4 border-b border-gray-100 sm:hidden">
+        <div className="-ml-3 w-full flex justify-center">
+          <img src="/logo-horizontal.png" alt="Mencari.online" className="h-14 object-contain" />
+        </div>
+      </div>
+
       <div className="w-full max-w-md px-8 sm:p-10 sm:bg-white sm:rounded-2xl sm:shadow-xl">
         
-        {/* Header Logo (Fixed di Mobile, Normal di PC) */}
-        <div className="fixed top-0 left-0 w-full bg-white/95 backdrop-blur-sm z-50 flex justify-center py-4 border-b border-gray-100 sm:static sm:bg-transparent sm:backdrop-blur-none sm:py-0 sm:border-none sm:mb-4">
-          <img src="/logo-horizontal.png" alt="Mencari.online" className="h-14 sm:h-20 object-contain" />
+        <div className="hidden sm:flex justify-center mb-4 w-full -ml-4">
+          <img src="/logo-horizontal.png" alt="Mencari.online" className="h-20 object-contain" />
         </div>
         
         {step === 1 ? (
@@ -261,22 +300,29 @@ export default function Register() {
                     )}
                   </button>
                 </div>
+                {formData.password.length > 0 && (
+                  <div className="mt-2">
+                    <div className="flex gap-1.5 w-full h-1.5">
+                      {[1, 2, 3, 4].map((barLevel) => (
+                        <div 
+                          key={barLevel} 
+                          className={`flex-1 rounded-full transition-colors duration-300 ${getPasswordStrength(formData.password).level >= barLevel ? getPasswordStrength(formData.password).color : 'bg-gray-200'}`} 
+                        />
+                      ))}
+                    </div>
+                    <p className={`text-xs mt-1.5 font-bold ${getPasswordStrength(formData.password).textColor}`}>
+                      {getPasswordStrength(formData.password).label}
+                    </p>
+                  </div>
+                )}
               </div>
               
-              <div className="flex justify-center pt-2">
-                <Turnstile
-                  siteKey="0x4AAAAAAErFLKlGZ8SiwX2L"
-                  options={{ theme: 'light' }}
-                  onSuccess={(token) => setFormData({ ...formData, turnstileToken: token })}
-                  onError={() => showToast("Verifikasi gagal, silakan coba lagi.", false)}
-                />
-              </div>
-              
-              <button 
-                type="submit" 
-                disabled={loading || !formData.username.trim() || !formData.email.trim() || !formData.password.trim() || !formData.turnstileToken || usernameStatus === 'taken' || usernameStatus === 'checking'} 
-                className="w-full bg-emerald-600 text-white p-3.5 rounded-xl font-bold tracking-wide hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-200 disabled:bg-gray-400 disabled:shadow-none disabled:cursor-not-allowed"
-              >
+                
+                <button 
+                  type="submit" 
+                  disabled={loading || !formData.username.trim() || !formData.email.trim() || formData.password.length < 8 || usernameStatus === 'taken' || usernameStatus === 'checking'} 
+                  className="w-full bg-emerald-600 text-white p-3.5 rounded-xl font-bold tracking-wide hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-200 disabled:bg-gray-400 disabled:shadow-none disabled:cursor-not-allowed"
+                >
                 {loading ? 'Memproses...' : 'Daftar sekarang'}
               </button>
             </form>
@@ -329,5 +375,13 @@ export default function Register() {
         )}
       </div>
     </main>
+  );
+}
+
+export default function Register() {
+  return (
+    <Suspense fallback={<div>Memuat...</div>}>
+      <RegisterContent />
+    </Suspense>
   );
 }

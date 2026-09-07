@@ -192,16 +192,62 @@ export class AuthService {
 
     try {
       await this.resend.emails.send({
-        from: 'Mencari.online <noreply@nearhomey.email>',
+        from: 'Mencari.online <noreply@mencari.online>',
         to: user.email,
         subject: 'Reset Password - Mencari.online',
-        html: `Kode OTP reset password lu adalah: <strong>${otpCode}</strong>. Kode ini berlaku selama 10 menit.`
+        html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; }
+            .container { max-width: 600px; margin: 40px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+            .header { background-color: #059669; color: white; text-align: center; padding: 30px 20px; }
+            .header h1 { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: 1px; }
+            .content { padding: 40px 30px; color: #334155; line-height: 1.6; }
+            .title { font-size: 20px; font-weight: 600; color: #0f172a; margin-bottom: 20px; }
+            .otp-box { background-color: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 8px; text-align: center; padding: 20px; font-size: 32px; font-weight: 800; color: #059669; letter-spacing: 8px; margin: 30px 0; }
+            .footer { background-color: #f8fafc; text-align: center; padding: 20px; font-size: 13px; color: #94a3b8; border-top: 1px solid #e2e8f0; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Reset Password</h1>
+            </div>
+            <div class="content">
+              <div class="title">Halo, ${user.username}!</div>
+              <p>Kami menerima permintaan untuk mereset password akun <strong>Mencari.online</strong> lu. Gunakan kode verifikasi berikut:</p>
+              <div class="otp-box">${otpCode}</div>
+              <p style="font-size: 14px; color: #64748b;">Kode ini hanya berlaku selama 10 menit. Jika lu tidak meminta reset password, abaikan email ini.</p>
+            </div>
+            <div class="footer">
+              &copy; ${new Date().getFullYear()} Mencari.online. All rights reserved.<br/>
+              Email ini dikirim secara otomatis, mohon tidak dibalas.
+            </div>
+          </div>
+        </body>
+        </html>
+        `
       });
     } catch (e) {
       console.error(e);
     }
 
     return { message: "Kode OTP telah dikirim ke email.", email: user.email };
+  }
+
+  async verifyResetOtp(data: any) {
+    const user = await this.prisma.user.findFirst({
+      where: { email: data.email, resetOtpCode: data.otp }
+    });
+
+    if (!user) throw new BadRequestException('Kode OTP salah');
+    if (!user.resetOtpExpiresAt || user.resetOtpExpiresAt < new Date()) {
+      throw new BadRequestException('Kode OTP sudah kadaluarsa');
+    }
+
+    return { message: "Kode OTP valid" };
   }
 
   async resetPassword(data: any) {
