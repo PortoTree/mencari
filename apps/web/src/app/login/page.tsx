@@ -76,8 +76,8 @@ export default function Login() {
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-bold mb-1 text-gray-800">Email atau Username</label>
-            <input type="text" placeholder="john@example.com atau johndoe" required
+            <label className="block text-sm font-bold mb-1 text-gray-800">Email/Username</label>
+            <input type="text" placeholder="name@example.com atau username" required
               className="w-full border-2 border-gray-200 p-3.5 rounded-xl focus:outline-none focus:border-emerald-500 transition-colors"
               value={formData.identifier} onChange={e => setFormData({...formData, identifier: e.target.value})} />
           </div>
