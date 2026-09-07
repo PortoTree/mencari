@@ -2,12 +2,14 @@
   "name": "mencari.online-monorepo",
   "private": true,
   "scripts": {
-    "dev:api": "pnpm --filter api run start:dev",
-    "dev:web": "pnpm --filter web run dev",
+    "dev": "concurrently \"npm run dev --prefix apps/web\" \"npm run start:dev --prefix apps/api\"",
+    "dev:api": "npm run start:dev --prefix apps/api",
+    "dev:web": "npm run dev --prefix apps/web",
     "db:generate": "prisma generate",
     "db:push": "prisma db push"
   },
   "devDependencies": {
+    "concurrently": "^9.2.4",
     "prisma": "^5.21.0"
   },
   "dependencies": {

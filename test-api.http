@@ -1,0 +1,33 @@
+### 1. Register User Baru
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "username": "bro_naufal",
+  "email": "naufal@mencari.online",
+  "password": "password123"
+}
+
+### 2. Login User (Harus register dulu di atas)
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "naufal@mencari.online",
+  "password": "password123"
+}
+
+### 3. Get Semua Postingan (Feed)
+GET http://localhost:3001/posts
+
+### 4. Create Postingan (Harus bawa Token dari hasil Login)
+# 1. Login dulu di atas, copy "access_token"-nya.
+# 2. Paste token-nya di bawah ini gantiin tulisan "TOKEN_LU_DISINI".
+POST http://localhost:3001/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhbXBhbSIsInN1YiI6IjY5NTk5YThjLWNkYjUtNGJjMi1hNzViLTVlMDM3NWY5ZjE0ZCIsImlhdCI6MTc4ODc2MDIyMywiZXhwIjoxNzg5MzY1MDIzfQ.vendnRvn1F_TqaLdqrZKvONQ6j5x1IUgNN2YsOJjpqY
+
+{
+  "content": "Halo dunia, ini postingan pertama gua di mencari.online!",
+  "type": "NORMAL"
+}
