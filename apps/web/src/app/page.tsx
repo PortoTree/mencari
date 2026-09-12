@@ -53,30 +53,35 @@ export default function WelcomePage() {
         </Link>
       </header>
 
-      {/* Hero Left Aligned */}
-      <section className="relative px-6 pt-32 pb-10 sm:pt-40 sm:pb-12 max-w-7xl mx-auto flex flex-col items-start bg-white">
-        <style>{`
-          @keyframes text-slide-up {
-            0% { opacity: 0; transform: translateY(30px); }
-            100% { opacity: 1; transform: translateY(0); }
-          }
-          .animate-text-slide-up {
-            animation: text-slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          }
-        `}</style>
-        <h1 className="text-5xl sm:text-6xl lg:text-[5.5rem] font-bold tracking-tight text-black mb-6 leading-[1.1]">
-          Ubah cara Anda <br />
-          mencari <span key={words[wordIndex]} className="text-[#00A300] inline-block animate-text-slide-up">{words[wordIndex]}</span>
-        </h1>
-        
-        <p className="text-base sm:text-xl text-slate-700 max-w-xl leading-relaxed">
-          Posting apa yang Anda butuhkan, dan <br className="hidden sm:block" />
-          biarkan koneksi yang tepat mendatangi Anda
-        </p>
+      {/* Hero Left Aligned (Fixed Parallax) */}
+      <section className="fixed top-0 left-0 right-0 w-full pt-32 pb-10 sm:pt-40 sm:pb-12 flex flex-col items-start z-0 pointer-events-none">
+        <div className="w-full px-6 max-w-7xl mx-auto flex flex-col items-start pointer-events-auto">
+          <style>{`
+            @keyframes text-slide-up {
+              0% { opacity: 0; transform: translateY(30px); }
+              100% { opacity: 1; transform: translateY(0); }
+            }
+            .animate-text-slide-up {
+              animation: text-slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+          `}</style>
+          <h1 className="text-[2.75rem] sm:text-6xl lg:text-[5.5rem] font-extrabold tracking-tighter text-black mb-4 sm:mb-6 leading-[1.05] sm:leading-[1.1]">
+            Ubah cara Anda <br />
+            mencari <br />
+            <span key={words[wordIndex]} className="text-[#00A300] inline-block animate-text-slide-up mt-1 sm:mt-3">{words[wordIndex]}</span>
+          </h1>
+          
+          <p className="text-base sm:text-xl text-slate-700 max-w-sm sm:max-w-xl leading-relaxed">
+            Posting apa yang Anda butuhkan, dan biarkan koneksi yang tepat mendatangi Anda
+          </p>
+        </div>
       </section>
 
+      {/* Spacer buat ngedorong layer hijau ke bawah, karena hero-nya fixed */}
+      <div className="w-full h-[550px] sm:h-[600px] lg:h-[650px]"></div>
+
       {/* Container Hijau Bawah */}
-      <div className="relative bg-[#00A300] rounded-t-[2rem] sm:rounded-t-[3rem] mt-16 pb-24">
+      <div className="relative z-10 bg-[#00A300] rounded-t-[2rem] sm:rounded-t-[3rem] pb-24 shadow-[0_-15px_40px_rgba(0,0,0,0.15)]">
         
         {/* Tombol Buat Akun (Overlap) */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -192,7 +197,7 @@ export default function WelcomePage() {
       </div>
 
       {/* Footer Lengkap */}
-      <footer className="px-6 py-12 border-t border-slate-200 bg-white">
+      <footer className="relative z-10 px-6 py-12 border-t border-slate-200 bg-white">
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-4 gap-8 mb-8">
           <div className="sm:col-span-2">
             <img src="/logo-horizontal.png" alt="Mencari.online" className="h-10 object-contain mb-4 grayscale" />
