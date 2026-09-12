@@ -103,7 +103,7 @@ export default function WelcomePage() {
       <div className="w-full h-[550px] sm:h-[550px] lg:h-[600px] xl:h-[650px]"></div>
 
       {/* Container Hijau Bawah */}
-      <div className="relative z-10 bg-[#00A300] rounded-t-[2rem] sm:rounded-t-[3rem] pb-24 shadow-[0_-15px_40px_rgba(0,0,0,0.15)]">
+      <div className="relative z-10 bg-[#00A300] rounded-t-[2rem] sm:rounded-t-[3rem] pb-24 shadow-[0_-15px_40px_rgba(0,0,0,0.15)] transform-gpu will-change-transform">
         
         {/* Tombol Buat Akun (Overlap) */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
