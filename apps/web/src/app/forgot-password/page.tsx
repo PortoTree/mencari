@@ -49,14 +49,23 @@ function ForgotPasswordContent() {
     turnstileToken: ""
   });
 
+  const [autoSubmitReady, setAutoSubmitReady] = useState(false);
+
   useEffect(() => {
-    if (!secureToken && !formData.turnstileToken) {
-      router.replace("/secure?next=/forgot-password");
-    } else if (secureToken && !formData.turnstileToken) {
-      setFormData(prev => ({ ...prev, turnstileToken: secureToken }));
-      router.replace("/forgot-password");
+    if (secureToken) {
+      const saved = sessionStorage.getItem("forgotPasswordDraft");
+      if (saved) {
+        setFormData(prev => ({ ...prev, ...JSON.parse(saved), turnstileToken: secureToken }));
+        if (sessionStorage.getItem("autoSubmitForgot") === "true") {
+          sessionStorage.removeItem("autoSubmitForgot");
+          setAutoSubmitReady(true);
+        }
+      } else {
+        setFormData(prev => ({ ...prev, turnstileToken: secureToken }));
+      }
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
-  }, [secureToken, formData.turnstileToken, router]);
+  }, [secureToken]);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -116,12 +125,16 @@ function ForgotPasswordContent() {
     }, 3000);
   };
 
-  const handleRequestOtp = async (e: React.FormEvent) => {
+  const handleRequestOtp = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
+    
     if (!formData.turnstileToken) {
-      showToast("Tolong centang verifikasi keamanan", false);
+      sessionStorage.setItem("forgotPasswordDraft", JSON.stringify(formData));
+      sessionStorage.setItem("autoSubmitForgot", "true");
+      router.push("/secure?next=/forgot-password");
       return;
     }
+    
     setLoading(true);
     
     try {
@@ -150,6 +163,13 @@ function ForgotPasswordContent() {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    if (autoSubmitReady && formData.turnstileToken && formData.identifier) {
+      handleRequestOtp();
+      setAutoSubmitReady(false);
+    }
+  }, [autoSubmitReady, formData.turnstileToken, formData.identifier]);
 
   const handleResendCode = async () => {
     if (countdown > 0) return;
@@ -249,14 +269,14 @@ function ForgotPasswordContent() {
       {/* Header Khusus Mobile (Murni fixed di root viewport) */}
       <div className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-50 flex justify-center py-4 border-b border-gray-100 sm:hidden">
         <div className="-ml-3 w-full flex justify-center">
-          <img src="/logo-horizontal.png" alt="Mencari.online" className="h-14 object-contain" />
+          <img src="/logo-horizontal.png" alt="Mencari.online" className="h-10 object-contain" />
         </div>
       </div>
 
       <div className="w-full max-w-md px-8 sm:p-10 sm:bg-white sm:rounded-2xl sm:shadow-xl">
         
         <div className="hidden sm:flex justify-center mb-4 w-full -ml-4">
-          <img src="/logo-horizontal.png" alt="Mencari.online" className="h-20 object-contain" />
+          <img src="/logo-horizontal.png" alt="Mencari.online" className="h-14 object-contain" />
         </div>
         
         {step === 1 && (

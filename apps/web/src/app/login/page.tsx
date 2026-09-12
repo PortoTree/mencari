@@ -46,16 +46,23 @@ export default function Login() {
       const data = await res.json();
       
       if (res.ok) {
+        // Simpan ke localStorage buat fallback & Cookie buat middleware
+        console.log("[Login] Success, setting token in storage...");
         localStorage.setItem("token", data.access_token);
+        document.cookie = `token=${data.access_token}; path=/; max-age=604800; SameSite=Lax`;
+        
         showToast("Login berhasil! Mengalihkan...", true);
         setTimeout(() => {
           // Redirect ke dashboard atau halaman utama setelah login
-          window.location.href = "/";
+          console.log("[Login] Redirecting to beranda...");
+          window.location.href = "/beranda";
         }, 1500);
       } else {
+        console.log("[Login] Failed:", data.message);
         showToast(data.message || 'Kredensial salah', false);
       }
     } catch (err) {
+      console.error("[Login] Error:", err);
       showToast("Gagal login, server bermasalah.", false);
     }
     
@@ -67,7 +74,7 @@ export default function Login() {
       {/* Header Khusus Mobile (Murni fixed di root viewport) */}
       <div className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-50 flex justify-center py-4 border-b border-gray-100 sm:hidden">
         <div className="-ml-3 w-full flex justify-center">
-          <img src="/logo-horizontal.png" alt="Mencari.online" className="h-14 object-contain" />
+          <img src="/logo-horizontal.png" alt="Mencari.online" className="h-10 object-contain" />
         </div>
       </div>
 
@@ -80,16 +87,16 @@ export default function Login() {
         <div className="relative z-10">
           
           <div className="hidden sm:flex justify-center mb-4 w-full -ml-4">
-            <img src="/logo-horizontal.png" alt="Mencari.online" className="h-20 object-contain" />
+            <img src="/logo-horizontal.png" alt="Mencari.online" className="h-14 object-contain" />
           </div>
           
-          <h2 className="text-center text-2xl font-extrabold text-gray-900 mb-1 tracking-tight">Masuk akun</h2>
+          <h2 className="text-center text-2xl font-extrabold text-gray-900 mb-1 tracking-tight">Login akun</h2>
           <p className="text-center text-gray-500 mb-6 text-sm">Selamat datang kembali! Yuk lanjut mencari.</p>
           
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-bold mb-1 text-gray-800">Email atau Username</label>
-              <input type="text" placeholder="john@example.com atau johndoe" required
+              <label className="block text-sm font-bold mb-1 text-gray-800">Email/Username</label>
+              <input type="text" placeholder="name@example.com atau username" required
                 className="w-full border-2 border-gray-200 p-3.5 rounded-xl focus:outline-none focus:border-emerald-500 transition-colors"
                 value={formData.identifier} onChange={e => setFormData({...formData, identifier: e.target.value})} />
             </div>

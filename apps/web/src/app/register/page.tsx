@@ -41,15 +41,25 @@ function RegisterContent() {
     turnstileToken: "" 
   });
 
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [autoSubmitReady, setAutoSubmitReady] = useState(false);
+
   useEffect(() => {
-    if (!secureToken && !formData.turnstileToken) {
-      router.replace("/secure?next=/register");
-    } else if (secureToken && !formData.turnstileToken) {
-      setFormData(prev => ({ ...prev, turnstileToken: secureToken }));
-      // Optional: clean up URL
-      router.replace("/register");
+    if (secureToken) {
+      const saved = sessionStorage.getItem("registerDraft");
+      if (saved) {
+        setFormData(prev => ({ ...prev, ...JSON.parse(saved), turnstileToken: secureToken }));
+        if (sessionStorage.getItem("autoSubmit") === "true") {
+          sessionStorage.removeItem("autoSubmit");
+          setAutoSubmitReady(true);
+        }
+      } else {
+        setFormData(prev => ({ ...prev, turnstileToken: secureToken }));
+      }
+      // Clean up URL
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
-  }, [secureToken, formData.turnstileToken, router]);
+  }, [secureToken]);
 
   const [usernameStatus, setUsernameStatus] = useState<'idle' | 'checking' | 'available' | 'taken'>('idle');
   const [otpCode, setOtpCode] = useState("");
@@ -146,12 +156,8 @@ function RegisterContent() {
     setCountdown(60);
   };
 
-  const handleRegister = async (e: React.FormEvent) => {
+  const handleRegister = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (!formData.turnstileToken) {
-      showToast("Tolong centang verifikasi keamanan", false);
-      return;
-    }
     setLoading(true);
     
     try {
@@ -170,10 +176,35 @@ function RegisterContent() {
       } else {
         showToast(data.message || 'Email atau Username sudah dipakai', false);
       }
-    } catch (err) {
-      showToast("Gagal terhubung ke API (Pastikan server nyala)", false);
+    } catch (error) {
+      showToast('Koneksi bermasalah', false);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (autoSubmitReady && formData.turnstileToken && formData.email) {
+      handleRegister();
+      setAutoSubmitReady(false);
+    }
+  }, [autoSubmitReady, formData.turnstileToken, formData.email]);
+
+  const onStep1Submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setShowEmailModal(true);
+  };
+
+  const handleConfirmEmail = () => {
+    setShowEmailModal(false);
+    
+    if (!formData.turnstileToken) {
+      sessionStorage.setItem("registerDraft", JSON.stringify(formData));
+      sessionStorage.setItem("autoSubmit", "true");
+      router.push("/secure?next=/register");
+    } else {
+      handleRegister();
+    }
   };
 
   const handleVerify = async (e: React.FormEvent) => {
@@ -217,21 +248,21 @@ function RegisterContent() {
       {/* Header Khusus Mobile (Murni fixed di root viewport) */}
       <div className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-50 flex justify-center py-4 border-b border-gray-100 sm:hidden">
         <div className="-ml-3 w-full flex justify-center">
-          <img src="/logo-horizontal.png" alt="Mencari.online" className="h-14 object-contain" />
+          <img src="/logo-horizontal.png" alt="Mencari.online" className="h-10 object-contain" />
         </div>
       </div>
 
       <div className="w-full max-w-md px-8 sm:p-10 sm:bg-white sm:rounded-2xl sm:shadow-xl">
         
         <div className="hidden sm:flex justify-center mb-4 w-full -ml-4">
-          <img src="/logo-horizontal.png" alt="Mencari.online" className="h-20 object-contain" />
+          <img src="/logo-horizontal.png" alt="Mencari.online" className="h-14 object-contain" />
         </div>
         
         {step === 1 ? (
           <>
             <h2 className="text-center text-2xl font-extrabold text-gray-900 mb-1 tracking-tight">Buat Akun Baru</h2>
             <p className="text-center text-gray-500 mb-5 text-sm">Lengkapi data di bawah untuk bergabung</p>
-            <form onSubmit={handleRegister} className="space-y-4">
+            <form onSubmit={onStep1Submit} className="space-y-4">
                 <div>
                   <label className="block text-sm font-bold mb-1 text-gray-800">Username</label>
                   <div className="relative">
@@ -367,6 +398,37 @@ function RegisterContent() {
           </>
         )}
         
+        {/* Modal Konfirmasi Email */}
+        {showEmailModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+            <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl text-center">
+              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Konfirmasi Email</h3>
+              <p className="text-gray-500 text-sm mb-1">Apakah alamat email ini sudah benar?</p>
+              <p className="text-emerald-700 font-semibold mb-6 break-all">{formData.email}</p>
+              
+              <div className="flex gap-3">
+                <button 
+                  onClick={() => setShowEmailModal(false)}
+                  className="flex-1 py-3 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl transition-colors"
+                >
+                  Batal
+                </button>
+                <button 
+                  onClick={handleConfirmEmail}
+                  className="flex-1 py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition-colors shadow-lg shadow-emerald-200"
+                >
+                  Sudah benar
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Toast Notification */}
         {message && (
           <div className={`fixed bottom-10 sm:bottom-auto sm:top-10 left-1/2 transform -translate-x-1/2 z-50 px-8 py-4 min-w-[320px] rounded-xl shadow-2xl border text-sm font-semibold text-center transition-all duration-500 ease-in-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6 sm:-translate-y-6'} ${isSuccessMessage ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'bg-red-50 border-red-200 text-red-600'}`}>
