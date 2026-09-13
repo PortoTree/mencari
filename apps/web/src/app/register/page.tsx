@@ -135,7 +135,7 @@ function RegisterContent() {
       
       const delayDebounce = setTimeout(async () => {
         try {
-          const res = await fetch(`http://localhost:3001/auth/check-username?username=${username}`);
+          const res = await fetch(`/api/auth/check-username?username=${username}`);
           if (res.ok) {
             const data = await res.json();
             setUsernameStatus(data.available ? 'available' : 'taken');
@@ -161,7 +161,7 @@ function RegisterContent() {
     setLoading(true);
     
     try {
-      const res = await fetch("http://localhost:3001/auth/register", {
+      const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -212,7 +212,7 @@ function RegisterContent() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3001/auth/verify", {
+      const res = await fetch("/api/auth/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: formData.email, code: otpCode }),

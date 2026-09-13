@@ -12,7 +12,7 @@ export default function Home() {
   // Fetch semua postingan (Feed) pas halaman dibuka
   const fetchFeed = async () => {
     try {
-      const res = await fetch("http://localhost:3001/posts");
+      const res = await fetch("/api/posts");
       const data = await res.json();
       setPosts(data);
     } catch (err) {
@@ -40,7 +40,7 @@ export default function Home() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch("http://localhost:3001/posts", {
+      const res = await fetch("/api/posts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
