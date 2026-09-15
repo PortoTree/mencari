@@ -130,8 +130,8 @@ export default function Beranda() {
           
           <div className="relative ml-1" ref={dropdownRef}>
             <div className="relative cursor-pointer group" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-              <button className="w-10 h-10 rounded-full bg-[#E4E6EB] dark:bg-[#3A3B3C] flex items-center justify-center overflow-hidden border border-gray-300 dark:border-[#3E4042]">
-                <svg className="w-full h-full pt-1.5 text-white" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+              <button className="w-10 h-10 rounded-full hover:brightness-95 transition-all flex items-center justify-center overflow-hidden border border-emerald-600 dark:border-emerald-400 shrink-0">
+                <img src="/default-avatar.svg" alt="Profile" className="w-full h-full object-cover" />
               </button>
               {/* Arrow Down Badge */}
               <div className="absolute -bottom-0.5 -right-0.5 w-[16px] h-[16px] bg-[#E4E6EB] dark:bg-[#3A3B3C] rounded-full flex items-center justify-center border-2 border-white dark:border-[#242526]">
@@ -146,8 +146,8 @@ export default function Beranda() {
             {isDropdownOpen && (
               <div className="absolute right-0 mt-3 w-[340px] bg-white dark:bg-[#242526] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.15)] border border-gray-200 dark:border-[#3E4042] p-4 z-[100]">
                 <div className="bg-[#F2F2F2] dark:bg-[#3A3B3C] rounded-xl p-3 flex items-center gap-3 mb-2 hover:bg-[#E4E6EB] dark:hover:bg-[#4E4F50] cursor-pointer transition-colors shadow-sm border border-gray-100 dark:border-[#3E4042]">
-                  <div className="w-[40px] h-[40px] bg-[#E4E6EB] dark:bg-[#3A3B3C] rounded-full flex items-center justify-center overflow-hidden shrink-0 border border-gray-300 dark:border-[#3E4042]">
-                    <svg className="w-full h-full pt-1.5 text-white" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                  <div className="w-[40px] h-[40px] rounded-full flex items-center justify-center overflow-hidden shrink-0 border border-emerald-600 dark:border-emerald-400">
+                    <img src="/default-avatar.svg" alt="Profile" className="w-full h-full object-cover" />
                   </div>
                   <div>
                     <h3 className="font-bold text-[16px] text-black dark:text-[#E4E6EB] leading-tight">{currentUser.username}</h3>
@@ -227,8 +227,8 @@ export default function Beranda() {
             <div className="h-20 bg-gray-200 dark:bg-[#3A3B3C] w-full relative">
               {/* Profile image overlapping */}
               <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-[72px] h-[72px] bg-white dark:bg-[#242526] rounded-full p-1 shadow-sm">
-                <div className="w-full h-full bg-emerald-500 rounded-full flex items-center justify-center overflow-hidden">
-                  <svg className="w-full h-full pt-1.5 text-white" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                <div className="w-full h-full rounded-full flex items-center justify-center overflow-hidden">
+                  <img src="/default-avatar.svg" alt="Profile" className="w-full h-full object-cover" />
                 </div>
               </div>
             </div>
@@ -266,9 +266,9 @@ export default function Beranda() {
             {/* Create Post Input */}
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-4">
             <div className="flex items-center gap-3 pb-4 border-b border-gray-100 dark:border-[#3E4042]">
-              <div className="w-[40px] h-[40px] bg-gray-200 dark:bg-[#3A3B3C] rounded-full flex items-center justify-center overflow-hidden shrink-0">
-                <svg className="w-full h-full pt-1.5 text-white" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
-              </div>
+              <div className="w-[40px] h-[40px] rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-emerald-600 dark:border-emerald-400">
+                  <img src="/default-avatar.svg" alt="Profile" className="w-full h-full object-cover" />
+                </div>
               <input 
                 type="text" 
                 placeholder="Posting dan buat orang mencarimu" 
@@ -299,9 +299,9 @@ export default function Beranda() {
           {/* Dummy Post 1 */}
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-4">
             <div className="flex items-center gap-3 pb-2">
-              <div className="w-[40px] h-[40px] bg-gray-200 dark:bg-[#3A3B3C] rounded-full flex items-center justify-center overflow-hidden shrink-0">
-                <svg className="w-full h-full pt-1.5 text-white" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
-              </div>
+              <div className="w-[40px] h-[40px] rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-emerald-600 dark:border-emerald-400">
+                  <img src="/default-avatar.svg" alt="Profile" className="w-full h-full object-cover" />
+                </div>
               <div>
                 <h3 className="font-bold text-black dark:text-[#E4E6EB] text-[15px] leading-tight">Pengguna</h3>
               </div>
@@ -326,9 +326,9 @@ export default function Beranda() {
           {/* Dummy Post 2 */}
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] pt-4 px-0">
             <div className="flex items-center gap-3 pb-2 px-4">
-              <div className="w-[40px] h-[40px] bg-gray-200 dark:bg-[#3A3B3C] rounded-full flex items-center justify-center overflow-hidden shrink-0">
-                <svg className="w-full h-full pt-1.5 text-white" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
-              </div>
+              <div className="w-[40px] h-[40px] rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-emerald-600 dark:border-emerald-400">
+                  <img src="/default-avatar.svg" alt="Profile" className="w-full h-full object-cover" />
+                </div>
               <div>
                 <h3 className="font-bold text-black dark:text-[#E4E6EB] text-[15px] leading-tight">Naufal faiz</h3>
                 <p className="text-[13px] text-gray-500 dark:text-[#B0B3B8]">Web Development</p>
@@ -377,9 +377,9 @@ export default function Beranda() {
              >
                <div className="flex items-center gap-2">
                  <div className="relative">
-                   <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white shrink-0 overflow-hidden">
-                     <svg className="w-full h-full pt-1.5" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
-                   </div>
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-emerald-600 dark:border-emerald-400">
+                      <img src="/default-avatar.svg" alt="Profile" className="w-full h-full object-cover" />
+                    </div>
                    <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[#31A24C] rounded-full border-2 border-white dark:border-[#242526]"></div>
                  </div>
                  <span className="font-semibold text-black dark:text-[#E4E6EB] text-[15px]">Obrolan</span>
@@ -469,8 +469,8 @@ export default function Beranda() {
                <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full">
                  {/* Chat Item */}
                  <div className="flex items-center gap-3 p-3 hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors">
-                    <div className="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold text-[18px] shrink-0 overflow-hidden">
-                      in
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-emerald-600 dark:border-emerald-400">
+                      <img src="/default-avatar.svg" alt="Profile" className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">
                        <div className="flex justify-between items-baseline">
@@ -481,10 +481,10 @@ export default function Beranda() {
                     </div>
                  </div>
                  
-                 {/* Chat Item 2 */}
-                 <div className="flex items-center gap-3 p-3 hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors">
-                    <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-[18px] shrink-0 relative overflow-hidden">
-                      S
+                  {/* Chat Item 2 */}
+                  <div className="flex items-center gap-3 p-3 hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors">
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 relative overflow-hidden border border-emerald-600 dark:border-emerald-400">
+                      <img src="/default-avatar.svg" alt="Profile" className="w-full h-full object-cover" />
                       <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#31A24C] rounded-full border-2 border-white dark:border-[#242526]"></div>
                     </div>
                     <div className="flex-1 min-w-0">
@@ -524,8 +524,8 @@ export default function Beranda() {
           <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full">
              {/* Pam Faiz */}
              <div className="flex items-center gap-3 p-3 hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors">
-                <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-[#3A3B3C] flex items-center justify-center overflow-hidden shrink-0">
-                   <svg className="w-full h-full pt-1.5 text-white" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-emerald-600 dark:border-emerald-400">
+                   <img src="/default-avatar.svg" alt="Profile" className="w-full h-full object-cover" />
                 </div>
                 <div className="flex-1 min-w-0">
                    <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB] truncate">Pam Faiz</span>
