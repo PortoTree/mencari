@@ -1,51 +1,64 @@
-"use client";
-import { useState, useEffect, useRef } from "react";
+const fs = require('fs');
+
+const code = "use client";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 
 export default function Beranda() {
   const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const [currentUser, setCurrentUser] = useState<any>({ username: "User", displayName: "" });
-
-  // Handle click outside to close dropdown
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  const [posts, setPosts] = useState([]);
+  const [currentUser, setCurrentUser] = useState({ username: "pampam", displayName: "pampam" });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
+    if (!token) {
+      router.push("/login");
+    } else {
       try {
         const payload = JSON.parse(atob(token.split(".")[1]));
-        if (payload.username || payload.name) {
+        if (payload.username) {
           setCurrentUser({
-            username: payload.username || payload.name || "User",
-            displayName: payload.displayName || payload.username || payload.name || "User"
+            username: payload.username,
+            displayName: payload.displayName || payload.username
           });
         }
       } catch (e) {
         console.error("Failed to parse token");
       }
+      fetchFeed();
     }
-  }, []);
+  }, [router]);
+
+  const fetchFeed = async () => {
+    try {
+      const res = await fetch("/api/posts");
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setPosts(data);
+      } else if (data && Array.isArray(data.data)) {
+        setPosts(data.data);
+      } else {
+        setPosts([]);
+      }
+    } catch (err) {
+      console.error("Gagal load feed", err);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    router.push("/login");
+  };
 
   return (
-    <main className="min-h-screen bg-[#F3F2EF] text-black pb-10">
+    <main className="min-h-screen bg-[#F0F2F5] text-black pb-10">
       {/* Navbar Fixed Top */}
       <nav className="bg-white shadow-sm sticky top-0 z-50 h-[56px] px-4 flex items-center justify-between border-b border-gray-200">
         {/* Left: Logo & Search */}
         <div className="flex items-center gap-2">
-          <img src="/logo.png" alt="Logo" className="w-[36px] h-[36px] object-cover rounded-full" />
+          <img src="/logo.png" alt="Logo" className="w-[40px] h-[40px] object-cover rounded-full" />
           <div className="hidden md:flex items-center bg-[#F0F2F5] rounded-full px-3 py-2 w-64 ml-1">
             <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -106,25 +119,25 @@ export default function Beranda() {
             </div>
           </div>
           
-          <div className="relative ml-1" ref={dropdownRef}>
-            <div className="relative cursor-pointer group" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+          <div className="relative ml-1 group">
+            <div className="relative cursor-pointer" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
               <button className="w-10 h-10 rounded-full bg-[#E4E6EB] flex items-center justify-center overflow-hidden border border-gray-300">
                 <svg className="w-6 h-6 text-gray-500 mt-2" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
               </button>
               {/* Arrow Down Badge */}
-              <div className="absolute -bottom-0.5 -right-0.5 w-[16px] h-[16px] bg-[#E4E6EB] rounded-full flex items-center justify-center border-2 border-white">
+              <div className="absolute -bottom-1 -right-1 w-[18px] h-[18px] bg-[#E4E6EB] rounded-full flex items-center justify-center border-2 border-white">
                 <svg className="w-3 h-3 text-black" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
               </div>
-              <div className="absolute top-12 right-0 px-3 py-1.5 bg-black/80 text-white text-[13px] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap z-[60]">
-                Informasi
-              </div>
+            </div>
+            <div className="absolute top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/80 text-white text-[13px] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap z-[60]">
+              Informasi
             </div>
 
             {/* Dropdown Profile Panel */}
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-3 w-[340px] bg-white rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.15)] border border-gray-200 p-4 z-50">
-                <div className="bg-[#F2F2F2] rounded-xl p-3 flex items-center gap-3 mb-2 hover:bg-[#E4E6EB] cursor-pointer transition-colors shadow-sm border border-gray-100">
-                  <div className="w-[40px] h-[40px] bg-[#E4E6EB] rounded-full flex items-center justify-center overflow-hidden shrink-0 border border-gray-300">
+              <div className="absolute right-0 mt-2 w-[340px] bg-white rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.15)] border border-gray-200 p-4 z-50">
+                <div className="bg-[#F2F2F2] rounded-xl p-3 flex items-center gap-3 mb-2 hover:bg-[#E4E6EB] cursor-pointer transition-colors shadow-sm">
+                  <div className="w-[40px] h-[40px] bg-[#E4E6EB] rounded-full flex items-center justify-center overflow-hidden shrink-0 border border-gray-200">
                     <svg className="w-6 h-6 text-gray-500 mt-2" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
                   </div>
                   <div>
@@ -133,27 +146,27 @@ export default function Beranda() {
                   </div>
                 </div>
 
-                <div className="w-full h-[1px] bg-gray-200 my-3"></div>
+                <div className="w-full h-[1px] bg-gray-200 my-2"></div>
 
-                <div className="space-y-2">
-                  <button className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-[#F2F2F2] transition-colors group/item">
+                <div className="space-y-1">
+                  <button className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-[#F2F2F2] transition-colors">
                     <div className="flex items-center gap-3">
                       <div className="w-9 h-9 rounded-full bg-[#E4E6EB] flex items-center justify-center shrink-0">
                         <svg className="w-[20px] h-[20px] text-black" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" /></svg>
                       </div>
                       <span className="font-semibold text-[15px] text-black">Pengaturan & privasi</span>
                     </div>
-                    <svg className="w-6 h-6 text-gray-500 group-hover/item:text-black transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
+                    <svg className="w-6 h-6 text-gray-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
                   </button>
 
-                  <button className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-[#F2F2F2] transition-colors group/item">
+                  <button className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-[#F2F2F2] transition-colors">
                     <div className="flex items-center gap-3">
                       <div className="w-9 h-9 rounded-full bg-[#E4E6EB] flex items-center justify-center shrink-0">
                         <svg className="w-[20px] h-[20px] text-black" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" /></svg>
                       </div>
                       <span className="font-semibold text-[15px] text-black">Bantuan & dukungan</span>
                     </div>
-                    <svg className="w-6 h-6 text-gray-500 group-hover/item:text-black transition-colors" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
+                    <svg className="w-6 h-6 text-gray-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
                   </button>
 
                   <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-[#F2F2F2] transition-colors">
@@ -170,7 +183,7 @@ export default function Beranda() {
                     <span className="font-semibold text-[15px] text-black">Tema gelap</span>
                   </button>
 
-                  <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-[#F2F2F2] transition-colors">
+                  <button onClick={handleLogout} className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-[#F2F2F2] transition-colors">
                     <div className="w-9 h-9 rounded-full bg-[#E4E6EB] flex items-center justify-center shrink-0">
                       <svg className="w-[20px] h-[20px] text-black" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clipRule="evenodd" /></svg>
                     </div>
@@ -184,13 +197,12 @@ export default function Beranda() {
       </nav>
 
       {/* Main Container */}
-      <div className="flex w-full pt-6">
+      <div className="max-w-[1280px] mx-auto mt-6 px-4 grid grid-cols-1 lg:grid-cols-[280px_1fr_280px] gap-8">
         
         {/* Left Sidebar */}
-        <div className="hidden lg:block fixed left-0 top-[56px] w-[280px] xl:w-[320px] h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-10 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-          <div className="space-y-4">
-            {/* Profile Card */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="space-y-4 hidden lg:block">
+          {/* Profile Card */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div className="h-20 bg-gray-200 w-full relative">
               {/* Profile image overlapping */}
               <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-[72px] h-[72px] bg-white rounded-full p-1 shadow-sm">
@@ -225,12 +237,10 @@ export default function Beranda() {
             </button>
           </div>
         </div>
-      </div>
 
         {/* Center Main Feed */}
-        <div className="flex-1 flex justify-center lg:ml-[280px] xl:ml-[320px] lg:mr-[280px] xl:mr-[320px]">
-          <div className="space-y-4 max-w-[590px] w-full px-4">
-            {/* Create Post Input */}
+        <div className="space-y-4 max-w-[590px] mx-auto w-full">
+          {/* Create Post Input */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
             <div className="flex items-center gap-3 pb-4 border-b border-gray-100">
               <div className="w-[40px] h-[40px] bg-gray-200 rounded-full flex items-center justify-center shrink-0">
@@ -263,73 +273,40 @@ export default function Beranda() {
             </div>
           </div>
 
-          {/* Dummy Post 1 */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-            <div className="flex items-center gap-3 pb-2">
-              <div className="w-[40px] h-[40px] bg-gray-200 rounded-full flex items-center justify-center shrink-0">
-                <svg className="w-6 h-6 text-gray-500 mt-1" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+          {/* Feed From Database */}
+          {posts.length === 0 ? (
+            <p className="text-center text-gray-500 mt-10">Belum ada postingan sama sekali. Jadilah yang pertama!</p>
+          ) : (
+            posts.map((post: any) => (
+              <div key={post.id} className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                <div className="flex items-center gap-3 pb-3">
+                  <div className="w-[40px] h-[40px] bg-gray-200 rounded-full flex items-center justify-center font-bold text-gray-600 shrink-0">
+                    {post.author?.profile?.displayName?.charAt(0).toUpperCase() || post.author?.username?.charAt(0).toUpperCase() || '?'}
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-black text-[15px] leading-tight">{post.author?.profile?.displayName || post.author?.username || 'User'}</h3>
+                    <p className="text-[13px] text-gray-500">{new Date(post.createdAt).toLocaleString('id-ID')}</p>
+                  </div>
+                </div>
+                <p className="text-black text-[15px] mb-3 px-1">{post.content}</p>
+                <div className="flex items-center gap-1 pt-2 border-t border-gray-100">
+                  <button className="flex-1 flex items-center justify-center gap-2 py-1.5 rounded-lg hover:bg-[#F2F2F2] text-[15px] font-semibold text-[#65676B] transition-colors bg-[#F2F2F2]">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" /></svg>
+                    Like
+                  </button>
+                  <button className="flex-1 flex items-center justify-center gap-2 py-1.5 rounded-lg hover:bg-[#F2F2F2] text-[15px] font-semibold text-[#65676B] transition-colors bg-[#F2F2F2]">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" /></svg>
+                    Coment
+                  </button>
+                  <button className="flex-1 flex items-center justify-center gap-2 py-1.5 rounded-lg hover:bg-[#F2F2F2] text-[15px] font-semibold text-[#65676B] transition-colors bg-[#F2F2F2]">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" /></svg>
+                    Share
+                  </button>
+                </div>
               </div>
-              <div>
-                <h3 className="font-bold text-black text-[15px] leading-tight">Pengguna</h3>
-              </div>
-            </div>
-            <p className="text-black text-[15px] mb-4">saya mencari web development</p>
-            <div className="flex items-center gap-1 pt-2 border-t border-gray-100">
-              <button className="flex-1 flex items-center justify-center gap-2 py-1.5 rounded-lg hover:bg-[#F2F2F2] text-[15px] font-semibold text-[#65676B] transition-colors bg-[#F2F2F2]">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" /></svg>
-                Like
-              </button>
-              <button className="flex-1 flex items-center justify-center gap-2 py-1.5 rounded-lg hover:bg-[#F2F2F2] text-[15px] font-semibold text-[#65676B] transition-colors bg-[#F2F2F2]">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" /></svg>
-                Coment
-              </button>
-              <button className="flex-1 flex items-center justify-center gap-2 py-1.5 rounded-lg hover:bg-[#F2F2F2] text-[15px] font-semibold text-[#65676B] transition-colors bg-[#F2F2F2]">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" /></svg>
-                Share
-              </button>
-            </div>
-          </div>
+            ))
+          )}
 
-          {/* Dummy Post 2 */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 pt-4 px-0">
-            <div className="flex items-center gap-3 pb-2 px-4">
-              <div className="w-[40px] h-[40px] bg-gray-200 rounded-full flex items-center justify-center shrink-0">
-                <svg className="w-6 h-6 text-gray-500 mt-1" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
-              </div>
-              <div>
-                <h3 className="font-bold text-black text-[15px] leading-tight">Naufal faiz</h3>
-                <p className="text-[13px] text-gray-500">Web Development</p>
-              </div>
-            </div>
-            <p className="text-black text-[15px] mb-3 px-4">Saya web development mencari client🥰</p>
-            <div className="w-full bg-[#F0F2F5] h-[300px] mb-2 flex items-center justify-center overflow-hidden">
-               {/* Placeholder for Image */}
-               <div className="w-full h-full bg-[#E4E6EB] relative">
-                 <div className="absolute inset-0 flex items-center justify-center flex-col text-gray-500">
-                    <svg className="w-12 h-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                 </div>
-               </div>
-            </div>
-            <div className="px-4 pb-4">
-              <div className="flex items-center gap-1 pt-2 border-t border-gray-100">
-                <button className="flex-1 flex items-center justify-center gap-2 py-1.5 rounded-lg hover:bg-[#F2F2F2] text-[15px] font-semibold text-[#65676B] transition-colors bg-[#F2F2F2]">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" /></svg>
-                  Like
-                </button>
-                <button className="flex-1 flex items-center justify-center gap-2 py-1.5 rounded-lg hover:bg-[#F2F2F2] text-[15px] font-semibold text-[#65676B] transition-colors bg-[#F2F2F2]">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" /></svg>
-                  Coment
-                </button>
-                <button className="flex-1 flex items-center justify-center gap-2 py-1.5 rounded-lg hover:bg-[#F2F2F2] text-[15px] font-semibold text-[#65676B] transition-colors bg-[#F2F2F2]">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" /></svg>
-                  Share
-                </button>
-              </div>
-            </div>
-          </div>
-
-          </div>
-        </div>
         </div>
 
         {/* Right Sidebar (Empty space/Chat bubble) */}
@@ -357,6 +334,12 @@ export default function Beranda() {
              </div>
            </div>
         </div>
+
+      </div>
     </main>
   );
 }
+;
+
+fs.writeFileSync('src/app/beranda/page.tsx', code);
+console.log('File written successfully.');
