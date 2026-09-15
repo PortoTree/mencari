@@ -364,7 +364,7 @@ export default function Beranda() {
                  <span className="font-semibold text-black text-[15px]">Obrolan</span>
                </div>
                <div className="flex items-center gap-2 text-gray-500">
-                 <div className="relative" ref={chatSettingsRef}>
+                   <div className={`relative ${isChatExpanded ? 'block' : 'hidden'}`} ref={chatSettingsRef}>
                    <button 
                      onClick={(e) => { e.stopPropagation(); setIsChatSettingsOpen(!isChatSettingsOpen); }}
                      className="p-1.5 hover:bg-gray-200 rounded-full transition-colors"
