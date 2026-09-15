@@ -8,12 +8,24 @@ export default function Beranda() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [currentUser, setCurrentUser] = useState<any>({ username: "User", displayName: "" });
+  const [isChatExpanded, setIsChatExpanded] = useState(false);
+  const [isChatSettingsOpen, setIsChatSettingsOpen] = useState(false);
+  const [isNewMessageOpen, setIsNewMessageOpen] = useState(false);
+  const [isChatFilterOpen, setIsChatFilterOpen] = useState(false);
+  const chatSettingsRef = useRef<HTMLDivElement>(null);
+  const chatFilterRef = useRef<HTMLDivElement>(null);
 
   // Handle click outside to close dropdown
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
+      }
+      if (chatSettingsRef.current && !chatSettingsRef.current.contains(event.target as Node)) {
+        setIsChatSettingsOpen(false);
+      }
+      if (chatFilterRef.current && !chatFilterRef.current.contains(event.target as Node)) {
+        setIsChatFilterOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -332,11 +344,16 @@ export default function Beranda() {
         </div>
         </div>
 
-        {/* Right Sidebar (Empty space/Chat bubble) */}
-        <div className="hidden lg:block relative">
+        {/* Right Sidebar (Chat Panel) */}
+        <div className="hidden lg:block relative z-50">
            {/* Chat Bubble Fixed bottom right */}
-           <div className="fixed bottom-0 right-[80px] w-[300px] bg-white rounded-t-xl shadow-[0_0_10px_rgba(0,0,0,0.1)] border border-gray-200">
-             <div className="px-3 py-2.5 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 cursor-pointer rounded-t-xl transition-colors">
+           <div className={`fixed bottom-0 right-[80px] w-[300px] bg-white rounded-t-xl shadow-[0_0_15px_rgba(0,0,0,0.15)] border border-gray-200 flex flex-col transition-all duration-300 ease-in-out ${isChatExpanded ? 'h-[500px]' : 'h-[48px]'}`}>
+             
+             {/* Header */}
+             <div 
+               onClick={() => setIsChatExpanded(!isChatExpanded)}
+               className="px-3 py-2 flex items-center justify-between border-b border-gray-100 hover:bg-gray-50 cursor-pointer rounded-t-xl transition-colors shrink-0 h-[48px]"
+             >
                <div className="flex items-center gap-2">
                  <div className="relative">
                    <div className="w-8 h-8 rounded-full bg-[#0866FF] flex items-center justify-center text-white shrink-0">
@@ -347,16 +364,155 @@ export default function Beranda() {
                  <span className="font-semibold text-black text-[15px]">Obrolan</span>
                </div>
                <div className="flex items-center gap-2 text-gray-500">
-                 <div className="p-1.5 hover:bg-gray-200 rounded-full transition-colors">
-                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" /></svg>
+                 <div className="relative" ref={chatSettingsRef}>
+                   <button 
+                     onClick={(e) => { e.stopPropagation(); setIsChatSettingsOpen(!isChatSettingsOpen); }}
+                     className="p-1.5 hover:bg-gray-200 rounded-full transition-colors"
+                   >
+                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" /></svg>
+                   </button>
+                   
+                   {/* Chat Settings Dropdown */}
+                   {isChatSettingsOpen && (
+                     <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.1)] border border-gray-100 py-1.5 z-50">
+                       <button 
+                         onClick={(e) => e.stopPropagation()}
+                         className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-3 text-[14px] font-semibold text-gray-700 transition-colors"
+                       >
+                         <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                         Kelola obrolan
+                       </button>
+                       <button 
+                         onClick={(e) => e.stopPropagation()}
+                         className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-3 text-[14px] font-semibold text-gray-700 transition-colors"
+                       >
+                         <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                         Pengaturan
+                       </button>
+                     </div>
+                   )}
                  </div>
-                 <div className="p-1.5 hover:bg-gray-200 rounded-full transition-colors">
-                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" /></svg>
+                 <button 
+                   onClick={(e) => { e.stopPropagation(); setIsNewMessageOpen(!isNewMessageOpen); }}
+                   className="p-1.5 hover:bg-gray-200 rounded-full transition-colors"
+                 >
+                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                 </button>
+                 <button onClick={(e) => e.stopPropagation()} className="p-1.5 hover:bg-gray-200 rounded-full transition-colors pointer-events-none">
+                   {isChatExpanded ? (
+                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                   ) : (
+                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" /></svg>
+                   )}
+                 </button>
+               </div>
+             </div>
+
+             {/* Expanded Content */}
+             <div className={`flex-1 flex flex-col overflow-hidden transition-opacity duration-300 ${isChatExpanded ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+               
+               {/* Tabs */}
+               <div className="flex items-center gap-1 px-3 pt-1 border-b border-gray-200 shrink-0">
+                 <button className="px-3 py-1.5 font-semibold text-[14px] text-blue-600 border-b-2 border-blue-600">Semua</button>
+                 <button className="px-3 py-1.5 font-semibold text-[14px] text-gray-500 hover:text-gray-800 transition-colors">Belum dibaca</button>
+                 
+                 <div className="ml-auto relative" ref={chatFilterRef}>
+                   <div 
+                     onClick={(e) => { e.stopPropagation(); setIsChatFilterOpen(!isChatFilterOpen); }}
+                     className="p-1.5 hover:bg-gray-100 rounded-full cursor-pointer transition-colors"
+                   >
+                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M7 12h10M10 18h4" /></svg>
+                   </div>
+
+                   {/* Filter Dropdown */}
+                   {isChatFilterOpen && (
+                     <div className="absolute right-0 top-full mt-2 w-44 bg-white rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.1)] border border-gray-100 py-1.5 z-50">
+                       <button onClick={(e) => e.stopPropagation()} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-3 text-[14px] font-semibold text-gray-700 transition-colors">
+                         Favorit
+                       </button>
+                       <button onClick={(e) => e.stopPropagation()} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-3 text-[14px] font-semibold text-gray-700 transition-colors">
+                         Grub Chat
+                       </button>
+                       <button onClick={(e) => e.stopPropagation()} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-3 text-[14px] font-semibold text-gray-700 transition-colors">
+                         Daftar Obrolan
+                       </button>
+                       <button onClick={(e) => e.stopPropagation()} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-3 text-[14px] font-semibold text-gray-700 transition-colors">
+                         Diarsipkan
+                       </button>
+                     </div>
+                   )}
                  </div>
                </div>
+
+               {/* Chat List */}
+               <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full">
+                 {/* Chat Item */}
+                 <div className="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer transition-colors">
+                    <div className="w-12 h-12 bg-[#0866FF] rounded-full flex items-center justify-center text-white font-bold text-[18px] shrink-0">
+                      in
+                    </div>
+                    <div className="flex-1 min-w-0">
+                       <div className="flex justify-between items-baseline">
+                          <h4 className="font-semibold text-[14px] text-black truncate">Budi Santoso</h4>
+                          <span className="text-[12px] text-gray-500 shrink-0">1 Jun</span>
+                       </div>
+                       <p className="text-[13px] text-gray-500 truncate mt-0.5">Halo bro, apa kabar? Udah la...</p>
+                    </div>
+                 </div>
+                 
+                 {/* Chat Item 2 */}
+                 <div className="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer transition-colors">
+                    <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-[18px] shrink-0 relative">
+                      S
+                      <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#31A24C] rounded-full border-2 border-white"></div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                       <div className="flex justify-between items-baseline">
+                          <h4 className="font-semibold text-[14px] text-black truncate">Siti Aminah</h4>
+                          <span className="text-[12px] text-gray-500 shrink-0">Rab</span>
+                       </div>
+                       <p className="text-[13px] text-gray-500 truncate mt-0.5">Project kemarin gimana kelanjutannya?</p>
+                    </div>
+                 </div>
+               </div>
+
              </div>
            </div>
         </div>
+
+        {/* New Message Panel */}
+        <div className={`hidden lg:flex fixed bottom-0 right-[396px] w-[300px] bg-white rounded-t-xl shadow-[0_0_15px_rgba(0,0,0,0.15)] border border-gray-200 flex-col z-50 transition-all duration-300 ease-in-out transform origin-bottom ${isNewMessageOpen ? 'scale-y-100 opacity-100 h-[420px]' : 'scale-y-0 opacity-0 h-0 pointer-events-none'}`}>
+          {/* Header */}
+          <div className="px-3 py-2 flex items-center justify-between border-b border-gray-100 shrink-0 h-[48px]">
+             <span className="font-semibold text-black text-[15px] pl-1">Pesan baru</span>
+             <button 
+               onClick={() => setIsNewMessageOpen(false)}
+               className="p-1 hover:bg-gray-200 rounded-full transition-colors text-gray-500 hover:text-gray-700"
+             >
+               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+             </button>
+          </div>
+          
+          {/* To: Input */}
+          <div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
+             <span className="text-gray-500 text-[15px]">Ke:</span>
+             <input type="text" className="flex-1 outline-none text-[15px] bg-transparent text-black placeholder-gray-400" />
+          </div>
+
+          {/* Contact List */}
+          <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full">
+             {/* Pam Faiz */}
+             <div className="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer transition-colors">
+                <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden shrink-0">
+                   <svg className="w-7 h-7 text-gray-500 mt-2" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                </div>
+                <div className="flex-1 min-w-0">
+                   <span className="font-semibold text-[15px] text-black truncate">Pam Faiz</span>
+                </div>
+             </div>
+          </div>
+        </div>
+
     </main>
   );
 }
