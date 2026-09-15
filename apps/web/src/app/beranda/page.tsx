@@ -12,7 +12,7 @@ export default function Beranda() {
   const [isChatSettingsOpen, setIsChatSettingsOpen] = useState(false);
   const [isNewMessageOpen, setIsNewMessageOpen] = useState(false);
   const [isChatFilterOpen, setIsChatFilterOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const chatSettingsRef = useRef<HTMLDivElement>(null);
   const chatFilterRef = useRef<HTMLDivElement>(null);
 
@@ -81,7 +81,7 @@ export default function Beranda() {
 
         {/* Center: Tabs */}
         <div className="hidden md:flex items-center justify-center gap-2 absolute left-1/2 -translate-x-1/2 h-full">
-          <div className="flex flex-col items-center justify-center w-[110px] h-full border-b-[3px] border-[#0866FF] text-[#0866FF] cursor-pointer">
+          <div className="flex flex-col items-center justify-center w-[110px] h-full border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 cursor-pointer">
             <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
             <span className="text-[11px] font-semibold mt-0.5">Beranda</span>
           </div>
@@ -97,9 +97,10 @@ export default function Beranda() {
 
         {/* Right: Icons & Avatar */}
         <div className="flex items-center gap-2 relative">
-          <div className="relative group flex items-center justify-center">
-            <button className="flex items-center justify-center transition-transform hover:scale-105 active:scale-95 mr-1">
-              <img src="/logo-chat.png" alt="Chat" className="w-[32px] h-[32px] object-contain" />
+          
+          <div className="relative group">
+            <button className="w-10 h-10 rounded-full bg-[#E4E6EB] dark:bg-[#3A3B3C] flex items-center justify-center text-black dark:text-[#E4E6EB] hover:bg-[#F3F2EF] dark:hover:bg-[#18191A] transition-colors overflow-hidden">
+              <img src="/logo-chat.svg" alt="Chat" className="w-[22px] h-[22px] object-contain" />
             </button>
             <div className="absolute top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/80 text-white text-[13px] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap z-[60]">
               Chat
@@ -107,7 +108,7 @@ export default function Beranda() {
           </div>
 
           <div className="relative group">
-            <button className="w-10 h-10 rounded-full bg-[#E4E6EB] dark:bg-[#3A3B3C] flex items-center justify-center text-black dark:text-[#E4E6EB] hover:bg-gray-300 transition-colors overflow-hidden">
+            <button className="w-10 h-10 rounded-full bg-[#E4E6EB] dark:bg-[#3A3B3C] flex items-center justify-center text-black dark:text-[#E4E6EB] hover:bg-[#F3F2EF] dark:hover:bg-[#18191A] transition-colors overflow-hidden">
               <img src="/pemberitahuan.svg" alt="Pemberitahuan" className="w-[22px] h-[22px] object-contain" />
             </button>
             <div className="absolute top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/80 text-white text-[13px] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap z-[60]">
@@ -119,7 +120,7 @@ export default function Beranda() {
           <div className="w-[1px] h-6 bg-gray-300 mx-1"></div>
 
           <div className="relative group">
-            <button className="w-10 h-10 rounded-full bg-[#E4E6EB] dark:bg-[#3A3B3C] flex items-center justify-center text-black dark:text-[#E4E6EB] hover:bg-gray-300 transition-colors overflow-hidden">
+            <button className="w-10 h-10 rounded-full bg-[#E4E6EB] dark:bg-[#3A3B3C] flex items-center justify-center text-black dark:text-[#E4E6EB] hover:bg-[#F3F2EF] dark:hover:bg-[#18191A] transition-colors overflow-hidden">
               <img src="/menu.svg" alt="Menu" className="w-[22px] h-[22px] object-contain" />
             </button>
             <div className="absolute top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/80 text-white text-[13px] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap z-[60]">
@@ -130,7 +131,7 @@ export default function Beranda() {
           <div className="relative ml-1" ref={dropdownRef}>
             <div className="relative cursor-pointer group" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
               <button className="w-10 h-10 rounded-full bg-[#E4E6EB] dark:bg-[#3A3B3C] flex items-center justify-center overflow-hidden border border-gray-300 dark:border-[#3E4042]">
-                <svg className="w-full h-full pt-1.5 text-gray-500 dark:text-[#B0B3B8]" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                <svg className="w-full h-full pt-1.5 text-white" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
               </button>
               {/* Arrow Down Badge */}
               <div className="absolute -bottom-0.5 -right-0.5 w-[16px] h-[16px] bg-[#E4E6EB] dark:bg-[#3A3B3C] rounded-full flex items-center justify-center border-2 border-white dark:border-[#242526]">
@@ -146,7 +147,7 @@ export default function Beranda() {
               <div className="absolute right-0 mt-3 w-[340px] bg-white dark:bg-[#242526] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.15)] border border-gray-200 dark:border-[#3E4042] p-4 z-[100]">
                 <div className="bg-[#F2F2F2] dark:bg-[#3A3B3C] rounded-xl p-3 flex items-center gap-3 mb-2 hover:bg-[#E4E6EB] dark:hover:bg-[#4E4F50] cursor-pointer transition-colors shadow-sm border border-gray-100 dark:border-[#3E4042]">
                   <div className="w-[40px] h-[40px] bg-[#E4E6EB] dark:bg-[#3A3B3C] rounded-full flex items-center justify-center overflow-hidden shrink-0 border border-gray-300 dark:border-[#3E4042]">
-                    <svg className="w-full h-full pt-1.5 text-gray-500 dark:text-[#B0B3B8]" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                    <svg className="w-full h-full pt-1.5 text-white" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
                   </div>
                   <div>
                     <h3 className="font-bold text-[16px] text-black dark:text-[#E4E6EB] leading-tight">{currentUser.username}</h3>
@@ -191,7 +192,7 @@ export default function Beranda() {
                     <div className="w-9 h-9 rounded-full bg-[#E4E6EB] dark:bg-[#3A3B3C] flex items-center justify-center shrink-0 overflow-hidden">
                       {isDarkMode ? (
                         <svg className="w-[20px] h-[20px] text-black dark:text-[#E4E6EB]" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18.75a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25a.75.75 0 01.75-.75zM6.166 18.894a.75.75 0 001.06 1.06l1.59-1.591a.75.75 0 10-1.06-1.061l-1.591 1.59zM4.5 12a.75.75 0 01-.75.75H1.5a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM6.166 5.106a.75.75 0 00-1.06 1.06l1.591 1.59a.75.75 0 101.06-1.061l-1.59-1.59z" />
+                          <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.5-1.591a.75.75 0 10-1.061 1.06l1.5-1.591zM12 18.75a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25a.75.75 0 01.75-.75zM6.166 18.894a.75.75 0 001.06 1.06l1.5-1.591a.75.75 0 10-1.06-1.061l-1.591 1.59zM4.5 12a.75.75 0 01-.75.75H1.5a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM6.166 5.106a.75.75 0 00-1.06 1.06l1.591 1.59a.75.75 0 101.06-1.061l-1.5-1.59z" />
                         </svg>
                       ) : (
                         <svg className="w-[20px] h-[20px] text-black dark:text-[#E4E6EB]" fill="currentColor" viewBox="0 0 20 20">
@@ -226,8 +227,8 @@ export default function Beranda() {
             <div className="h-20 bg-gray-200 dark:bg-[#3A3B3C] w-full relative">
               {/* Profile image overlapping */}
               <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-[72px] h-[72px] bg-white dark:bg-[#242526] rounded-full p-1 shadow-sm">
-                <div className="w-full h-full bg-blue-100 rounded-full flex items-center justify-center overflow-hidden">
-                  <svg className="w-full h-full pt-1.5 text-blue-500" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                <div className="w-full h-full bg-emerald-500 rounded-full flex items-center justify-center overflow-hidden">
+                  <svg className="w-full h-full pt-1.5 text-white" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
                 </div>
               </div>
             </div>
@@ -240,7 +241,7 @@ export default function Beranda() {
           {/* Navigation Links */}
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-2 space-y-1">
             <button className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] transition-colors">
-              <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
               <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">Teman</span>
             </button>
             <button className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] transition-colors">
@@ -266,7 +267,7 @@ export default function Beranda() {
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-4">
             <div className="flex items-center gap-3 pb-4 border-b border-gray-100 dark:border-[#3E4042]">
               <div className="w-[40px] h-[40px] bg-gray-200 dark:bg-[#3A3B3C] rounded-full flex items-center justify-center overflow-hidden shrink-0">
-                <svg className="w-full h-full pt-1.5 text-gray-500 dark:text-[#B0B3B8]" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                <svg className="w-full h-full pt-1.5 text-white" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
               </div>
               <input 
                 type="text" 
@@ -299,7 +300,7 @@ export default function Beranda() {
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-4">
             <div className="flex items-center gap-3 pb-2">
               <div className="w-[40px] h-[40px] bg-gray-200 dark:bg-[#3A3B3C] rounded-full flex items-center justify-center overflow-hidden shrink-0">
-                <svg className="w-full h-full pt-1.5 text-gray-500 dark:text-[#B0B3B8]" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                <svg className="w-full h-full pt-1.5 text-white" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
               </div>
               <div>
                 <h3 className="font-bold text-black dark:text-[#E4E6EB] text-[15px] leading-tight">Pengguna</h3>
@@ -326,7 +327,7 @@ export default function Beranda() {
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] pt-4 px-0">
             <div className="flex items-center gap-3 pb-2 px-4">
               <div className="w-[40px] h-[40px] bg-gray-200 dark:bg-[#3A3B3C] rounded-full flex items-center justify-center overflow-hidden shrink-0">
-                <svg className="w-full h-full pt-1.5 text-gray-500 dark:text-[#B0B3B8]" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                <svg className="w-full h-full pt-1.5 text-white" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
               </div>
               <div>
                 <h3 className="font-bold text-black dark:text-[#E4E6EB] text-[15px] leading-tight">Naufal faiz</h3>
@@ -376,7 +377,7 @@ export default function Beranda() {
              >
                <div className="flex items-center gap-2">
                  <div className="relative">
-                   <div className="w-8 h-8 rounded-full bg-[#0866FF] flex items-center justify-center text-white shrink-0 overflow-hidden">
+                   <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white shrink-0 overflow-hidden">
                      <svg className="w-full h-full pt-1.5" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
                    </div>
                    <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[#31A24C] rounded-full border-2 border-white dark:border-[#242526]"></div>
@@ -433,7 +434,7 @@ export default function Beranda() {
                
                {/* Tabs */}
                <div className="flex items-center gap-1 px-3 pt-1 border-b border-gray-200 dark:border-[#3E4042] shrink-0">
-                 <button className="px-3 py-1.5 font-semibold text-[14px] text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400">Semua</button>
+                 <button className="px-3 py-1.5 font-semibold text-[14px] text-emerald-600 dark:text-emerald-400 border-b-2 border-emerald-600 dark:border-emerald-400">Semua</button>
                  <button className="px-3 py-1.5 font-semibold text-[14px] text-gray-500 dark:text-[#B0B3B8] hover:text-gray-800 dark:hover:text-[#E4E6EB] transition-colors">Belum dibaca</button>
                  
                  <div className="ml-auto relative" ref={chatFilterRef}>
@@ -468,7 +469,7 @@ export default function Beranda() {
                <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full">
                  {/* Chat Item */}
                  <div className="flex items-center gap-3 p-3 hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors">
-                    <div className="w-12 h-12 bg-[#0866FF] rounded-full flex items-center justify-center text-white font-bold text-[18px] shrink-0 overflow-hidden">
+                    <div className="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold text-[18px] shrink-0 overflow-hidden">
                       in
                     </div>
                     <div className="flex-1 min-w-0">
@@ -524,7 +525,7 @@ export default function Beranda() {
              {/* Pam Faiz */}
              <div className="flex items-center gap-3 p-3 hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors">
                 <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-[#3A3B3C] flex items-center justify-center overflow-hidden shrink-0">
-                   <svg className="w-full h-full pt-1.5 text-gray-500 dark:text-[#B0B3B8]" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                   <svg className="w-full h-full pt-1.5 text-white" fill="currentColor" viewBox="2 0 16 18"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
                 </div>
                 <div className="flex-1 min-w-0">
                    <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB] truncate">Pam Faiz</span>
