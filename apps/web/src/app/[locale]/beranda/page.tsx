@@ -92,7 +92,7 @@ export default function Beranda() {
   const lottieRef = useRef<any>(null);
   const handleAnimationComplete = () => {
     setTimeout(() => {
-      if (lottieRef.current) lottieRef.current.goToAndPlay(0, true);
+      if (lottieRef.current) lottieRef.current.seek(0); lottieRef.current.play();
     }, 5000);
   };
   const [isChatSettingsOpen, setIsChatSettingsOpen] = useState(false);
@@ -446,6 +446,7 @@ export default function Beranda() {
                   lottieRef={lottieRef}
                   src={animationData}
                   loop={false}
+                  autoplay={true}
                   subscriptions={{ complete: handleAnimationComplete }}
                 />
               </div>
