@@ -75,3 +75,5 @@
 - [x] (Frontend) *Refactor* dummy post di tab Teman/Friend dengan menggunakan komponen yang persis sama dengan yang ada di Beranda/Home (lengkap dengan *dropdown menu*, *hover state*, *action buttons*, lokalisasi bahasa, dll).
 
 - [x] (Frontend) Samakan persis struktur *wrapper* dan spasi komponen dummy post di tab Teman/Friend dengan tab Beranda/Home (buang extra flex & pt-6) agar layout-nya 100% konsisten.
+
+- [x] (Frontend) Tambahkan logika *conditional rendering* di Sidebar Kiri: Jika tab yang aktif adalah /mencari, ubah komponen **Kartu Profil** menjadi area **Bookmarks** berisi 10 *dummy web bookmark*.

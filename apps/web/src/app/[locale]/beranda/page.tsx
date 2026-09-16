@@ -411,21 +411,42 @@ export default function Beranda() {
         {/* Left Sidebar */}
         <div className="hidden lg:block fixed left-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-24 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-[#4E4F50] [&::-webkit-scrollbar-thumb]:rounded-full">
           <div className="space-y-4">
-            {/* Profile Card */}
-            <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] overflow-hidden">
-            <div className="h-20 bg-gray-200 dark:bg-[#3A3B3C] w-full relative">
-              {/* Profile image overlapping */}
-              <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-[72px] h-[72px] bg-white dark:bg-[#242526] rounded-full p-1 shadow-sm">
-                <div className="w-full h-full rounded-full flex items-center justify-center overflow-hidden">
-                  <img src="/default-avatar.svg" alt="Profile" className="w-full h-full object-cover" />
+            {/* Profile Card / Bookmarks Area */}
+            {activeTab === 'mencari' ? (
+              <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl shadow-sm border border-transparent overflow-hidden p-5 text-white relative">
+                {/* Decorative circles */}
+                <div className="absolute -right-6 -top-6 w-24 h-24 bg-white opacity-10 rounded-full"></div>
+                <div className="absolute right-12 -top-2 w-8 h-8 bg-white opacity-10 rounded-full"></div>
+                
+                <div className="relative z-10">
+                  <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mb-4 backdrop-blur-sm">
+                    <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
+                  </div>
+                  <h3 className="font-bold text-[17px] mb-2 leading-snug">Website kamu belum ada di pencarian kami?</h3>
+                  <p className="text-[13px] text-emerald-50 mb-4 leading-relaxed opacity-90">
+                    Jadikan website, portofolio, atau tokomu mudah ditemukan oleh ribuan pengguna seperti di mesin pencari Google.
+                  </p>
+                  <button className="w-full bg-white text-emerald-600 hover:bg-gray-50 font-bold text-[14px] py-2.5 px-4 rounded-lg transition-colors shadow-sm">
+                    Daftarkan Situs Web
+                  </button>
                 </div>
               </div>
-            </div>
-            <div className="pt-10 pb-5 text-center">
-              <h3 className="font-bold text-[17px] text-black dark:text-[#E4E6EB]">{currentUser.username}</h3>
-              <p className="text-[15px] text-gray-500 dark:text-[#B0B3B8] mt-1 hover:underline cursor-pointer">{t('sidebar.viewProfile')}</p>
-            </div>
-          </div>
+            ) : (
+              <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] overflow-hidden">
+                <div className="h-20 bg-gray-200 dark:bg-[#3A3B3C] w-full relative">
+                  {/* Profile image overlapping */}
+                  <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-[72px] h-[72px] bg-white dark:bg-[#242526] rounded-full p-1 shadow-sm">
+                    <div className="w-full h-full rounded-full flex items-center justify-center overflow-hidden">
+                      <img src="/default-avatar.svg" alt="Profile" className="w-full h-full object-cover" />
+                    </div>
+                  </div>
+                </div>
+                <div className="pt-10 pb-5 text-center">
+                  <h3 className="font-bold text-[17px] text-black dark:text-[#E4E6EB]">{currentUser.username}</h3>
+                  <p className="text-[15px] text-gray-500 dark:text-[#B0B3B8] mt-1 hover:underline cursor-pointer">{t('sidebar.viewProfile')}</p>
+                </div>
+              </div>
+            )}
 
           {/* Navigation Links */}
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-2 space-y-1">
