@@ -91,6 +91,8 @@ export default function Beranda() {
   const [isShortcutModalOpen, setIsShortcutModalOpen] = useState(false);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
+  const [isFriendSearchExpanded, setIsFriendSearchExpanded] = useState(false);
+  const friendSearchRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState<'home' | 'mencari' | 'friend' | 'group' | 'groups'>(pathname.includes('/mencari') ? 'mencari' : pathname.includes('/friend') ? 'friend' : 'home');
   const lottieRef = useRef<any>(null);
@@ -146,6 +148,9 @@ export default function Beranda() {
       }
       if (postMenuRef.current && !postMenuRef.current.contains(event.target as Node)) {
         setActivePostMenu(null);
+      }
+      if (friendSearchRef.current && !friendSearchRef.current.contains(event.target as Node)) {
+        setIsFriendSearchExpanded(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -500,6 +505,53 @@ export default function Beranda() {
             </div>
                 </div>
               </>
+            ) : activeTab === 'friend' ? (
+              <div ref={friendSearchRef} className="relative z-10">
+                {/* Title */}
+                <p className="text-[13px] font-semibold text-gray-500 dark:text-[#B0B3B8] mb-2 px-1">Cari Pengguna</p>
+
+                {/* Container: fixed height so it doesn't shift layout */}
+                <div className="relative w-full h-[42px]">
+                  {/* Absolute box tumbuh ke bawah, overlay di atas friendlist */}
+                  <div className={`absolute top-0 left-0 w-full bg-white dark:bg-[#242526] ${isFriendSearchExpanded ? 'rounded-[21px] shadow-[0_4px_12px_rgba(32,33,36,0.28)] pb-3' : 'rounded-full shadow-[0_1px_6px_rgba(32,33,36,0.28)] hover:shadow-[0_1px_6px_rgba(32,33,36,0.4)]'} dark:shadow-[0_1px_6px_rgba(0,0,0,0.5)] transition-shadow duration-200 border border-transparent dark:border-[#3E4042] flex flex-col`}>
+                    {/* Input Row */}
+                    <div className="flex items-center px-4 py-2.5 min-h-[42px] w-full">
+                      <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                      <input
+                        type="text"
+                        placeholder="Cari nama pengguna..."
+                        className="w-full bg-transparent border-none outline-none ml-3 text-[14px] text-black dark:text-[#E4E6EB] placeholder-gray-400 dark:placeholder-[#B0B3B8]"
+                        onFocus={() => setIsFriendSearchExpanded(true)}
+                      />
+                    </div>
+
+                    {/* Expanded Dropdown */}
+                    {isFriendSearchExpanded && (
+                      <div className="w-full border-t border-gray-100 dark:border-[#3E4042] pt-1 mt-1">
+                        <div className="flex flex-col w-full">
+                          <p className="text-[11px] font-semibold text-gray-400 dark:text-[#B0B3B8] px-4 py-1.5 uppercase tracking-wide">Terakhir dicari</p>
+                          {["Budi Santoso", "Siti Aminah", "Agus Pratama", "Dewi Lestari"].map((name, i) => (
+                            <div key={i} className="px-4 py-2.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] cursor-pointer flex items-center justify-between group transition-colors shrink-0">
+                              <div className="flex items-center gap-3">
+                                <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <span className="text-[14px] text-black dark:text-[#E4E6EB]">{name}</span>
+                              </div>
+                              <div
+                                className="hidden group-hover:flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-[#4E4F50] text-gray-400 hover:text-gray-600 dark:hover:text-[#E4E6EB] transition-colors"
+                                onClick={(e) => { e.stopPropagation(); }}
+                              >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
             ) : (
               <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] overflow-hidden">
                 <div className="h-20 bg-gray-200 dark:bg-[#3A3B3C] w-full relative">

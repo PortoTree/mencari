@@ -93,3 +93,11 @@
 - [x] (Frontend) Fix bug URL tidak berubah saat ganti tab. Ganti logika pushState dari pathname.replace yang tidak reliable ke full path berdasarkan locale.
 
 - [x] (Frontend) Pindahkan Friend List dari Sidebar Kanan ke Sidebar Kiri pada tab friend.
+
+- [x] (Frontend) Ganti Profile Card di Sidebar Kiri tab friend dengan Search Bar untuk mencari pengguna.
+
+- [x] (Frontend) Upgrade searchbar di Sidebar Kiri tab friend: judul di luar kotak, bentuk pill/lonjong, expand riwayat pencarian ketika di-klik (UX mirip /mencari).
+
+- [x] (Frontend) Perbaiki animasi expand searchbar /friend: ganti mount/unmount menjadi max-height + opacity transition supaya smooth.
+
+- [x] (Frontend) Ubah expand searchbar /friend menjadi absolute overlay (tidak geser layout friendlist), persis seperti pola searchbar di /mencari.
