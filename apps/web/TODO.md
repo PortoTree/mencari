@@ -109,3 +109,13 @@
 - [x] (Frontend) Ubah hover state tombol CTA 'Daftarkan Gratis' menjadi bg-emerald-700 dan text-white untuk kedua mode (terang dan gelap).
 
 - [x] (Frontend) Perbaiki inkonsistensi padding layout pada komponen Postingan di feed (menghapus double padding pada outer wrapper agar sejajar antara semua postingan).
+
+- [x] (Frontend) Tambahkan layout tab Grup dengan Group Search, Group List, dan Permintaan Bergabung di sidebar kanan.
+
+- [x] (Frontend) Tambahkan seksi Undangan Grub di sidebar kanan pada tab Grup.
+
+- [x] (Frontend) Hapus input Create Post di tab Grup dan ubah dummy postingan agar menggunakan avatar kotak beserta nama grup di halaman /beranda.\n
+- [x] (Frontend) Ganti tombol aksi postingan grup (Like/Comment/Share) menjadi Gabung Grub dan Lihat Postingan di halaman /beranda tab Grup.\n
+- [x] (Frontend) Fix error 404 saat refresh di halaman /group dengan membuat folder/route baru di Next.js App Router.\n
+- [x] (Frontend) Tambahkan dropdown menu (titik tiga) pada postingan grup dengan opsi Join, Masuk, Lihat Post, Simpan, Report Post, dan Report Grub.\n
+- [x] (Frontend) Fix tsc error due to missing div closing tags.\n

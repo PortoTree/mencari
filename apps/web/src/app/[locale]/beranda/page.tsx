@@ -93,6 +93,8 @@ export default function Beranda() {
   const searchRef = useRef<HTMLDivElement>(null);
   const [isFriendSearchExpanded, setIsFriendSearchExpanded] = useState(false);
   const friendSearchRef = useRef<HTMLDivElement>(null);
+  const [isGroupSearchExpanded, setIsGroupSearchExpanded] = useState(false);
+  const groupSearchRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState<'home' | 'mencari' | 'friend' | 'group' | 'groups'>(pathname.includes('/mencari') ? 'mencari' : pathname.includes('/friend') ? 'friend' : 'home');
   const lottieRef = useRef<any>(null);
@@ -152,6 +154,9 @@ export default function Beranda() {
       if (friendSearchRef.current && !friendSearchRef.current.contains(event.target as Node)) {
         setIsFriendSearchExpanded(false);
       }
+      if (groupSearchRef.current && !groupSearchRef.current.contains(event.target as Node)) {
+        setIsGroupSearchExpanded(false);
+      }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -208,7 +213,10 @@ export default function Beranda() {
             <div className="w-7 h-7 bg-current" style={{ WebkitMask: `url(${activeTab === 'friend' ? '/navigasi/teman-aktif.svg' : '/navigasi/teman.svg'}) center/contain no-repeat`, mask: `url(${activeTab === 'friend' ? '/navigasi/teman-aktif.svg' : '/navigasi/teman.svg'}) center/contain no-repeat` }} />
             <span className="text-[11px] font-semibold mt-0.5">{t('tabs.friends')}</span>
           </div>
-          <div className="flex flex-col items-center justify-center w-[110px] h-full text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors my-1 border-b-[3px] border-transparent">
+          <div 
+            onClick={() => { setActiveTab('group'); window.history.pushState(null, '', `/${locale}/group`); }}
+            className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === 'group' ? 'border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none' : 'border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1'}`}
+          >
             <div className="w-7 h-7 bg-current" style={{ WebkitMask: `url(${activeTab === 'group' || activeTab === 'groups' ? '/navigasi/grub-aktif.svg' : '/navigasi/grub.svg'}) center/contain no-repeat`, mask: `url(${activeTab === 'group' || activeTab === 'groups' ? '/navigasi/grub-aktif.svg' : '/navigasi/grub.svg'}) center/contain no-repeat` }} />
             <span className="text-[11px] font-semibold mt-0.5">{t('tabs.groups')}</span>
           </div>
@@ -552,6 +560,46 @@ export default function Beranda() {
                   </div>
                 </div>
               </div>
+            ) : (activeTab === 'group' || activeTab === 'groups') ? (
+              <div ref={groupSearchRef} className="relative z-10">
+                <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px] mb-2 px-2">{t('group.searchTitle')}</h3>
+                <div className="relative w-full h-[42px]">
+                  <div className={`absolute top-0 left-0 w-full bg-white dark:bg-[#242526] ${isGroupSearchExpanded ? 'rounded-[21px] shadow-[0_4px_12px_rgba(32,33,36,0.28)] pb-3' : 'rounded-full shadow-[0_1px_6px_rgba(32,33,36,0.28)] hover:shadow-[0_1px_6px_rgba(32,33,36,0.4)]'} dark:shadow-[0_1px_6px_rgba(0,0,0,0.5)] transition-shadow duration-200 border border-transparent dark:border-[#3E4042] flex flex-col`}>
+                    <div className="flex items-center px-4 py-2.5 min-h-[42px] w-full">
+                      <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                      <input
+                        type="text"
+                        placeholder={t('group.searchPlaceholder')}
+                        className="w-full bg-transparent border-none outline-none ml-3 text-[14px] text-black dark:text-[#E4E6EB] placeholder-gray-400 dark:placeholder-[#B0B3B8]"
+                        onFocus={() => setIsGroupSearchExpanded(true)}
+                      />
+                    </div>
+                    {isGroupSearchExpanded && (
+                      <div className="w-full border-t border-gray-100 dark:border-[#3E4042] pt-1 mt-1">
+                        <div className="flex flex-col w-full">
+                          <p className="text-[11px] font-semibold text-gray-400 dark:text-[#B0B3B8] px-4 py-1.5 uppercase tracking-wide">{t('group.recentSearch')}</p>
+                          {["Web Developers Indo", "ReactJS Indonesia", "Lowongan IT"].map((name, i) => (
+                            <div key={i} className="px-4 py-2.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] cursor-pointer flex items-center justify-between group transition-colors shrink-0">
+                              <div className="flex items-center gap-3">
+                                <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <span className="text-[14px] text-black dark:text-[#E4E6EB]">{name}</span>
+                              </div>
+                              <div
+                                className="hidden group-hover:flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-[#4E4F50] text-gray-400 hover:text-gray-600 dark:hover:text-[#E4E6EB] transition-colors"
+                                onClick={(e) => { e.stopPropagation(); }}
+                              >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
             ) : (
               <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] overflow-hidden">
                 <div className="h-20 bg-gray-200 dark:bg-[#3A3B3C] w-full relative">
@@ -587,6 +635,30 @@ export default function Beranda() {
                         <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white dark:border-[#242526] rounded-full"></div>
                       </div>
                       <span className="text-[14px] font-medium text-black dark:text-[#E4E6EB] flex-1 truncate">{name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Group List (Group Tab) */}
+            {(activeTab === 'group' || activeTab === 'groups') && (
+              <div>
+                <div className="flex items-center justify-between mb-2 px-2 mt-2">
+                  <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px]">{t('group.listTitle')}</h3>
+                </div>
+                <div className="space-y-1">
+                  {["Web Developers Indo", "ReactJS Indonesia", "Lowongan IT", "UI/UX Designer ID", "Node.js Developer", "Frontend Masters", "Belajar Programming"].map((name, i) => (
+                    <div key={i} className="flex items-center gap-3 p-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors">
+                      <div className="relative">
+                        <div className="w-10 h-10 rounded-lg bg-gray-300 dark:bg-[#4E4F50] overflow-hidden shrink-0">
+                          <img src={`https://picsum.photos/seed/${i + 100}/150/150`} alt={name} className="w-full h-full object-cover" />
+                        </div>
+                      </div>
+                      <div className="flex flex-col flex-1 min-w-0">
+                        <span className="text-[14px] font-medium text-black dark:text-[#E4E6EB] truncate">{name}</span>
+                        <span className="text-[12px] text-gray-500 dark:text-[#B0B3B8] truncate">Grup Publik • {(i + 1) * 12}K anggota</span>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -868,6 +940,135 @@ export default function Beranda() {
                 </div>
             </div>
           )}
+          {(activeTab === 'group' || activeTab === 'groups') && (
+            <div className="space-y-4 max-w-[590px] w-full px-4 pt-4">
+              {/* Group Post 1 */}
+              <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] pt-4 px-0">
+                <div className="flex items-center justify-between pb-2 px-4 relative">
+                  <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
+                    <div className="w-[40px] h-[40px] rounded-lg flex items-center justify-center shrink-0 overflow-hidden border border-gray-200 dark:border-[#3E4042]">
+                      <img src="https://picsum.photos/seed/reactjs/150/150" alt="Group" className="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-black dark:text-[#E4E6EB] text-[15px] leading-tight hover:underline">ReactJS Indonesia</h3>
+                      <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8]">{formatPostTime(Date.now() - 10 * 60000, t, locale)}</p>
+                    </div>
+                  </div>
+                  <div className="relative" {...(activePostMenu === 'groupPost1' ? { ref: postMenuRef } : {})}>
+                    <button 
+                      onClick={() => setActivePostMenu(activePostMenu === 'groupPost1' ? null : 'groupPost1')}
+                      className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-[#3A3B3C] text-gray-500 dark:text-[#B0B3B8] transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" /></svg>
+                    </button>
+
+                    {activePostMenu === 'groupPost1' && (
+                      <div className="absolute right-0 mt-1 w-[260px] bg-white dark:bg-[#242526] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.15)] border border-gray-200 dark:border-[#3E4042] p-2 z-[100]">
+                        <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors text-left text-black dark:text-[#E4E6EB] font-semibold text-[15px]">
+                          <svg className="w-6 h-6 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>
+                          {t('group.joinGroup')}
+                        </button>
+                        <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors text-left text-black dark:text-[#E4E6EB] font-semibold text-[15px]">
+                          <svg className="w-6 h-6 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" /></svg>
+                          {t('group.enterGroup')}
+                        </button>
+                        <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors text-left text-black dark:text-[#E4E6EB] font-semibold text-[15px]">
+                          <svg className="w-6 h-6 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                          {t('group.viewPost')}
+                        </button>
+                        <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors text-left text-black dark:text-[#E4E6EB] font-semibold text-[15px]">
+                          <svg className="w-6 h-6 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
+                          {t('postMenu.savePost')}
+                        </button>
+                        <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors text-left text-black dark:text-[#E4E6EB] font-semibold text-[15px]">
+                          <svg className="w-6 h-6 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                          {t('postMenu.reportPost')}
+                        </button>
+                        <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors text-left text-black dark:text-[#E4E6EB] font-semibold text-[15px]">
+                          <svg className="w-6 h-6 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                          {t('group.reportGroup')}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <p className="text-black dark:text-[#E4E6EB] text-[15px] mb-3 px-4">Ada yang pernah ngalamin hydration error di Next.js 14 pas pakai custom hook? Mohon pencerahannya suhu-suhu 🙏</p>
+                <div className="px-4 pb-4">
+                  <div className="flex items-center gap-2 pt-2 border-t border-gray-100 dark:border-[#3E4042]">
+                    <button className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white text-[14px] font-semibold py-2 px-4 rounded-lg transition-colors">
+                      {t('group.joinGroup')}
+                    </button>
+                    <button className="flex-1 bg-gray-200 dark:bg-[#3A3B3C] hover:bg-gray-300 dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] text-[14px] font-semibold py-2 px-4 rounded-lg transition-colors">
+                      {t('group.viewPost')}
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Group Post 2 */}
+              <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] pt-4 px-0">
+                <div className="flex items-center justify-between pb-2 px-4 relative">
+                  <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
+                    <div className="w-[40px] h-[40px] rounded-lg flex items-center justify-center shrink-0 overflow-hidden border border-gray-200 dark:border-[#3E4042]">
+                      <img src="https://picsum.photos/seed/webdev/150/150" alt="Group" className="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-black dark:text-[#E4E6EB] text-[15px] leading-tight hover:underline">Web Developers Indo</h3>
+                      <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8]">{formatPostTime(Date.now() - 45 * 60000, t, locale)}</p>
+                    </div>
+                  </div>
+                  <div className="relative" {...(activePostMenu === 'groupPost2' ? { ref: postMenuRef } : {})}>
+                    <button 
+                      onClick={() => setActivePostMenu(activePostMenu === 'groupPost2' ? null : 'groupPost2')}
+                      className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-[#3A3B3C] text-gray-500 dark:text-[#B0B3B8] transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" /></svg>
+                    </button>
+
+                    {activePostMenu === 'groupPost2' && (
+                      <div className="absolute right-0 mt-1 w-[260px] bg-white dark:bg-[#242526] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.15)] border border-gray-200 dark:border-[#3E4042] p-2 z-[100]">
+                        <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors text-left text-black dark:text-[#E4E6EB] font-semibold text-[15px]">
+                          <svg className="w-6 h-6 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>
+                          {t('group.joinGroup')}
+                        </button>
+                        <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors text-left text-black dark:text-[#E4E6EB] font-semibold text-[15px]">
+                          <svg className="w-6 h-6 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" /></svg>
+                          {t('group.enterGroup')}
+                        </button>
+                        <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors text-left text-black dark:text-[#E4E6EB] font-semibold text-[15px]">
+                          <svg className="w-6 h-6 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                          {t('group.viewPost')}
+                        </button>
+                        <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors text-left text-black dark:text-[#E4E6EB] font-semibold text-[15px]">
+                          <svg className="w-6 h-6 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
+                          {t('postMenu.savePost')}
+                        </button>
+                        <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors text-left text-black dark:text-[#E4E6EB] font-semibold text-[15px]">
+                          <svg className="w-6 h-6 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                          {t('postMenu.reportPost')}
+                        </button>
+                        <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors text-left text-black dark:text-[#E4E6EB] font-semibold text-[15px]">
+                          <svg className="w-6 h-6 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                          {t('group.reportGroup')}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <p className="text-black dark:text-[#E4E6EB] text-[15px] mb-3 px-4">Info loker frontend dong! Kalau bisa remote ya. Makasih 🙏</p>
+                <div className="px-4 pb-4">
+                  <div className="flex items-center gap-2 pt-2 border-t border-gray-100 dark:border-[#3E4042]">
+                    <button className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white text-[14px] font-semibold py-2 px-4 rounded-lg transition-colors">
+                      {t('group.joinGroup')}
+                    </button>
+                    <button className="flex-1 bg-gray-200 dark:bg-[#3A3B3C] hover:bg-gray-300 dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] text-[14px] font-semibold py-2 px-4 rounded-lg transition-colors">
+                      {t('group.viewPost')}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           <div className={`space-y-4 max-w-[590px] w-full px-4 ${activeTab !== 'home' ? 'hidden' : ''}`}>
             {/* Create Post Input */}
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-4">
@@ -1108,6 +1309,87 @@ export default function Beranda() {
               </div>
 
 
+            </div>
+          </div>
+        )}
+
+        {/* Right Sidebar: Group Tab - Permintaan Bergabung */}
+        {(activeTab === 'group' || activeTab === 'groups') && (
+          <div className="hidden lg:block fixed right-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-24 sidebar-scrollbar">
+            <div className="space-y-4">
+              <div>
+                <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px] mb-2 px-2">{t('group.joinRequests')}</h3>
+                <div className="space-y-1">
+                  {[
+                    { name: "Andi Susanto", group: "Web Developers Indo" },
+                    { name: "Dewi Anggraini", group: "ReactJS Indonesia" },
+                    { name: "Fajar Ramadhan", group: "Web Developers Indo" },
+                    { name: "Sarah Utami", group: "Lowongan IT" }
+                  ].map((req, i) => (
+                    <div key={i} className="flex gap-3 p-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors"
+                      onClick={() => { setSelectedProfile({ name: req.name, role: 'Member', avatar: `https://i.pravatar.cc/150?u=${i + 60}`, relation: 'request' }); setIsProfileSidebarOpen(true); }}
+                    >
+                      <div className="w-12 h-12 rounded-full bg-gray-300 dark:bg-[#4E4F50] overflow-hidden shrink-0">
+                        <img src={`https://i.pravatar.cc/150?u=${i + 60}`} alt={req.name} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex flex-col flex-1">
+                        <span className="text-[14px] font-medium text-black dark:text-[#E4E6EB]">{req.name}</span>
+                        <span className="text-[12px] text-gray-500 dark:text-[#B0B3B8] mb-2 line-clamp-1 text-ellipsis">Meminta bergabung ke {req.group}</span>
+                        <div className="flex gap-2">
+                          <button
+                            className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white text-[12px] font-semibold py-1 px-2 rounded-md transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {t('friend.confirm')}
+                          </button>
+                          <button
+                            className="flex-1 bg-gray-200 dark:bg-[#3A3B3C] hover:bg-gray-300 dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] text-[12px] font-semibold py-1 px-2 rounded-md transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {t('friend.delete')}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {/* Undangan Grub */}
+              <div>
+                <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px] mb-2 px-2 mt-4">{t('group.groupInvites')}</h3>
+                <div className="space-y-1">
+                  {[
+                    { inviter: "Budi Santoso", group: "Programmer Jakarta" },
+                    { inviter: "Rina Marlina", group: "Desain Grafis ID" }
+                  ].map((invite, i) => (
+                    <div key={i} className="flex gap-3 p-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors"
+                      onClick={() => { setSelectedProfile({ name: invite.inviter, role: 'Member', avatar: `https://i.pravatar.cc/150?u=${i + 80}`, relation: 'request' }); setIsProfileSidebarOpen(true); }}
+                    >
+                      <div className="w-12 h-12 rounded-lg bg-gray-300 dark:bg-[#4E4F50] overflow-hidden shrink-0">
+                        <img src={`https://picsum.photos/seed/${i + 200}/150/150`} alt={invite.group} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex flex-col flex-1">
+                        <span className="text-[14px] font-medium text-black dark:text-[#E4E6EB] truncate">{invite.group}</span>
+                        <span className="text-[12px] text-gray-500 dark:text-[#B0B3B8] mb-2 line-clamp-1 text-ellipsis">Diundang oleh {invite.inviter}</span>
+                        <div className="flex gap-2">
+                          <button
+                            className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white text-[12px] font-semibold py-1 px-2 rounded-md transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {t('group.join')}
+                          </button>
+                          <button
+                            className="flex-1 bg-gray-200 dark:bg-[#3A3B3C] hover:bg-gray-300 dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] text-[12px] font-semibold py-1 px-2 rounded-md transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {t('friend.delete')}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         )}

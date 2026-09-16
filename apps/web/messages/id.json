@@ -176,5 +176,18 @@
     "accept": "Terima",
     "confirm": "Konfirmasi",
     "delete": "Hapus"
+  },
+  "group": {
+    "searchTitle": "Cari Grub",
+    "searchPlaceholder": "Cari grub...",
+    "recentSearch": "Pencarian Terbaru",
+    "listTitle": "Daftar Grub",
+    "joinRequests": "Permintaan Bergabung",
+    "join": "Gabung",
+    "groupInvites": "Undangan Grub",
+    "joinGroup": "Gabung Grub",
+    "viewPost": "Lihat Postingan",
+    "enterGroup": "Masuk grub",
+    "reportGroup": "Report grub"
   }
 }

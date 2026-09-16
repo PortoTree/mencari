@@ -176,5 +176,18 @@
     "accept": "Accept",
     "confirm": "Confirm",
     "delete": "Delete"
+  },
+  "group": {
+    "searchTitle": "Search Groups",
+    "searchPlaceholder": "Search groups...",
+    "recentSearch": "Recent Search",
+    "listTitle": "Group List",
+    "joinRequests": "Join Requests",
+    "join": "Join",
+    "groupInvites": "Group Invites",
+    "joinGroup": "Join Group",
+    "viewPost": "View Post",
+    "enterGroup": "Enter Group",
+    "reportGroup": "Report Group"
   }
 }
