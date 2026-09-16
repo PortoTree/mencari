@@ -168,6 +168,9 @@
   "friend": {
     "searchTitle": "Search Users",
     "searchPlaceholder": "Search username...",
-    "recentSearch": "Recent searches"
+    "recentSearch": "Recent searches",
+    "friendRequests": "Friend Requests",
+    "mutualGroups": "Mutual Groups",
+    "mutualFriends": "mutual friends"
   }
 }

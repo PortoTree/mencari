@@ -103,3 +103,5 @@
 - [x] (Frontend) Ubah expand searchbar /friend menjadi absolute overlay (tidak geser layout friendlist), persis seperti pola searchbar di /mencari.
 
 - [x] (Frontend) Samakan font size dan style judul Cari Pengguna dengan Friends header (text-[15px] font-semibold), serta hapus semua hardcode bahasa ID dan ganti dengan next-intl (friend.searchTitle, friend.searchPlaceholder, friend.recentSearch).
+
+- [x] (Frontend) Tambah Sidebar Kanan di tab friend: seksi Permintaan Teman (4 dummy + tombol Konfirmasi/Hapus) dan Grup Bersama (4 dummy grup). Semua teks sudah didukung i18n ID/EN.

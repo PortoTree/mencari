@@ -1059,6 +1059,46 @@ export default function Beranda() {
           </div>
         )}
 
+        {/* Right Sidebar: Friend Tab - Permintaan Teman & Grup Bersama */}
+        {activeTab === 'friend' && (
+          <div className="hidden lg:block fixed right-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-24 sidebar-scrollbar">
+            <div className="space-y-4">
+
+              {/* Permintaan Teman */}
+              <div>
+                <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px] mb-2 px-2">{t('friend.friendRequests')}</h3>
+                <div className="space-y-1">
+                  {[
+                    { name: "Raka Pradana", mutual: 5 },
+                    { name: "Nadia Putri", mutual: 3 },
+                    { name: "Farhan Maulana", mutual: 8 },
+                    { name: "Larasati Dewi", mutual: 2 },
+                  ].map((user, i) => (
+                    <div key={i} className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors">
+                      <div className="w-10 h-10 rounded-full bg-gray-300 dark:bg-[#4E4F50] overflow-hidden shrink-0">
+                        <img src={`https://i.pravatar.cc/150?u=req${i + 50}`} alt={user.name} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[13.5px] font-semibold text-black dark:text-[#E4E6EB] truncate">{user.name}</p>
+                        <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8]">{user.mutual} {t('friend.mutualFriends')}</p>
+                        <div className="flex gap-1.5 mt-1.5">
+                          <button className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white text-[12px] font-semibold py-1 px-2 rounded-md transition-colors">
+                            Konfirmasi
+                          </button>
+                          <button className="flex-1 bg-gray-200 dark:bg-[#3A3B3C] hover:bg-gray-300 dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] text-[12px] font-semibold py-1 px-2 rounded-md transition-colors">
+                            Hapus
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        )}
 
         {/* Right Sidebar (Chat Panel) */}
         <div className="hidden lg:block relative z-50">

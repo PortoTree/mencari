@@ -168,6 +168,9 @@
   "friend": {
     "searchTitle": "Cari Pengguna",
     "searchPlaceholder": "Cari nama pengguna...",
-    "recentSearch": "Terakhir dicari"
+    "recentSearch": "Terakhir dicari",
+    "friendRequests": "Permintaan Teman",
+    "mutualGroups": "Grup Bersama",
+    "mutualFriends": "teman bersama"
   }
 }
