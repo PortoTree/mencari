@@ -7,6 +7,9 @@ import { routing } from '@/i18n/routing';
 export const metadata: Metadata = {
   title: "Mencari.online",
   description: "Platform untuk mencari semua kebutuhanmu",
+  other: {
+    google: "notranslate",
+  },
   icons: {
     icon: '/logo.png',
     apple: '/logo.png',

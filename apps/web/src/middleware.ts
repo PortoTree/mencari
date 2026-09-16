@@ -11,39 +11,44 @@ export function middleware(request: NextRequest) {
 
   console.log(`[Middleware] Path: ${pathname} | HasToken: ${!!token}`);
 
-  // Strip locale prefix untuk keperluan auth check
-  // e.g., /id/beranda -> /beranda, /en/login -> /login
+  // Hapus prefix locale dari pathname untuk pengecekan
   const localePattern = /^\/(id|en)(\/|$)/;
   const pathWithoutLocale = pathname.replace(localePattern, '/');
 
-  // Rute auth (tidak boleh diakses kalau sudah login)
-  const isAuthRoute =
-    pathWithoutLocale === '/login' ||
-    pathWithoutLocale === '/register' ||
-    pathWithoutLocale === '/forgot-password' ||
+  // Daftar path publik yang tidak boleh menggunakan prefix /id atau /en
+  const isPublicRoute =
+    pathWithoutLocale === '/' ||
+    pathWithoutLocale.startsWith('/login') ||
+    pathWithoutLocale.startsWith('/register') ||
+    pathWithoutLocale.startsWith('/forgot-password') ||
     pathWithoutLocale.startsWith('/secure');
 
-  // Rute root
-  const isRootRoute = pathWithoutLocale === '/';
-
-  // Kalau tidak ada token dan bukan auth/root route → redirect ke /{locale}/login
-  if (!token && !isAuthRoute && !isRootRoute) {
-    // Ambil locale dari URL, atau pakai default 'id'
-    const localeMatch = pathname.match(/^\/(id|en)/);
-    const locale = localeMatch ? localeMatch[1] : routing.defaultLocale;
-    console.log(`[Middleware] No token, redirecting to /${locale}/login`);
-    return NextResponse.redirect(new URL(`/${locale}/login`, request.url));
+  if (isPublicRoute) {
+    // Kalau sudah login tapi akses halaman publik (kecuali secure) -> lempar ke beranda
+    if (token && !pathWithoutLocale.startsWith('/secure')) {
+      console.log(`[Middleware] Authenticated user on public route, redirecting to /id/beranda`);
+      return NextResponse.redirect(new URL('/id/beranda', request.url));
+    }
+    
+    // Kalau user maksa masuk ke /id/login, redirect balik ke /login (tanpa locale)
+    if (pathname.match(localePattern)) {
+      console.log(`[Middleware] Removing locale prefix from public route`);
+      return NextResponse.redirect(new URL(pathWithoutLocale, request.url));
+    }
+    
+    // Bebaskan akses tanpa locale (nanti di-handle bawaan browser translate)
+    return NextResponse.next();
   }
 
-  // Kalau sudah login dan coba akses auth route atau root → redirect ke /{locale}/beranda
-  if (token && (isAuthRoute && pathWithoutLocale !== '/secure') || (token && isRootRoute)) {
-    const localeMatch = pathname.match(/^\/(id|en)/);
-    const locale = localeMatch ? localeMatch[1] : routing.defaultLocale;
-    console.log(`[Middleware] Already authenticated, redirecting to /${locale}/beranda`);
-    return NextResponse.redirect(new URL(`/${locale}/beranda`, request.url));
+  // Jika ini BUKAN public route (berarti halaman yang butuh login seperti /beranda)
+  if (!token) {
+    // Kalau belum login, lempar ke login (tanpa locale)
+    console.log(`[Middleware] No token, redirecting to /login`);
+    return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  // Biarkan next-intl middleware handle sisanya (locale detection, redirect, dll)
+  // Khusus route internal (beranda, profil), jalankan next-intl middleware 
+  // agar otomatis diredirect ke /id/beranda atau /en/beranda
   return intlMiddleware(request);
 }
 

@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Mencari.online",
   description: "Platform untuk mencari semua kebutuhanmu",
+  other: {
+    google: "notranslate",
+  },
   icons: {
     icon: '/logo.png', // Logo sebagai icon tab browser (favicon)
     apple: '/logo.png',
