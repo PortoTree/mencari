@@ -405,14 +405,49 @@ export default function Beranda() {
         </div>
       </nav>
 
-      {/* Main Container */}
+      
+      {/* Inline Styles for Scrollbars to bypass HMR issues */}
+      <style dangerouslySetInnerHTML={{__html: `
+        /* Firefox */
+        .sidebar-scrollbar {
+          scrollbar-width: thin;
+          scrollbar-color: transparent transparent;
+        }
+        .sidebar-scrollbar:hover {
+          scrollbar-color: #d1d5db transparent;
+        }
+        .dark .sidebar-scrollbar:hover {
+          scrollbar-color: #4E4F50 transparent;
+        }
+
+        /* WebKit / Chrome / Edge */
+        .sidebar-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .sidebar-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .sidebar-scrollbar::-webkit-scrollbar-thumb {
+          background-color: rgba(0, 0, 0, 0); /* fully transparent */
+          border-radius: 10px;
+        }
+        .sidebar-scrollbar:hover::-webkit-scrollbar-thumb {
+          background-color: #d1d5db; /* gray-300 */
+        }
+        .dark .sidebar-scrollbar:hover::-webkit-scrollbar-thumb {
+          background-color: #4E4F50;
+        }
+      `}} />
+      
+{/* Main Container */}
       <div className="flex w-full pt-6">
         
         {/* Left Sidebar */}
-        <div className="hidden lg:block fixed left-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-24 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-[#4E4F50] [&::-webkit-scrollbar-thumb]:rounded-full">
+        <div className="hidden lg:block fixed left-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-24 sidebar-scrollbar">
           <div className="space-y-4">
             {/* Profile Card / Bookmarks Area */}
             {activeTab === 'mencari' ? (
+              <>
               <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl shadow-sm border border-transparent overflow-hidden p-5 text-white relative">
                 {/* Decorative circles */}
                 <div className="absolute -right-6 -top-6 w-24 h-24 bg-white opacity-10 rounded-full"></div>
@@ -422,15 +457,49 @@ export default function Beranda() {
                   <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mb-4 backdrop-blur-sm">
                     <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
                   </div>
-                  <h3 className="font-bold text-[17px] mb-2 leading-snug">Website kamu belum ada di pencarian kami?</h3>
+                  <h3 className="font-bold text-[17px] mb-2 leading-snug">{t('mencari.cta_title')}</h3>
                   <p className="text-[13px] text-emerald-50 mb-4 leading-relaxed opacity-90">
-                    Jadikan website, portofolio, atau bisnismu mudah ditemukan oleh ribuan pengguna kami
+                    {t('mencari.cta_desc')}
                   </p>
                   <button className="w-full bg-white text-emerald-600 hover:bg-gray-50 font-bold text-[14px] py-2.5 px-4 rounded-lg transition-colors shadow-sm">
-                    Daftarkan Gratis
+                    {t('mencari.cta_button')}
                   </button>
                 </div>
               </div>
+            
+                {/* History Block (Moved from Right) */}
+                <div className="mt-4">
+                  <div className="flex items-center justify-between mb-2 px-2">
+              <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px]">{t('mencari.history')}</h3>
+            </div>
+            <div className="space-y-1">
+              {[
+                { title: "Google", url: "google.com" },
+                { title: "Stack Overflow - Where Developers Learn, Share, & Build Careers", url: "stackoverflow.com" },
+                { title: "GitHub: Let's build from here", url: "github.com" },
+                { title: "Next.js by Vercel - The React Framework", url: "nextjs.org" },
+                { title: "Tailwind CSS - Rapidly build modern websites", url: "tailwindcss.com" },
+                { title: "MDN Web Docs", url: "developer.mozilla.org" },
+                { title: "YouTube", url: "youtube.com" },
+                { title: "Reddit - Dive into anything", url: "reddit.com" },
+                { title: "Figma: The Collaborative Interface Design Tool", url: "figma.com" },
+                { title: "Vercel: Develop. Preview. Ship.", url: "vercel.com" },
+                { title: "React – A JavaScript library for building user interfaces", url: "reactjs.org" },
+                { title: "OpenAI", url: "openai.com" }
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-3 p-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors">
+                  <div className="w-8 h-8 rounded bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3E4042] flex items-center justify-center shrink-0 overflow-hidden">
+                    <img src={`https://www.google.com/s2/favicons?domain=${item.url}&sz=64`} alt={item.url} className="w-4 h-4 object-contain" />
+                  </div>
+                  <div className="flex-1 min-w-0 flex flex-col">
+                    <span className="text-[13.5px] font-medium text-black dark:text-[#E4E6EB] truncate">{item.title}</span>
+                    <span className="text-[12px] text-gray-500 dark:text-[#B0B3B8] truncate">{item.url}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+                </div>
+              </>
             ) : (
               <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] overflow-hidden">
                 <div className="h-20 bg-gray-200 dark:bg-[#3A3B3C] w-full relative">
@@ -897,46 +966,11 @@ export default function Beranda() {
         </div>
         </div>
 
-        {/* Right Sidebar: History (Mencari) */}
-        {activeTab === 'mencari' && (
-          <div className="hidden lg:block fixed right-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-24 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-[#4E4F50] [&::-webkit-scrollbar-thumb]:rounded-full">
-            <div className="flex items-center justify-between mb-2 px-2">
-              <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px]">{t('mencari.history')}</h3>
-            </div>
-            <div className="space-y-1">
-              {[
-                { title: "Google", url: "google.com" },
-                { title: "Stack Overflow - Where Developers Learn, Share, & Build Careers", url: "stackoverflow.com" },
-                { title: "GitHub: Let's build from here", url: "github.com" },
-                { title: "Next.js by Vercel - The React Framework", url: "nextjs.org" },
-                { title: "Tailwind CSS - Rapidly build modern websites", url: "tailwindcss.com" },
-                { title: "MDN Web Docs", url: "developer.mozilla.org" },
-                { title: "YouTube", url: "youtube.com" },
-                { title: "Reddit - Dive into anything", url: "reddit.com" },
-                { title: "Figma: The Collaborative Interface Design Tool", url: "figma.com" },
-                { title: "Vercel: Develop. Preview. Ship.", url: "vercel.com" },
-                { title: "React – A JavaScript library for building user interfaces", url: "reactjs.org" },
-                { title: "OpenAI", url: "openai.com" }
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-3 p-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors">
-                  <div className="w-8 h-8 rounded bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3E4042] flex items-center justify-center shrink-0 overflow-hidden">
-                    <img src={`https://www.google.com/s2/favicons?domain=${item.url}&sz=64`} alt={item.url} className="w-4 h-4 object-contain" />
-                  </div>
-                  <div className="flex-1 min-w-0 flex flex-col">
-                    <span className="text-[13.5px] font-medium text-black dark:text-[#E4E6EB] truncate">{item.title}</span>
-                    <span className="text-[12px] text-gray-500 dark:text-[#B0B3B8] truncate">{item.url}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
         {/* Chat Bubbles (Always Rendered) */}
         <>
           {/* Right Sidebar: Friend List (Friend Tab) */}
         {activeTab === 'friend' && (
-          <div className="hidden lg:block fixed right-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-24 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-[#4E4F50] [&::-webkit-scrollbar-thumb]:rounded-full">
+          <div className="hidden lg:block fixed right-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-24 sidebar-scrollbar">
             <div className="flex items-center justify-between mb-2 px-2">
               <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px]">{t('profileSidebar.friends') || 'Daftar Teman'}</h3>
             </div>
@@ -1057,7 +1091,7 @@ export default function Beranda() {
                </div>
 
                {/* Chat List */}
-               <div className="overscroll-contain flex-1 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full">
+               <div className="overscroll-contain flex-1 overflow-y-auto sidebar-scrollbar">
                   {dummyChats.map((chat, idx) => (
                    <div key={idx} className="relative group flex items-center gap-3 p-3 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors">
                       <div className="relative w-12 h-12 shrink-0">
@@ -1162,7 +1196,7 @@ export default function Beranda() {
           </div>
 
           {/* Contact List */}
-          <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full">
+          <div className="flex-1 overflow-y-auto sidebar-scrollbar">
              {/* Pam Faiz */}
              <div className="flex items-center gap-3 p-3 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors">
                 <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-emerald-600 dark:border-emerald-400">
@@ -1180,7 +1214,7 @@ export default function Beranda() {
     </>
 
     {/* Profile Right Sidebar */}
-        <div className={`hidden lg:block fixed right-0 top-[56px] w-[340px] xl:w-[380px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-32 transition-transform duration-300 ease-in-out transform ${isProfileSidebarOpen ? 'translate-x-0' : 'translate-x-full'} z-40 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-[#4E4F50] [&::-webkit-scrollbar-thumb]:rounded-full`}>
+        <div className={`hidden lg:block fixed right-0 top-[56px] w-[340px] xl:w-[380px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-32 transition-transform duration-300 ease-in-out transform ${isProfileSidebarOpen ? 'translate-x-0' : 'translate-x-full'} z-40 sidebar-scrollbar`}>
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] overflow-hidden">
             {selectedProfile && (
               <>

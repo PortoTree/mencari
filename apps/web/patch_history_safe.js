@@ -1,26 +1,15 @@
 const fs = require('fs');
 let file = fs.readFileSync('src/app/[locale]/beranda/page.tsx', 'utf8');
 
-// 1. Find the Right Sidebar History Block
 const rightSidebarStart = file.indexOf('{/* Right Sidebar: History (Mencari) */}');
 const rightSidebarEnd = file.indexOf('{/* Chat Bubbles (Always Rendered) */}');
-
-if (rightSidebarStart === -1 || rightSidebarEnd === -1) {
-    console.log('Could not find Right Sidebar block');
-    process.exit(1);
-}
-
 const rightSidebarBlock = file.substring(rightSidebarStart, rightSidebarEnd);
 
-// Extract just the inner content (the title and the list)
 const innerStart = rightSidebarBlock.indexOf('<div className="flex items-center justify-between mb-2 px-2">');
-const innerEnd = rightSidebarBlock.lastIndexOf('</div>', rightSidebarBlock.lastIndexOf('</div>') - 1) + 6; // To close the space-y-1 div
+const innerEnd = rightSidebarBlock.lastIndexOf('</div>', rightSidebarBlock.lastIndexOf('</div>') - 1) + 6;
 const innerContent = rightSidebarBlock.substring(innerStart, innerEnd);
 
-// Remove the Right Sidebar block from the file
-file = file.replace(rightSidebarBlock, '');
-
-// 2. Find the CTA in the Left Sidebar
+// Find the CTA block
 const ctaStart = file.indexOf('{/* Profile Card / Bookmarks Area */}');
 const ctaEndStr = `</button>
                 </div>
@@ -28,22 +17,14 @@ const ctaEndStr = `</button>
             ) : (`;
 const ctaEnd = file.indexOf(ctaEndStr) + ctaEndStr.indexOf(') : (');
 
-if (ctaStart === -1 || ctaEnd === -1) {
-    console.log('Could not find CTA block');
-    process.exit(1);
-}
-
-const beforeCta = file.substring(0, ctaStart);
-const afterCta = file.substring(ctaEnd);
 const ctaBlock = file.substring(ctaStart, ctaEnd);
-
-// Wrap the CTA block in a Fragment and add the innerContent below it
 const newCtaBlock = ctaBlock.replace(
     "{activeTab === 'mencari' ? (",
     "{activeTab === 'mencari' ? (\n              <>\n"
 ) + `\n                {/* History Block (Moved from Right) */}\n                <div>\n                  ${innerContent}\n                </div>\n              </>`;
 
-file = beforeCta + newCtaBlock + afterCta;
+file = file.replace(ctaBlock, newCtaBlock);
+file = file.replace(rightSidebarBlock, '');
 
 fs.writeFileSync('src/app/[locale]/beranda/page.tsx', file);
-console.log('✅ Moved History to Left Sidebar');
+console.log('✅ Safely moved History block');

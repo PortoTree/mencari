@@ -77,3 +77,11 @@
 - [x] (Frontend) Samakan persis struktur *wrapper* dan spasi komponen dummy post di tab Teman/Friend dengan tab Beranda/Home (buang extra flex & pt-6) agar layout-nya 100% konsisten.
 
 - [x] (Frontend) Tambahkan logika *conditional rendering* di Sidebar Kiri: Jika tab yang aktif adalah /mencari, ubah komponen **Kartu Profil** menjadi area **Bookmarks** berisi 10 *dummy web bookmark*.
+
+- [x] (Frontend) Pindahkan komponen *History List* (Riwayat Pencarian) dari Sidebar Kanan ke Sidebar Kiri, posisinya tepat di bawah komponen *Call-to-Action* pada tab /mencari.
+
+- [x] (Frontend) Sembunyikan *scrollbar* bawaan di Sidebar (Kiri & Kanan). Scrollbar sekarang akan *auto-hide* (transparan) dan hanya muncul (berwarna *gray*) saat *cursor* di-*hover* ke area sidebar.
+
+- [x] (Frontend) Perbaiki logika auto-hide scrollbar di Sidebar menggunakan CSS murni (hover pada container sidebar-scrollbar untuk memunculkan thumb).
+
+- [x] (Frontend) Perbaiki bug auto-hide scrollbar yang tidak jalan di Firefox dan beberapa browser. Tambahkan dukungan penuh untuk scrollbar-color dan fallback transparan di WebKit.

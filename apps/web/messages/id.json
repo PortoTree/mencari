@@ -159,6 +159,9 @@
     "url": "URL",
     "cancel": "Batal",
     "done": "Selesai",
-    "history": "Riwayat"
+    "history": "Riwayat",
+    "cta_title": "Website kamu belum ada di pencarian kami?",
+    "cta_desc": "Jadikan website, portofolio, atau bisnismu mudah ditemukan oleh ribuan pengguna kami",
+    "cta_button": "Daftarkan Gratis"
   }
 }

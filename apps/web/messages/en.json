@@ -159,6 +159,9 @@
     "url": "URL",
     "cancel": "Cancel",
     "done": "Done",
-    "history": "History"
+    "history": "History",
+    "cta_title": "Is your website not in our search yet?",
+    "cta_desc": "Make your website, portfolio, or business easily discoverable by thousands of our users",
+    "cta_button": "Register for Free"
   }
 }
