@@ -107,3 +107,5 @@
 - [x] (Frontend) Tambah Sidebar Kanan di tab friend: seksi Permintaan Teman (4 dummy + tombol Konfirmasi/Hapus) dan Grup Bersama (4 dummy grup). Semua teks sudah didukung i18n ID/EN.
 
 - [x] (Frontend) Ubah hover state tombol CTA 'Daftarkan Gratis' menjadi bg-emerald-700 dan text-white untuk kedua mode (terang dan gelap).
+
+- [x] (Frontend) Perbaiki inkonsistensi padding layout pada komponen Postingan di feed (menghapus double padding pada outer wrapper agar sejajar antara semua postingan).
