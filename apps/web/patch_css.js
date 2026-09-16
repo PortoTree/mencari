@@ -42,15 +42,14 @@ const newMencariTab = `<div onClick={() => setActiveTab('mencari')} className={\
 
 file = file.split(oldHomeTab).join(newHomeTab);
 file = file.split(oldHomeTab.replace(/\n/g, '\r\n')).join(newHomeTab.replace(/\n/g, '\r\n'));
-
 file = file.split(oldMencariTab).join(newMencariTab);
 file = file.split(oldMencariTab.replace(/\n/g, '\r\n')).join(newMencariTab.replace(/\n/g, '\r\n'));
 
-// 5. Feed wrap
+// 5. CSS hidden approach
 const feedStart = '<div className="space-y-4 max-w-[590px] w-full px-4">';
 const fixFeedStart = `
-          {activeTab === 'mencari' ? (
-            <div className="w-full flex flex-col items-center pt-10 max-w-[680px]">
+          {activeTab === 'mencari' && (
+            <div className="w-full flex flex-col items-center pt-24 max-w-[680px]">
               {/* Lottie Animation (Logo) */}
               <div className="w-72 h-40 mb-8 flex items-center justify-center [&>div]:w-full [&>div]:h-full">
                 <Lottie 
@@ -90,26 +89,11 @@ const fixFeedStart = `
                 </button>
               </div>
             </div>
-          ) : (
-            <>
-<div className="space-y-4 max-w-[590px] w-full px-4">`;
+          )}
+          <div className={\`space-y-4 max-w-[590px] w-full px-4 \${activeTab === 'mencari' ? 'hidden' : ''}\`}>`;
+
 file = file.split(feedStart).join(fixFeedStart);
 file = file.split(feedStart.replace(/\n/g, '\r\n')).join(fixFeedStart.replace(/\n/g, '\r\n'));
 
-// 6. Close ternary before the chat panel
-// We know from before that the feed ends exactly before the Right Sidebar.
-const feedEndStr = `          </div>
-        </div>
-
-        {/* Right Sidebar (Chat Panel) */}`;
-const fixFeedEndStr = `          </div>
-            </>
-          )}
-        </div>
-
-        {/* Right Sidebar (Chat Panel) */}`;
-file = file.split(feedEndStr).join(fixFeedEndStr);
-file = file.split(feedEndStr.replace(/\n/g, '\r\n')).join(fixFeedEndStr.replace(/\n/g, '\r\n'));
-
 fs.writeFileSync('src/app/[locale]/beranda/page.tsx', file);
-console.log('✅ Applied all fixes from restored state');
+console.log('✅ Applied CSS hidden patch');

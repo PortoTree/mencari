@@ -1,65 +1,70 @@
 const fs = require('fs');
 let file = fs.readFileSync('src/app/[locale]/beranda/page.tsx', 'utf8');
 
-// 1. Dynamic import
-file = file.replace(
-  'import { useRouter } from "next/navigation";',
-  'import { useRouter } from "next/navigation";\nimport dynamic from "next/dynamic";\nimport animationData from "../../../../public/search-bar.json";\n\nconst Lottie = dynamic(() => import("lottie-react").then((mod) => ({ default: mod.Lottie || mod.default })), { ssr: false });'
-);
+// 1. Imports
+if (!file.includes('next/dynamic')) {
+  file = file.replace(
+    'import { useRouter } from "next/navigation";',
+    'import { useRouter } from "next/navigation";\nimport dynamic from "next/dynamic";\nimport animationData from "../../../../public/search-bar.json";\n\n// @ts-ignore\nconst Lottie = dynamic(() => import("lottie-react").then((mod) => mod.Lottie || mod.default || mod), { ssr: false });'
+  );
+}
 
-// 2. State
-file = file.replace(
-  'const [isChatExpanded, setIsChatExpanded] = useState(false);',
-  "const [isChatExpanded, setIsChatExpanded] = useState(false);\n  const [activeTab, setActiveTab] = useState<'home' | 'mencari'>('home');\n  const lottieRef = useRef<any>(null);\n  const handleAnimationComplete = () => {\n    setTimeout(() => {\n      if (lottieRef.current) lottieRef.current.goToAndPlay(0, true);\n    }, 5000);\n  };"
-);
+// 2. States
+if (!file.includes('const [activeTab, setActiveTab]')) {
+  file = file.replace(
+    'const [isChatExpanded, setIsChatExpanded] = useState(false);',
+    "const [isChatExpanded, setIsChatExpanded] = useState(false);\n  const [activeTab, setActiveTab] = useState<'home' | 'mencari'>('home');\n  const lottieRef = useRef<any>(null);\n  const handleAnimationComplete = () => {\n    setTimeout(() => {\n      if (lottieRef.current) lottieRef.current.goToAndPlay(0, true);\n    }, 5000);\n  };"
+  );
+}
 
-// 3. Margin center feed
+// 3. Tabs
 file = file.replace(
-  'flex-1 flex justify-center lg:ml-[280px] xl:ml-[320px] lg:mr-[340px] xl:mr-[380px]',
-  'flex-1 flex justify-center lg:ml-[340px] xl:ml-[380px] lg:mr-[340px] xl:mr-[380px]'
-);
-
-// 4. Tabs onClick
-const oldHomeTab = `<div className="flex flex-col items-center justify-center w-[110px] h-full border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 cursor-pointer">
+  `<div className="flex flex-col items-center justify-center w-[110px] h-full border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 cursor-pointer">
             <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
             <span className="text-[11px] font-semibold mt-0.5">{t('tabs.home')}</span>
-          </div>`;
-
-const newHomeTab = `<div onClick={() => setActiveTab('home')} className={\`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer \${activeTab === 'home' ? 'border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400' : 'border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] rounded-lg my-1 transition-colors'}\`}>
+          </div>`,
+  `<div onClick={() => setActiveTab('home')} className={\`flex flex-col items-center justify-center w-[110px] h-full border-b-[3px] cursor-pointer \${activeTab === 'home' ? 'border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400' : 'border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] rounded-lg my-1 transition-colors'}\`}>
             <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
             <span className="text-[11px] font-semibold mt-0.5">{t('tabs.home')}</span>
-          </div>`;
+          </div>`
+);
 
-const oldMencariTab = `<div className="flex flex-col items-center justify-center w-[110px] h-full text-gray-500 dark:text-[#B0B3B8] hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors my-1 border-b-[3px] border-transparent">
+file = file.replace(
+  `<div className="flex flex-col items-center justify-center w-[110px] h-full text-gray-500 dark:text-[#B0B3B8] hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors my-1 border-b-[3px] border-transparent">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
             <span className="text-[11px] font-semibold mt-1">Mencari</span>
-          </div>`;
-
-const newMencariTab = `<div onClick={() => setActiveTab('mencari')} className={\`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors \${activeTab === 'mencari' ? 'border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none' : 'border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] rounded-lg my-1'}\`}>
+          </div>`,
+  `<div onClick={() => setActiveTab('mencari')} className={\`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors \${activeTab === 'mencari' ? 'border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400' : 'border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] rounded-lg my-1'}\`}>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
             <span className="text-[11px] font-semibold mt-1">Mencari</span>
-          </div>`;
+          </div>`
+);
 
-file = file.split(oldHomeTab).join(newHomeTab);
-file = file.split(oldHomeTab.replace(/\n/g, '\r\n')).join(newHomeTab.replace(/\n/g, '\r\n'));
+// 4. Wrapping Feed
+// We will wrap from `<div className="w-full max-w-[680px] pt-6 pb-20">` down to before `{/* Profile Right Sidebar */}`.
+// Instead of matching exactly, I'll use regex or manual slice carefully.
 
-file = file.split(oldMencariTab).join(newMencariTab);
-file = file.split(oldMencariTab.replace(/\n/g, '\r\n')).join(newMencariTab.replace(/\n/g, '\r\n'));
+const feedStart = '<div className="w-full max-w-[680px] pt-6 pb-20">';
+const feedStartIndex = file.indexOf(feedStart);
 
-// 5. Feed wrap
-const feedStart = '<div className="space-y-4 max-w-[590px] w-full px-4">';
-const fixFeedStart = `
+const feedEndString = '        </div>\n      </div>\n\n      {/* Profile Right Sidebar */}';
+const feedEndIndex = file.indexOf(feedEndString);
+
+if (feedStartIndex !== -1 && feedEndIndex !== -1) {
+  const contentBefore = file.slice(0, feedStartIndex + feedStart.length);
+  const contentMiddle = file.slice(feedStartIndex + feedStart.length, feedEndIndex);
+  const contentAfter = file.slice(feedEndIndex);
+  
+  const modifiedMiddle = `
           {activeTab === 'mencari' ? (
-            <div className="w-full flex flex-col items-center pt-10 max-w-[680px]">
+            <div className="w-full flex flex-col items-center pt-10">
               {/* Lottie Animation (Logo) */}
               <div className="w-72 h-40 mb-8 flex items-center justify-center [&>div]:w-full [&>div]:h-full">
                 <Lottie 
-                  {...({
-                    lottieRef: lottieRef,
-                    animationData: animationData,
-                    loop: false,
-                    onComplete: handleAnimationComplete
-                  } as any)}
+                  lottieRef={lottieRef}
+                  animationData={animationData}
+                  loop={false}
+                  onComplete={handleAnimationComplete}
                 />
               </div>
 
@@ -92,24 +97,14 @@ const fixFeedStart = `
             </div>
           ) : (
             <>
-<div className="space-y-4 max-w-[590px] w-full px-4">`;
-file = file.split(feedStart).join(fixFeedStart);
-file = file.split(feedStart.replace(/\n/g, '\r\n')).join(fixFeedStart.replace(/\n/g, '\r\n'));
-
-// 6. Close ternary before the chat panel
-// We know from before that the feed ends exactly before the Right Sidebar.
-const feedEndStr = `          </div>
-        </div>
-
-        {/* Right Sidebar (Chat Panel) */}`;
-const fixFeedEndStr = `          </div>
+${contentMiddle}
             </>
           )}
-        </div>
-
-        {/* Right Sidebar (Chat Panel) */}`;
-file = file.split(feedEndStr).join(fixFeedEndStr);
-file = file.split(feedEndStr.replace(/\n/g, '\r\n')).join(fixFeedEndStr.replace(/\n/g, '\r\n'));
-
-fs.writeFileSync('src/app/[locale]/beranda/page.tsx', file);
-console.log('✅ Applied all fixes from restored state');
+`;
+  
+  file = contentBefore + modifiedMiddle + contentAfter;
+  fs.writeFileSync('src/app/[locale]/beranda/page.tsx', file);
+  console.log('✅ Applied correct state wrapper');
+} else {
+  console.log('⚠️ Could not find feed boundaries', { feedStartIndex, feedEndIndex });
+}

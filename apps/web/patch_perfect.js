@@ -13,13 +13,7 @@ file = file.replace(
   "const [isChatExpanded, setIsChatExpanded] = useState(false);\n  const [activeTab, setActiveTab] = useState<'home' | 'mencari'>('home');\n  const lottieRef = useRef<any>(null);\n  const handleAnimationComplete = () => {\n    setTimeout(() => {\n      if (lottieRef.current) lottieRef.current.goToAndPlay(0, true);\n    }, 5000);\n  };"
 );
 
-// 3. Margin center feed
-file = file.replace(
-  'flex-1 flex justify-center lg:ml-[280px] xl:ml-[320px] lg:mr-[340px] xl:mr-[380px]',
-  'flex-1 flex justify-center lg:ml-[340px] xl:ml-[380px] lg:mr-[340px] xl:mr-[380px]'
-);
-
-// 4. Tabs onClick
+// 3. Tabs onClick
 const oldHomeTab = `<div className="flex flex-col items-center justify-center w-[110px] h-full border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 cursor-pointer">
             <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
             <span className="text-[11px] font-semibold mt-0.5">{t('tabs.home')}</span>
@@ -42,15 +36,18 @@ const newMencariTab = `<div onClick={() => setActiveTab('mencari')} className={\
 
 file = file.split(oldHomeTab).join(newHomeTab);
 file = file.split(oldHomeTab.replace(/\n/g, '\r\n')).join(newHomeTab.replace(/\n/g, '\r\n'));
-
 file = file.split(oldMencariTab).join(newMencariTab);
 file = file.split(oldMencariTab.replace(/\n/g, '\r\n')).join(newMencariTab.replace(/\n/g, '\r\n'));
 
-// 5. Feed wrap
-const feedStart = '<div className="space-y-4 max-w-[590px] w-full px-4">';
-const fixFeedStart = `
+// 4. Feed Start Ternary Wrap
+const oldFeedStart = `{/* Center Main Feed */}
+        <div className="flex-1 flex justify-center lg:ml-[340px] xl:ml-[380px] lg:mr-[340px] xl:mr-[380px]">
+          <div className="space-y-4 max-w-[590px] w-full px-4">`;
+
+const newFeedStart = `{/* Center Main Feed */}
+        <div className="flex-1 flex justify-center lg:ml-[340px] xl:ml-[380px] lg:mr-[340px] xl:mr-[380px]">
           {activeTab === 'mencari' ? (
-            <div className="w-full flex flex-col items-center pt-10 max-w-[680px]">
+            <div className="w-full flex flex-col items-center pt-24 max-w-[680px]">
               {/* Lottie Animation (Logo) */}
               <div className="w-72 h-40 mb-8 flex items-center justify-center [&>div]:w-full [&>div]:h-full">
                 <Lottie 
@@ -91,25 +88,27 @@ const fixFeedStart = `
               </div>
             </div>
           ) : (
-            <>
-<div className="space-y-4 max-w-[590px] w-full px-4">`;
-file = file.split(feedStart).join(fixFeedStart);
-file = file.split(feedStart.replace(/\n/g, '\r\n')).join(fixFeedStart.replace(/\n/g, '\r\n'));
+          <div className="space-y-4 max-w-[590px] w-full px-4">`;
 
-// 6. Close ternary before the chat panel
-// We know from before that the feed ends exactly before the Right Sidebar.
-const feedEndStr = `          </div>
+file = file.split(oldFeedStart).join(newFeedStart);
+file = file.split(oldFeedStart.replace(/\n/g, '\r\n')).join(newFeedStart.replace(/\n/g, '\r\n'));
+file = file.replace('lg:ml-[280px] xl:ml-[320px] lg:mr-[340px] xl:mr-[380px]', 'lg:ml-[340px] xl:ml-[380px] lg:mr-[340px] xl:mr-[380px]');
+
+// 5. Feed End Ternary Wrap
+const oldFeedEnd = `          </div>
+        </div>
         </div>
 
         {/* Right Sidebar (Chat Panel) */}`;
-const fixFeedEndStr = `          </div>
-            </>
+
+const newFeedEnd = `          </div>
           )}
         </div>
 
         {/* Right Sidebar (Chat Panel) */}`;
-file = file.split(feedEndStr).join(fixFeedEndStr);
-file = file.split(feedEndStr.replace(/\n/g, '\r\n')).join(fixFeedEndStr.replace(/\n/g, '\r\n'));
+
+file = file.split(oldFeedEnd).join(newFeedEnd);
+file = file.split(oldFeedEnd.replace(/\n/g, '\r\n')).join(newFeedEnd.replace(/\n/g, '\r\n'));
 
 fs.writeFileSync('src/app/[locale]/beranda/page.tsx', file);
-console.log('✅ Applied all fixes from restored state');
+console.log('✅ Success! Full clean rewrite.');
