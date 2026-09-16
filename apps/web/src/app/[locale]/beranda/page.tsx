@@ -517,6 +517,28 @@ export default function Beranda() {
               </div>
             )}
 
+            {/* Friend List (Friend Tab) */}
+            {activeTab === 'friend' && (
+              <div>
+                <div className="flex items-center justify-between mb-2 px-2">
+                  <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px]">{t('profileSidebar.friends') || 'Daftar Teman'}</h3>
+                </div>
+                <div className="space-y-1">
+                  {["Budi Santoso", "Siti Aminah", "Agus Pratama", "Dewi Lestari", "Rudi Hermawan", "Rina Marlina", "Andi Wijaya", "Bagas Pangestu", "Citra Kirana", "Dian Sastro", "Eko Patrio", "Fahri Hamzah", "Gita Gutawa", "Hasan Basri", "Intan Nuraini", "Joko Anwar", "Kaesang Pangarep", "Luna Maya"].map((name, i) => (
+                    <div key={i} className="flex items-center gap-3 p-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors">
+                      <div className="relative">
+                        <div className="w-9 h-9 rounded-full bg-gray-300 dark:bg-[#4E4F50] overflow-hidden shrink-0">
+                          <img src={`https://i.pravatar.cc/150?u=${i + 20}`} alt={name} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white dark:border-[#242526] rounded-full"></div>
+                      </div>
+                      <span className="text-[14px] font-medium text-black dark:text-[#E4E6EB] flex-1 truncate">{name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
           {/* Navigation Links */}
 {activeTab === 'home' && (
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-2 space-y-1">
@@ -985,27 +1007,6 @@ export default function Beranda() {
           </div>
         )}
 
-        {/* Right Sidebar: Friend List (Friend Tab) */}
-        {activeTab === 'friend' && (
-          <div className="hidden lg:block fixed right-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-24 sidebar-scrollbar">
-            <div className="flex items-center justify-between mb-2 px-2">
-              <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px]">{t('profileSidebar.friends') || 'Daftar Teman'}</h3>
-            </div>
-            <div className="space-y-1">
-              {["Budi Santoso", "Siti Aminah", "Agus Pratama", "Dewi Lestari", "Rudi Hermawan", "Rina Marlina", "Andi Wijaya", "Bagas Pangestu", "Citra Kirana", "Dian Sastro", "Eko Patrio", "Fahri Hamzah", "Gita Gutawa", "Hasan Basri", "Intan Nuraini", "Joko Anwar", "Kaesang Pangarep", "Luna Maya"].map((name, i) => (
-                <div key={i} className="flex items-center gap-3 p-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors relative group">
-                  <div className="relative">
-                    <div className="w-9 h-9 rounded-full bg-gray-300 dark:bg-[#4E4F50] overflow-hidden shrink-0">
-                      <img src={`https://i.pravatar.cc/150?u=${i + 20}`} alt={name} className="w-full h-full object-cover" />
-                    </div>
-                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white dark:border-[#242526] rounded-full"></div>
-                  </div>
-                  <span className="text-[14px] font-medium text-black dark:text-[#E4E6EB] flex-1 truncate">{name}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* Right Sidebar (Chat Panel) */}
         <div className="hidden lg:block relative z-50">
