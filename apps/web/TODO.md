@@ -33,3 +33,9 @@
 - [x] (Frontend) Ganti teks dummy history web menjadi Google dan Stack Overflow agar lebih netral.
 
 - [x] (Frontend) Perbaiki URL Google Favicon API agar selaras dengan dummy text Google dan Stack Overflow.
+
+- [x] (Frontend) Tambahkan animasi expand pada Search Bar ala Google, menampilkan dropdown riwayat saat di-klik/focus.
+
+- [x] (Frontend) Perbaiki glitch animasi pada saat Search Bar di expand dengan mengganti transition-all menjadi transition-shadow.
+
+- [x] (Frontend) Tambahkan 7 data history statis ke dalam dropdown Search Bar, dengan batas maksimal 5 item terlihat dan sisanya bisa di-scroll.
