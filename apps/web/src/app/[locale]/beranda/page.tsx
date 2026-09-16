@@ -584,7 +584,7 @@ export default function Beranda() {
                     </svg>
                     <input 
                       type="text"
-                      placeholder="Mencari apa?...."
+                      placeholder={t("nav.searchPlaceholder")}
                       className="w-full bg-transparent border-none outline-none ml-4 text-[16px] text-black dark:text-[#E4E6EB] placeholder-gray-500 dark:placeholder-[#B0B3B8]"
                       onFocus={() => setIsSearchExpanded(true)}
                     />
@@ -968,7 +968,24 @@ export default function Beranda() {
 
         {/* Chat Bubbles (Always Rendered) */}
         <>
-          {/* Right Sidebar: Friend List (Friend Tab) */}
+          {/* Right Sidebar: Ads (Mencari Tab) */}
+        {activeTab === 'mencari' && (
+          <div className="hidden lg:block fixed right-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-24 sidebar-scrollbar">
+            <div className="space-y-3">
+              <a href="https://resume.portotree.com" target="_blank" rel="noopener noreferrer" className="block shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                <img src="/ads/portotree-cv.png" alt="Portotree CV" className="w-full h-auto object-cover" />
+              </a>
+              <a href="https://surat.portotree.com" target="_blank" rel="noopener noreferrer" className="block shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                <img src="/ads/portotree-surat.png" alt="Portotree Surat" className="w-full h-auto object-cover" />
+              </a>
+              <a href="https://portofolio.portotree.com" target="_blank" rel="noopener noreferrer" className="block shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                <img src="/ads/portotree-portofolio.png" alt="Portotree Portofolio" className="w-full h-auto object-cover" />
+              </a>
+            </div>
+          </div>
+        )}
+
+        {/* Right Sidebar: Friend List (Friend Tab) */}
         {activeTab === 'friend' && (
           <div className="hidden lg:block fixed right-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-24 sidebar-scrollbar">
             <div className="flex items-center justify-between mb-2 px-2">

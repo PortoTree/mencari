@@ -85,3 +85,7 @@
 - [x] (Frontend) Perbaiki logika auto-hide scrollbar di Sidebar menggunakan CSS murni (hover pada container sidebar-scrollbar untuk memunculkan thumb).
 
 - [x] (Frontend) Perbaiki bug auto-hide scrollbar yang tidak jalan di Firefox dan beberapa browser. Tambahkan dukungan penuh untuk scrollbar-color dan fallback transparan di WebKit.
+
+- [x] (Frontend) Hapus teks hardcode placeholder pada bar pencarian dan ganti dengan translasi dinamis next-intl.
+
+- [x] (Frontend) Tambah Sidebar Kanan khusus tab mencari berisi 3 banner iklan Portotree (portotree-cv.png, portotree-surat.png, portotree-portofolio.png).

@@ -5,7 +5,8 @@
     "notifications": "Notifications",
     "chat": "Chatting",
     "menu": "Menu",
-    "info": "Profile Info"
+    "info": "Profile Info",
+    "searchPlaceholder": "What are you looking for?...."
   },
   "tabs": {
     "home": "Home",

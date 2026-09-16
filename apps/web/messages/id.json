@@ -5,7 +5,8 @@
     "notifications": "Pemberitahuan",
     "chat": "Obrolan",
     "menu": "Menu",
-    "info": "Informasi"
+    "info": "Informasi",
+    "searchPlaceholder": "Mencari apa?...."
   },
   "tabs": {
     "home": "Beranda",
