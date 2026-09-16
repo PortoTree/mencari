@@ -562,6 +562,14 @@ export default function Beranda() {
               </div>
             ) : (activeTab === 'group' || activeTab === 'groups') ? (
               <div ref={groupSearchRef} className="relative z-10">
+                <div className="flex flex-col gap-3 mb-4">
+                  <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px] px-2">{t('group.yourGroups')}</h3>
+                  <div className="px-2">
+                    <button className="w-full text-emerald-500 hover:text-emerald-600 font-semibold text-[15px] bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 py-2 rounded-lg transition-colors flex items-center justify-center gap-2">
+                      {t('group.createGroup')}
+                    </button>
+                  </div>
+                </div>
                 <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px] mb-2 px-2">{t('group.searchTitle')}</h3>
                 <div className="relative w-full h-[42px]">
                   <div className={`absolute top-0 left-0 w-full bg-white dark:bg-[#242526] ${isGroupSearchExpanded ? 'rounded-[21px] shadow-[0_4px_12px_rgba(32,33,36,0.28)] pb-3' : 'rounded-full shadow-[0_1px_6px_rgba(32,33,36,0.28)] hover:shadow-[0_1px_6px_rgba(32,33,36,0.4)]'} dark:shadow-[0_1px_6px_rgba(0,0,0,0.5)] transition-shadow duration-200 border border-transparent dark:border-[#3E4042] flex flex-col`}>
@@ -677,6 +685,10 @@ export default function Beranda() {
             >
               <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
               <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">Mencari</span>
+            </button>
+            <button className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors">
+              <svg className="w-6 h-6 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
+              <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{t('nav.webpage')}</span>
             </button>
             <button 
               onClick={() => {

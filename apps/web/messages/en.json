@@ -6,7 +6,8 @@
     "chat": "Chatting",
     "menu": "Menu",
     "info": "Profile Info",
-    "searchPlaceholder": "What are you looking for?...."
+    "searchPlaceholder": "What are you looking for?....",
+    "webpage": "Your page"
   },
   "tabs": {
     "home": "Home",
@@ -188,6 +189,8 @@
     "joinGroup": "Join Group",
     "viewPost": "View Post",
     "enterGroup": "Enter Group",
-    "reportGroup": "Report Group"
+    "reportGroup": "Report Group",
+    "yourGroups": "Your groups",
+    "createGroup": "+ Create new group"
   }
 }

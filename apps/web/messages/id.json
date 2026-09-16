@@ -6,7 +6,8 @@
     "chat": "Obrolan",
     "menu": "Menu",
     "info": "Informasi",
-    "searchPlaceholder": "Mencari apa?...."
+    "searchPlaceholder": "Mencari apa?....",
+    "webpage": "Halaman kamu"
   },
   "tabs": {
     "home": "Beranda",
@@ -188,6 +189,8 @@
     "joinGroup": "Gabung Grub",
     "viewPost": "Lihat Postingan",
     "enterGroup": "Masuk grub",
-    "reportGroup": "Report grub"
+    "reportGroup": "Report grub",
+    "yourGroups": "Grub kamu",
+    "createGroup": "+ Buat grub baru"
   }
 }

@@ -119,3 +119,9 @@
 - [x] (Frontend) Fix error 404 saat refresh di halaman /group dengan membuat folder/route baru di Next.js App Router.\n
 - [x] (Frontend) Tambahkan dropdown menu (titik tiga) pada postingan grup dengan opsi Join, Masuk, Lihat Post, Simpan, Report Post, dan Report Grub.\n
 - [x] (Frontend) Fix tsc error due to missing div closing tags.\n
+- [x] (Frontend) Tambahkan menu navigasi Your Webpage / Halaman Web Kamu di sidebar kiri, tepat di bawah menu Mencari dengan ikon Globe cyan.\n
+- [x] (Frontend) Ganti teks menu navigasi Your Webpage menjadi Your page / Halaman kamu.\n
+- [x] (Frontend) Tambahkan label Grub kamu dan tombol Buat grub baru di atas kolom pencarian grup pada halaman /group.\n
+- [x] (Frontend) Perbaiki tata letak (layout) label Grub Kamu dan tombol Buat grub baru agar ditumpuk vertikal dan tidak saling berdesakan/turun baris.\n
+- [x] (Frontend) Sesuaikan ukuran dan gaya font judul Your groups serta Search Groups agar mirip dengan screenshot referensi.\n
+- [x] (Frontend) Samakan font-size dan warna label Your groups serta Search Groups dengan label lain di sidebar (font-semibold text-[15px] warna abu-abu).\n
