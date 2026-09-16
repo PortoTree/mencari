@@ -89,3 +89,5 @@
 - [x] (Frontend) Hapus teks hardcode placeholder pada bar pencarian dan ganti dengan translasi dinamis next-intl.
 
 - [x] (Frontend) Tambah Sidebar Kanan khusus tab mencari berisi 3 banner iklan Portotree (portotree-cv.png, portotree-surat.png, portotree-portofolio.png).
+
+- [x] (Frontend) Fix bug URL tidak berubah saat ganti tab. Ganti logika pushState dari pathname.replace yang tidak reliable ke full path berdasarkan locale.
