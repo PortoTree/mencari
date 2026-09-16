@@ -96,7 +96,7 @@ export default function Beranda() {
   const lottieRef = useRef<any>(null);
   const handleAnimationComplete = () => {
     setTimeout(() => {
-      if (lottieRef.current) lottieRef.current.seek(0); lottieRef.current.play();
+      if (lottieRef.current) { lottieRef.current.seek(0); lottieRef.current.play(); }
     }, 5000);
   };
   const [isChatSettingsOpen, setIsChatSettingsOpen] = useState(false);
@@ -459,7 +459,7 @@ export default function Beranda() {
               </div>
 
               {/* Google-style Search Box with Expand Behavior */}
-              <div className="relative w-full z-[60] h-[48px]" ref={searchRef}>
+              <div className="relative w-full z-40 h-[48px]" ref={searchRef}>
                 <div className={`absolute top-0 left-0 w-full bg-white dark:bg-[#242526] ${isSearchExpanded ? 'rounded-[24px] shadow-[0_4px_12px_rgba(32,33,36,0.28)] pb-4' : 'rounded-full shadow-[0_1px_6px_rgba(32,33,36,0.28)] hover:shadow-[0_1px_6px_rgba(32,33,36,0.4)]'} dark:shadow-[0_1px_6px_rgba(0,0,0,0.5)] transition-shadow duration-200 border border-transparent dark:border-[#3E4042] flex flex-col`}>
                   
                   {/* Input Row */}

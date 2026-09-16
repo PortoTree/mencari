@@ -43,3 +43,7 @@
 - [x] (Frontend) Tambahkan ikon hapus (X) yang muncul saat _hover_ pada tiap item riwayat di dropdown search bar.
 
 - [x] (Frontend) Gelapkan sedikit warna background saat hover pada item riwayat web di panel kanan dan dropdown agar lebih kontras di mode terang.
+
+- [x] (Frontend) Perbaiki bug unmounted Lottie ref pada event loop (menambahkan kurung kurawal pada logic pengecekan ref).
+
+- [x] (Frontend) Turunkan z-index Search Bar menjadi z-40 agar tidak menutupi panel Chat (z-50) saat Chat sedang terbuka.
