@@ -507,8 +507,8 @@ export default function Beranda() {
               </>
             ) : activeTab === 'friend' ? (
               <div ref={friendSearchRef} className="relative z-10">
-                {/* Title */}
-                <p className="text-[13px] font-semibold text-gray-500 dark:text-[#B0B3B8] mb-2 px-1">Cari Pengguna</p>
+                {/* Title - samain style dengan header Friends di bawahnya */}
+                <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px] mb-2 px-2">{t('friend.searchTitle')}</h3>
 
                 {/* Container: fixed height so it doesn't shift layout */}
                 <div className="relative w-full h-[42px]">
@@ -521,7 +521,7 @@ export default function Beranda() {
                       </svg>
                       <input
                         type="text"
-                        placeholder="Cari nama pengguna..."
+                        placeholder={t('friend.searchPlaceholder')}
                         className="w-full bg-transparent border-none outline-none ml-3 text-[14px] text-black dark:text-[#E4E6EB] placeholder-gray-400 dark:placeholder-[#B0B3B8]"
                         onFocus={() => setIsFriendSearchExpanded(true)}
                       />
@@ -531,7 +531,7 @@ export default function Beranda() {
                     {isFriendSearchExpanded && (
                       <div className="w-full border-t border-gray-100 dark:border-[#3E4042] pt-1 mt-1">
                         <div className="flex flex-col w-full">
-                          <p className="text-[11px] font-semibold text-gray-400 dark:text-[#B0B3B8] px-4 py-1.5 uppercase tracking-wide">Terakhir dicari</p>
+                          <p className="text-[11px] font-semibold text-gray-400 dark:text-[#B0B3B8] px-4 py-1.5 uppercase tracking-wide">{t('friend.recentSearch')}</p>
                           {["Budi Santoso", "Siti Aminah", "Agus Pratama", "Dewi Lestari"].map((name, i) => (
                             <div key={i} className="px-4 py-2.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] cursor-pointer flex items-center justify-between group transition-colors shrink-0">
                               <div className="flex items-center gap-3">

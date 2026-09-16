@@ -101,3 +101,5 @@
 - [x] (Frontend) Perbaiki animasi expand searchbar /friend: ganti mount/unmount menjadi max-height + opacity transition supaya smooth.
 
 - [x] (Frontend) Ubah expand searchbar /friend menjadi absolute overlay (tidak geser layout friendlist), persis seperti pola searchbar di /mencari.
+
+- [x] (Frontend) Samakan font size dan style judul Cari Pengguna dengan Friends header (text-[15px] font-semibold), serta hapus semua hardcode bahasa ID dan ganti dengan next-intl (friend.searchTitle, friend.searchPlaceholder, friend.recentSearch).

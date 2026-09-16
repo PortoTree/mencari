@@ -164,5 +164,10 @@
     "cta_title": "Is your website not in our search yet?",
     "cta_desc": "Make your website, portfolio, or business easily discoverable by thousands of our users",
     "cta_button": "Register for Free"
+  },
+  "friend": {
+    "searchTitle": "Search Users",
+    "searchPlaceholder": "Search username...",
+    "recentSearch": "Recent searches"
   }
 }

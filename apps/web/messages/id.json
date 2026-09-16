@@ -164,5 +164,10 @@
     "cta_title": "Website kamu belum ada di pencarian kami?",
     "cta_desc": "Jadikan website, portofolio, atau bisnismu mudah ditemukan oleh ribuan pengguna kami",
     "cta_button": "Daftarkan Gratis"
+  },
+  "friend": {
+    "searchTitle": "Cari Pengguna",
+    "searchPlaceholder": "Cari nama pengguna...",
+    "recentSearch": "Terakhir dicari"
   }
 }
