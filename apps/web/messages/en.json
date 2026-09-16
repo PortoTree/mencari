@@ -1,0 +1,130 @@
+{
+  "nav": {
+    "home": "Home",
+    "search": "Search...",
+    "notifications": "Notifications",
+    "chat": "Chatting",
+    "menu": "Menu",
+    "info": "Profile Info"
+  },
+  "tabs": {
+    "home": "Home",
+    "friends": "Friends",
+    "groups": "Groups",
+    "marketplace": "Marketplace",
+    "watch": "Watch"
+  },
+  "sidebar": {
+    "friends": "Friends",
+    "memories": "Memories",
+    "saved": "Saved",
+    "groups": "Groups",
+    "marketplace": "Marketplace",
+    "events": "Events",
+    "viewProfile": "View profile"
+  },
+  "chat": {
+    "title": "Chatting",
+    "all": "All",
+    "unread": "Unread",
+    "newMessage": "New Message",
+    "to": "To:",
+    "activeNow": "Active now",
+    "activeUser": "Active User",
+    "archiveChat": "Archive chat",
+    "pinChat": "Pin conversation",
+    "markUnread": "Mark as unread",
+    "addFavorite": "Add to favorites",
+    "addToList": "Add to list",
+    "block": "Block",
+    "clearChat": "Clear chat",
+    "deleteChat": "Delete chat",
+    "manage": "Manage chats",
+    "settings": "Settings"
+  },
+  "login": {
+    "title": "Log in",
+    "subtitle": "Welcome back! Let's keep searching.",
+    "emailLabel": "Email/Username",
+    "emailPlaceholder": "name@example.com or username",
+    "passwordLabel": "Password",
+    "forgotPassword": "Forgot password?",
+    "submitBtn": "Log in",
+    "loading": "Processing...",
+    "noAccount": "Don't have an account?",
+    "registerLink": "Sign up here",
+    "successMsg": "Login successful! Redirecting...",
+    "errorCredentials": "Invalid credentials",
+    "errorServer": "Login failed, server error."
+  },
+  "register": {
+    "title": "Create Account",
+    "subtitle": "Fill in the details below to join",
+    "usernameLabel": "Username",
+    "usernameTaken": "Username already taken, try another.",
+    "usernameAvailable": "Username available!",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "submitBtn": "Sign up now",
+    "loading": "Processing...",
+    "hasAccount": "Already have an account?",
+    "loginLink": "Log in here",
+    "strengthWeak": "At least 8 characters",
+    "strengthMedium": "Medium",
+    "strengthStrong": "Strong",
+    "strengthVeryStrong": "Very strong",
+    "otpTitle": "OTP Verification",
+    "otpSubtitle": "Enter the 6-digit OTP code sent to",
+    "otpResendIn": "Resend in",
+    "otpResend": "Resend code",
+    "otpVerify": "Verify Account",
+    "otpVerifying": "Verifying...",
+    "otpCancel": "Change Email / Cancel",
+    "emailModalTitle": "Confirm Email",
+    "emailModalSubtitle": "Is this email address correct?",
+    "emailModalCancel": "Cancel",
+    "emailModalConfirm": "Confirm",
+    "successOtp": "6-digit code has been sent to",
+    "successVerify": "Verified! Redirecting to Login...",
+    "errorEmailTaken": "Email or Username already taken",
+    "errorConnection": "Connection error",
+    "errorOtp": "Invalid OTP code",
+    "errorVerify": "Verification failed."
+  },
+  "forgotPassword": {
+    "title": "Forgot Password",
+    "loading": "Loading..."
+  },
+  "common": {
+    "loading": "Loading...",
+    "language": "Language"
+  },
+  "dropdown": {
+    "viewAllProfiles": "See all profiles",
+    "settings": "Settings & privacy",
+    "help": "Help & support",
+    "report": "Report a problem",
+    "lightMode": "Light mode",
+    "darkMode": "Dark mode",
+    "logout": "Log out"
+  },
+  "feed": {
+    "createPost": "Post and let people find you",
+    "photo": "Photo",
+    "feeling": "Feeling/Activity",
+    "liveVideo": "Live video",
+    "noPost": "No posts yet",
+    "link": "Link",
+    "events": "Events",
+    "more": "More",
+    "like": "Like",
+    "comment": "Comment",
+    "share": "Share"
+  },
+  "filter": {
+    "favorite": "Favorites",
+    "groupChat": "Group Chat",
+    "chatList": "Chat List",
+    "archived": "Archived"
+  }
+}

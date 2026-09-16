@@ -1,45 +1,55 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import createMiddleware from 'next-intl/middleware';
+import { NextRequest, NextResponse } from 'next/server';
+import { routing } from './i18n/routing';
+
+// Intl middleware untuk handle locale detection & redirect
+const intlMiddleware = createMiddleware(routing);
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get('token')?.value;
-  const path = request.nextUrl.pathname;
-  
-  console.log(`[Middleware] Accessing path: ${path} | HasToken: ${!!token}`);
+  const pathname = request.nextUrl.pathname;
 
-  // Rute auth (Nggak boleh diakses kalau udah login)
-  const isAuthRoute = path === '/login' || path === '/register' || path === '/forgot-password' || path.startsWith('/secure');
-  
-  // Rute landing page (Boleh diakses siapa aja, tapi kalau udah login mending diarahkan ke /beranda)
-  const isRootRoute = path === '/';
+  console.log(`[Middleware] Path: ${pathname} | HasToken: ${!!token}`);
 
-  // Kalau nggak ada token dan rutenya BUKAN rute auth dan BUKAN root, lempar ke /login
-  // Artinya rute seperti /beranda, /profile akan diproteksi.
+  // Strip locale prefix untuk keperluan auth check
+  // e.g., /id/beranda -> /beranda, /en/login -> /login
+  const localePattern = /^\/(id|en)(\/|$)/;
+  const pathWithoutLocale = pathname.replace(localePattern, '/');
+
+  // Rute auth (tidak boleh diakses kalau sudah login)
+  const isAuthRoute =
+    pathWithoutLocale === '/login' ||
+    pathWithoutLocale === '/register' ||
+    pathWithoutLocale === '/forgot-password' ||
+    pathWithoutLocale.startsWith('/secure');
+
+  // Rute root
+  const isRootRoute = pathWithoutLocale === '/';
+
+  // Kalau tidak ada token dan bukan auth/root route → redirect ke /{locale}/login
   if (!token && !isAuthRoute && !isRootRoute) {
-    console.log(`[Middleware] No token found for private route, redirecting to /login`);
-    return NextResponse.redirect(new URL('/login', request.url));
+    // Ambil locale dari URL, atau pakai default 'id'
+    const localeMatch = pathname.match(/^\/(id|en)/);
+    const locale = localeMatch ? localeMatch[1] : routing.defaultLocale;
+    console.log(`[Middleware] No token, redirecting to /${locale}/login`);
+    return NextResponse.redirect(new URL(`/${locale}/login`, request.url));
   }
 
-  // Kalau sudah punya token dan coba akses halaman auth ATAU halaman root, lempar ke /beranda
-  if (token && (isAuthRoute && path !== '/secure') || (token && isRootRoute)) {
-    console.log(`[Middleware] Already authenticated, redirecting to /beranda`);
-    return NextResponse.redirect(new URL('/beranda', request.url));
+  // Kalau sudah login dan coba akses auth route atau root → redirect ke /{locale}/beranda
+  if (token && (isAuthRoute && pathWithoutLocale !== '/secure') || (token && isRootRoute)) {
+    const localeMatch = pathname.match(/^\/(id|en)/);
+    const locale = localeMatch ? localeMatch[1] : routing.defaultLocale;
+    console.log(`[Middleware] Already authenticated, redirecting to /${locale}/beranda`);
+    return NextResponse.redirect(new URL(`/${locale}/beranda`, request.url));
   }
 
-  return NextResponse.next();
+  // Biarkan next-intl middleware handle sisanya (locale detection, redirect, dll)
+  return intlMiddleware(request);
 }
 
-// Menentukan path mana aja yang di-handle middleware ini
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - logo (public assets)
-     */
-    '/((?!api|_next/static|_next/image|favicon.ico|logo.*|.*\\.(?:svg|png|jpg|jpeg|gif|webp|json)$).*)',
+    // Match semua path kecuali static files
+    '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|json)$).*)',
   ],
 };

@@ -1,0 +1,130 @@
+{
+  "nav": {
+    "home": "Beranda",
+    "search": "Cari...",
+    "notifications": "Pemberitahuan",
+    "chat": "Obrolan",
+    "menu": "Menu",
+    "info": "Informasi"
+  },
+  "tabs": {
+    "home": "Beranda",
+    "friends": "Teman",
+    "groups": "Grup",
+    "marketplace": "Marketplace",
+    "watch": "Watch"
+  },
+  "sidebar": {
+    "friends": "Teman",
+    "memories": "Kenangan",
+    "saved": "Tersimpan",
+    "groups": "Grup",
+    "marketplace": "Pasar",
+    "events": "Acara",
+    "viewProfile": "Lihat profil"
+  },
+  "chat": {
+    "title": "Obrolan",
+    "all": "Semua",
+    "unread": "Belum dibaca",
+    "newMessage": "Pesan baru",
+    "to": "Ke:",
+    "activeNow": "Aktif sekarang",
+    "activeUser": "Pengguna Aktif",
+    "archiveChat": "Arsipkan chat",
+    "pinChat": "Sematkan obrolan",
+    "markUnread": "Tandai belum dibaca",
+    "addFavorite": "Tambah ke favorit",
+    "addToList": "Tambah ke daftar",
+    "block": "Blokir",
+    "clearChat": "Bersihkan obrolan",
+    "deleteChat": "Hapus obrolan",
+    "manage": "Kelola obrolan",
+    "settings": "Pengaturan"
+  },
+  "login": {
+    "title": "Login akun",
+    "subtitle": "Selamat datang kembali! Yuk lanjut mencari.",
+    "emailLabel": "Email/Username",
+    "emailPlaceholder": "name@example.com atau username",
+    "passwordLabel": "Password",
+    "forgotPassword": "Lupa password?",
+    "submitBtn": "Login",
+    "loading": "Memproses...",
+    "noAccount": "Belum punya akun?",
+    "registerLink": "Daftar di sini",
+    "successMsg": "Login berhasil! Mengalihkan...",
+    "errorCredentials": "Kredensial salah",
+    "errorServer": "Gagal login, server bermasalah."
+  },
+  "register": {
+    "title": "Buat Akun Baru",
+    "subtitle": "Lengkapi data di bawah untuk bergabung",
+    "usernameLabel": "Username",
+    "usernameTaken": "Username sudah dipakai, coba yang lain.",
+    "usernameAvailable": "Username tersedia!",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "submitBtn": "Daftar sekarang",
+    "loading": "Memproses...",
+    "hasAccount": "Sudah punya akun?",
+    "loginLink": "Login di sini",
+    "strengthWeak": "Minimal 8 karakter",
+    "strengthMedium": "Sedang",
+    "strengthStrong": "Kuat",
+    "strengthVeryStrong": "Sangat kuat",
+    "otpTitle": "Verifikasi OTP",
+    "otpSubtitle": "Masukkan 6-digit kode OTP yang dikirim ke",
+    "otpResendIn": "Kirim ulang dalam",
+    "otpResend": "Kirim ulang kode",
+    "otpVerify": "Verifikasi Akun",
+    "otpVerifying": "Memverifikasi...",
+    "otpCancel": "Ganti Email / Batalkan",
+    "emailModalTitle": "Konfirmasi Email",
+    "emailModalSubtitle": "Apakah alamat email ini sudah benar?",
+    "emailModalCancel": "Batal",
+    "emailModalConfirm": "Sudah benar",
+    "successOtp": "Kode 6 digit telah dikirim ke",
+    "successVerify": "Verifikasi sukses! Mengalihkan ke halaman Login...",
+    "errorEmailTaken": "Email atau Username sudah dipakai",
+    "errorConnection": "Koneksi bermasalah",
+    "errorOtp": "Kode OTP salah",
+    "errorVerify": "Gagal verifikasi."
+  },
+  "forgotPassword": {
+    "title": "Lupa Password",
+    "loading": "Memuat..."
+  },
+  "common": {
+    "loading": "Memuat...",
+    "language": "Bahasa"
+  },
+  "dropdown": {
+    "viewAllProfiles": "Lihat semua profil",
+    "settings": "Pengaturan & privasi",
+    "help": "Bantuan & dukungan",
+    "report": "Laporkan masalah",
+    "lightMode": "Tema terang",
+    "darkMode": "Tema gelap",
+    "logout": "Keluar"
+  },
+  "feed": {
+    "createPost": "Posting dan buat orang mencarimu",
+    "photo": "Foto",
+    "feeling": "Perasaan/aktivitas",
+    "liveVideo": "Video langsung",
+    "noPost": "Belum ada postingan",
+    "link": "Link",
+    "events": "Acara",
+    "more": "Lainnya",
+    "like": "Suka",
+    "comment": "Komentar",
+    "share": "Bagikan"
+  },
+  "filter": {
+    "favorite": "Favorit",
+    "groupChat": "Grub Chat",
+    "chatList": "Daftar Obrolan",
+    "archived": "Diarsipkan"
+  }
+}
