@@ -19,3 +19,17 @@
 - [x] (Frontend) Ganti tombol action Mencari dengan tombol Tambah Pintasan beserta Modal Nama/URL
 
 - [x] (Frontend) Perbaiki kontras hover icon shortcut di tema terang, dan tambahkan bahasa Inggris (i18n) untuk komponen modal shortcut.
+
+- [x] (Frontend) Tambahkan panel Bookmarks di sisi kanan saat user berada di halaman /mencari (menggantikan bubble chat).
+
+- [x] (Frontend) Ubah panel samping kanan di /mencari dari Bookmarks menjadi Riwayat (History) pencarian terakhir.
+
+- [x] (Frontend) Munculkan kembali fitur chat bubble di halaman /mencari agar tidak tertimpa oleh panel history.
+
+- [x] (Frontend) Desain ulang item History di panel kanan menjadi layout Browsing History (mengandung favicon, judul halaman, dan domain).
+
+- [x] (Frontend) Implementasi render otomatis favicon menggunakan API Google Favicon (https://www.google.com/s2/favicons?domain=...) di riwayat mini browser.
+
+- [x] (Frontend) Ganti teks dummy history web menjadi Google dan Stack Overflow agar lebih netral.
+
+- [x] (Frontend) Perbaiki URL Google Favicon API agar selaras dengan dummy text Google dan Stack Overflow.

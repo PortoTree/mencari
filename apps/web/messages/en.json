@@ -158,6 +158,7 @@
     "name": "Name",
     "url": "URL",
     "cancel": "Cancel",
-    "done": "Done"
+    "done": "Done",
+    "history": "History"
   }
 }

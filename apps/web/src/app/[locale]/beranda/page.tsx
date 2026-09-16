@@ -654,7 +654,41 @@ export default function Beranda() {
         </div>
         </div>
 
-        {/* Right Sidebar (Chat Panel) */}
+        {/* Right Sidebar: History (Mencari) */}
+        {activeTab === 'mencari' && (
+          <div className="hidden lg:block fixed right-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-10 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-[#4E4F50] [&::-webkit-scrollbar-thumb]:rounded-full">
+            <div className="flex items-center justify-between mb-2 px-2">
+              <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px]">{t('mencari.history')}</h3>
+            </div>
+            <div className="space-y-1">
+              {/* Item History Web 1 */}
+              <div className="flex items-center gap-3 p-2 hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors">
+                <div className="w-8 h-8 rounded bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3E4042] flex items-center justify-center shrink-0 overflow-hidden">
+                  <img src="https://www.google.com/s2/favicons?domain=google.com&sz=64" alt="google.com" className="w-4 h-4 object-contain" />
+                </div>
+                <div className="flex-1 min-w-0 flex flex-col">
+                  <span className="text-[13.5px] font-medium text-black dark:text-[#E4E6EB] truncate">Google</span>
+                  <span className="text-[12px] text-gray-500 dark:text-[#B0B3B8] truncate">google.com</span>
+                </div>
+              </div>
+              
+              {/* Item History Web 2 */}
+              <div className="flex items-center gap-3 p-2 hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors">
+                <div className="w-8 h-8 rounded bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3E4042] flex items-center justify-center shrink-0 overflow-hidden">
+                  <img src="https://www.google.com/s2/favicons?domain=stackoverflow.com&sz=64" alt="stackoverflow.com" className="w-4 h-4 object-contain" />
+                </div>
+                <div className="flex-1 min-w-0 flex flex-col">
+                  <span className="text-[13.5px] font-medium text-black dark:text-[#E4E6EB] truncate">Stack Overflow - Where Developers Learn, Share, & Build Careers</span>
+                  <span className="text-[12px] text-gray-500 dark:text-[#B0B3B8] truncate">stackoverflow.com</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Chat Bubbles (Always Rendered) */}
+        <>
+          {/* Right Sidebar (Chat Panel) */}
         <div className="hidden lg:block relative z-50">
            {/* Chat Bubble Fixed bottom right */}
            <div className={`fixed bottom-0 right-[80px] w-[300px] bg-white dark:bg-[#242526] rounded-t-xl shadow-[0_0_15px_rgba(0,0,0,0.15)] border border-gray-200 dark:border-[#3E4042] flex flex-col transition-all duration-300 ease-in-out ${isChatExpanded ? 'h-[500px]' : 'h-[48px]'}`}>
@@ -874,7 +908,10 @@ export default function Beranda() {
         </div>
 
     
-        {/* Profile Right Sidebar */}
+        
+    </>
+
+    {/* Profile Right Sidebar */}
         <div className={`hidden lg:block fixed right-0 top-[56px] w-[340px] xl:w-[380px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-32 transition-transform duration-300 ease-in-out transform ${isProfileSidebarOpen ? 'translate-x-0' : 'translate-x-full'} z-40 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-[#4E4F50] [&::-webkit-scrollbar-thumb]:rounded-full`}>
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] overflow-hidden">
             {selectedProfile && (
