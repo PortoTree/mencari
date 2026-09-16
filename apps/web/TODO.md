@@ -71,3 +71,7 @@
 - [x] (Frontend) Perbesar padding-bottom (pb-24) pada Sidebar (Kiri & Kanan) agar *item* list terbawah tidak terpotong atau tertutup oleh *Chat Panel* di pojok kanan bawah saat di-scroll mentok.
 
 - [x] (Frontend) Tambahkan tombol Bagikan (Share) beserta ikonnya pada list *action button* di setiap *dummy post* yang ada di tab Teman/Friends agar lebih lengkap.
+
+- [x] (Frontend) *Refactor* dummy post di tab Teman/Friend dengan menggunakan komponen yang persis sama dengan yang ada di Beranda/Home (lengkap dengan *dropdown menu*, *hover state*, *action buttons*, lokalisasi bahasa, dll).
+
+- [x] (Frontend) Samakan persis struktur *wrapper* dan spasi komponen dummy post di tab Teman/Friend dengan tab Beranda/Home (buang extra flex & pt-6) agar layout-nya 100% konsisten.
