@@ -388,7 +388,7 @@ export default function Beranda() {
       <div className="flex w-full pt-6">
         
         {/* Left Sidebar */}
-        <div className="hidden lg:block fixed left-0 top-[56px] w-[280px] xl:w-[320px] h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-10 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="hidden lg:block fixed left-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-10 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-[#4E4F50] [&::-webkit-scrollbar-thumb]:rounded-full">
           <div className="space-y-4">
             {/* Profile Card */}
             <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] overflow-hidden">
@@ -705,7 +705,7 @@ export default function Beranda() {
                </div>
 
                {/* Chat List */}
-               <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full">
+               <div className="overscroll-contain flex-1 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full">
                   {dummyChats.map((chat, idx) => (
                    <div key={idx} className="relative group flex items-center gap-3 p-3 hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors">
                       <div className="relative w-12 h-12 shrink-0">
@@ -825,7 +825,7 @@ export default function Beranda() {
 
     
         {/* Profile Right Sidebar */}
-        <div className={`hidden lg:block fixed right-0 top-[56px] w-[340px] xl:w-[380px] h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-32 transition-transform duration-300 ease-in-out transform ${isProfileSidebarOpen ? 'translate-x-0' : 'translate-x-full'} z-40 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]`}>
+        <div className={`hidden lg:block fixed right-0 top-[56px] w-[340px] xl:w-[380px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-32 transition-transform duration-300 ease-in-out transform ${isProfileSidebarOpen ? 'translate-x-0' : 'translate-x-full'} z-40 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-[#4E4F50] [&::-webkit-scrollbar-thumb]:rounded-full`}>
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] overflow-hidden">
             {selectedProfile && (
               <>
