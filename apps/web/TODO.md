@@ -39,3 +39,7 @@
 - [x] (Frontend) Perbaiki glitch animasi pada saat Search Bar di expand dengan mengganti transition-all menjadi transition-shadow.
 
 - [x] (Frontend) Tambahkan 7 data history statis ke dalam dropdown Search Bar, dengan batas maksimal 5 item terlihat dan sisanya bisa di-scroll.
+
+- [x] (Frontend) Tambahkan ikon hapus (X) yang muncul saat _hover_ pada tiap item riwayat di dropdown search bar.
+
+- [x] (Frontend) Gelapkan sedikit warna background saat hover pada item riwayat web di panel kanan dan dropdown agar lebih kontras di mode terang.
