@@ -151,5 +151,13 @@
     "activity": "Aktifitas akun",
     "ownedGroups": "Pemilik Grup",
     "joinedGroups": "Grup yang diikuti"
+  },
+  "mencari": {
+    "shortcut_add": "Tambahkan pintasan",
+    "shortcut_title": "Tambahkan pintasan",
+    "name": "Nama",
+    "url": "URL",
+    "cancel": "Batal",
+    "done": "Selesai"
   }
 }

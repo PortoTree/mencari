@@ -151,5 +151,13 @@
     "activity": "Account Activity",
     "ownedGroups": "Owned Groups",
     "joinedGroups": "Joined Groups"
+  },
+  "mencari": {
+    "shortcut_add": "Add shortcut",
+    "shortcut_title": "Add shortcut",
+    "name": "Name",
+    "url": "URL",
+    "cancel": "Cancel",
+    "done": "Done"
   }
 }
