@@ -47,3 +47,21 @@
 - [x] (Frontend) Perbaiki bug unmounted Lottie ref pada event loop (menambahkan kurung kurawal pada logic pengecekan ref).
 
 - [x] (Frontend) Turunkan z-index Search Bar menjadi z-40 agar tidak menutupi panel Chat (z-50) saat Chat sedang terbuka.
+
+- [x] (Frontend) Tambahkan menu navigasi Mencari di sidebar kiri bagian atas.
+
+- [x] (Frontend) Tambahkan halaman/fitur /friend dengan logika navigasi push-state via tab menu Friends di sidebar kiri, mempertahankan struktur layout utama (sidebar, header, chat).
+
+- [x] (Frontend) Tambahkan logic push-state pada icon tab Friends di navigasi Header agar terhubung ke state /friend.
+
+- [x] (Frontend) Tambahkan logic active state class (background abu-abu) pada menu Mencari di sidebar kiri saat sedang dibuka.
+
+- [x] (Frontend) Tambahkan logic dynamic rendering SVG icon: mengubah icon (Friends & Mencari) dari garis (outline) menjadi blok solid (fill) ketika menu tersebut sedang aktif.
+
+- [x] (Frontend) Ganti SVG icon bawaan untuk Home, Friends, dan Groups dengan file custom dari folder public/navigasi/ menggunakan teknik CSS Webkit Mask agar warna (active/inactive states) tetap bisa ter-inherit otomatis via currentColor.
+
+- [x] (Frontend) Perbarui logic SVG mask khusus di Navbar Header agar menggunakan file <nama>-aktif.svg saat tab tersebut sedang aktif.
+
+- [x] (Frontend) Rombak halaman /friend (tab Teman): Pindahkan daftar teman menjadi komponen Sidebar Kanan (mirip History panel), dan ubah area tengah menjadi Feed Dummy khusus untuk melihat postingan-postingan terbaru dari teman.
+
+- [x] (Frontend) Tambahkan komponen input Create Post ('Post and let people find you') di bagian paling atas halaman Feed /friend agar konsisten dengan Home Feed.

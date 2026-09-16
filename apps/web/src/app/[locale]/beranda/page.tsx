@@ -92,7 +92,7 @@ export default function Beranda() {
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const [activeTab, setActiveTab] = useState<'home' | 'mencari'>(pathname.includes('/mencari') ? 'mencari' : 'home');
+  const [activeTab, setActiveTab] = useState<'home' | 'mencari' | 'friend' | 'group' | 'groups'>(pathname.includes('/mencari') ? 'mencari' : pathname.includes('/friend') ? 'friend' : 'home');
   const lottieRef = useRef<any>(null);
   const handleAnimationComplete = () => {
     setTimeout(() => {
@@ -185,19 +185,26 @@ export default function Beranda() {
         {/* Center: Tabs */}
         <div className="hidden md:flex items-center justify-center gap-2 absolute left-1/2 -translate-x-1/2 h-full">
           <div onClick={() => { setActiveTab('home'); window.history.pushState(null, '', pathname.replace('/mencari', '/beranda')); }} className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer ${activeTab === 'home' ? 'border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400' : 'border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1 transition-colors'}`}>
-            <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
+            <div className="w-7 h-7 bg-current" style={{ WebkitMask: `url(${activeTab === 'home' ? '/navigasi/home-aktif.svg' : '/navigasi/home.svg'}) center/contain no-repeat`, mask: `url(${activeTab === 'home' ? '/navigasi/home-aktif.svg' : '/navigasi/home.svg'}) center/contain no-repeat` }} />
             <span className="text-[11px] font-semibold mt-0.5">{t('tabs.home')}</span>
           </div>
           <div onClick={() => { setActiveTab('mencari'); window.history.pushState(null, '', pathname.replace('/beranda', '/mencari')); }} className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === 'mencari' ? 'border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none' : 'border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1'}`}>
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            {activeTab === 'mencari' ? (
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" /></svg>
+            ) : (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            )}
             <span className="text-[11px] font-semibold mt-1">Mencari</span>
           </div>
-          <div className="flex flex-col items-center justify-center w-[110px] h-full text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors my-1 border-b-[3px] border-transparent">
-            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+          <div 
+            onClick={() => { setActiveTab('friend'); window.history.pushState(null, '', `/${locale}/friend`); }} 
+            className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === 'friend' ? 'border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none' : 'border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1'}`}
+          >
+            <div className="w-7 h-7 bg-current" style={{ WebkitMask: `url(${activeTab === 'friend' ? '/navigasi/teman-aktif.svg' : '/navigasi/teman.svg'}) center/contain no-repeat`, mask: `url(${activeTab === 'friend' ? '/navigasi/teman-aktif.svg' : '/navigasi/teman.svg'}) center/contain no-repeat` }} />
             <span className="text-[11px] font-semibold mt-0.5">{t('tabs.friends')}</span>
           </div>
           <div className="flex flex-col items-center justify-center w-[110px] h-full text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors my-1 border-b-[3px] border-transparent">
-            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+            <div className="w-7 h-7 bg-current" style={{ WebkitMask: `url(${activeTab === 'group' || activeTab === 'groups' ? '/navigasi/grub-aktif.svg' : '/navigasi/grub.svg'}) center/contain no-repeat`, mask: `url(${activeTab === 'group' || activeTab === 'groups' ? '/navigasi/grub-aktif.svg' : '/navigasi/grub.svg'}) center/contain no-repeat` }} />
             <span className="text-[11px] font-semibold mt-0.5">{t('tabs.groups')}</span>
           </div>
         </div>
@@ -422,8 +429,28 @@ export default function Beranda() {
 
           {/* Navigation Links */}
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-2 space-y-1">
-            <button className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors">
-              <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+            <button 
+              onClick={() => {
+                setActiveTab('mencari');
+                window.history.pushState(null, '', `/${locale}/mencari`);
+              }}
+              className={`w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors ${activeTab === 'mencari' ? 'bg-gray-100 dark:bg-[#3A3B3C]' : ''}`}
+            >
+              {activeTab === 'mencari' ? (
+                <svg className="w-6 h-6 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" /></svg>
+              ) : (
+                <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+              )}
+              <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">Mencari</span>
+            </button>
+            <button 
+              onClick={() => {
+                setActiveTab('friend');
+                window.history.pushState(null, '', `/${locale}/friend`);
+              }}
+              className={`w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors ${activeTab === 'friend' ? 'bg-gray-100 dark:bg-[#3A3B3C]' : ''}`}
+            >
+              <div className="w-6 h-6 bg-current text-black dark:text-[#E4E6EB]" style={{ WebkitMask: 'url(/navigasi/teman.svg) center/contain no-repeat', mask: 'url(/navigasi/teman.svg) center/contain no-repeat' }} />
               <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{t('sidebar.friends')}</span>
             </button>
             <button className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors">
@@ -431,7 +458,7 @@ export default function Beranda() {
               <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{t('sidebar.saved')}</span>
             </button>
             <button className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors">
-              <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+              <div className="w-6 h-6 bg-current text-green-500" style={{ WebkitMask: 'url(/navigasi/grub.svg) center/contain no-repeat', mask: 'url(/navigasi/grub.svg) center/contain no-repeat' }} />
               <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{t('tabs.groups')}</span>
             </button>
             <button className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors">
@@ -512,7 +539,99 @@ export default function Beranda() {
               </div>
             </div>
           )}
-          <div className={`space-y-4 max-w-[590px] w-full px-4 ${activeTab === 'mencari' ? 'hidden' : ''}`}>
+          {activeTab === 'friend' && (
+            <div className="w-full flex flex-col items-center pt-6 max-w-[680px]">
+              <div className="w-full max-w-[590px] px-4 space-y-4">
+                
+                {/* Create Post Input */}
+                <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-4 w-full">
+                  <div className="flex items-center gap-3 pb-4 border-b border-gray-100 dark:border-[#3E4042]">
+                    <div className="w-[40px] h-[40px] rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-emerald-600 dark:border-emerald-400">
+                      <img src="/default-avatar.svg" alt="Profile" className="w-full h-full object-cover" />
+                    </div>
+                    <input 
+                      type="text" 
+                      placeholder={t('feed.createPost')} 
+                      className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-[#E4E6EB] dark:hover:bg-[#4E4F50] transition-colors rounded-full px-4 py-2.5 focus:outline-none cursor-pointer text-gray-600 dark:text-[#B0B3B8] text-[17px]"
+                      readOnly
+                    />
+                  </div>
+                  <div className="flex justify-between items-center pt-3 px-1">
+                    <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
+                      <svg className="w-[24px] h-[24px] text-[#45BD62]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" /></svg>
+                      {t('feed.photo')}
+                    </button>
+                    <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
+                      <svg className="w-[24px] h-[24px] text-[#1877F2]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clipRule="evenodd" /></svg>
+                      Link
+                    </button>
+                    <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
+                      <svg className="w-[24px] h-[24px] text-[#F5C33B]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" /></svg>
+                      {t('feed.events')}
+                    </button>
+                    <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
+                      <svg className="w-[24px] h-[24px] text-[#F35369]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
+                      {t('feed.more')}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Post 1 */}
+                <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-4 w-full">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 dark:bg-[#3A3B3C]">
+                      <img src="https://i.pravatar.cc/150?u=20" alt="Budi Santoso" className="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-[15px] text-black dark:text-[#E4E6EB]">Budi Santoso</h4>
+                      <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8]">2 jam yang lalu</p>
+                    </div>
+                  </div>
+                  <p className="text-[15px] text-black dark:text-[#E4E6EB] mb-3">
+                    Akhirnya selesai juga project e-commerce bulan ini! 🚀 Waktunya istirahat sejenak sebelum lanjut ke fase berikutnya.
+                  </p>
+                  <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-[#3E4042]">
+                    <button className="flex-1 flex items-center justify-center gap-2 text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-100 dark:hover:bg-[#3A3B3C] px-4 py-1.5 rounded-lg transition-colors">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" /></svg>
+                      <span className="text-[13px] font-medium">Suka</span>
+                    </button>
+                    <button className="flex-1 flex items-center justify-center gap-2 text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-100 dark:hover:bg-[#3A3B3C] px-4 py-1.5 rounded-lg transition-colors">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                      <span className="text-[13px] font-medium">Komentar</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Post 2 */}
+                <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-4 w-full">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 dark:bg-[#3A3B3C]">
+                      <img src="https://i.pravatar.cc/150?u=21" alt="Siti Aminah" className="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-[15px] text-black dark:text-[#E4E6EB]">Siti Aminah</h4>
+                      <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8]">5 jam yang lalu</p>
+                    </div>
+                  </div>
+                  <p className="text-[15px] text-black dark:text-[#E4E6EB] mb-3">
+                    Ada yang tau tempat ngopi enak di sekitar Jakarta Selatan buat WFC? Butuh suasana baru nih. ☕💻
+                  </p>
+                  <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-[#3E4042]">
+                    <button className="flex-1 flex items-center justify-center gap-2 text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-100 dark:hover:bg-[#3A3B3C] px-4 py-1.5 rounded-lg transition-colors">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" /></svg>
+                      <span className="text-[13px] font-medium">Suka</span>
+                    </button>
+                    <button className="flex-1 flex items-center justify-center gap-2 text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-100 dark:hover:bg-[#3A3B3C] px-4 py-1.5 rounded-lg transition-colors">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                      <span className="text-[13px] font-medium">Komentar</span>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          )}
+          <div className={`space-y-4 max-w-[590px] w-full px-4 ${activeTab !== 'home' ? 'hidden' : ''}`}>
             {/* Create Post Input */}
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-4">
             <div className="flex items-center gap-3 pb-4 border-b border-gray-100 dark:border-[#3E4042]">
@@ -720,7 +839,29 @@ export default function Beranda() {
 
         {/* Chat Bubbles (Always Rendered) */}
         <>
-          {/* Right Sidebar (Chat Panel) */}
+          {/* Right Sidebar: Friend List (Friend Tab) */}
+        {activeTab === 'friend' && (
+          <div className="hidden lg:block fixed right-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-10 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-[#4E4F50] [&::-webkit-scrollbar-thumb]:rounded-full">
+            <div className="flex items-center justify-between mb-2 px-2">
+              <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px]">{t('profileSidebar.friends') || 'Daftar Teman'}</h3>
+            </div>
+            <div className="space-y-1">
+              {["Budi Santoso", "Siti Aminah", "Agus Pratama", "Dewi Lestari", "Rudi Hermawan", "Rina Marlina", "Andi Wijaya"].map((name, i) => (
+                <div key={i} className="flex items-center gap-3 p-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors relative group">
+                  <div className="relative">
+                    <div className="w-9 h-9 rounded-full bg-gray-300 dark:bg-[#4E4F50] overflow-hidden shrink-0">
+                      <img src={`https://i.pravatar.cc/150?u=${i + 20}`} alt={name} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white dark:border-[#242526] rounded-full"></div>
+                  </div>
+                  <span className="text-[14px] font-medium text-black dark:text-[#E4E6EB] flex-1 truncate">{name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Right Sidebar (Chat Panel) */}
         <div className="hidden lg:block relative z-50">
            {/* Chat Bubble Fixed bottom right */}
            <div className={`fixed bottom-0 right-[80px] w-[300px] bg-white dark:bg-[#242526] rounded-t-xl shadow-[0_0_15px_rgba(0,0,0,0.15)] border border-gray-200 dark:border-[#3E4042] flex flex-col transition-all duration-300 ease-in-out ${isChatExpanded ? 'h-[500px]' : 'h-[48px]'}`}>
