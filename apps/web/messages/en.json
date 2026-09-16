@@ -126,5 +126,16 @@
     "groupChat": "Group Chat",
     "chatList": "Chat List",
     "archived": "Archived"
+  },
+  "time": {
+    "justNow": "just now",
+    "minsAgo": "{min} mins ago",
+    "hoursAgo": "{hour} hours ago",
+    "daysAgo": "{day} days ago"
+  },
+  "postMenu": {
+    "savePost": "Saved post",
+    "reportPost": "Report post",
+    "showProfile": "Show profile"
   }
 }

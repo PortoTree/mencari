@@ -126,5 +126,16 @@
     "groupChat": "Grub Chat",
     "chatList": "Daftar Obrolan",
     "archived": "Diarsipkan"
+  },
+  "time": {
+    "justNow": "baru saja",
+    "minsAgo": "{min} menit lalu",
+    "hoursAgo": "{hour} jam lalu",
+    "daysAgo": "{day} hari lalu"
+  },
+  "postMenu": {
+    "savePost": "Simpan postingan",
+    "reportPost": "Laporkan postingan",
+    "showProfile": "Lihat profil"
   }
 }
