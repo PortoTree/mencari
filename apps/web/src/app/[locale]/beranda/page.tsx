@@ -424,10 +424,10 @@ export default function Beranda() {
                   </div>
                   <h3 className="font-bold text-[17px] mb-2 leading-snug">Website kamu belum ada di pencarian kami?</h3>
                   <p className="text-[13px] text-emerald-50 mb-4 leading-relaxed opacity-90">
-                    Jadikan website, portofolio, atau tokomu mudah ditemukan oleh ribuan pengguna seperti di mesin pencari Google.
+                    Jadikan website, portofolio, atau bisnismu mudah ditemukan oleh ribuan pengguna kami
                   </p>
                   <button className="w-full bg-white text-emerald-600 hover:bg-gray-50 font-bold text-[14px] py-2.5 px-4 rounded-lg transition-colors shadow-sm">
-                    Daftarkan Situs Web
+                    Daftarkan Gratis
                   </button>
                 </div>
               </div>
@@ -449,19 +449,16 @@ export default function Beranda() {
             )}
 
           {/* Navigation Links */}
+{activeTab === 'home' && (
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-2 space-y-1">
             <button 
               onClick={() => {
                 setActiveTab('mencari');
                 window.history.pushState(null, '', `/${locale}/mencari`);
               }}
-              className={`w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors ${activeTab === 'mencari' ? 'bg-gray-100 dark:bg-[#3A3B3C]' : ''}`}
+              className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors"
             >
-              {activeTab === 'mencari' ? (
-                <svg className="w-6 h-6 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" /></svg>
-              ) : (
-                <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-              )}
+              <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
               <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">Mencari</span>
             </button>
             <button 
@@ -469,7 +466,7 @@ export default function Beranda() {
                 setActiveTab('friend');
                 window.history.pushState(null, '', `/${locale}/friend`);
               }}
-              className={`w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors ${activeTab === 'friend' ? 'bg-gray-100 dark:bg-[#3A3B3C]' : ''}`}
+              className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors"
             >
               <div className="w-6 h-6 bg-current text-black dark:text-[#E4E6EB]" style={{ WebkitMask: 'url(/navigasi/teman.svg) center/contain no-repeat', mask: 'url(/navigasi/teman.svg) center/contain no-repeat' }} />
               <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{t('sidebar.friends')}</span>
@@ -487,6 +484,7 @@ export default function Beranda() {
               <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{t('sidebar.events')}</span>
             </button>
           </div>
+)}
         </div>
       </div>
 
