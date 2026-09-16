@@ -171,6 +171,10 @@
     "recentSearch": "Recent searches",
     "friendRequests": "Friend Requests",
     "mutualGroups": "Mutual Groups",
-    "mutualFriends": "mutual friends"
+    "mutualFriends": "mutual friends",
+    "alreadyFriend": "Friends",
+    "accept": "Accept",
+    "confirm": "Confirm",
+    "delete": "Delete"
   }
 }

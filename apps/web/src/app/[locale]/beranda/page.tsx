@@ -466,7 +466,7 @@ export default function Beranda() {
                   <p className="text-[13px] text-emerald-50 mb-4 leading-relaxed opacity-90">
                     {t('mencari.cta_desc')}
                   </p>
-                  <button className="w-full bg-white text-emerald-600 hover:bg-gray-50 font-bold text-[14px] py-2.5 px-4 rounded-lg transition-colors shadow-sm">
+                  <button className="w-full bg-white text-emerald-600 hover:bg-emerald-700 hover:text-white font-bold text-[14px] py-2.5 px-4 rounded-lg transition-colors shadow-sm">
                     {t('mencari.cta_button')}
                   </button>
                 </div>
@@ -577,7 +577,9 @@ export default function Beranda() {
                 </div>
                 <div className="space-y-1">
                   {["Budi Santoso", "Siti Aminah", "Agus Pratama", "Dewi Lestari", "Rudi Hermawan", "Rina Marlina", "Andi Wijaya", "Bagas Pangestu", "Citra Kirana", "Dian Sastro", "Eko Patrio", "Fahri Hamzah", "Gita Gutawa", "Hasan Basri", "Intan Nuraini", "Joko Anwar", "Kaesang Pangarep", "Luna Maya"].map((name, i) => (
-                    <div key={i} className="flex items-center gap-3 p-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors">
+                    <div key={i} className="flex items-center gap-3 p-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors"
+                      onClick={() => { setSelectedProfile({ name, role: 'Member', avatar: `https://i.pravatar.cc/150?u=${i + 20}`, relation: 'friend' }); setIsProfileSidebarOpen(true); }}
+                    >
                       <div className="relative">
                         <div className="w-9 h-9 rounded-full bg-gray-300 dark:bg-[#4E4F50] overflow-hidden shrink-0">
                           <img src={`https://i.pravatar.cc/150?u=${i + 20}`} alt={name} className="w-full h-full object-cover" />
@@ -1074,7 +1076,9 @@ export default function Beranda() {
                     { name: "Farhan Maulana", mutual: 8 },
                     { name: "Larasati Dewi", mutual: 2 },
                   ].map((user, i) => (
-                    <div key={i} className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors">
+                    <div key={i} className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors cursor-pointer"
+                      onClick={() => { setSelectedProfile({ name: user.name, role: 'Member', avatar: `https://i.pravatar.cc/150?u=req${i + 50}`, relation: 'request' }); setIsProfileSidebarOpen(true); }}
+                    >
                       <div className="w-10 h-10 rounded-full bg-gray-300 dark:bg-[#4E4F50] overflow-hidden shrink-0">
                         <img src={`https://i.pravatar.cc/150?u=req${i + 50}`} alt={user.name} className="w-full h-full object-cover" />
                       </div>
@@ -1082,11 +1086,17 @@ export default function Beranda() {
                         <p className="text-[13.5px] font-semibold text-black dark:text-[#E4E6EB] truncate">{user.name}</p>
                         <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8]">{user.mutual} {t('friend.mutualFriends')}</p>
                         <div className="flex gap-1.5 mt-1.5">
-                          <button className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white text-[12px] font-semibold py-1 px-2 rounded-md transition-colors">
-                            Konfirmasi
+                          <button
+                            className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white text-[12px] font-semibold py-1 px-2 rounded-md transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {t('friend.confirm')}
                           </button>
-                          <button className="flex-1 bg-gray-200 dark:bg-[#3A3B3C] hover:bg-gray-300 dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] text-[12px] font-semibold py-1 px-2 rounded-md transition-colors">
-                            Hapus
+                          <button
+                            className="flex-1 bg-gray-200 dark:bg-[#3A3B3C] hover:bg-gray-300 dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] text-[12px] font-semibold py-1 px-2 rounded-md transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {t('friend.delete')}
                           </button>
                         </div>
                       </div>
@@ -1364,19 +1374,56 @@ export default function Beranda() {
 
                   {/* Action Buttons */}
                   <div className="flex flex-col gap-2">
-                    <div className="flex items-center gap-2">
-                      <button className="flex-[1.5] bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center gap-1 shadow-sm">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>
-                        <span className="text-[14px]">{t('profileSidebar.addFriend')}</span>
-                      </button>
-                      <button className="flex-1 bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center">
-                        <span className="text-[14px]">{t('profileSidebar.openProfile')}</span>
-                      </button>
-                    </div>
-                    <button className="w-full bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center gap-1">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
-                      <span className="text-[14px]">{t('profileSidebar.message')}</span>
-                    </button>
+                    {selectedProfile.relation === 'friend' ? (
+                      // Sudah berteman: Teman + Buka Profil + Kirim Pesan
+                      <>
+                        <div className="flex items-center gap-2">
+                          <button className="flex-[1.5] bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center">
+                            <span className="text-[14px]">{t('friend.alreadyFriend')}</span>
+                          </button>
+                          <button className="flex-1 bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center">
+                            <span className="text-[14px]">{t('profileSidebar.openProfile')}</span>
+                          </button>
+                        </div>
+                        <button className="w-full bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center gap-1.5">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                          <span className="text-[14px]">{t('profileSidebar.message')}</span>
+                        </button>
+                      </>
+                    ) : selectedProfile.relation === 'request' ? (
+                      // Permintaan teman masuk: Terima + Buka Profil
+                      <>
+                        <div className="flex items-center gap-2">
+                          <button className="flex-[1.5] bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center shadow-sm">
+                            <span className="text-[14px]">{t('friend.accept')}</span>
+                          </button>
+                          <button className="flex-1 bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center">
+                            <span className="text-[14px]">{t('profileSidebar.openProfile')}</span>
+                          </button>
+                        </div>
+                        <button className="w-full bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center gap-1">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                          <span className="text-[14px]">{t('profileSidebar.message')}</span>
+                        </button>
+                      </>
+                    ) : (
+                      // Default (stranger): Add Friend + Open Profile + Send Message
+                      <>
+                        <div className="flex items-center gap-2">
+                          <button className="flex-[1.5] bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center gap-1 shadow-sm">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>
+                            <span className="text-[14px]">{t('profileSidebar.addFriend')}</span>
+                          </button>
+                          <button className="flex-1 bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center">
+                            <span className="text-[14px]">{t('profileSidebar.openProfile')}</span>
+                          </button>
+                        </div>
+                        <button className="w-full bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center gap-1">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                          <span className="text-[14px]">{t('profileSidebar.message')}</span>
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
 

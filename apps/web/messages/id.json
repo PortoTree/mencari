@@ -171,6 +171,10 @@
     "recentSearch": "Terakhir dicari",
     "friendRequests": "Permintaan Teman",
     "mutualGroups": "Grup Bersama",
-    "mutualFriends": "teman bersama"
+    "mutualFriends": "teman bersama",
+    "alreadyFriend": "Teman",
+    "accept": "Terima",
+    "confirm": "Konfirmasi",
+    "delete": "Hapus"
   }
 }
