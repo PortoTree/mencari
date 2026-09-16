@@ -93,6 +93,8 @@ export default function Beranda() {
   const chatFilterRef = useRef<HTMLDivElement>(null);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [activePostMenu, setActivePostMenu] = useState<string | null>(null);
+  const [isProfileSidebarOpen, setIsProfileSidebarOpen] = useState(false);
+  const [selectedProfile, setSelectedProfile] = useState<any>(null);
   const postMenuRef = useRef<HTMLDivElement>(null);
   const langRef = useRef<HTMLDivElement>(null);
 
@@ -427,7 +429,7 @@ export default function Beranda() {
       </div>
 
         {/* Center Main Feed */}
-        <div className="flex-1 flex justify-center lg:ml-[280px] xl:ml-[320px] lg:mr-[280px] xl:mr-[320px]">
+        <div className="flex-1 flex justify-center lg:ml-[280px] xl:ml-[320px] lg:mr-[340px] xl:mr-[380px]">
           <div className="space-y-4 max-w-[590px] w-full px-4">
             {/* Create Post Input */}
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-4">
@@ -492,7 +494,13 @@ export default function Beranda() {
                       <svg className="w-6 h-6 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                       {t('postMenu.reportPost')}
                     </button>
-                    <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] transition-colors text-left text-black dark:text-[#E4E6EB] font-semibold text-[15px]">
+                    <button 
+                      onClick={() => {
+                        setSelectedProfile({ name: 'Pengguna', role: 'Member', avatar: '/default-avatar.svg' });
+                        setIsProfileSidebarOpen(true);
+                        setActivePostMenu(null);
+                      }}
+                      className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] transition-colors text-left text-black dark:text-[#E4E6EB] font-semibold text-[15px]">
                       <svg className="w-6 h-6 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                       {t('postMenu.showProfile')}
                     </button>
@@ -551,7 +559,13 @@ export default function Beranda() {
                       <svg className="w-6 h-6 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                       {t('postMenu.reportPost')}
                     </button>
-                    <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] transition-colors text-left text-black dark:text-[#E4E6EB] font-semibold text-[15px]">
+                    <button 
+                      onClick={() => {
+                        setSelectedProfile({ name: 'Naufal faiz', role: 'Web Development', avatar: '/default-avatar.svg' });
+                        setIsProfileSidebarOpen(true);
+                        setActivePostMenu(null);
+                      }}
+                      className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] transition-colors text-left text-black dark:text-[#E4E6EB] font-semibold text-[15px]">
                       <svg className="w-6 h-6 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                       {t('postMenu.showProfile')}
                     </button>
@@ -806,6 +820,119 @@ export default function Beranda() {
                    <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB] truncate">Pam Faiz</span>
                 </div>
              </div>
+          </div>
+        </div>
+
+    
+        {/* Profile Right Sidebar */}
+        <div className={`hidden lg:block fixed right-0 top-[56px] w-[340px] xl:w-[380px] h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-32 transition-transform duration-300 ease-in-out transform ${isProfileSidebarOpen ? 'translate-x-0' : 'translate-x-full'} z-40 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]`}>
+          <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] overflow-hidden">
+            {selectedProfile && (
+              <>
+                {/* Header (Cover Photo & Avatar) */}
+                <div className="relative">
+                  {/* Close Button on top of cover */}
+                  <button onClick={() => setIsProfileSidebarOpen(false)} className="absolute top-2 right-2 p-1.5 rounded-full bg-black/40 hover:bg-black/60 text-white z-10 transition-colors backdrop-blur-sm shadow-sm">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                  </button>
+
+                  {/* Cover Photo */}
+                  <div className="h-[110px] w-full bg-gray-300 dark:bg-[#3A3B3C]">
+                    <img src="/default-cover.jpg" alt="Cover" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement?.classList.add('bg-gradient-to-r', 'from-emerald-500', 'to-teal-600') }} />
+                  </div>
+                  
+                  {/* Avatar */}
+                  <div className="absolute -bottom-8 left-4 w-[80px] h-[80px] rounded-full border-4 border-white dark:border-[#242526] bg-white dark:bg-[#242526] overflow-hidden shadow-sm">
+                    <img src={selectedProfile.avatar} alt="Profile" className="w-full h-full object-cover" />
+                  </div>
+                </div>
+
+                {/* Profile Info */}
+                <div className="pt-10 px-4 pb-4 border-b border-gray-100 dark:border-[#3E4042]">
+                  <h3 className="font-bold text-[18px] text-black dark:text-[#E4E6EB] leading-tight">{selectedProfile.name}</h3>
+                  <p className="text-[13px] text-gray-500 dark:text-[#B0B3B8] mb-3">{selectedProfile.role}</p>
+                  
+                  {/* Bio */}
+                  <p className="text-[14px] text-black dark:text-[#E4E6EB] mb-4">
+                    Ini adalah bio singkat dari {selectedProfile.name}. Selalu semangat ngoding dan belajar hal baru setiap hari! 🚀
+                  </p>
+
+                  {/* Friends Count */}
+                  <div className="flex items-center gap-1.5 text-[14px] text-gray-500 dark:text-[#B0B3B8] mb-4 hover:underline cursor-pointer w-max">
+                    <span className="font-bold text-black dark:text-[#E4E6EB]">1.2K</span>
+                    <span>{t('profileSidebar.friends')}</span>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                      <button className="flex-[1.5] bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center gap-1 shadow-sm">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>
+                        <span className="text-[14px]">{t('profileSidebar.addFriend')}</span>
+                      </button>
+                      <button className="flex-1 bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center">
+                        <span className="text-[14px]">{t('profileSidebar.openProfile')}</span>
+                      </button>
+                    </div>
+                    <button className="w-full bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center gap-1">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                      <span className="text-[14px]">{t('profileSidebar.message')}</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Gallery Grid */}
+                <div className="p-4 border-b border-gray-100 dark:border-[#3E4042]">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="font-bold text-[15px] text-black dark:text-[#E4E6EB]">{t('profileSidebar.gallery')}</h4>
+                    <a href="#" className="text-[13px] text-emerald-600 dark:text-emerald-400 hover:underline">Lihat Semua</a>
+                  </div>
+                  <div className="grid grid-cols-3 gap-1 rounded-xl overflow-hidden">
+                    <div className="aspect-square bg-gray-200 dark:bg-[#3A3B3C] flex items-center justify-center text-xs text-gray-400">1</div>
+                    <div className="aspect-square bg-gray-200 dark:bg-[#3A3B3C] flex items-center justify-center text-xs text-gray-400">2</div>
+                    <div className="aspect-square bg-gray-200 dark:bg-[#3A3B3C] flex items-center justify-center text-xs text-gray-400">3</div>
+                    <div className="aspect-square bg-gray-200 dark:bg-[#3A3B3C] flex items-center justify-center text-xs text-gray-400">4</div>
+                    <div className="aspect-square bg-gray-200 dark:bg-[#3A3B3C] flex items-center justify-center text-xs text-gray-400">5</div>
+                    <div className="aspect-square bg-gray-200 dark:bg-[#3A3B3C] flex items-center justify-center text-xs text-gray-400">6</div>
+                  </div>
+                </div>
+
+                {/* Recent Posts */}
+                <div className="p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="font-bold text-[15px] text-black dark:text-[#E4E6EB]">{t('profileSidebar.recentPosts')}</h4>
+                  </div>
+                  
+                  {/* Dummy Post 1 */}
+                  <div className="mb-3 bg-white dark:bg-[#242526] p-3 rounded-xl border border-gray-200 dark:border-[#4E4F50] shadow-sm">
+                     <div className="flex items-center gap-2 mb-2">
+                       <div className="w-7 h-7 rounded-full overflow-hidden shrink-0 border border-gray-100 dark:border-[#3A3B3C]">
+                         <img src={selectedProfile.avatar} alt="" className="w-full h-full object-cover" />
+                       </div>
+                       <div className="flex flex-col">
+                         <span className="font-semibold text-[13px] text-black dark:text-[#E4E6EB] leading-none">{selectedProfile.name}</span>
+                         <span className="text-[11px] text-gray-500 dark:text-[#B0B3B8] mt-0.5">2 jam lalu</span>
+                       </div>
+                     </div>
+                     <p className="text-[13px] text-black dark:text-[#E4E6EB] line-clamp-3">Wah seru banget hari ini nyobain bikin Sidebar UI! Semangat terus buat semua teman-teman developer 🔥🚀</p>
+                  </div>
+
+                  {/* Dummy Post 2 */}
+                  <div className="bg-white dark:bg-[#242526] p-3 rounded-xl border border-gray-200 dark:border-[#4E4F50] shadow-sm">
+                     <div className="flex items-center gap-2 mb-2">
+                       <div className="w-7 h-7 rounded-full overflow-hidden shrink-0 border border-gray-100 dark:border-[#3A3B3C]">
+                         <img src={selectedProfile.avatar} alt="" className="w-full h-full object-cover" />
+                       </div>
+                       <div className="flex flex-col">
+                         <span className="font-semibold text-[13px] text-black dark:text-[#E4E6EB] leading-none">{selectedProfile.name}</span>
+                         <span className="text-[11px] text-gray-500 dark:text-[#B0B3B8] mt-0.5">Kemarin</span>
+                       </div>
+                     </div>
+                     <p className="text-[13px] text-black dark:text-[#E4E6EB] line-clamp-3">Ada yang punya rekomendasi tutorial framework JS yang lagi ngetrend? Kasih saran dong! 🤔</p>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
 

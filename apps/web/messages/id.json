@@ -137,5 +137,16 @@
     "savePost": "Simpan postingan",
     "reportPost": "Laporkan postingan",
     "showProfile": "Lihat profil"
+  },
+  "profileSidebar": {
+    "title": "Profil Pengguna",
+    "email": "Email",
+    "joined": "Bergabung Sejak",
+    "message": "Kirim Pesan",
+    "friends": "Teman",
+    "addFriend": "Tambah Teman",
+    "openProfile": "Buka Profil",
+    "gallery": "Galeri",
+    "recentPosts": "Postingan Terbaru"
   }
 }

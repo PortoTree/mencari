@@ -137,5 +137,16 @@
     "savePost": "Saved post",
     "reportPost": "Report post",
     "showProfile": "Show profile"
+  },
+  "profileSidebar": {
+    "title": "User Profile",
+    "email": "Email",
+    "joined": "Joined Since",
+    "message": "Send Message",
+    "friends": "Friends",
+    "addFriend": "Add Friend",
+    "openProfile": "Open Profile",
+    "gallery": "Gallery",
+    "recentPosts": "Recent Posts"
   }
 }
