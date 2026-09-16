@@ -65,3 +65,9 @@
 - [x] (Frontend) Rombak halaman /friend (tab Teman): Pindahkan daftar teman menjadi komponen Sidebar Kanan (mirip History panel), dan ubah area tengah menjadi Feed Dummy khusus untuk melihat postingan-postingan terbaru dari teman.
 
 - [x] (Frontend) Tambahkan komponen input Create Post ('Post and let people find you') di bagian paling atas halaman Feed /friend agar konsisten dengan Home Feed.
+
+- [x] (Frontend) Tambahkan 10 data dummy tambahan ke Daftar Teman (Friend List) dan Riwayat (History) untuk keperluan tes simulasi scroll layout.
+
+- [x] (Frontend) Perbesar padding-bottom (pb-24) pada Sidebar (Kiri & Kanan) agar *item* list terbawah tidak terpotong atau tertutup oleh *Chat Panel* di pojok kanan bawah saat di-scroll mentok.
+
+- [x] (Frontend) Tambahkan tombol Bagikan (Share) beserta ikonnya pada list *action button* di setiap *dummy post* yang ada di tab Teman/Friends agar lebih lengkap.

@@ -409,7 +409,7 @@ export default function Beranda() {
       <div className="flex w-full pt-6">
         
         {/* Left Sidebar */}
-        <div className="hidden lg:block fixed left-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-10 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-[#4E4F50] [&::-webkit-scrollbar-thumb]:rounded-full">
+        <div className="hidden lg:block fixed left-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-24 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-[#4E4F50] [&::-webkit-scrollbar-thumb]:rounded-full">
           <div className="space-y-4">
             {/* Profile Card */}
             <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] overflow-hidden">
@@ -599,6 +599,10 @@ export default function Beranda() {
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
                       <span className="text-[13px] font-medium">Komentar</span>
                     </button>
+                    <button className="flex-1 flex items-center justify-center gap-2 text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-100 dark:hover:bg-[#3A3B3C] px-4 py-1.5 rounded-lg transition-colors">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" /></svg>
+                      <span className="text-[13px] font-medium">Bagikan</span>
+                    </button>
                   </div>
                 </div>
 
@@ -624,6 +628,10 @@ export default function Beranda() {
                     <button className="flex-1 flex items-center justify-center gap-2 text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-100 dark:hover:bg-[#3A3B3C] px-4 py-1.5 rounded-lg transition-colors">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
                       <span className="text-[13px] font-medium">Komentar</span>
+                    </button>
+                    <button className="flex-1 flex items-center justify-center gap-2 text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-100 dark:hover:bg-[#3A3B3C] px-4 py-1.5 rounded-lg transition-colors">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" /></svg>
+                      <span className="text-[13px] font-medium">Bagikan</span>
                     </button>
                   </div>
                 </div>
@@ -807,32 +815,35 @@ export default function Beranda() {
 
         {/* Right Sidebar: History (Mencari) */}
         {activeTab === 'mencari' && (
-          <div className="hidden lg:block fixed right-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-10 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-[#4E4F50] [&::-webkit-scrollbar-thumb]:rounded-full">
+          <div className="hidden lg:block fixed right-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-24 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-[#4E4F50] [&::-webkit-scrollbar-thumb]:rounded-full">
             <div className="flex items-center justify-between mb-2 px-2">
               <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px]">{t('mencari.history')}</h3>
             </div>
             <div className="space-y-1">
-              {/* Item History Web 1 */}
-              <div className="flex items-center gap-3 p-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors">
-                <div className="w-8 h-8 rounded bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3E4042] flex items-center justify-center shrink-0 overflow-hidden">
-                  <img src="https://www.google.com/s2/favicons?domain=google.com&sz=64" alt="google.com" className="w-4 h-4 object-contain" />
+              {[
+                { title: "Google", url: "google.com" },
+                { title: "Stack Overflow - Where Developers Learn, Share, & Build Careers", url: "stackoverflow.com" },
+                { title: "GitHub: Let's build from here", url: "github.com" },
+                { title: "Next.js by Vercel - The React Framework", url: "nextjs.org" },
+                { title: "Tailwind CSS - Rapidly build modern websites", url: "tailwindcss.com" },
+                { title: "MDN Web Docs", url: "developer.mozilla.org" },
+                { title: "YouTube", url: "youtube.com" },
+                { title: "Reddit - Dive into anything", url: "reddit.com" },
+                { title: "Figma: The Collaborative Interface Design Tool", url: "figma.com" },
+                { title: "Vercel: Develop. Preview. Ship.", url: "vercel.com" },
+                { title: "React – A JavaScript library for building user interfaces", url: "reactjs.org" },
+                { title: "OpenAI", url: "openai.com" }
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-3 p-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors">
+                  <div className="w-8 h-8 rounded bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3E4042] flex items-center justify-center shrink-0 overflow-hidden">
+                    <img src={`https://www.google.com/s2/favicons?domain=${item.url}&sz=64`} alt={item.url} className="w-4 h-4 object-contain" />
+                  </div>
+                  <div className="flex-1 min-w-0 flex flex-col">
+                    <span className="text-[13.5px] font-medium text-black dark:text-[#E4E6EB] truncate">{item.title}</span>
+                    <span className="text-[12px] text-gray-500 dark:text-[#B0B3B8] truncate">{item.url}</span>
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0 flex flex-col">
-                  <span className="text-[13.5px] font-medium text-black dark:text-[#E4E6EB] truncate">Google</span>
-                  <span className="text-[12px] text-gray-500 dark:text-[#B0B3B8] truncate">google.com</span>
-                </div>
-              </div>
-              
-              {/* Item History Web 2 */}
-              <div className="flex items-center gap-3 p-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors">
-                <div className="w-8 h-8 rounded bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3E4042] flex items-center justify-center shrink-0 overflow-hidden">
-                  <img src="https://www.google.com/s2/favicons?domain=stackoverflow.com&sz=64" alt="stackoverflow.com" className="w-4 h-4 object-contain" />
-                </div>
-                <div className="flex-1 min-w-0 flex flex-col">
-                  <span className="text-[13.5px] font-medium text-black dark:text-[#E4E6EB] truncate">Stack Overflow - Where Developers Learn, Share, & Build Careers</span>
-                  <span className="text-[12px] text-gray-500 dark:text-[#B0B3B8] truncate">stackoverflow.com</span>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         )}
@@ -841,12 +852,12 @@ export default function Beranda() {
         <>
           {/* Right Sidebar: Friend List (Friend Tab) */}
         {activeTab === 'friend' && (
-          <div className="hidden lg:block fixed right-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-10 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-[#4E4F50] [&::-webkit-scrollbar-thumb]:rounded-full">
+          <div className="hidden lg:block fixed right-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-24 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-[#4E4F50] [&::-webkit-scrollbar-thumb]:rounded-full">
             <div className="flex items-center justify-between mb-2 px-2">
               <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px]">{t('profileSidebar.friends') || 'Daftar Teman'}</h3>
             </div>
             <div className="space-y-1">
-              {["Budi Santoso", "Siti Aminah", "Agus Pratama", "Dewi Lestari", "Rudi Hermawan", "Rina Marlina", "Andi Wijaya"].map((name, i) => (
+              {["Budi Santoso", "Siti Aminah", "Agus Pratama", "Dewi Lestari", "Rudi Hermawan", "Rina Marlina", "Andi Wijaya", "Bagas Pangestu", "Citra Kirana", "Dian Sastro", "Eko Patrio", "Fahri Hamzah", "Gita Gutawa", "Hasan Basri", "Intan Nuraini", "Joko Anwar", "Kaesang Pangarep", "Luna Maya"].map((name, i) => (
                 <div key={i} className="flex items-center gap-3 p-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer transition-colors relative group">
                   <div className="relative">
                     <div className="w-9 h-9 rounded-full bg-gray-300 dark:bg-[#4E4F50] overflow-hidden shrink-0">
