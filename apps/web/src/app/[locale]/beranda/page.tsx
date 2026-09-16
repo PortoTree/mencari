@@ -467,12 +467,12 @@ export default function Beranda() {
           {/* Dummy Post 1 */}
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-4">
             <div className="flex items-center justify-between pb-2 relative">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity" onClick={() => { setSelectedProfile({ name: 'Pengguna', role: 'Member', avatar: '/default-avatar.svg' }); setIsProfileSidebarOpen(true); }}>
                 <div className="w-[40px] h-[40px] rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-emerald-600 dark:border-emerald-400">
                     <img src="/default-avatar.svg" alt="Profile" className="w-full h-full object-cover" />
                   </div>
                 <div>
-                  <h3 className="font-bold text-black dark:text-[#E4E6EB] text-[15px] leading-tight">Pengguna</h3>
+                  <h3 className="font-bold text-black dark:text-[#E4E6EB] text-[15px] leading-tight hover:underline">Pengguna</h3>
                   <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8]">{formatPostTime(Date.now() - 3 * 60000, t, locale)}</p>
                 </div>
               </div>
@@ -528,12 +528,12 @@ export default function Beranda() {
           {/* Dummy Post 2 */}
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] pt-4 px-0">
             <div className="flex items-center justify-between pb-2 px-4 relative">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity" onClick={() => { setSelectedProfile({ name: 'Naufal faiz', role: 'Web Development', avatar: '/default-avatar.svg' }); setIsProfileSidebarOpen(true); }}>
                 <div className="w-[40px] h-[40px] rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-emerald-600 dark:border-emerald-400">
                     <img src="/default-avatar.svg" alt="Profile" className="w-full h-full object-cover" />
                   </div>
                 <div>
-                  <h3 className="font-bold text-black dark:text-[#E4E6EB] text-[15px] leading-tight">Naufal faiz</h3>
+                  <h3 className="font-bold text-black dark:text-[#E4E6EB] text-[15px] leading-tight hover:underline">Naufal faiz</h3>
                   <div className="text-[13px] text-gray-500 dark:text-[#B0B3B8] flex items-center gap-1">
                     <span>Web Development</span>
                     <span>·</span>
@@ -881,20 +881,93 @@ export default function Beranda() {
                   </div>
                 </div>
 
-                {/* Gallery Grid */}
+                {/* Account Details / Lists */}
                 <div className="p-4 border-b border-gray-100 dark:border-[#3E4042]">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-bold text-[15px] text-black dark:text-[#E4E6EB]">{t('profileSidebar.gallery')}</h4>
-                    <a href="#" className="text-[13px] text-emerald-600 dark:text-emerald-400 hover:underline">Lihat Semua</a>
+                  
+                  {/* Aktivitas Akun */}
+                  <div className="mb-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-bold text-[15px] text-black dark:text-[#E4E6EB]">{t('profileSidebar.activity')}</h4>
+                      <a href="#" className="text-[13px] text-emerald-600 dark:text-emerald-400 hover:underline">Lihat Semua</a>
+                    </div>
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-full bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center shrink-0 mt-0.5">
+                          <svg className="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                        </div>
+                        <div>
+                          <p className="text-[13px] text-black dark:text-[#E4E6EB]">Membuat postingan di grup <span className="font-semibold">Web Dev Indonesia</span></p>
+                          <p className="text-[11px] text-gray-500 dark:text-[#B0B3B8] mt-0.5">2 jam lalu</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center shrink-0 mt-0.5">
+                          <svg className="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>
+                        </div>
+                        <div>
+                          <p className="text-[13px] text-black dark:text-[#E4E6EB]">Bergabung dengan grup <span className="font-semibold">UI/UX Enthusiast</span></p>
+                          <p className="text-[11px] text-gray-500 dark:text-[#B0B3B8] mt-0.5">Kemarin</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="grid grid-cols-3 gap-1 rounded-xl overflow-hidden">
-                    <div className="aspect-square bg-gray-200 dark:bg-[#3A3B3C] flex items-center justify-center text-xs text-gray-400">1</div>
-                    <div className="aspect-square bg-gray-200 dark:bg-[#3A3B3C] flex items-center justify-center text-xs text-gray-400">2</div>
-                    <div className="aspect-square bg-gray-200 dark:bg-[#3A3B3C] flex items-center justify-center text-xs text-gray-400">3</div>
-                    <div className="aspect-square bg-gray-200 dark:bg-[#3A3B3C] flex items-center justify-center text-xs text-gray-400">4</div>
-                    <div className="aspect-square bg-gray-200 dark:bg-[#3A3B3C] flex items-center justify-center text-xs text-gray-400">5</div>
-                    <div className="aspect-square bg-gray-200 dark:bg-[#3A3B3C] flex items-center justify-center text-xs text-gray-400">6</div>
+
+                  {/* Pemilik Grup */}
+                  <div className="mb-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-bold text-[15px] text-black dark:text-[#E4E6EB]">{t('profileSidebar.ownedGroups')}</h4>
+                      <a href="#" className="text-[13px] text-emerald-600 dark:text-emerald-400 hover:underline">Lihat Semua</a>
+                    </div>
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-gray-200 dark:bg-[#3A3B3C] shrink-0 overflow-hidden">
+                          <img src="/default-cover.jpg" alt="Group" className="w-full h-full object-cover" />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-[14px] text-black dark:text-[#E4E6EB] leading-tight hover:underline cursor-pointer">Web Dev Indonesia</p>
+                          <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] mt-0.5">15.2K Member</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-gray-200 dark:bg-[#3A3B3C] shrink-0 overflow-hidden">
+                          <img src="/default-cover.jpg" alt="Group" className="w-full h-full object-cover" />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-[14px] text-black dark:text-[#E4E6EB] leading-tight hover:underline cursor-pointer">Freelance Programmer ID</p>
+                          <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] mt-0.5">8.1K Member</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+
+                  {/* Grup yang diikuti */}
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-bold text-[15px] text-black dark:text-[#E4E6EB]">{t('profileSidebar.joinedGroups')}</h4>
+                      <a href="#" className="text-[13px] text-emerald-600 dark:text-emerald-400 hover:underline">Lihat Semua</a>
+                    </div>
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-gray-200 dark:bg-[#3A3B3C] shrink-0 overflow-hidden">
+                          <img src="/default-cover.jpg" alt="Group" className="w-full h-full object-cover" />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-[14px] text-black dark:text-[#E4E6EB] leading-tight hover:underline cursor-pointer">Next.js Indonesia</p>
+                          <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] mt-0.5">30.5K Member</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-gray-200 dark:bg-[#3A3B3C] shrink-0 overflow-hidden">
+                          <img src="/default-cover.jpg" alt="Group" className="w-full h-full object-cover" />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-[14px] text-black dark:text-[#E4E6EB] leading-tight hover:underline cursor-pointer">Tailwind CSS Community</p>
+                          <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] mt-0.5">25.3K Member</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
 
                 {/* Recent Posts */}

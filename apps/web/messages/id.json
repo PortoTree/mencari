@@ -147,6 +147,9 @@
     "addFriend": "Tambah Teman",
     "openProfile": "Buka Profil",
     "gallery": "Galeri",
-    "recentPosts": "Postingan Terbaru"
+    "recentPosts": "Postingan akun",
+    "activity": "Aktifitas akun",
+    "ownedGroups": "Pemilik Grup",
+    "joinedGroups": "Grup yang diikuti"
   }
 }

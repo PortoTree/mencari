@@ -147,6 +147,9 @@
     "addFriend": "Add Friend",
     "openProfile": "Open Profile",
     "gallery": "Gallery",
-    "recentPosts": "Recent Posts"
+    "recentPosts": "Account Posts",
+    "activity": "Account Activity",
+    "ownedGroups": "Owned Groups",
+    "joinedGroups": "Joined Groups"
   }
 }
