@@ -128,3 +128,8 @@
 - [x] (Frontend) Geser avatar dan teks nama pada card profil di sidebar menjadi rata kiri (left-aligned).\n
 - [x] (Frontend) Tambahkan dummy info (Lokasi dan Role) di bawah username pada card profil sidebar, lalu ubah teks Lihat profil menjadi button/badge lebar 70% rata tengah.\n
 - [x] (Frontend) Fix isu 404 pada Next.js router saat refresh halaman di tab mencari, friend, group, dan groups. Mengubah re-export menjadi wrapper client component, dan menambahkan validasi pathname pada initial state activeTab di beranda/page.tsx.\n
+- [x] (Frontend) Hapus hardcode teks 'Grup Publik', 'anggota', dan 'Meminta bergabung ke' lalu gantikan dengan fungsi translate i18n agar mendukung versi EN.\n
+- [x] (Frontend) Ubah teks dropdown 'Masuk grub' menjadi 'Lihat grub' (View Group), dan tambahkan garis pemisah sebelum menu 'Report post' pada postingan grup.\n
+- [x] (Frontend) Pindahkan opsi 'Report post' dan 'Report group' ke urutan paling bawah di semua dropdown menu postingan, berikan garis pembatas di atasnya, serta ubah warna teks dan iconnya menjadi merah (text-red-500).\n
+- [x] (Frontend) Perbaiki warna hover di menu Report Post/Group agar menggunakan warna default (gray-200/dark:#3A3B3C) sehingga terlihat seragam di light dan dark mode.\n
+- [x] (Frontend) Ubah terjemahan 'Report grub' menjadi 'Laporkan grub' di file bahasa Indonesia (id.json).\n

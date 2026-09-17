@@ -188,9 +188,12 @@
     "groupInvites": "Undangan Grub",
     "joinGroup": "Gabung Grub",
     "viewPost": "Lihat Postingan",
-    "enterGroup": "Masuk grub",
-    "reportGroup": "Report grub",
+    "enterGroup": "Lihat grub",
+    "reportGroup": "Laporkan grub",
     "yourGroups": "Grub kamu",
-    "createGroup": "+ Buat grub baru"
+    "createGroup": "+ Buat grub baru",
+    "publicGroup": "Grup Publik",
+    "members": "anggota",
+    "requestToJoin": "Meminta bergabung ke"
   }
 }

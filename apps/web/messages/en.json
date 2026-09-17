@@ -188,9 +188,12 @@
     "groupInvites": "Group Invites",
     "joinGroup": "Join Group",
     "viewPost": "View Post",
-    "enterGroup": "Enter Group",
+    "enterGroup": "View Group",
     "reportGroup": "Report Group",
     "yourGroups": "Your groups",
-    "createGroup": "+ Create new group"
+    "createGroup": "+ Create new group",
+    "publicGroup": "Public Group",
+    "members": "members",
+    "requestToJoin": "Requested to join"
   }
 }
