@@ -125,3 +125,6 @@
 - [x] (Frontend) Perbaiki tata letak (layout) label Grub Kamu dan tombol Buat grub baru agar ditumpuk vertikal dan tidak saling berdesakan/turun baris.\n
 - [x] (Frontend) Sesuaikan ukuran dan gaya font judul Your groups serta Search Groups agar mirip dengan screenshot referensi.\n
 - [x] (Frontend) Samakan font-size dan warna label Your groups serta Search Groups dengan label lain di sidebar (font-semibold text-[15px] warna abu-abu).\n
+- [x] (Frontend) Geser avatar dan teks nama pada card profil di sidebar menjadi rata kiri (left-aligned).\n
+- [x] (Frontend) Tambahkan dummy info (Lokasi dan Role) di bawah username pada card profil sidebar, lalu ubah teks Lihat profil menjadi button/badge lebar 70% rata tengah.\n
+- [x] (Frontend) Fix isu 404 pada Next.js router saat refresh halaman di tab mencari, friend, group, dan groups. Mengubah re-export menjadi wrapper client component, dan menambahkan validasi pathname pada initial state activeTab di beranda/page.tsx.\n

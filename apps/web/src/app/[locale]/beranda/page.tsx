@@ -81,8 +81,9 @@ function formatChatDate(ts: number, locale: string): string {
 
 export default function Beranda() {
   const router = useRouter();
-  const t = useTranslations();
+  const pathname = usePathname();
   const locale = useLocale();
+  const t = useTranslations();
   console.log("[Beranda] locale:", locale);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -95,8 +96,13 @@ export default function Beranda() {
   const friendSearchRef = useRef<HTMLDivElement>(null);
   const [isGroupSearchExpanded, setIsGroupSearchExpanded] = useState(false);
   const groupSearchRef = useRef<HTMLDivElement>(null);
-  const pathname = usePathname();
-  const [activeTab, setActiveTab] = useState<'home' | 'mencari' | 'friend' | 'group' | 'groups'>(pathname.includes('/mencari') ? 'mencari' : pathname.includes('/friend') ? 'friend' : 'home');
+  const [activeTab, setActiveTab] = useState<'home' | 'mencari' | 'friend' | 'group' | 'groups'>(() => {
+    if (pathname.includes('/mencari')) return 'mencari';
+    if (pathname.includes('/friend')) return 'friend';
+    if (pathname.includes('/group')) return 'group';
+    if (pathname.includes('/groups')) return 'groups';
+    return 'home';
+  });
   const lottieRef = useRef<any>(null);
   const handleAnimationComplete = () => {
     setTimeout(() => {
@@ -612,15 +618,33 @@ export default function Beranda() {
               <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] overflow-hidden">
                 <div className="h-20 bg-gray-200 dark:bg-[#3A3B3C] w-full relative">
                   {/* Profile image overlapping */}
-                  <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-[72px] h-[72px] bg-white dark:bg-[#242526] rounded-full p-1 shadow-sm">
+                  <div className="absolute -bottom-8 left-4 w-[72px] h-[72px] bg-white dark:bg-[#242526] rounded-full p-1 shadow-sm">
                     <div className="w-full h-full rounded-full flex items-center justify-center overflow-hidden">
                       <img src="/default-avatar.svg" alt="Profile" className="w-full h-full object-cover" />
                     </div>
                   </div>
                 </div>
-                <div className="pt-10 pb-5 text-center">
+                <div className="pt-10 pb-4 px-4 text-left">
                   <h3 className="font-bold text-[17px] text-black dark:text-[#E4E6EB]">{currentUser.username}</h3>
-                  <p className="text-[15px] text-gray-500 dark:text-[#B0B3B8] mt-1 hover:underline cursor-pointer">{t('sidebar.viewProfile')}</p>
+                  
+                  {/* Dummy Data */}
+                  <div className="mt-1.5 mb-4 flex flex-col gap-1.5">
+                    <div className="flex items-center gap-2 text-gray-500 dark:text-[#B0B3B8] text-[13px]">
+                      <svg className="w-[16px] h-[16px] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                      <span className="truncate">Malang, Jawa timur</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-500 dark:text-[#B0B3B8] text-[13px]">
+                      <svg className="w-[16px] h-[16px] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                      <span className="truncate">Fullstack Developer</span>
+                    </div>
+                  </div>
+
+                  {/* View Profile Badge */}
+                  <div className="flex justify-center w-full mt-2">
+                    <button className="w-[70%] py-1.5 px-3 bg-gray-100 dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold text-[13.5px] rounded-full transition-colors truncate">
+                      {t('sidebar.viewProfile')}
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
