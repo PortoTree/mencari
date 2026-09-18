@@ -60,7 +60,10 @@
     "mediaAndFiles": "Media and files",
     "media": "Media",
     "files": "Files",
-    "privacySupport": "Privacy & support"
+    "privacySupport": "Privacy & support",
+    "optionsTooltip": "Option",
+    "newChatTooltip": "New chat",
+    "friendlistTooltip": "Friendlist"
   },
   "login": {
     "title": "Log in",

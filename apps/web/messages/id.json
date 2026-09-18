@@ -60,7 +60,10 @@
     "mediaAndFiles": "Media dan file",
     "media": "Media",
     "files": "File",
-    "privacySupport": "Privasi & dukungan"
+    "privacySupport": "Privasi & dukungan",
+    "optionsTooltip": "Opsi",
+    "newChatTooltip": "Buat obrolan",
+    "friendlistTooltip": "Daftar teman"
   },
   "login": {
     "title": "Login akun",
