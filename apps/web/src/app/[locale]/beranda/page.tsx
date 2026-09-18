@@ -4062,10 +4062,13 @@ export default function Beranda() {
                 </h2>
                 <div className="flex items-center gap-2">
                   {chatSidebarView === "chats" && (
-                    <div className="relative" ref={chatListSettingsRef}>
-                      <button title={t('chat.optionsTooltip')} onClick={() => setIsChatListSettingsOpen(!isChatListSettingsOpen)} className="w-9 h-9 rounded-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] flex items-center justify-center transition-colors text-black dark:text-[#E4E6EB]">
+                    <div className="relative group/options" ref={chatListSettingsRef}>
+                      <button onClick={() => setIsChatListSettingsOpen(!isChatListSettingsOpen)} className="w-9 h-9 rounded-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] flex items-center justify-center transition-colors text-black dark:text-[#E4E6EB]">
                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" /></svg>
                       </button>
+                      <div className="absolute -bottom-9 left-1/2 -translate-x-1/2 px-2.5 py-1.5 bg-gray-800/90 text-[#E4E6EB] text-[13px] font-medium rounded-lg opacity-0 group-hover/options:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
+                        {t('chat.optionsTooltip')}
+                      </div>
                       {isChatListSettingsOpen && (
                         <div className="absolute left-0 top-full mt-2 w-56 bg-white dark:bg-[#242526] rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.1)] border border-gray-100 dark:border-[#3E4042] py-1.5 z-50">
                           <button onClick={(e) => { e.stopPropagation(); setIsChatListSettingsOpen(false); }} className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[14px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
@@ -4080,24 +4083,33 @@ export default function Beranda() {
                       )}
                     </div>
                   )}
-                  <button title={t('chat.newChatTooltip')} className="w-9 h-9 rounded-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] flex items-center justify-center transition-colors text-black dark:text-[#E4E6EB]">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
-                    </svg>
-                  </button>
-                  <button 
-                    title={t('chat.friendlistTooltip')}
-                    onClick={() => setChatSidebarView(chatSidebarView === 'chats' ? 'friends' : 'chats')} 
-                    className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors ${chatSidebarView === 'friends' ? 'bg-gray-300 dark:bg-[#4E4F50]' : 'bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50]'}`}
-                  >
-                    {chatSidebarView === "chats" ? (
-                      <img src="/navigasi/teman.svg" className="w-5 h-5 dark:invert" />
-                    ) : (
-                      <svg className="w-5 h-5 text-gray-700 dark:text-[#E4E6EB]" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M19.06 4.94a1.5 1.5 0 00-2.12 0L12 9.88 7.06 4.94a1.5 1.5 0 00-2.12 2.12L9.88 12l-4.94 4.94a1.5 1.5 0 102.12 2.12L12 14.12l4.94 4.94a1.5 1.5 0 002.12-2.12L14.12 12l4.94-4.94a1.5 1.5 0 000-2.12z" />
+                  <div className="relative group/newchat">
+                    <button className="w-9 h-9 rounded-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] flex items-center justify-center transition-colors text-black dark:text-[#E4E6EB]">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
                       </svg>
-                    )}
-                  </button>
+                    </button>
+                    <div className="absolute -bottom-9 left-1/2 -translate-x-1/2 px-2.5 py-1.5 bg-gray-800/90 text-[#E4E6EB] text-[13px] font-medium rounded-lg opacity-0 group-hover/newchat:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
+                      {t('chat.newChatTooltip')}
+                    </div>
+                  </div>
+                  <div className="relative group/friendlist">
+                    <button 
+                      onClick={() => setChatSidebarView(chatSidebarView === 'chats' ? 'friends' : 'chats')} 
+                      className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors ${chatSidebarView === 'friends' ? 'bg-gray-300 dark:bg-[#4E4F50]' : 'bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50]'}`}
+                    >
+                      {chatSidebarView === "chats" ? (
+                        <img src="/navigasi/teman.svg" className="w-5 h-5 dark:invert" />
+                      ) : (
+                        <svg className="w-5 h-5 text-gray-700 dark:text-[#E4E6EB]" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M19.06 4.94a1.5 1.5 0 00-2.12 0L12 9.88 7.06 4.94a1.5 1.5 0 00-2.12 2.12L9.88 12l-4.94 4.94a1.5 1.5 0 102.12 2.12L12 14.12l4.94 4.94a1.5 1.5 0 002.12-2.12L14.12 12l4.94-4.94a1.5 1.5 0 000-2.12z" />
+                        </svg>
+                      )}
+                    </button>
+                    <div className="absolute -bottom-9 left-1/2 -translate-x-1/2 px-2.5 py-1.5 bg-gray-800/90 text-[#E4E6EB] text-[13px] font-medium rounded-lg opacity-0 group-hover/friendlist:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
+                      {t('chat.friendlistTooltip')}
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="mt-3 relative">
