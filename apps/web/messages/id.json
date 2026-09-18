@@ -65,7 +65,10 @@
     "newChatTooltip": "Buat obrolan",
     "friendlistTooltip": "Daftar teman",
     "searchUsername": "Cari nama pengguna...",
-    "closeTooltip": "Tutup"
+    "closeTooltip": "Tutup",
+    "filterAll": "Semua",
+    "filterUnread": "Belum dibaca",
+    "filterFavorite": "Favorit"
   },
   "login": {
     "title": "Login akun",

@@ -65,7 +65,10 @@
     "newChatTooltip": "New chat",
     "friendlistTooltip": "Friendlist",
     "searchUsername": "Search username...",
-    "closeTooltip": "Close"
+    "closeTooltip": "Close",
+    "filterAll": "All",
+    "filterUnread": "Unread",
+    "filterFavorite": "Favorites"
   },
   "login": {
     "title": "Log in",
