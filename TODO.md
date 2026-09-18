@@ -14,7 +14,7 @@
 - [x] (Frontend) Modifikasi logic Friendlist tab: Menambahkan kategori Teman Aktif (online) dan Teman Offline secara terpisah.
 - [x] (Frontend) Update icon UI Header Sidebar Obrolan: Menghilangkan icon pensil solid menjadi bulatan+ (tambah obrolan/grup), menghilangkan tombol opsi di mode friendlist, serta update tooltips untuk icon header (Opsi, Buat obrolan, Daftar teman).
 - [x] (Frontend) Modifikasi logic Searchbox & Custom Tooltips: Mengubah tooltip bawaan browser menjadi custom tooltip Tailwind di semua icon header. Mengubah placeholder kotak pencarian secara dinamis (Cari obrolan... -> Cari nama pengguna...) berdasarkan state, beserta update file translasi ID & EN.
-- [x] (Frontend) Tambah Filter Tab Obrolan: Menambahkan tab filter Semua, Belum dibaca, dan Favorit beserta icon filter di bawah searchbox pada state obrolan. (Fix double border issue).
+- [x] (Frontend) Tambah Filter Tab Obrolan: Menambahkan tab filter Semua, Belum dibaca, dan Favorit beserta icon filter di bawah searchbox pada state obrolan. (Fix double border issue, tambah dropdown Grup Chat & Arsip di icon filter).
 - [x] (Frontend) Update isi dropdown Chat Room (Tambah ke favorit, Laporkan, Blokir dll) dengan custom hover & icon warna (merah/orange).
 
 ## 🔄 In Progress

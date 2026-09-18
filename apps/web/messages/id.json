@@ -68,7 +68,9 @@
     "closeTooltip": "Tutup",
     "filterAll": "Semua",
     "filterUnread": "Belum dibaca",
-    "filterFavorite": "Favorit"
+    "filterFavorite": "Favorit",
+    "filterGroup": "Grup Chat",
+    "filterArchive": "Arsip"
   },
   "login": {
     "title": "Login akun",

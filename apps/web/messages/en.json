@@ -68,7 +68,9 @@
     "closeTooltip": "Close",
     "filterAll": "All",
     "filterUnread": "Unread",
-    "filterFavorite": "Favorites"
+    "filterFavorite": "Favorites",
+    "filterGroup": "Group Chat",
+    "filterArchive": "Archived"
   },
   "login": {
     "title": "Log in",
