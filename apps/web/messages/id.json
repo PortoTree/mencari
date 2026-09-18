@@ -45,7 +45,13 @@
     "settings": "Pengaturan",
     "yourFriends": "Teman anda",
     "activeFriends": "Teman aktif",
-    "offlineFriends": "Teman"
+    "offlineFriends": "Teman",
+    "searchChat": "Cari obrolan...",
+    "typeMessage": "Ketik pesan...",
+    "send": "Kirim",
+    "favorite": "Favorit",
+    "groupChat": "Grup obrolan",
+    "archive": "Arsip"
   },
   "login": {
     "title": "Login akun",

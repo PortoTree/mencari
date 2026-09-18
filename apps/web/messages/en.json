@@ -45,7 +45,13 @@
     "settings": "Settings",
     "yourFriends": "Your friends",
     "activeFriends": "Active friends",
-    "offlineFriends": "Friends"
+    "offlineFriends": "Friends",
+    "searchChat": "Search chat...",
+    "typeMessage": "Type a message...",
+    "send": "Send",
+    "favorite": "Favorite",
+    "groupChat": "Group chat",
+    "archive": "Archive"
   },
   "login": {
     "title": "Log in",

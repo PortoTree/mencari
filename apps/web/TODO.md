@@ -138,3 +138,10 @@
 - [x] (Frontend) Fix isu localstorage tema kereplace ulang saat render pertama di strict mode (menggunakan state themeLoaded).\n
 - [x] (Frontend) Fix glitch profile card overlapping dengan input chat list di beranda.\n- [x] (Frontend) Fix isu 404 pada route /obrolan ketika di-refresh.\n
 - [x] (Frontend) Fix isu layout obrolan (chat tab) bisa di-scroll secara keseluruhan (sekarang fixed presisi, dengan sidebar kiri-kanan dan konten chat bisa di-scroll independen).\n
+- [x] (Frontend) Update komponen hardcode di chat layout (placeholder cari, ketik pesan, tombol kirim, status active now) ke translation JSON.\n
+- [x] (Frontend) Tambahkan icon tombol opsi (...) dan tulis pesan baru (pensil) di header chat list.\n
+- [x] (Frontend) Tambahkan dropdown menu (Manage chats, Settings) ketika icon titik tiga (...) di klik pada sidebar chat list.\n
+- [x] (Frontend) Konfirmasi fitur autoclose dropdown di chat list (sudah diimplementasikan sebelumnya, butuh hard refresh karena fast-refresh behavior).\n
+- [x] (Frontend) Tambahkan filter tabs (All, Unread) beserta icon filter di bawah kolom pencarian chat list.\n
+- [x] (Frontend) Renggangkan jarak antara tab All dan Unread di chat list (gap diubah jadi gap-8).\n
+- [x] (Frontend) Hapus icon filter di chat list header dan tambahkan 3 tab filter baru: Favorite, Group chat, dan Arsip (bisa di-scroll horizontal).\n

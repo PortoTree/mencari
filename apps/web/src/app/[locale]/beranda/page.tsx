@@ -111,8 +111,11 @@ export default function Beranda() {
     }, 5000);
   };
   const [isChatSettingsOpen, setIsChatSettingsOpen] = useState(false);
+  const [isChatListSettingsOpen, setIsChatListSettingsOpen] = useState(false);
+  const chatListSettingsRef = useRef<HTMLDivElement>(null);
   const [isNewMessageOpen, setIsNewMessageOpen] = useState(false);
   const [isChatFilterOpen, setIsChatFilterOpen] = useState(false);
+  const [chatListFilter, setChatListFilter] = useState<'all' | 'unread' | 'favorite' | 'group' | 'archive'>('all');
   const [activeChatMenu, setActiveChatMenu] = useState<number | null>(null);
   const [menuPosition, setMenuPosition] = useState({ top: 0 });
   const chatMenuRef = useRef<HTMLDivElement | null>(null);
@@ -162,6 +165,9 @@ export default function Beranda() {
       }
       if (chatSettingsRef.current && !chatSettingsRef.current.contains(event.target as Node)) {
         setIsChatSettingsOpen(false);
+      }
+      if (chatListSettingsRef.current && !chatListSettingsRef.current.contains(event.target as Node)) {
+        setIsChatListSettingsOpen(false);
       }
       if (chatFilterRef.current && !chatFilterRef.current.contains(event.target as Node)) {
         setIsChatFilterOpen(false);
@@ -1945,9 +1951,65 @@ export default function Beranda() {
           {/* KIRI: Chat List */}
           <div className="w-[360px] bg-white dark:bg-[#242526] border-r border-gray-200 dark:border-[#3E4042] flex flex-col shrink-0">
             <div className="p-4 border-b border-gray-200 dark:border-[#3E4042]">
-              <h2 className="font-bold text-[24px] text-black dark:text-[#E4E6EB]">{t('chat.title')}</h2>
+              <div className="flex items-center justify-between">
+                <h2 className="font-bold text-[24px] text-black dark:text-[#E4E6EB]">{t('chat.title')}</h2>
+                <div className="flex items-center gap-2">
+                  <div className="relative" ref={chatListSettingsRef}>
+                    <button onClick={() => setIsChatListSettingsOpen(!isChatListSettingsOpen)} className="w-9 h-9 rounded-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] flex items-center justify-center transition-colors text-black dark:text-[#E4E6EB]">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" /></svg>
+                    </button>
+                    {isChatListSettingsOpen && (
+                      <div className="absolute left-0 top-full mt-2 w-56 bg-white dark:bg-[#242526] rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.1)] border border-gray-100 dark:border-[#3E4042] py-1.5 z-50">
+                        <button onClick={(e) => { e.stopPropagation(); setIsChatListSettingsOpen(false); }} className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[14px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                          <svg className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                          {t('chat.manage')}
+                        </button>
+                        <button onClick={(e) => { e.stopPropagation(); setIsChatListSettingsOpen(false); }} className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[14px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                          <svg className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                          {t('chat.settings')}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  <button className="w-9 h-9 rounded-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] flex items-center justify-center transition-colors text-black dark:text-[#E4E6EB]">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                  </button>
+                </div>
+              </div>
               <div className="mt-3 relative">
-                <input type="text" placeholder="Cari obrolan..." className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] text-black dark:text-[#E4E6EB] px-4 py-2 rounded-full outline-none text-[15px]" />
+                <input type="text" placeholder={t('chat.searchChat')} className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] text-black dark:text-[#E4E6EB] px-4 py-2 rounded-full outline-none text-[15px]" />
+              </div>
+              <div className="flex items-center gap-5 mt-4 -mb-4 px-2 overflow-x-auto sidebar-scrollbar whitespace-nowrap">
+                <button 
+                  onClick={() => setChatListFilter('all')}
+                  className={`font-semibold text-[15px] pb-2 border-b-2 transition-colors flex-shrink-0 ${chatListFilter === 'all' ? 'text-[#00B47A] dark:text-[#00B47A] border-[#00B47A] dark:border-[#00B47A]' : 'text-gray-500 dark:text-gray-400 border-transparent hover:border-gray-300 dark:hover:border-gray-500'}`}
+                >
+                  {t('chat.all')}
+                </button>
+                <button 
+                  onClick={() => setChatListFilter('unread')}
+                  className={`font-semibold text-[15px] pb-2 border-b-2 transition-colors flex-shrink-0 ${chatListFilter === 'unread' ? 'text-[#00B47A] dark:text-[#00B47A] border-[#00B47A] dark:border-[#00B47A]' : 'text-gray-500 dark:text-gray-400 border-transparent hover:border-gray-300 dark:hover:border-gray-500'}`}
+                >
+                  {t('chat.unread')}
+                </button>
+                <button 
+                  onClick={() => setChatListFilter('favorite')}
+                  className={`font-semibold text-[15px] pb-2 border-b-2 transition-colors flex-shrink-0 ${chatListFilter === 'favorite' ? 'text-[#00B47A] dark:text-[#00B47A] border-[#00B47A] dark:border-[#00B47A]' : 'text-gray-500 dark:text-gray-400 border-transparent hover:border-gray-300 dark:hover:border-gray-500'}`}
+                >
+                  {t('chat.favorite')}
+                </button>
+                <button 
+                  onClick={() => setChatListFilter('group')}
+                  className={`font-semibold text-[15px] pb-2 border-b-2 transition-colors flex-shrink-0 ${chatListFilter === 'group' ? 'text-[#00B47A] dark:text-[#00B47A] border-[#00B47A] dark:border-[#00B47A]' : 'text-gray-500 dark:text-gray-400 border-transparent hover:border-gray-300 dark:hover:border-gray-500'}`}
+                >
+                  {t('chat.groupChat')}
+                </button>
+                <button 
+                  onClick={() => setChatListFilter('archive')}
+                  className={`font-semibold text-[15px] pb-2 border-b-2 transition-colors flex-shrink-0 ${chatListFilter === 'archive' ? 'text-[#00B47A] dark:text-[#00B47A] border-[#00B47A] dark:border-[#00B47A]' : 'text-gray-500 dark:text-gray-400 border-transparent hover:border-gray-300 dark:hover:border-gray-500'}`}
+                >
+                  {t('chat.archive')}
+                </button>
               </div>
             </div>
             <div className="flex-1 overflow-y-auto sidebar-scrollbar p-2">
@@ -1978,7 +2040,7 @@ export default function Beranda() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">Budi Santoso</h3>
-                  <p className="text-[12px] text-gray-500">Active now</p>
+                  <p className="text-[12px] text-gray-500">{t('chat.activeNow')}</p>
                 </div>
               </div>
             </div>
@@ -1997,8 +2059,8 @@ export default function Beranda() {
             </div>
             <div className="p-4 bg-white dark:bg-[#242526] border-t border-gray-200 dark:border-[#3E4042] shrink-0">
               <div className="flex items-center gap-2 bg-[#F0F2F5] dark:bg-[#3A3B3C] rounded-full px-4 py-2">
-                <input type="text" placeholder="Ketik pesan..." className="flex-1 bg-transparent outline-none text-[15px] text-black dark:text-[#E4E6EB]" />
-                <button className="text-emerald-600 dark:text-emerald-400 font-semibold">Kirim</button>
+                <input type="text" placeholder={t('chat.typeMessage')} className="flex-1 bg-transparent outline-none text-[15px] text-black dark:text-[#E4E6EB]" />
+                <button className="text-emerald-600 dark:text-emerald-400 font-semibold">{t('chat.send')}</button>
               </div>
             </div>
           </div>
