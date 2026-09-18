@@ -136,3 +136,5 @@
 - [x] (Frontend) Fix isu 'Hydration failed' pada komponen tanggal/waktu postingan dan chat (yang menggunakan Date.now()) dengan menambahkan prop suppressHydrationWarning pada tag HTML pembungkusnya.\n
 - [x] (Frontend) Tambahkan logic untuk menyimpan preferensi tema (Light/Dark mode) dan Bahasa (ID/EN) ke localStorage dan Cookie, sehingga pilihan user persisten saat web direload.\n
 - [x] (Frontend) Fix isu localstorage tema kereplace ulang saat render pertama di strict mode (menggunakan state themeLoaded).\n
+- [x] (Frontend) Fix glitch profile card overlapping dengan input chat list di beranda.\n- [x] (Frontend) Fix isu 404 pada route /obrolan ketika di-refresh.\n
+- [x] (Frontend) Fix isu layout obrolan (chat tab) bisa di-scroll secara keseluruhan (sekarang fixed presisi, dengan sidebar kiri-kanan dan konten chat bisa di-scroll independen).\n

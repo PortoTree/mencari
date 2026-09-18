@@ -42,7 +42,10 @@
     "clearChat": "Clear chat",
     "deleteChat": "Delete chat",
     "manage": "Manage chats",
-    "settings": "Settings"
+    "settings": "Settings",
+    "yourFriends": "Your friends",
+    "activeFriends": "Active friends",
+    "offlineFriends": "Friends"
   },
   "login": {
     "title": "Log in",

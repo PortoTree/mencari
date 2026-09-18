@@ -96,7 +96,8 @@ export default function Beranda() {
   const friendSearchRef = useRef<HTMLDivElement>(null);
   const [isGroupSearchExpanded, setIsGroupSearchExpanded] = useState(false);
   const groupSearchRef = useRef<HTMLDivElement>(null);
-  const [activeTab, setActiveTab] = useState<'home' | 'mencari' | 'friend' | 'group' | 'groups'>(() => {
+  const [activeTab, setActiveTab] = useState<'home' | 'mencari' | 'friend' | 'group' | 'groups' | 'chat'>(() => {
+    if (pathname.includes('/obrolan')) return 'chat';
     if (pathname.includes('/mencari')) return 'mencari';
     if (pathname.includes('/friend')) return 'friend';
     if (pathname.includes('/group')) return 'group';
@@ -249,7 +250,10 @@ export default function Beranda() {
         <div className="flex items-center gap-2 relative">
           
           <div className="relative group">
-            <button className="w-10 h-10 rounded-full bg-[#E4E6EB] dark:bg-[#3A3B3C] flex items-center justify-center text-black dark:text-[#E4E6EB] hover:bg-[#F3F2EF] dark:hover:bg-[#18191A] transition-colors overflow-hidden">
+            <button 
+              onClick={() => { setActiveTab('chat'); window.history.pushState(null, '', `/${locale}/obrolan`); }}
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors overflow-hidden ${activeTab === 'chat' ? 'bg-[#D8F0E2] dark:bg-[#203D2E] text-emerald-600 dark:text-emerald-400' : 'bg-[#E4E6EB] dark:bg-[#3A3B3C] text-black dark:text-[#E4E6EB] hover:bg-[#F3F2EF] dark:hover:bg-[#18191A]'}`}
+            >
               <img src="/logo-chat.svg" alt="Chat" className="w-[22px] h-[22px] object-contain" />
             </button>
             <div className="absolute top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/80 text-white text-[13px] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap z-[60]">
@@ -480,7 +484,7 @@ export default function Beranda() {
       `}} />
       
 {/* Main Container */}
-      <div className="flex w-full pt-6">
+      <div className={`flex w-full pt-6 ${activeTab === 'chat' ? 'hidden' : ''}`}>
         
         {/* Left Sidebar */}
         <div className="hidden lg:block fixed left-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-24 sidebar-scrollbar">
@@ -1458,7 +1462,7 @@ export default function Beranda() {
         )}
 
         {/* Right Sidebar (Chat Panel) */}
-        <div className="hidden lg:block relative z-50">
+        <div className={`hidden lg:block relative z-50 ${activeTab === 'chat' ? '!hidden' : ''}`}>
            {/* Chat Bubble Fixed bottom right */}
            <div className={`fixed bottom-0 right-[80px] w-[300px] bg-white dark:bg-[#242526] rounded-t-xl shadow-[0_0_15px_rgba(0,0,0,0.15)] border border-gray-200 dark:border-[#3E4042] flex flex-col transition-all duration-300 ease-in-out ${isChatExpanded ? 'h-[500px]' : 'h-[48px]'}`}>
              
@@ -1902,7 +1906,6 @@ export default function Beranda() {
           </div>
         </div>
 
-
       {/* Add Shortcut Modal */}
       {isShortcutModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50">
@@ -1933,6 +1936,99 @@ export default function Beranda() {
               >
                 Selesai
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {activeTab === 'chat' && (
+        <div className="fixed top-[56px] left-0 right-0 bottom-0 flex w-full bg-[#F0F2F5] dark:bg-[#18191A] z-40 overflow-hidden">
+          {/* KIRI: Chat List */}
+          <div className="w-[360px] bg-white dark:bg-[#242526] border-r border-gray-200 dark:border-[#3E4042] flex flex-col shrink-0">
+            <div className="p-4 border-b border-gray-200 dark:border-[#3E4042]">
+              <h2 className="font-bold text-[24px] text-black dark:text-[#E4E6EB]">{t('chat.title')}</h2>
+              <div className="mt-3 relative">
+                <input type="text" placeholder="Cari obrolan..." className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] text-black dark:text-[#E4E6EB] px-4 py-2 rounded-full outline-none text-[15px]" />
+              </div>
+            </div>
+            <div className="flex-1 overflow-y-auto sidebar-scrollbar p-2">
+              {dummyChats.map((chat, idx) => (
+                <div key={idx} className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors mb-1">
+                  <div className="relative w-14 h-14 shrink-0">
+                    <img src="/default-avatar.svg" className="w-full h-full rounded-full object-cover border border-emerald-600 dark:border-emerald-400" />
+                    {chat.isOnline && <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-[#31A24C] rounded-full border-2 border-white dark:border-[#242526]"></div>}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between items-center">
+                      <h4 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB] truncate">{chat.name}</h4>
+                      <span className="text-[12px] text-gray-500">{formatChatDate(chat.ts, locale)}</span>
+                    </div>
+                    <p className="text-[13px] text-gray-500 truncate">{chat.msg}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* TENGAH: Chat Room */}
+          <div className="flex-1 bg-transparent flex flex-col">
+            <div className="h-[60px] bg-white dark:bg-[#242526] border-b border-gray-200 dark:border-[#3E4042] flex items-center px-4 shadow-sm shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="relative w-10 h-10 shrink-0">
+                  <img src="/default-avatar.svg" className="w-full h-full rounded-full object-cover border border-emerald-600 dark:border-emerald-400" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">Budi Santoso</h3>
+                  <p className="text-[12px] text-gray-500">Active now</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-2">
+              <div className="flex items-start gap-2 max-w-[70%]">
+                <img src="/default-avatar.svg" className="w-8 h-8 rounded-full border border-gray-300" />
+                <div className="bg-white dark:bg-[#3A3B3C] px-4 py-2 rounded-2xl rounded-tl-none shadow-sm">
+                  <p className="text-[14px] text-black dark:text-[#E4E6EB]">Halo bro, apa kabar? Udah lama gak nongkrong nih.</p>
+                </div>
+              </div>
+              <div className="flex items-end justify-end gap-2 max-w-[70%] self-end">
+                <div className="bg-emerald-600 dark:bg-emerald-500 px-4 py-2 rounded-2xl rounded-tr-none shadow-sm">
+                  <p className="text-[14px] text-white">Baik bro! Iyak nih kapan ya terakhir ketemu, sibuk parah wkwk.</p>
+                </div>
+              </div>
+            </div>
+            <div className="p-4 bg-white dark:bg-[#242526] border-t border-gray-200 dark:border-[#3E4042] shrink-0">
+              <div className="flex items-center gap-2 bg-[#F0F2F5] dark:bg-[#3A3B3C] rounded-full px-4 py-2">
+                <input type="text" placeholder="Ketik pesan..." className="flex-1 bg-transparent outline-none text-[15px] text-black dark:text-[#E4E6EB]" />
+                <button className="text-emerald-600 dark:text-emerald-400 font-semibold">Kirim</button>
+              </div>
+            </div>
+          </div>
+
+          {/* KANAN: Friendlist */}
+          <div className="w-[320px] bg-white dark:bg-[#242526] border-l border-gray-200 dark:border-[#3E4042] flex flex-col shrink-0">
+            <div className="p-4 border-b border-gray-200 dark:border-[#3E4042]">
+              <h2 className="font-bold text-[20px] text-black dark:text-[#E4E6EB]">{t('chat.yourFriends')}</h2>
+            </div>
+            <div className="flex-1 overflow-y-auto sidebar-scrollbar p-2">
+              <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[14px] px-2 mt-2 mb-1">{t('chat.activeFriends')}</h3>
+              {dummyChats.filter(c => c.isOnline).map((chat, idx) => (
+                <div key={`online-${idx}`} className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors mb-1">
+                  <div className="relative w-10 h-10 shrink-0">
+                    <img src="/default-avatar.svg" className="w-full h-full rounded-full object-cover border border-gray-200 dark:border-[#4E4F50]" />
+                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#31A24C] rounded-full border-2 border-white dark:border-[#242526]"></div>
+                  </div>
+                  <h4 className="font-semibold text-[14px] text-black dark:text-[#E4E6EB] truncate">{chat.name}</h4>
+                </div>
+              ))}
+              
+              <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[14px] px-2 mt-4 mb-1">{t('chat.offlineFriends')}</h3>
+              {dummyChats.filter(c => !c.isOnline).map((chat, idx) => (
+                <div key={`offline-${idx}`} className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors mb-1 opacity-70">
+                  <div className="relative w-10 h-10 shrink-0">
+                    <img src="/default-avatar.svg" className="w-full h-full rounded-full object-cover border border-gray-200 dark:border-[#4E4F50]" />
+                  </div>
+                  <h4 className="font-semibold text-[14px] text-black dark:text-[#E4E6EB] truncate">{chat.name}</h4>
+                </div>
+              ))}
             </div>
           </div>
         </div>
