@@ -133,3 +133,6 @@
 - [x] (Frontend) Pindahkan opsi 'Report post' dan 'Report group' ke urutan paling bawah di semua dropdown menu postingan, berikan garis pembatas di atasnya, serta ubah warna teks dan iconnya menjadi merah (text-red-500).\n
 - [x] (Frontend) Perbaiki warna hover di menu Report Post/Group agar menggunakan warna default (gray-200/dark:#3A3B3C) sehingga terlihat seragam di light dan dark mode.\n
 - [x] (Frontend) Ubah terjemahan 'Report grub' menjadi 'Laporkan grub' di file bahasa Indonesia (id.json).\n
+- [x] (Frontend) Fix isu 'Hydration failed' pada komponen tanggal/waktu postingan dan chat (yang menggunakan Date.now()) dengan menambahkan prop suppressHydrationWarning pada tag HTML pembungkusnya.\n
+- [x] (Frontend) Tambahkan logic untuk menyimpan preferensi tema (Light/Dark mode) dan Bahasa (ID/EN) ke localStorage dan Cookie, sehingga pilihan user persisten saat web direload.\n
+- [x] (Frontend) Fix isu localstorage tema kereplace ulang saat render pertama di strict mode (menggunakan state themeLoaded).\n

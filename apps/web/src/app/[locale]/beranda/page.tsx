@@ -116,6 +116,7 @@ export default function Beranda() {
   const [menuPosition, setMenuPosition] = useState({ top: 0 });
   const chatMenuRef = useRef<HTMLDivElement | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [themeLoaded, setThemeLoaded] = useState(false);
   const chatSettingsRef = useRef<HTMLDivElement>(null);
   const chatFilterRef = useRef<HTMLDivElement>(null);
   const [isLangOpen, setIsLangOpen] = useState(false);
@@ -126,12 +127,28 @@ export default function Beranda() {
   const langRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      setIsDarkMode(false);
+      document.documentElement.classList.remove('dark');
+    } else {
+      setIsDarkMode(true);
+      document.documentElement.classList.add('dark');
+    }
+    setThemeLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (!themeLoaded) return;
+    
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
     }
-  }, [isDarkMode]);
+  }, [isDarkMode, themeLoaded]);
 
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -284,6 +301,8 @@ export default function Beranda() {
               <div className="absolute top-12 right-0 w-[140px] bg-white dark:bg-[#242526] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.15)] border border-gray-200 dark:border-[#3E4042] p-2 z-[100]">
                 <button
                   onClick={() => {
+                    document.cookie = `NEXT_LOCALE=id; path=/; max-age=31536000; SameSite=Lax`;
+                    localStorage.setItem('NEXT_LOCALE', 'id');
                     const currentPath = window.location.pathname;
                     const pathWithoutLocale = currentPath.replace(/^\/(id|en)/, '');
                     window.location.href = '/id' + (pathWithoutLocale || '/beranda');
@@ -298,6 +317,8 @@ export default function Beranda() {
                 </button>
                 <button
                   onClick={() => {
+                    document.cookie = `NEXT_LOCALE=en; path=/; max-age=31536000; SameSite=Lax`;
+                    localStorage.setItem('NEXT_LOCALE', 'en');
                     const currentPath = window.location.pathname;
                     const pathWithoutLocale = currentPath.replace(/^\/(id|en)/, '');
                     window.location.href = '/en' + (pathWithoutLocale || '/beranda');
