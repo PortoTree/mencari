@@ -4053,246 +4053,132 @@ export default function Beranda() {
       )}
       {activeTab === "chat" && (
         <div className="fixed top-[56px] left-0 right-0 bottom-0 flex w-full bg-[#F0F2F5] dark:bg-[#18191A] z-40 overflow-hidden">
-          {/* KIRI: Chat List */}
+          
           <div className="w-[360px] bg-white dark:bg-[#242526] border-r border-gray-200 dark:border-[#3E4042] flex flex-col shrink-0">
             <div className="p-4 border-b border-gray-200 dark:border-[#3E4042]">
               <div className="flex items-center justify-between">
                 <h2 className="font-bold text-[24px] text-black dark:text-[#E4E6EB]">
-                  {chatSidebarView === "friends"
-                    ? t("chat.yourFriends")
-                    : t("chat.title")}
+                  {chatSidebarView === 'friends' ? t('chat.yourFriends') : t('chat.title')}
                 </h2>
                 <div className="flex items-center gap-2">
                   <div className="relative" ref={chatListSettingsRef}>
-                    <button
-                      onClick={() =>
-                        setIsChatListSettingsOpen(!isChatListSettingsOpen)
-                      }
-                      className="w-9 h-9 rounded-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] flex items-center justify-center transition-colors text-black dark:text-[#E4E6EB]"
-                    >
-                      <svg
-                        className="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                      </svg>
+                    <button onClick={() => setIsChatListSettingsOpen(!isChatListSettingsOpen)} className="w-9 h-9 rounded-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] flex items-center justify-center transition-colors text-black dark:text-[#E4E6EB]">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" /></svg>
                     </button>
                     {isChatListSettingsOpen && (
                       <div className="absolute left-0 top-full mt-2 w-56 bg-white dark:bg-[#242526] rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.1)] border border-gray-100 dark:border-[#3E4042] py-1.5 z-50">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setIsChatListSettingsOpen(false);
-                          }}
-                          className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[14px] font-semibold text-black dark:text-[#E4E6EB] transition-colors"
-                        >
-                          <svg
-                            className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                            />
-                          </svg>
-                          {t("chat.manage")}
+                        <button onClick={(e) => { e.stopPropagation(); setIsChatListSettingsOpen(false); }} className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[14px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                          <svg className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                          {t('chat.manage')}
                         </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setIsChatListSettingsOpen(false);
-                          }}
-                          className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[14px] font-semibold text-black dark:text-[#E4E6EB] transition-colors"
-                        >
-                          <svg
-                            className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-2.573 1.066c-.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c1.756-.426 1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                            />
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                            />
-                          </svg>
-                          {t("chat.settings")}
+                        <button onClick={(e) => { e.stopPropagation(); setIsChatListSettingsOpen(false); }} className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[14px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                          <svg className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                          {t('chat.settings')}
                         </button>
                       </div>
                     )}
                   </div>
                   <button className="w-9 h-9 rounded-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] flex items-center justify-center transition-colors text-black dark:text-[#E4E6EB]">
                     <svg
-                      className="w-5 h-5"
+                      className="w-[18px] h-[18px]"
                       fill="currentColor"
-                      viewBox="0 0 20 20"
+                      viewBox="0 0 24 24"
                     >
-                      <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                      <path d="M18.133 4.212c-.596-.596-1.56-.596-2.155 0l-1.393 1.393 3.548 3.548 1.393-1.393c.596-.596.596-1.56 0-2.155l-1.393-1.393zm-4.962 2.807L5.053 15.137c-.328.328-.564.739-.684 1.187l-.92 3.42a.75.75 0 00.93.93l3.42-.92c.448-.12.859-.356 1.187-.684l8.118-8.118-3.933-3.933z" />
                     </svg>
                   </button>
-                  <button
-                    onClick={() =>
-                      setChatSidebarView(
-                        chatSidebarView === "chats" ? "friends" : "chats",
-                      )
-                    }
-                    className="w-9 h-9 rounded-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] flex items-center justify-center transition-colors text-black dark:text-[#E4E6EB] ml-1"
+                  <button 
+                    onClick={() => setChatSidebarView(chatSidebarView === 'chats' ? 'friends' : 'chats')} 
+                    className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors ${chatSidebarView === 'friends' ? 'bg-gray-300 dark:bg-[#4E4F50]' : 'bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50]'}`}
                   >
-                    <img
-                      src="/teman.svg"
-                      alt="Teman"
-                      className="w-[20px] h-[20px] dark:invert"
-                    />
+                    <img src="/navigasi/teman.svg" className="w-5 h-5 dark:invert" />
                   </button>
                 </div>
               </div>
               <div className="mt-3 relative">
-                <input
-                  type="text"
-                  placeholder={t("chat.searchChat")}
-                  className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] text-black dark:text-[#E4E6EB] px-4 py-2 rounded-full outline-none text-[15px]"
-                />
-              </div>
-              <div className="flex items-center gap-5 mt-4 -mb-4 px-2 overflow-x-auto sidebar-scrollbar whitespace-nowrap">
-                <button
-                  onClick={() => setChatListFilter("all")}
-                  className={`font-semibold text-[15px] pb-2 border-b-2 transition-colors flex-shrink-0 ${chatListFilter === "all" ? "text-[#00B47A] dark:text-[#00B47A] border-[#00B47A] dark:border-[#00B47A]" : "text-gray-500 dark:text-gray-400 border-transparent hover:border-gray-300 dark:hover:border-gray-500"}`}
-                >
-                  {t("chat.all")}
-                </button>
-                <button
-                  onClick={() => setChatListFilter("unread")}
-                  className={`font-semibold text-[15px] pb-2 border-b-2 transition-colors flex-shrink-0 ${chatListFilter === "unread" ? "text-[#00B47A] dark:text-[#00B47A] border-[#00B47A] dark:border-[#00B47A]" : "text-gray-500 dark:text-gray-400 border-transparent hover:border-gray-300 dark:hover:border-gray-500"}`}
-                >
-                  {t("chat.unread")}
-                </button>
-                <button
-                  onClick={() => setChatListFilter("favorite")}
-                  className={`font-semibold text-[15px] pb-2 border-b-2 transition-colors flex-shrink-0 ${chatListFilter === "favorite" ? "text-[#00B47A] dark:text-[#00B47A] border-[#00B47A] dark:border-[#00B47A]" : "text-gray-500 dark:text-gray-400 border-transparent hover:border-gray-300 dark:hover:border-gray-500"}`}
-                >
-                  {t("chat.favorite")}
-                </button>
-                <button
-                  onClick={() => setChatListFilter("group")}
-                  className={`font-semibold text-[15px] pb-2 border-b-2 transition-colors flex-shrink-0 ${chatListFilter === "group" ? "text-[#00B47A] dark:text-[#00B47A] border-[#00B47A] dark:border-[#00B47A]" : "text-gray-500 dark:text-gray-400 border-transparent hover:border-gray-300 dark:hover:border-gray-500"}`}
-                >
-                  {t("chat.groupChat")}
-                </button>
-                <button
-                  onClick={() => setChatListFilter("archive")}
-                  className={`font-semibold text-[15px] pb-2 border-b-2 transition-colors flex-shrink-0 ${chatListFilter === "archive" ? "text-[#00B47A] dark:text-[#00B47A] border-[#00B47A] dark:border-[#00B47A]" : "text-gray-500 dark:text-gray-400 border-transparent hover:border-gray-300 dark:hover:border-gray-500"}`}
-                >
-                  {t("chat.archive")}
-                </button>
+                <input type="text" placeholder="Cari obrolan..." className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] text-black dark:text-[#E4E6EB] px-4 py-2 rounded-full outline-none text-[15px]" />
               </div>
             </div>
-            {chatSidebarView === "chats" ? (
-              <div className="flex-1 overflow-y-auto sidebar-scrollbar p-2">
-                <div className="mb-2">
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <svg
-                        className="h-5 w-5 text-gray-500 dark:text-[#B0B3B8]"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        />
-                      </svg>
-                    </div>
-                    <input
-                      type="text"
-                      placeholder={t("chat.search")}
-                      className="w-full pl-10 pr-4 py-2 bg-[#F0F2F5] dark:bg-[#3A3B3C] border-none rounded-full text-[15px] text-black dark:text-[#E4E6EB] placeholder-gray-500 dark:placeholder-[#B0B3B8] outline-none"
-                    />
-                  </div>
-                </div>
-                <div className="flex items-center gap-1 mb-2 px-1">
-                  <button className="px-3 py-1.5 rounded-full bg-[#EBF5FF] dark:bg-[#263951] text-[#0064D1] dark:text-[#2D88FF] text-[14px] font-semibold transition-colors">
-                    Semua
-                  </button>
-                  <button className="px-3 py-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-[#3A3B3C] text-gray-700 dark:text-[#B0B3B8] text-[14px] font-semibold transition-colors">
-                    Belum Dibaca
-                  </button>
-                  <button className="px-3 py-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-[#3A3B3C] text-gray-700 dark:text-[#B0B3B8] text-[14px] font-semibold transition-colors">
-                    Grup
-                  </button>
-                </div>
-                {dummyChats.map((chat, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors mb-1"
-                  >
-                    <div className="relative w-14 h-14 shrink-0">
-                      <img
-                        src="/default-avatar.svg"
-                        className="w-full h-full rounded-full object-cover border border-emerald-600 dark:border-emerald-400"
-                      />
-                      {chat.isOnline && (
-                        <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-[#31A24C] rounded-full border-2 border-white dark:border-[#242526]"></div>
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex justify-between items-center">
-                        <h4 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB] truncate">
-                          {chat.name}
-                        </h4>
-                        <span className="text-[12px] text-gray-500">
-                          {formatChatDate(chat.ts, locale)}
-                        </span>
-                      </div>
-                      <p className="text-[13px] text-gray-500 truncate">
-                        {chat.msg}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="flex-1 overflow-y-auto sidebar-scrollbar p-2">
-                <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[14px] px-2 mt-2 mb-1">
-                  {t("chat.activeFriends")}
-                </h3>
-                {dummyChats
-                  .filter((c) => c.isOnline)
-                  .map((chat, idx) => (
+              <div className="overscroll-contain flex-1 overflow-y-auto sidebar-scrollbar p-2">
+                {chatSidebarView === "chats" ? (
+                  dummyChats.map((chat, idx) => (
                     <div
-                      key={`online-${idx}`}
-                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors mb-1"
+                      key={idx}
+                      className="relative group flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors mb-1"
                     >
-                      <div className="relative w-10 h-10 shrink-0">
+                      <div className="relative w-14 h-14 shrink-0">
                         <img
                           src="/default-avatar.svg"
-                          className="w-full h-full rounded-full object-cover border border-gray-200 dark:border-[#4E4F50]"
+                          className="w-full h-full rounded-full object-cover border border-emerald-600 dark:border-emerald-400"
                         />
-                        <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#31A24C] rounded-full border-2 border-white dark:border-[#242526]"></div>
+                        {chat.isOnline && (
+                          <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-[#31A24C] rounded-full border-2 border-white dark:border-[#242526]"></div>
+                        )}
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB] truncate">
-                          {chat.name}
-                        </h4>
+                      <div className="flex-1 min-w-0 flex flex-col justify-center">
+                        <div className="flex justify-between items-center">
+                          <h4 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB] truncate">
+                            {chat.name}
+                          </h4>
+                          <span className="text-[12px] text-gray-500">
+                            {formatChatDate(chat.ts, locale)}
+                          </span>
+                        </div>
+                        <p className="text-[13px] text-gray-500 truncate mt-0.5">
+                          {chat.msg}
+                        </p>
                       </div>
                     </div>
-                  ))}
+                  ))
+                ) : (
+                  <>
+                    <div className="px-2 pt-2 pb-1 text-[13px] font-semibold text-gray-500 dark:text-[#B0B3B8]">
+                      {t('chat.activeFriends')} ({dummyChats.filter(c => c.isOnline).length})
+                    </div>
+                    {dummyChats.filter(c => c.isOnline).map((chat, idx) => (
+                      <div
+                        key={'online-'+idx}
+                        className="relative group flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors mb-1"
+                      >
+                        <div className="relative w-14 h-14 shrink-0">
+                          <img
+                            src="/default-avatar.svg"
+                            className="w-full h-full rounded-full object-cover border border-emerald-600 dark:border-emerald-400"
+                          />
+                          <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-[#31A24C] rounded-full border-2 border-white dark:border-[#242526]"></div>
+                        </div>
+                        <div className="flex-1 min-w-0 flex flex-col justify-center">
+                          <h4 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB] truncate">
+                            {chat.name}
+                          </h4>
+                        </div>
+                      </div>
+                    ))}
+
+                    <div className="px-2 pt-4 pb-1 text-[13px] font-semibold text-gray-500 dark:text-[#B0B3B8]">
+                      {t('chat.offlineFriends')} ({dummyChats.filter(c => !c.isOnline).length})
+                    </div>
+                    {dummyChats.filter(c => !c.isOnline).map((chat, idx) => (
+                      <div
+                        key={'offline-'+idx}
+                        className="relative group flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors mb-1"
+                      >
+                        <div className="relative w-14 h-14 shrink-0">
+                          <img
+                            src="/default-avatar.svg"
+                            className="w-full h-full rounded-full object-cover border border-emerald-600 dark:border-emerald-400"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0 flex flex-col justify-center">
+                          <h4 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB] truncate">
+                            {chat.name}
+                          </h4>
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                )}
               </div>
-            )}
           </div>
 
           {/* TENGAH: Chat Room */}
@@ -4314,10 +4200,10 @@ export default function Beranda() {
                   </p>
                 </div>
               </div>
-              <div className="ml-auto flex items-center gap-6">
-                <button className="text-[#00B47A] hover:text-[#009E6B] transition-colors">
+              <div className="ml-auto flex items-center gap-1">
+                <button className="text-[#00B47A] hover:bg-gray-100 dark:hover:bg-[#3A3B3C] w-10 h-10 rounded-full flex items-center justify-center transition-colors">
                   <svg
-                    className="w-6 h-6"
+                    className="w-5 h-5"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -4331,10 +4217,12 @@ export default function Beranda() {
                 <div className="relative" ref={chatMoreMenuRef}>
                   <button
                     onClick={() => setIsChatMoreMenuOpen(!isChatMoreMenuOpen)}
-                    className="text-[#00B47A] hover:text-[#009E6B] transition-colors"
+                    className={`text-[#00B47A] w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
+                      isChatMoreMenuOpen ? 'bg-gray-100 dark:bg-[#3A3B3C]' : 'hover:bg-gray-100 dark:hover:bg-[#3A3B3C]'
+                    }`}
                   >
                     <svg
-                      className="w-6 h-6"
+                      className="w-5 h-5"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -4520,7 +4408,7 @@ export default function Beranda() {
                           e.stopPropagation();
                           setIsChatMoreMenuOpen(false);
                         }}
-                        className="w-full text-left px-4 py-2 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-3 text-[15px] font-semibold text-red-500 dark:text-red-500 transition-colors"
+                        className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[15px] font-semibold text-red-500 dark:text-red-500 transition-colors"
                       >
                         <svg
                           className="w-6 h-6 text-red-500 dark:text-red-500"
@@ -4542,7 +4430,7 @@ export default function Beranda() {
                           e.stopPropagation();
                           setIsChatMoreMenuOpen(false);
                         }}
-                        className="w-full text-left px-4 py-2 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-3 text-[15px] font-semibold text-red-500 dark:text-red-500 transition-colors"
+                        className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[15px] font-semibold text-red-500 dark:text-red-500 transition-colors"
                       >
                         <svg
                           className="w-6 h-6 text-red-500 dark:text-red-500"
@@ -4564,7 +4452,7 @@ export default function Beranda() {
                           e.stopPropagation();
                           setIsChatMoreMenuOpen(false);
                         }}
-                        className="w-full text-left px-4 py-2 hover:bg-orange-50 dark:hover:bg-orange-900/20 flex items-center gap-3 text-[15px] font-semibold text-orange-500 dark:text-orange-500 transition-colors"
+                        className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[15px] font-semibold text-orange-500 dark:text-orange-500 transition-colors"
                       >
                         <svg
                           className="w-6 h-6 text-orange-500 dark:text-orange-500"
@@ -4586,7 +4474,7 @@ export default function Beranda() {
                           e.stopPropagation();
                           setIsChatMoreMenuOpen(false);
                         }}
-                        className="w-full text-left px-4 py-2 hover:bg-orange-50 dark:hover:bg-orange-900/20 flex items-center gap-3 text-[15px] font-semibold text-orange-500 dark:text-orange-500 transition-colors"
+                        className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[15px] font-semibold text-orange-500 dark:text-orange-500 transition-colors"
                       >
                         <svg
                           className="w-6 h-6 text-orange-500 dark:text-orange-500"
