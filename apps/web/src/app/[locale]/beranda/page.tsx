@@ -4107,13 +4107,17 @@ export default function Beranda() {
                       )}
                     </button>
                     <div className="absolute -bottom-9 left-1/2 -translate-x-1/2 px-2.5 py-1.5 bg-gray-800/90 text-[#E4E6EB] text-[13px] font-medium rounded-lg opacity-0 group-hover/friendlist:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
-                      {t('chat.friendlistTooltip')}
+                      {chatSidebarView === "friends" ? t('chat.closeTooltip') : t('chat.friendlistTooltip')}
                     </div>
                   </div>
                 </div>
               </div>
               <div className="mt-3 relative">
-                <input type="text" placeholder="Cari obrolan..." className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] text-black dark:text-[#E4E6EB] px-4 py-2 rounded-full outline-none text-[15px]" />
+                <input 
+                  type="text" 
+                  placeholder={chatSidebarView === 'friends' ? t('chat.searchUsername') : t('chat.searchChat')} 
+                  className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] text-black dark:text-[#E4E6EB] px-4 py-2 rounded-full outline-none text-[15px]" 
+                />
               </div>
             </div>
               <div className="overscroll-contain flex-1 overflow-y-auto sidebar-scrollbar p-2">

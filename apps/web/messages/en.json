@@ -63,7 +63,9 @@
     "privacySupport": "Privacy & support",
     "optionsTooltip": "Option",
     "newChatTooltip": "New chat",
-    "friendlistTooltip": "Friendlist"
+    "friendlistTooltip": "Friendlist",
+    "searchUsername": "Search username...",
+    "closeTooltip": "Close"
   },
   "login": {
     "title": "Log in",

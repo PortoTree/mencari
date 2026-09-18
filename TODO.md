@@ -13,6 +13,7 @@
 - [x] (Frontend) Perbaikan layout Sidebar Obrolan: Header dengan icon pencarian & dropdown, Tombol PING merah di footer, Switch Chat/Friend list, dan Right Sidebar Chat Info (page.tsx).
 - [x] (Frontend) Modifikasi logic Friendlist tab: Menambahkan kategori Teman Aktif (online) dan Teman Offline secara terpisah.
 - [x] (Frontend) Update icon UI Header Sidebar Obrolan: Menghilangkan icon pensil solid menjadi bulatan+ (tambah obrolan/grup), menghilangkan tombol opsi di mode friendlist, serta update tooltips untuk icon header (Opsi, Buat obrolan, Daftar teman).
+- [x] (Frontend) Modifikasi logic Searchbox & Custom Tooltips: Mengubah tooltip bawaan browser menjadi custom tooltip Tailwind di semua icon header. Mengubah placeholder kotak pencarian secara dinamis (Cari obrolan... -> Cari nama pengguna...) berdasarkan state, beserta update file translasi ID & EN.
 - [x] (Frontend) Update isi dropdown Chat Room (Tambah ke favorit, Laporkan, Blokir dll) dengan custom hover & icon warna (merah/orange).
 
 ## 🔄 In Progress

@@ -63,7 +63,9 @@
     "privacySupport": "Privasi & dukungan",
     "optionsTooltip": "Opsi",
     "newChatTooltip": "Buat obrolan",
-    "friendlistTooltip": "Daftar teman"
+    "friendlistTooltip": "Daftar teman",
+    "searchUsername": "Cari nama pengguna...",
+    "closeTooltip": "Tutup"
   },
   "login": {
     "title": "Login akun",
