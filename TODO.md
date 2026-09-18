@@ -11,6 +11,7 @@
 - [x] (Frontend) Perbaikan tema terang & gelap (Dark Mode & UI Layout ala Facebook) di `/beranda`.
 - [x] (Frontend) Optimasi z-index dropdown profil, hover effect kontras, fix icon SVG Matahari, & presisi default avatar.
 - [x] (Frontend) Perbaikan layout Sidebar Obrolan: Header dengan icon pencarian & dropdown, Tombol PING merah di footer, Switch Chat/Friend list, dan Right Sidebar Chat Info (page.tsx).
+- [x] (Frontend) Update isi dropdown Chat Room (Tambah ke favorit, Laporkan, Blokir dll) dengan custom hover & icon warna (merah/orange).
 
 ## 🔄 In Progress
 - [ ] (Frontend/Backend) Build post creation modal & real-time Feed Layout (`/beranda`).

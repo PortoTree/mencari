@@ -4350,83 +4350,257 @@ export default function Beranda() {
                         }}
                         className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors"
                       >
-                        <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <svg
+                          className="w-6 h-6 text-black dark:text-[#E4E6EB]"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
                         Lihat profil
                       </button>
                       <button
-                        onClick={(e) => { e.stopPropagation(); setIsChatMoreMenuOpen(false); }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsChatMoreMenuOpen(false);
+                        }}
                         className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors"
                       >
-                        <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                        <svg
+                          className="w-6 h-6 text-black dark:text-[#E4E6EB]"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                          />
+                        </svg>
                         Cari
                       </button>
                       <button
-                        onClick={(e) => { e.stopPropagation(); setIsChatMoreMenuOpen(false); }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsChatMoreMenuOpen(false);
+                        }}
                         className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors"
                       >
-                        <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <svg
+                          className="w-6 h-6 text-black dark:text-[#E4E6EB]"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
                         Pilih pesan
                       </button>
                       <button
-                        onClick={(e) => { e.stopPropagation(); setIsChatMoreMenuOpen(false); }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsChatMoreMenuOpen(false);
+                        }}
                         className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors"
                       >
-                        <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <svg
+                          className="w-6 h-6 text-black dark:text-[#E4E6EB]"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
                         Pesan sementara
                       </button>
                       <button
-                        onClick={(e) => { e.stopPropagation(); setIsChatMoreMenuOpen(false); }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsChatMoreMenuOpen(false);
+                        }}
                         className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors"
                       >
-                        <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                        <svg
+                          className="w-6 h-6 text-black dark:text-[#E4E6EB]"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                          />
+                        </svg>
                         Tambah ke favorit
                       </button>
                       <button
-                        onClick={(e) => { e.stopPropagation(); setIsChatMoreMenuOpen(false); }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsChatMoreMenuOpen(false);
+                        }}
                         className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center justify-between text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors"
                       >
                         <div className="flex items-center gap-3">
-                          <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" /></svg>
+                          <svg
+                            className="w-6 h-6 text-black dark:text-[#E4E6EB]"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M4 6h16M4 10h16M4 14h16M4 18h16"
+                            />
+                          </svg>
                           Tambah ke daftar
                         </div>
-                        <svg className="w-4 h-4 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                        <svg
+                          className="w-4 h-4 text-black dark:text-[#E4E6EB]"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
                       </button>
                       <button
-                        onClick={(e) => { e.stopPropagation(); setIsChatMoreMenuOpen(false); }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsChatMoreMenuOpen(false);
+                        }}
                         className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors"
                       >
-                        <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <svg
+                          className="w-6 h-6 text-black dark:text-[#E4E6EB]"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
                         Tutup obrolan
                       </button>
-                      
+
                       <div className="my-1.5 border-t border-gray-200 dark:border-[#3E4042]"></div>
-                      
+
                       <button
-                        onClick={(e) => { e.stopPropagation(); setIsChatMoreMenuOpen(false); }}
-                        className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsChatMoreMenuOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-3 text-[15px] font-semibold text-red-500 dark:text-red-500 transition-colors"
                       >
-                        <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.096c.5 0 .905-.405.905-.904 0-.715.211-1.413.608-2.008L17 13V4m-7 10h2" /></svg>
+                        <svg
+                          className="w-6 h-6 text-red-500 dark:text-red-500"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.096c.5 0 .905-.405.905-.904 0-.715.211-1.413.608-2.008L17 13V4m-7 10h2"
+                          />
+                        </svg>
                         Laporkan
                       </button>
                       <button
-                        onClick={(e) => { e.stopPropagation(); setIsChatMoreMenuOpen(false); }}
-                        className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsChatMoreMenuOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-3 text-[15px] font-semibold text-red-500 dark:text-red-500 transition-colors"
                       >
-                        <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
+                        <svg
+                          className="w-6 h-6 text-red-500 dark:text-red-500"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+                          />
+                        </svg>
                         Blokir
                       </button>
                       <button
-                        onClick={(e) => { e.stopPropagation(); setIsChatMoreMenuOpen(false); }}
-                        className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsChatMoreMenuOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 hover:bg-orange-50 dark:hover:bg-orange-900/20 flex items-center gap-3 text-[15px] font-semibold text-orange-500 dark:text-orange-500 transition-colors"
                       >
-                        <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <svg
+                          className="w-6 h-6 text-orange-500 dark:text-orange-500"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
                         Bersihkan obrolan
                       </button>
                       <button
-                        onClick={(e) => { e.stopPropagation(); setIsChatMoreMenuOpen(false); }}
-                        className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsChatMoreMenuOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 hover:bg-orange-50 dark:hover:bg-orange-900/20 flex items-center gap-3 text-[15px] font-semibold text-orange-500 dark:text-orange-500 transition-colors"
                       >
-                        <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                        <svg
+                          className="w-6 h-6 text-orange-500 dark:text-orange-500"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          />
+                        </svg>
                         Hapus obrolan
                       </button>
                     </div>
