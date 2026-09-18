@@ -51,7 +51,16 @@
     "send": "Send",
     "favorite": "Favorite",
     "groupChat": "Group chat",
-    "archive": "Archive"
+    "archive": "Archive",
+    "youCreatedGroup": "You created this chat",
+    "e2eNotice": "Messages and calls are secured with end-to-end encryption. Only people in this chat can read, listen to or share them.",
+    "learnMore": "Learn more",
+    "e2eEncrypted": "End-to-end encrypted",
+    "search": "Search",
+    "mediaAndFiles": "Media and files",
+    "media": "Media",
+    "files": "Files",
+    "privacySupport": "Privacy & support"
   },
   "login": {
     "title": "Log in",

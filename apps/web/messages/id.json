@@ -51,7 +51,16 @@
     "send": "Kirim",
     "favorite": "Favorit",
     "groupChat": "Grup obrolan",
-    "archive": "Arsip"
+    "archive": "Arsip",
+    "youCreatedGroup": "Anda membuat obrolan ini",
+    "e2eNotice": "Pesan dan panggilan diamankan dengan enkripsi end-to-end. Hanya orang di obrolan ini yang dapat membaca, mendengar, atau membagikannya.",
+    "learnMore": "Pelajari selengkapnya",
+    "e2eEncrypted": "Terenkripsi end-to-end",
+    "search": "Cari",
+    "mediaAndFiles": "Media dan file",
+    "media": "Media",
+    "files": "File",
+    "privacySupport": "Privasi & dukungan"
   },
   "login": {
     "title": "Login akun",

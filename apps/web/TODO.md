@@ -145,3 +145,22 @@
 - [x] (Frontend) Tambahkan filter tabs (All, Unread) beserta icon filter di bawah kolom pencarian chat list.\n
 - [x] (Frontend) Renggangkan jarak antara tab All dan Unread di chat list (gap diubah jadi gap-8).\n
 - [x] (Frontend) Hapus icon filter di chat list header dan tambahkan 3 tab filter baru: Favorite, Group chat, dan Arsip (bisa di-scroll horizontal).\n
+- [x] (Frontend) Perbaiki tipografi tab filter (ubah ke text-[13.5px] dan justify-between) supaya kelima tab muat tanpa horizontal scroll.\n
+- [x] (Frontend) Kembalikan icon filter, sisakan tab All, Unread, Favorite di luar. Masukkan filter Group Chat dan Arsip ke dalam menu dropdown icon filter.\n
+- [x] (Frontend) Pindahkan friendlist ke sidebar kiri dengan sistem toggle view menggunakan state chatSidebarView dan icon navigasi/teman.svg.\n
+- [x] (Frontend) Perbarui UI ruang chat menjadi mirip Messenger (warna bubble biru #0084FF, header dengan tombol info) dan buat sidebar kanan khusus untuk info obrolan (Chat Info).\n
+- [x] (Frontend) Lebarkan ukuran sidebar kanan (Chat Info) menjadi 360px supaya simetris dengan sidebar kiri.\n
+- [x] (Frontend) Hapus teks e2e notice di chat room dan ganti terjemahan youCreatedGroup menjadi Anda membuat obrolan ini.\n
+- [x] (Frontend) Ganti icon info di header chat room menjadi icon search.\n
+- [x] (Frontend) Hapus background bulat pada icon header chat room dan tambahkan icon titik tiga di sebelahnya.\n
+- [x] (Frontend) Perbesar ukuran icon search & opsi titik tiga di header chat room menjadi w-6 h-6 dan tambahkan jarak (gap-6).\n
+- [x] (Frontend) Ubah warna seluruh elemen interaktif chat room menjadi emerald hijau (#00B47A) dan hapus icon mic serta GIF.\n
+- [x] (Frontend) Ganti icon jempol di pojok kanan bawah chat room menjadi tombol teks PING!!!.\n
+- [x] (Frontend) Bungkus icon foto di chat room dengan background bulat (emerald) dan ubah tombol PING!!! menjadi oval berwarna merah dengan teks putih.\n
+- [x] (Frontend) Ganti teks tombol PING menjadi 'PING !!!' dan ubah ketebalan font menjadi font-black / sangat tebal.\n
+- [x] (Frontend) Kembalikan styling tombol PING!!! agar lebih kalem (tidak terlalu tebal dan tidak ada jarak huruf lebar).\n
+- [x] (Frontend) Ganti tombol PING merah dengan icon SVG PING dan teks biasa yang menyesuaikan tema gelap/terang.\n
+- [x] (Frontend) Gabungkan kembali icon PING dan teks PING ke dalam satu tombol oval berwarna merah.\n
+- [x] (Frontend) Tambahkan dropdown menu pada icon titik tiga di header chat room berisi opsi (Info kontak, Cari, Pilih pesan, dsb) dan lepas fungsi buka/tutup sidebar dari icon tersebut.\n
+- [x] (Frontend) Ganti label 'Info kontak' menjadi 'Lihat profil' pada menu opsi chat.\nA d d e d   a u t o c l o s e   d r o p d o w n   t o   c h a t   r o o m   h e a d e r   a n d   c h a n g e d   m e n u   t e x t   t o   L i h a t   p r o f i l .   A d d r e s s e d   P I N G   f o o t e r   b u t t o n   c h a n g e s .   ( A l l   i n   s r c / a p p / [ l o c a l e ] / b e r a n d a / p a g e . t s x )  
+ 
