@@ -84,7 +84,11 @@
     "profile": "Profil",
     "links": "Tautan",
     "mediaGallery": "Galeri Media",
-    "mediaFiles": "File Media"
+    "mediaFiles": "File Media",
+    "failedToSend": "Gagal terkirim",
+    "sending": "Mengirimkan...",
+    "sent": "Terkirim",
+    "read": "Dilihat"
   },
   "login": {
     "title": "Login akun",

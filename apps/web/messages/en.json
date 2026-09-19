@@ -84,7 +84,11 @@
     "profile": "Profile",
     "links": "Links",
     "mediaGallery": "Media Gallery",
-    "mediaFiles": "Media Files"
+    "mediaFiles": "Media Files",
+    "failedToSend": "Failed to send",
+    "sending": "Sending...",
+    "sent": "Sent",
+    "read": "Read"
   },
   "login": {
     "title": "Log in",
