@@ -72,7 +72,8 @@
     "filterGroup": "Group Chat",
     "filterArchive": "Archived",
     "viewProfile": "View profile",
-    "report": "Report"
+    "report": "Report",
+    "searchInChat": "Search in chat..."
   },
   "login": {
     "title": "Log in",

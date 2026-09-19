@@ -33,3 +33,8 @@
 - [x] (Frontend) Fix Desktop Chat List Dropdown: Menambahkan icon titik 3 horizontal dan dropdown berisi 10 menu (termasuk lihat profil, arsip, pin, dll) ke dalam list obrolan versi Desktop.
 
 - [x] (Frontend) Fix Vercel Build Error: Rename backup files (page_recovered.tsx, page_start.tsx) yang bikin error TS, dan tambah @ts-ignore di import JSON.
+
+
+## Update 2026-09-19T02:06:53.725Z
+- (Frontend) Menambahkan fitur searchbox toggle di header Chat Room (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Menambahkan icon kalender di sebelah searchbox chat room (src/app/[locale]/beranda/page.tsx)

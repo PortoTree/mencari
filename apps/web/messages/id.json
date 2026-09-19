@@ -72,7 +72,8 @@
     "filterGroup": "Grup Chat",
     "filterArchive": "Arsip",
     "viewProfile": "Lihat profil",
-    "report": "Laporkan"
+    "report": "Laporkan",
+    "searchInChat": "Cari di obrolan..."
   },
   "login": {
     "title": "Login akun",
