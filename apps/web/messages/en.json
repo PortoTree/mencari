@@ -80,7 +80,11 @@
     "uploadFile": "Upload File",
     "selectMessages": "Select messages",
     "disappearingMessages": "Disappearing messages",
-    "closeChat": "Close chat"
+    "closeChat": "Close chat",
+    "profile": "Profile",
+    "links": "Links",
+    "mediaGallery": "Media Gallery",
+    "mediaFiles": "Media Files"
   },
   "login": {
     "title": "Log in",

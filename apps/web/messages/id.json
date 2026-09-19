@@ -80,7 +80,11 @@
     "uploadFile": "Upload File",
     "selectMessages": "Pilih pesan",
     "disappearingMessages": "Pesan sementara",
-    "closeChat": "Tutup obrolan"
+    "closeChat": "Tutup obrolan",
+    "profile": "Profil",
+    "links": "Tautan",
+    "mediaGallery": "Galeri Media",
+    "mediaFiles": "File Media"
   },
   "login": {
     "title": "Login akun",
