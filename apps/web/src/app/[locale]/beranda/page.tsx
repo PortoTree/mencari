@@ -3295,207 +3295,92 @@ export default function Beranda() {
                         fill="currentColor"
                         viewBox="0 0 24 24"
                       >
-                        <circle cx="12" cy="5" r="1.5" />
+                        <circle cx="5" cy="12" r="1.5" />
                         <circle cx="12" cy="12" r="1.5" />
-                        <circle cx="12" cy="19" r="1.5" />
+                        <circle cx="19" cy="12" r="1.5" />
                       </svg>
                     </button>
-                    {activeChatMenu === idx && (
-                      <div
-                        ref={chatMenuRef}
-                        onClick={(e) => e.stopPropagation()}
-                        className="fixed z-[200] w-[260px] bg-white dark:bg-[#242526] rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.25)] border border-gray-100 dark:border-[#3E4042] overflow-hidden"
-                        style={{
-                          right: "388px",
-                          top: Math.min(
-                            menuPosition.top,
-                            window.innerHeight - 480,
-                          ),
-                        }}
-                      >
-                        <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-100 dark:border-[#3E4042]">
-                          <div className="w-10 h-10 rounded-full shrink-0 overflow-hidden border border-emerald-600 dark:border-emerald-400">
-                            <img
-                              src="/default-avatar.svg"
-                              alt="Profile"
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <div>
-                            <p className="font-semibold text-[14px] text-black dark:text-[#E4E6EB]">
-                              {chat.name}
-                            </p>
-                            <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8]">
-                              {chat.isOnline
-                                ? t("chat.activeNow")
-                                : t("chat.activeUser")}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="py-1">
-                          <button className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors text-left">
-                            <svg
-                              className="w-5 h-5 text-black dark:text-[#E4E6EB] shrink-0"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
-                              />
+                      {activeChatMenu === idx && (
+                        <div
+                          ref={chatMenuRef}
+                          onClick={(e) => e.stopPropagation()}
+                          className="fixed z-[200] w-[280px] bg-white dark:bg-[#242526] rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.25)] border border-gray-100 dark:border-[#3E4042] overflow-hidden py-2"
+                          style={{
+                            right: "388px",
+                            top: Math.min(
+                              menuPosition.top,
+                              window.innerHeight - 520,
+                            ),
+                          }}
+                        >
+                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                            <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            <span className="text-[14px] text-black dark:text-[#E4E6EB]">
-                              {t("chat.archiveChat")}
-                            </span>
+                            {t("chat.viewProfile")}
                           </button>
-                          <button className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors text-left">
-                            <svg
-                              className="w-5 h-5 text-black dark:text-[#E4E6EB] shrink-0"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-                              />
+                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                            <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
                             </svg>
-                            <span className="text-[14px] text-black dark:text-[#E4E6EB]">
-                              {t("chat.pinChat")}
-                            </span>
+                            {t("chat.archiveChat")}
                           </button>
-                          <button className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors text-left">
-                            <svg
-                              className="w-5 h-5 text-black dark:text-[#E4E6EB] shrink-0"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                              />
+                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                            <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                             </svg>
-                            <span className="text-[14px] text-black dark:text-[#E4E6EB]">
-                              {t("chat.markUnread")}
-                            </span>
+                            {t("chat.pinChat")}
                           </button>
-                          <button className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors text-left">
-                            <svg
-                              className="w-5 h-5 text-black dark:text-[#E4E6EB] shrink-0"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                              />
+                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                            <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
-                            <span className="text-[14px] text-black dark:text-[#E4E6EB]">
-                              {t("chat.addFavorite")}
-                            </span>
+                            {t("chat.markUnread")}
                           </button>
-                          <button className="w-full flex items-center justify-between gap-3 px-4 py-2.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors text-left">
-                            <div className="flex items-center gap-3">
-                              <svg
-                                className="w-5 h-5 text-black dark:text-[#E4E6EB] shrink-0"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M4 6h16M4 10h16M4 14h16M4 18h16"
-                                />
+                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                            <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                            {t("chat.addFavorite")}
+                          </button>
+                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center justify-between text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                            <div className="flex items-center gap-4">
+                              <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                               </svg>
-                              <span className="text-[14px] text-black dark:text-[#E4E6EB]">
-                                {t("chat.addToList")}
-                              </span>
+                              {t("chat.addToList")}
                             </div>
-                            <svg
-                              className="w-4 h-4 text-gray-400"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M9 5l7 7-7 7"
-                              />
+                            <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                             </svg>
                           </button>
-                          <div className="border-t border-gray-100 dark:border-[#3E4042] my-1" />
-                          <button className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors text-left">
-                            <svg
-                              className="w-5 h-5 text-red-500 shrink-0"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
-                              />
+                          <div className="border-t border-gray-100 dark:border-[#3E4042] my-2" />
+                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-red-500 transition-colors">
+                            <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
                             </svg>
-                            <span className="text-[14px] text-red-500">
-                              {t("chat.block")}
-                            </span>
+                            {t("chat.report")}
                           </button>
-                          <button className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors text-left">
-                            <svg
-                              className="w-5 h-5 text-red-500 shrink-0"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M6 18L18 6M6 6l12 12"
-                              />
+                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-red-500 transition-colors">
+                            <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
                             </svg>
-                            <span className="text-[14px] text-red-500">
-                              {t("chat.clearChat")}
-                            </span>
+                            {t("chat.block")}
                           </button>
-                          <button className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors text-left">
-                            <svg
-                              className="w-5 h-5 text-red-500 shrink-0"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                              />
+                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-[#F15C00] transition-colors">
+                            <svg className="w-6 h-6 text-[#F15C00]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            <span className="text-[14px] text-red-500">
-                              {t("chat.deleteChat")}
-                            </span>
+                            {t("chat.clearChat")}
+                          </button>
+                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-[#F15C00] transition-colors">
+                            <svg className="w-6 h-6 text-[#F15C00]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            {t("chat.deleteChat")}
                           </button>
                         </div>
-                      </div>
-                    )}
+                      )}
                   </div>
                 ))}
               </div>
@@ -4194,6 +4079,111 @@ export default function Beranda() {
                           {chat.msg}
                         </p>
                       </div>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const rect = e.currentTarget.getBoundingClientRect();
+                          setMenuPosition({ top: rect.top });
+                          setActiveChatMenu(activeChatMenu === idx ? null : idx);
+                        }}
+                        className={
+                          "absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#E4E6EB] dark:bg-[#4E4F50] flex items-center justify-center text-gray-600 dark:text-[#B0B3B8] hover:bg-[#D8D9DB] dark:hover:bg-[#5A5B5C] transition-all z-10 " +
+                          (activeChatMenu === idx
+                            ? "opacity-100"
+                            : "opacity-0 group-hover:opacity-100")
+                        }
+                      >
+                        <svg
+                          className="w-4 h-4"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle cx="5" cy="12" r="1.5" />
+                          <circle cx="12" cy="12" r="1.5" />
+                          <circle cx="19" cy="12" r="1.5" />
+                        </svg>
+                      </button>
+                      {activeChatMenu === idx && (
+                        <div
+                          ref={chatMenuRef}
+                          onClick={(e) => e.stopPropagation()}
+                          className="fixed z-[200] w-[280px] bg-white dark:bg-[#242526] rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.25)] border border-gray-100 dark:border-[#3E4042] overflow-hidden py-2"
+                          style={{
+                            left: "360px",
+                            top: Math.min(
+                              menuPosition.top,
+                              window.innerHeight - 520,
+                            ),
+                          }}
+                        >
+                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                            <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            {t("chat.viewProfile")}
+                          </button>
+                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                            <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                            </svg>
+                            {t("chat.archiveChat")}
+                          </button>
+                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                            <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                            </svg>
+                            {t("chat.pinChat")}
+                          </button>
+                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                            <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            {t("chat.markUnread")}
+                          </button>
+                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                            <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                            {t("chat.addFavorite")}
+                          </button>
+                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center justify-between text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                            <div className="flex items-center gap-4">
+                              <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                              </svg>
+                              {t("chat.addToList")}
+                            </div>
+                            <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </button>
+                          <div className="border-t border-gray-100 dark:border-[#3E4042] my-2" />
+                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-red-500 transition-colors">
+                            <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                            </svg>
+                            {t("chat.report")}
+                          </button>
+                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-red-500 transition-colors">
+                            <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                            </svg>
+                            {t("chat.block")}
+                          </button>
+                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-[#F15C00] transition-colors">
+                            <svg className="w-6 h-6 text-[#F15C00]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            {t("chat.clearChat")}
+                          </button>
+                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-[#F15C00] transition-colors">
+                            <svg className="w-6 h-6 text-[#F15C00]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            {t("chat.deleteChat")}
+                          </button>
+                        </div>
+                      )}
                     </div>
                   ))
                 ) : (

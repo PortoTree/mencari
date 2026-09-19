@@ -70,7 +70,9 @@
     "filterUnread": "Unread",
     "filterFavorite": "Favorites",
     "filterGroup": "Group Chat",
-    "filterArchive": "Archived"
+    "filterArchive": "Archived",
+    "viewProfile": "View profile",
+    "report": "Report"
   },
   "login": {
     "title": "Log in",

@@ -70,7 +70,9 @@
     "filterUnread": "Belum dibaca",
     "filterFavorite": "Favorit",
     "filterGroup": "Grup Chat",
-    "filterArchive": "Arsip"
+    "filterArchive": "Arsip",
+    "viewProfile": "Lihat profil",
+    "report": "Laporkan"
   },
   "login": {
     "title": "Login akun",

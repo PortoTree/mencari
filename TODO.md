@@ -25,3 +25,9 @@
 - [ ] (Backend) Setup Cloudinary Media Upload (Avatar/Postingan).
 - [ ] (Frontend) Bikin halaman `/profile` dan `/[username]` (Edit bio, ganti avatar).
 - [ ] (Backend) Integrasi notifikasi real-time (opsional, tahap lanjut).
+
+- [x] (Frontend) Update Chat List Dropdown: Menyesuaikan isi dropdown pada chat list (menambahkan Lihat profil, Laporkan) dan menyesuaikan warnanya agar sama persis seperti Room Chat options.
+
+- [x] (Frontend) Fix Chat List Dropdown Options: Menghapus opsi khusus Room Chat (seperti Lihat Profil, Laporkan, dll) dari dropdown hover di list obrolan dan hanya menyisakan Arsip, Sematkan, Tandai Belum Dibaca, Blokir, dan Hapus Obrolan.
+
+- [x] (Frontend) Fix Desktop Chat List Dropdown: Menambahkan icon titik 3 horizontal dan dropdown berisi 10 menu (termasuk lihat profil, arsip, pin, dll) ke dalam list obrolan versi Desktop.
