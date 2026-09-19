@@ -180,6 +180,8 @@ export default function Beranda() {
   const [isChatInfoOpen, setIsChatInfoOpen] = useState(true);
   const [isChatMoreMenuOpen, setIsChatMoreMenuOpen] = useState(false);
   const chatMoreMenuRef = useRef<HTMLDivElement>(null);
+  const roomSearchRef = useRef<HTMLDivElement>(null);
+  const roomSearchToggleRef = useRef<HTMLButtonElement>(null);
   const handleAnimationComplete = () => {
     setTimeout(() => {
       if (lottieRef.current) {
@@ -301,12 +303,20 @@ export default function Beranda() {
       ) {
         setIsChatMoreMenuOpen(false);
       }
+      if (
+        roomSearchRef.current &&
+        !roomSearchRef.current.contains(event.target as Node) &&
+        roomSearchToggleRef.current &&
+        !roomSearchToggleRef.current.contains(event.target as Node)
+      ) {
+        setIsRoomSearchOpen(false);
+      }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [activeChatMenu, isChatMoreMenuOpen]);
+  }, [activeChatMenu, isChatMoreMenuOpen, isRoomSearchOpen]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -4261,6 +4271,7 @@ export default function Beranda() {
               </div>
               <div className="ml-auto flex items-center gap-1">
                 <button 
+                  ref={roomSearchToggleRef}
                   onClick={() => setIsRoomSearchOpen(!isRoomSearchOpen)}
                   className={`text-[#00B47A] w-10 h-10 rounded-full flex items-center justify-center transition-colors ${isRoomSearchOpen ? 'bg-gray-100 dark:bg-[#3A3B3C]' : 'hover:bg-gray-100 dark:hover:bg-[#3A3B3C]'}`}
                 >
@@ -4559,7 +4570,7 @@ export default function Beranda() {
               </div>
             </div>
             {isRoomSearchOpen && (
-              <div className="bg-white dark:bg-[#242526] px-4 py-3 border-b border-gray-200 dark:border-[#3E4042] flex items-center gap-3 shrink-0">
+              <div ref={roomSearchRef} className="bg-white dark:bg-[#242526] px-4 py-3 border-b border-gray-200 dark:border-[#3E4042] flex items-center gap-3 shrink-0">
                 <div className="flex-1 relative">
                   <input type="text" placeholder={t("chat.searchInChat") || "Cari di obrolan..."} className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] text-black dark:text-[#E4E6EB] px-4 py-2 rounded-full focus:outline-none text-[14px]" />
                 </div>

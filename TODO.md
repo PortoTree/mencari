@@ -38,3 +38,4 @@
 ## Update 2026-09-19T02:06:53.725Z
 - (Frontend) Menambahkan fitur searchbox toggle di header Chat Room (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menambahkan icon kalender di sebelah searchbox chat room (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Menambahkan logika autoclose (klik di luar area) pada room searchbox dengan ref dan event listener (src/app/[locale]/beranda/page.tsx)
