@@ -4605,30 +4605,40 @@ export default function Beranda() {
                 </span>
               </div>
 
-              <div className="flex items-start gap-2 max-w-[70%]">
+              <div className="flex items-start gap-2 max-w-[70%] group">
                 <img
                   src="/default-avatar.svg"
-                  className="w-8 h-8 rounded-full border border-gray-300 shrink-0"
+                  className="w-8 h-8 rounded-full border border-gray-300 shrink-0 mt-1"
                 />
-                <div className="bg-white dark:bg-[#3A3B3C] px-3 py-2 rounded-2xl rounded-tl-none shadow-sm flex flex-col">
-                  <p className="text-[14px] text-black dark:text-[#E4E6EB]">
-                    Halo bro, apa kabar? Udah lama gak nongkrong nih.
-                  </p>
-                  <span className="text-[11px] text-gray-500 dark:text-[#B0B3B8] mt-1 self-start">
-                    10.22
-                  </span>
+                <div className="flex items-center gap-2">
+                  <div className="bg-white dark:bg-[#3A3B3C] px-3 py-2 rounded-2xl rounded-tl-none shadow-sm flex flex-col">
+                    <p className="text-[14px] text-black dark:text-[#E4E6EB]">
+                      Halo bro, apa kabar? Udah lama gak nongkrong nih.
+                    </p>
+                    <span className="text-[11px] text-gray-500 dark:text-[#B0B3B8] mt-1 self-start">
+                      10.22
+                    </span>
+                  </div>
+                  <button className="opacity-0 group-hover:opacity-100 p-1.5 text-gray-500 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-all shrink-0">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
+                  </button>
                 </div>
               </div>
               
               {/* Bubble 1: Gagal Terkirim */}
               {/* Bubble 1: Gagal Terkirim */}
-              <div className="flex items-end justify-end gap-2 max-w-[70%] self-end mt-2">
+              <div className="flex items-end justify-end gap-2 max-w-[70%] self-end mt-2 group">
                 <div className="flex flex-col gap-1 items-end">
-                  <div className="bg-emerald-600 dark:bg-emerald-500 px-3 py-2 rounded-2xl rounded-tr-none shadow-sm flex flex-col items-end">
-                    <p className="text-[14px] text-white">
-                      Waduh, sinyal lagi jelek nih bro.
-                    </p>
-                    <span className="text-[11px] text-emerald-100 mt-1">10.25</span>
+                  <div className="flex items-center gap-2">
+                    <button className="opacity-0 group-hover:opacity-100 p-1.5 text-gray-500 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-all shrink-0">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
+                    </button>
+                    <div className="bg-emerald-600 dark:bg-emerald-500 px-3 py-2 rounded-2xl rounded-tr-none shadow-sm flex flex-col items-end">
+                      <p className="text-[14px] text-white">
+                        Waduh, sinyal lagi jelek nih bro.
+                      </p>
+                      <span className="text-[11px] text-emerald-100 mt-1">10.25</span>
+                    </div>
                   </div>
                   <div className="flex items-center gap-1 mr-1">
                     <div className="w-3.5 h-3.5 bg-red-500" style={{ WebkitMask: 'url(/mark/tidak-terkirim.svg) no-repeat center', WebkitMaskSize: 'contain', mask: 'url(/mark/tidak-terkirim.svg) no-repeat center', maskSize: 'contain' }} />
@@ -4638,13 +4648,18 @@ export default function Beranda() {
               </div>
 
               {/* Bubble 2: Pending */}
-              <div className="flex items-end justify-end gap-2 max-w-[70%] self-end mt-2">
+              <div className="flex items-end justify-end gap-2 max-w-[70%] self-end mt-2 group">
                 <div className="flex flex-col gap-1 items-end">
-                  <div className="bg-emerald-600 dark:bg-emerald-500 px-3 py-2 rounded-2xl rounded-tr-none shadow-sm flex flex-col items-end">
-                    <p className="text-[14px] text-white">
-                      Sabar yak, ini lagi jalan ke warkop cari wifi.
-                    </p>
-                    <span className="text-[11px] text-emerald-100 mt-1">10.27</span>
+                  <div className="flex items-center gap-2">
+                    <button className="opacity-0 group-hover:opacity-100 p-1.5 text-gray-500 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-all shrink-0">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
+                    </button>
+                    <div className="bg-emerald-600 dark:bg-emerald-500 px-3 py-2 rounded-2xl rounded-tr-none shadow-sm flex flex-col items-end">
+                      <p className="text-[14px] text-white">
+                        Sabar yak, ini lagi jalan ke warkop cari wifi.
+                      </p>
+                      <span className="text-[11px] text-emerald-100 mt-1">10.27</span>
+                    </div>
                   </div>
                   <div className="flex items-center gap-1 mr-1">
                     <div className="w-3.5 h-3.5 bg-orange-500" style={{ WebkitMask: 'url(/mark/pending.svg) no-repeat center', WebkitMaskSize: 'contain', mask: 'url(/mark/pending.svg) no-repeat center', maskSize: 'contain' }} />
@@ -4654,13 +4669,18 @@ export default function Beranda() {
               </div>
 
               {/* Bubble 3: Terkirim */}
-              <div className="flex items-end justify-end gap-2 max-w-[70%] self-end mt-2">
+              <div className="flex items-end justify-end gap-2 max-w-[70%] self-end mt-2 group">
                 <div className="flex flex-col gap-1 items-end">
-                  <div className="bg-emerald-600 dark:bg-emerald-500 px-3 py-2 rounded-2xl rounded-tr-none shadow-sm flex flex-col items-end">
-                    <p className="text-[14px] text-white">
-                      Nah udah masuk nih pesannya!
-                    </p>
-                    <span className="text-[11px] text-emerald-100 mt-1">10.35</span>
+                  <div className="flex items-center gap-2">
+                    <button className="opacity-0 group-hover:opacity-100 p-1.5 text-gray-500 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-all shrink-0">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
+                    </button>
+                    <div className="bg-emerald-600 dark:bg-emerald-500 px-3 py-2 rounded-2xl rounded-tr-none shadow-sm flex flex-col items-end">
+                      <p className="text-[14px] text-white">
+                        Nah udah masuk nih pesannya!
+                      </p>
+                      <span className="text-[11px] text-emerald-100 mt-1">10.35</span>
+                    </div>
                   </div>
                   <div className="flex items-center gap-1 mr-1">
                     <div className="w-3.5 h-3.5 bg-blue-500" style={{ WebkitMask: 'url(/mark/terkirim.svg) no-repeat center', WebkitMaskSize: 'contain', mask: 'url(/mark/terkirim.svg) no-repeat center', maskSize: 'contain' }} />
@@ -4670,13 +4690,18 @@ export default function Beranda() {
               </div>
 
               {/* Bubble 4: Dilihat */}
-              <div className="flex items-end justify-end gap-2 max-w-[70%] self-end mt-2">
+              <div className="flex items-end justify-end gap-2 max-w-[70%] self-end mt-2 group">
                 <div className="flex flex-col gap-1 items-end">
-                  <div className="bg-emerald-600 dark:bg-emerald-500 px-3 py-2 rounded-2xl rounded-tr-none shadow-sm flex flex-col items-end">
-                    <p className="text-[14px] text-white">
-                      Baik bro! Iyak nih kapan ya terakhir ketemu, sibuk parah wkwk.
-                    </p>
-                    <span className="text-[11px] text-emerald-100 mt-1">11.11</span>
+                  <div className="flex items-center gap-2">
+                    <button className="opacity-0 group-hover:opacity-100 p-1.5 text-gray-500 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-all shrink-0">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
+                    </button>
+                    <div className="bg-emerald-600 dark:bg-emerald-500 px-3 py-2 rounded-2xl rounded-tr-none shadow-sm flex flex-col items-end">
+                      <p className="text-[14px] text-white">
+                        Baik bro! Iyak nih kapan ya terakhir ketemu, sibuk parah wkwk.
+                      </p>
+                      <span className="text-[11px] text-emerald-100 mt-1">11.11</span>
+                    </div>
                   </div>
                   <div className="flex items-center gap-1 mr-1">
                     <div className="w-4 h-4 bg-green-500" style={{ WebkitMask: 'url(/mark/diliat.svg) no-repeat center', WebkitMaskSize: 'contain', mask: 'url(/mark/diliat.svg) no-repeat center', maskSize: 'contain' }} />
