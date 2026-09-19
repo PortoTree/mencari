@@ -49,3 +49,8 @@
 - (Frontend) Mengganti icon gallery chat input menjadi icon paperclip (attachment) dan menambahkan popup menu berisi opsi Upload Gambar & Upload File lengkap dengan icon masing-masing (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Memindahkan icon emoji ke luar (sebelah icon lampiran), lalu menaruh icon kirim (paper airplane) di posisi sebelumnya di dalam input (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Mengganti teks hardcode bahasa Indonesia pada dropdown menu chat room dengan variabel terjemahan next-intl dan mendaftarkan key pada en.json & id.json (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Membungkus icon kirim (paper airplane) dengan tombol bulat solid berwarna hijau (bg-[#00B47A]) dan text-white (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Menghapus class padding dan translate pada SVG icon kirim (paper airplane) agar presisi di tengah tombol bulat (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Menambahkan utility class translate-x-[1px] dan translate-y-[1px] pada SVG icon kirim (paper airplane) untuk melakukan optical centering manual (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Mengubah background bottom area chat (tempat ngetik) jadi transparan & tanpa border-t agar menyatu dengan background room chat (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Memberi warna kontras (bg-white/bg-dark) dan border pada input pill chat agar lebih stand out dari background (src/app/[locale]/beranda/page.tsx)
