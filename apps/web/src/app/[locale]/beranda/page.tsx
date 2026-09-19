@@ -245,6 +245,18 @@ export default function Beranda() {
   const [selectedProfile, setSelectedProfile] = useState<any>(null);
   const postMenuRef = useRef<HTMLDivElement>(null);
   const langRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll chat to bottom
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      setTimeout(() => {
+        if (chatContainerRef.current) {
+          chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
+      }, 100); // slight delay to allow DOM to render
+    }
+  }, []);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -4622,7 +4634,7 @@ export default function Beranda() {
                 </button>
               </div>
             )}
-            <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-2">
+            <div ref={chatContainerRef} className="flex-1 overflow-y-auto chat-scrollbar p-4 flex flex-col gap-2">
               <div className="flex flex-col items-center justify-center pt-8 pb-16">
                 <div className="w-[100px] h-[100px] mb-4 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center overflow-hidden shrink-0">
                   <img src="/default-avatar.svg" className="w-full h-full object-cover" />

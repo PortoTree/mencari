@@ -68,3 +68,6 @@
 - (Frontend) Menambahkan indikator waktu pada status 'Dilihat' (contoh: Dilihat 11.12) untuk memberikan informasi lebih detail kapan pesan dibaca (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menambahkan tombol opsi titik tiga (hover menu) di luar bagian pinggir tiap bubble chat (kanan untuk bubble penerima, kiri untuk bubble pengirim) yang muncul saat di-hover (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menambahkan menu dropdown pada icon titik tiga dengan list aksi (Balas, Salin, Teruskan, Pilih, Hapus) menggunakan icon SVG yang disesuaikan. Mendukung multi-bahasa via next-intl dan state aktif khusus per bubble agar tidak tumpang tindih (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Mempercantik custom scrollbar khusus untuk area chat room agar lebih modern dan tidak menggunakan style bawaan browser (globals.css & page.tsx)
+- (Frontend) Menambahkan fitur auto-scroll ke pesan paling bawah (terbaru) saat pengguna pertama kali membuka room chat (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Memperbaiki logika auto-scroll ke bawah saat membuka room chat agar langsung tereksekusi ketika halaman dirender pertama kali (src/app/[locale]/beranda/page.tsx)
