@@ -4251,7 +4251,7 @@ export default function Beranda() {
           </div>
 
           {/* TENGAH: Chat Room */}
-          <div className="flex-1 bg-transparent flex flex-col">
+          <div className="flex-1 bg-transparent flex flex-col relative">
             <div className="h-[60px] bg-white dark:bg-[#242526] border-b border-gray-200 dark:border-[#3E4042] flex items-center px-4 shadow-sm shrink-0">
               <div className="flex items-center gap-3">
                 <div className="relative w-10 h-10 shrink-0">
@@ -4570,11 +4570,11 @@ export default function Beranda() {
               </div>
             </div>
             {isRoomSearchOpen && (
-              <div ref={roomSearchRef} className="bg-white dark:bg-[#242526] px-4 py-3 border-b border-gray-200 dark:border-[#3E4042] flex items-center gap-3 shrink-0">
-                <div className="flex-1 relative">
-                  <input type="text" placeholder={t("chat.searchInChat") || "Cari di obrolan..."} className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] text-black dark:text-[#E4E6EB] px-4 py-2 rounded-full focus:outline-none text-[14px]" />
+              <div ref={roomSearchRef} className="absolute top-[60px] right-0 max-w-md w-full z-10 pr-6 pl-4 py-3 flex items-center gap-2 bg-transparent pointer-events-none">
+                <div className="flex-1 relative pointer-events-auto">
+                  <input type="text" placeholder={t("chat.searchInChat") || "Cari di obrolan..."} className="w-full bg-white dark:bg-[#18191A] text-black dark:text-[#E4E6EB] border border-gray-300 dark:border-[#4E4F50] shadow-md px-4 py-2.5 rounded-full focus:outline-none text-[15px]" />
                 </div>
-                <button className="text-gray-500 hover:text-black dark:hover:text-[#E4E6EB] transition-colors p-2 shrink-0">
+                <button className="w-10 h-10 rounded-full bg-white dark:bg-[#18191A] border border-gray-300 dark:border-[#4E4F50] shadow-md flex items-center justify-center text-gray-500 hover:text-black dark:hover:text-[#E4E6EB] hover:bg-gray-100 dark:hover:bg-[#242526] transition-colors shrink-0 pointer-events-auto">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                 </button>
               </div>

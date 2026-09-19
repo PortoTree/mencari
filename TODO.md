@@ -39,3 +39,7 @@
 - (Frontend) Menambahkan fitur searchbox toggle di header Chat Room (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menambahkan icon kalender di sebelah searchbox chat room (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menambahkan logika autoclose (klik di luar area) pada room searchbox dengan ref dan event listener (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Mengubah UI room searchbox menjadi floating (absolute) tanpa background layer dengan pointer-events-none, dan membungkus icon calendar dengan bulatan tombol (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Mempersempit lebar searchbox floating dengan menambahkan max-w-3xl, mx-auto, dan px-8 (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Memperkecil lagi ukuran floating searchbox menjadi max-w-lg dan px-12 agar lebih proporsional (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Menambahkan styling kontras (bg-white/dark:bg-[#18191A]), border (gray-300/dark:[#4E4F50]), dan shadow-md pada searchbox floating agar lebih terbaca dan tidak menabrak warna bubble chat (src/app/[locale]/beranda/page.tsx)
