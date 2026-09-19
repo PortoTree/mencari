@@ -48,3 +48,4 @@
 - (Frontend) Mengubah warna text 'Anda membuat obrolan ini' dari biru menjadi abu-abu netral agar lebih sesuai (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Mengganti icon gallery chat input menjadi icon paperclip (attachment) dan menambahkan popup menu berisi opsi Upload Gambar & Upload File lengkap dengan icon masing-masing (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Memindahkan icon emoji ke luar (sebelah icon lampiran), lalu menaruh icon kirim (paper airplane) di posisi sebelumnya di dalam input (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Mengganti teks hardcode bahasa Indonesia pada dropdown menu chat room dengan variabel terjemahan next-intl dan mendaftarkan key pada en.json & id.json (src/app/[locale]/beranda/page.tsx)

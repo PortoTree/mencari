@@ -77,7 +77,10 @@
     "youCreatedThisChat": "Anda membuat obrolan ini",
     "e2eEncryptionText": "Pesan anda diamankan dengan enkripsi ujung-ke-ujung. Hanya orang-orang dalam obrolan ini yang dapat membaca, melihat, dan membagikannya.",
     "uploadImage": "Upload Gambar",
-    "uploadFile": "Upload File"
+    "uploadFile": "Upload File",
+    "selectMessages": "Pilih pesan",
+    "disappearingMessages": "Pesan sementara",
+    "closeChat": "Tutup obrolan"
   },
   "login": {
     "title": "Login akun",
