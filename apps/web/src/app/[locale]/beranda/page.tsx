@@ -4598,22 +4598,40 @@ export default function Beranda() {
                   <a href="#" className="text-[#2D88FF] hover:underline cursor-pointer">{t("chat.learnMore")}</a>
                 </div>
               </div>
+              {/* Tanggal Chat */}
+              <div className="flex justify-center my-4">
+                <span className="bg-[#E5E5E5] dark:bg-[#242526] text-gray-600 dark:text-[#A8ABAF] px-3 py-1 rounded-lg text-[12.5px] font-medium shadow-sm">
+                  9/9/2026
+                </span>
+              </div>
+
               <div className="flex items-start gap-2 max-w-[70%]">
                 <img
                   src="/default-avatar.svg"
-                  className="w-8 h-8 rounded-full border border-gray-300"
+                  className="w-8 h-8 rounded-full border border-gray-300 shrink-0"
                 />
-                <div className="bg-white dark:bg-[#3A3B3C] px-4 py-2 rounded-2xl rounded-tl-none shadow-sm">
+                <div className="bg-white dark:bg-[#3A3B3C] px-3 py-2 rounded-2xl rounded-tl-none shadow-sm">
                   <p className="text-[14px] text-black dark:text-[#E4E6EB]">
                     Halo bro, apa kabar? Udah lama gak nongkrong nih.
+                    <span className="float-right text-[11px] text-gray-500 dark:text-[#B0B3B8] ml-4 mt-[3px]">
+                      10.22
+                    </span>
                   </p>
                 </div>
               </div>
               <div className="flex items-end justify-end gap-2 max-w-[70%] self-end">
-                <div className="bg-emerald-600 dark:bg-emerald-500 px-4 py-2 rounded-2xl rounded-tr-none shadow-sm">
+                <div className="bg-emerald-600 dark:bg-emerald-500 px-3 py-2 rounded-2xl rounded-tr-none shadow-sm">
                   <p className="text-[14px] text-white">
-                    Baik bro! Iyak nih kapan ya terakhir ketemu, sibuk parah
-                    wkwk.
+                    Baik bro! Iyak nih kapan ya terakhir ketemu, sibuk parah wkwk.
+                    <span className="float-right flex items-center gap-1 ml-4 mt-[3px]">
+                      <span className="text-[11px] text-emerald-100">
+                        11.11
+                      </span>
+                      <svg className="w-3.5 h-3.5 text-emerald-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="18 7 10 15 6 11"></polyline>
+                        <path d="M22 7l-8 8-1.5-1.5"></path>
+                      </svg>
+                    </span>
                   </p>
                 </div>
               </div>
