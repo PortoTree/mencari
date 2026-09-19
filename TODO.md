@@ -61,3 +61,4 @@
 - (Frontend) Menambahkan 3 kategori dummy di sidebar kanan (Link, Media Gallery, Media File) dengan tampilan UI modern lengkap dengan icon, judul, konten dummy yang sesuai, dan efek hover (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menambahkan utiliti shrink-0 pada kontainer avatar di sidebar kanan untuk mencegah bug visual (gepeng/mengecil) saat konten kategori di bawahnya terlalu panjang (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menambahkan label Tanggal Chat di bagian atas kumpulan pesan (tengah room chat) dan mengatur ulang layout chat bubble supaya jam/waktu dan status baca (centang ganda) menyatu rapi (inline float-right) di dalam bubble pesan (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Mengubah posisi waktu chat dari inline (di dalam bubble) menjadi di luar bubble (di bawah): pojok kiri bawah untuk pesan masuk, dan pojok kanan bawah beserta centang biru untuk pesan keluar (src/app/[locale]/beranda/page.tsx)
