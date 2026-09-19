@@ -67,3 +67,4 @@
 - (Frontend) Mengatur ulang posisi jam waktu ke dalam bubble teks (untuk pengirim dan penerima), sambil mempertahankan label status mark (Gagal terkirim, Dilihat, dsb.) beserta icon SVG tetap di luar bubble di pojok kanan bawah (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menambahkan indikator waktu pada status 'Dilihat' (contoh: Dilihat 11.12) untuk memberikan informasi lebih detail kapan pesan dibaca (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menambahkan tombol opsi titik tiga (hover menu) di luar bagian pinggir tiap bubble chat (kanan untuk bubble penerima, kiri untuk bubble pengirim) yang muncul saat di-hover (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Menambahkan menu dropdown pada icon titik tiga dengan list aksi (Balas, Salin, Teruskan, Pilih, Hapus) menggunakan icon SVG yang disesuaikan. Mendukung multi-bahasa via next-intl dan state aktif khusus per bubble agar tidak tumpang tindih (src/app/[locale]/beranda/page.tsx)

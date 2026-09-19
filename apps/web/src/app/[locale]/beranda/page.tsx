@@ -143,6 +143,35 @@ function formatChatDate(ts: number, locale: string): string {
   }
 }
 
+const MessageDropdownMenu = ({ isIncoming, t }: { isIncoming?: boolean, t: any }) => {
+  return (
+    <div className={`w-48 bg-white dark:bg-[#242526] rounded-xl shadow-lg border border-gray-100 dark:border-[#3E4042] py-2 flex flex-col z-50`}>
+      <button className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] text-left text-[15px] font-medium text-black dark:text-[#E4E6EB] transition-colors">
+        <svg className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/></svg>
+        {t("chat.reply")}
+      </button>
+      <button className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] text-left text-[15px] font-medium text-black dark:text-[#E4E6EB] transition-colors">
+        <svg className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+        {t("chat.copy")}
+      </button>
+      <button className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] text-left text-[15px] font-medium text-black dark:text-[#E4E6EB] transition-colors">
+        <svg className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 10h-10a8 8 0 00-8 8v2M21 10l-6 6m6-6l-6-6"/></svg>
+        {t("chat.forward")}
+      </button>
+      <div className="h-[1px] bg-gray-200 dark:bg-[#3E4042] my-1"></div>
+      <button className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] text-left text-[15px] font-medium text-black dark:text-[#E4E6EB] transition-colors">
+        <svg className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m2 7H7a2 2 0 01-2-2V7a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2z"/></svg>
+        {t("chat.select")}
+      </button>
+      <div className="h-[1px] bg-gray-200 dark:bg-[#3E4042] my-1"></div>
+      <button className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] text-left text-[15px] font-medium text-black dark:text-[#E4E6EB] transition-colors">
+        <svg className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+        {t("chat.delete")}
+      </button>
+    </div>
+  );
+};
+
 export default function Beranda() {
   const router = useRouter();
   const pathname = usePathname();
@@ -210,6 +239,8 @@ export default function Beranda() {
   const chatFilterRef = useRef<HTMLDivElement>(null);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [activePostMenu, setActivePostMenu] = useState<string | null>(null);
+  const [activeMessageDropdown, setActiveMessageDropdown] = useState<number | null>(null);
+  const messageDropdownRef = useRef<HTMLDivElement>(null);
   const [isProfileSidebarOpen, setIsProfileSidebarOpen] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState<any>(null);
   const postMenuRef = useRef<HTMLDivElement>(null);
@@ -319,12 +350,18 @@ export default function Beranda() {
       ) {
         setIsAttachmentMenuOpen(false);
       }
+      if (
+        messageDropdownRef.current &&
+        !messageDropdownRef.current.contains(event.target as Node)
+      ) {
+        setActiveMessageDropdown(null);
+      }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [activeChatMenu, isChatMoreMenuOpen, isRoomSearchOpen, isAttachmentMenuOpen]);
+  }, [activeChatMenu, isChatMoreMenuOpen, isRoomSearchOpen, isAttachmentMenuOpen, activeMessageDropdown]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -4619,9 +4656,19 @@ export default function Beranda() {
                       10.22
                     </span>
                   </div>
-                  <button className="opacity-0 group-hover:opacity-100 p-1.5 text-gray-500 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-all shrink-0">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
-                  </button>
+                  <div className="relative">
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); setActiveMessageDropdown(0); }}
+                      className="opacity-0 group-hover:opacity-100 p-1.5 text-gray-500 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-all shrink-0"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
+                    </button>
+                    {activeMessageDropdown === 0 && (
+                      <div ref={messageDropdownRef} className="absolute left-0 top-full mt-1 z-50">
+                        <MessageDropdownMenu isIncoming={true} t={t} />
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
               
@@ -4630,9 +4677,19 @@ export default function Beranda() {
               <div className="flex items-end justify-end gap-2 max-w-[70%] self-end mt-2 group">
                 <div className="flex flex-col gap-1 items-end">
                   <div className="flex items-center gap-2">
-                    <button className="opacity-0 group-hover:opacity-100 p-1.5 text-gray-500 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-all shrink-0">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
-                    </button>
+                    <div className="relative">
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); setActiveMessageDropdown(1); }}
+                        className="opacity-0 group-hover:opacity-100 p-1.5 text-gray-500 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-all shrink-0"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
+                      </button>
+                      {activeMessageDropdown === 1 && (
+                        <div ref={messageDropdownRef} className="absolute right-0 top-full mt-1 z-50">
+                          <MessageDropdownMenu isIncoming={false} t={t} />
+                        </div>
+                      )}
+                    </div>
                     <div className="bg-emerald-600 dark:bg-emerald-500 px-3 py-2 rounded-2xl rounded-tr-none shadow-sm flex flex-col items-end">
                       <p className="text-[14px] text-white">
                         Waduh, sinyal lagi jelek nih bro.
@@ -4651,9 +4708,19 @@ export default function Beranda() {
               <div className="flex items-end justify-end gap-2 max-w-[70%] self-end mt-2 group">
                 <div className="flex flex-col gap-1 items-end">
                   <div className="flex items-center gap-2">
-                    <button className="opacity-0 group-hover:opacity-100 p-1.5 text-gray-500 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-all shrink-0">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
-                    </button>
+                    <div className="relative">
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); setActiveMessageDropdown(2); }}
+                        className="opacity-0 group-hover:opacity-100 p-1.5 text-gray-500 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-all shrink-0"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
+                      </button>
+                      {activeMessageDropdown === 2 && (
+                        <div ref={messageDropdownRef} className="absolute right-0 top-full mt-1 z-50">
+                          <MessageDropdownMenu isIncoming={false} t={t} />
+                        </div>
+                      )}
+                    </div>
                     <div className="bg-emerald-600 dark:bg-emerald-500 px-3 py-2 rounded-2xl rounded-tr-none shadow-sm flex flex-col items-end">
                       <p className="text-[14px] text-white">
                         Sabar yak, ini lagi jalan ke warkop cari wifi.
@@ -4672,9 +4739,19 @@ export default function Beranda() {
               <div className="flex items-end justify-end gap-2 max-w-[70%] self-end mt-2 group">
                 <div className="flex flex-col gap-1 items-end">
                   <div className="flex items-center gap-2">
-                    <button className="opacity-0 group-hover:opacity-100 p-1.5 text-gray-500 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-all shrink-0">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
-                    </button>
+                    <div className="relative">
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); setActiveMessageDropdown(3); }}
+                        className="opacity-0 group-hover:opacity-100 p-1.5 text-gray-500 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-all shrink-0"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
+                      </button>
+                      {activeMessageDropdown === 3 && (
+                        <div ref={messageDropdownRef} className="absolute right-0 top-full mt-1 z-50">
+                          <MessageDropdownMenu isIncoming={false} t={t} />
+                        </div>
+                      )}
+                    </div>
                     <div className="bg-emerald-600 dark:bg-emerald-500 px-3 py-2 rounded-2xl rounded-tr-none shadow-sm flex flex-col items-end">
                       <p className="text-[14px] text-white">
                         Nah udah masuk nih pesannya!
@@ -4693,9 +4770,19 @@ export default function Beranda() {
               <div className="flex items-end justify-end gap-2 max-w-[70%] self-end mt-2 group">
                 <div className="flex flex-col gap-1 items-end">
                   <div className="flex items-center gap-2">
-                    <button className="opacity-0 group-hover:opacity-100 p-1.5 text-gray-500 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-all shrink-0">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
-                    </button>
+                    <div className="relative">
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); setActiveMessageDropdown(4); }}
+                        className="opacity-0 group-hover:opacity-100 p-1.5 text-gray-500 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-all shrink-0"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
+                      </button>
+                      {activeMessageDropdown === 4 && (
+                        <div ref={messageDropdownRef} className="absolute right-0 top-full mt-1 z-50">
+                          <MessageDropdownMenu isIncoming={false} t={t} />
+                        </div>
+                      )}
+                    </div>
                     <div className="bg-emerald-600 dark:bg-emerald-500 px-3 py-2 rounded-2xl rounded-tr-none shadow-sm flex flex-col items-end">
                       <p className="text-[14px] text-white">
                         Baik bro! Iyak nih kapan ya terakhir ketemu, sibuk parah wkwk.

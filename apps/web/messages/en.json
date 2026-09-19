@@ -88,7 +88,12 @@
     "failedToSend": "Failed to send",
     "sending": "Sending...",
     "sent": "Sent",
-    "read": "Read"
+    "read": "Read",
+    "reply": "Reply",
+    "copy": "Copy",
+    "forward": "Forward",
+    "select": "Select",
+    "delete": "Delete"
   },
   "login": {
     "title": "Log in",
