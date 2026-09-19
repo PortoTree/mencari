@@ -12,6 +12,34 @@ import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 import React from "react";
 
+const ChatStatusMark = ({ status }: { status?: string }) => {
+  if (!status) return null;
+  let src = "";
+  let colorClass = "";
+  switch(status) {
+    case 'failed': src = "/mark/tidak-terkirim.svg"; colorClass = "bg-red-500"; break;
+    case 'sending': src = "/mark/pending.svg"; colorClass = "bg-orange-500"; break;
+    case 'sent': src = "/mark/terkirim.svg"; colorClass = "bg-[#2D88FF]"; break;
+    case 'read': src = "/mark/diliat.svg"; colorClass = "bg-[#31A24C]"; break;
+  }
+  if (!src) return null;
+  return (
+    <div 
+      className={`w-[14px] h-[14px] shrink-0 inline-block align-text-bottom mr-1 ${colorClass}`} 
+      style={{
+        maskImage: `url('${src}')`, 
+        WebkitMaskImage: `url('${src}')`, 
+        maskSize: "contain", 
+        WebkitMaskSize: "contain",
+        maskRepeat: "no-repeat",
+        WebkitMaskRepeat: "no-repeat",
+        maskPosition: "center",
+        WebkitMaskPosition: "center"
+      }} 
+    />
+  );
+};
+
 function formatPostTime(timestamp: number, t: any, locale: string) {
   const now = Date.now();
   const diff = now - timestamp;
@@ -44,24 +72,28 @@ const dummyChats = [
     ts: Date.now() - 15 * 86400000,
     msg: "Halo bro, apa kabar? Udah la...",
     isOnline: false,
+    status: "read",
   },
   {
     name: "Siti Aminah",
     ts: Date.now() - 3 * 86400000,
     msg: "Project kemarin gimana kelanjutannya?",
     isOnline: true,
+    status: "sent",
   },
   {
     name: "Agus Pratama",
     ts: Date.now() - 2 * 86400000,
     msg: "Wkwk siap bro ntar malam ya",
     isOnline: true,
+    status: "failed",
   },
   {
     name: "Dewi Lestari",
     ts: Date.now() - 6 * 86400000,
     msg: "Oke, dokumennya udah aku kirim ke email.",
     isOnline: false,
+    status: "sending",
   },
   {
     name: "Andi Wijaya",
@@ -3343,6 +3375,7 @@ export default function Beranda() {
                         </span>
                       </div>
                       <p className="text-[13px] text-gray-500 dark:text-[#B0B3B8] truncate mt-0.5">
+                        <ChatStatusMark status={(chat as any).status} />
                         {chat.msg}
                       </p>
                     </div>
@@ -4146,6 +4179,7 @@ export default function Beranda() {
                           </span>
                         </div>
                         <p className="text-[13px] text-gray-500 truncate mt-0.5">
+                          <ChatStatusMark status={(chat as any).status} />
                           {chat.msg}
                         </p>
                       </div>
