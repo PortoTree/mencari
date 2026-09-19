@@ -31,3 +31,5 @@
 - [x] (Frontend) Fix Chat List Dropdown Options: Menghapus opsi khusus Room Chat (seperti Lihat Profil, Laporkan, dll) dari dropdown hover di list obrolan dan hanya menyisakan Arsip, Sematkan, Tandai Belum Dibaca, Blokir, dan Hapus Obrolan.
 
 - [x] (Frontend) Fix Desktop Chat List Dropdown: Menambahkan icon titik 3 horizontal dan dropdown berisi 10 menu (termasuk lihat profil, arsip, pin, dll) ke dalam list obrolan versi Desktop.
+
+- [x] (Frontend) Fix Vercel Build Error: Rename backup files (page_recovered.tsx, page_start.tsx) yang bikin error TS, dan tambah @ts-ignore di import JSON.

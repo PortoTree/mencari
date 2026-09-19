@@ -3,7 +3,9 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Lottie } from "lottie-react";
+// @ts-ignore
 import animationDataLight from "../../../../public/search-bar.json";
+// @ts-ignore
 import animationDataDark from "../../../../public/search-bar-putih.json";
 
 import Image from "next/image";
