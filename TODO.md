@@ -43,3 +43,8 @@
 - (Frontend) Mempersempit lebar searchbox floating dengan menambahkan max-w-3xl, mx-auto, dan px-8 (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Memperkecil lagi ukuran floating searchbox menjadi max-w-lg dan px-12 agar lebih proporsional (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menambahkan styling kontras (bg-white/dark:bg-[#18191A]), border (gray-300/dark:[#4E4F50]), dan shadow-md pada searchbox floating agar lebih terbaca dan tidak menabrak warna bubble chat (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Memposisikan searchbox rata kanan (mentok kanan) dengan absolute right-0 dan pr-6 (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Menambahkan section intro pada chat room (avatar, nama, status pembuatan obrolan, dan info end-to-end encryption) sesuai preferensi user (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Mengubah warna text 'Anda membuat obrolan ini' dari biru menjadi abu-abu netral agar lebih sesuai (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Mengganti icon gallery chat input menjadi icon paperclip (attachment) dan menambahkan popup menu berisi opsi Upload Gambar & Upload File lengkap dengan icon masing-masing (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Memindahkan icon emoji ke luar (sebelah icon lampiran), lalu menaruh icon kirim (paper airplane) di posisi sebelumnya di dalam input (src/app/[locale]/beranda/page.tsx)

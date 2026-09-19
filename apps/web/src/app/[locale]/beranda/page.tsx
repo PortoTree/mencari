@@ -182,6 +182,8 @@ export default function Beranda() {
   const chatMoreMenuRef = useRef<HTMLDivElement>(null);
   const roomSearchRef = useRef<HTMLDivElement>(null);
   const roomSearchToggleRef = useRef<HTMLButtonElement>(null);
+  const attachmentMenuRef = useRef<HTMLDivElement>(null);
+  const [isAttachmentMenuOpen, setIsAttachmentMenuOpen] = useState(false);
   const handleAnimationComplete = () => {
     setTimeout(() => {
       if (lottieRef.current) {
@@ -311,12 +313,18 @@ export default function Beranda() {
       ) {
         setIsRoomSearchOpen(false);
       }
+      if (
+        attachmentMenuRef.current &&
+        !attachmentMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsAttachmentMenuOpen(false);
+      }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [activeChatMenu, isChatMoreMenuOpen, isRoomSearchOpen]);
+  }, [activeChatMenu, isChatMoreMenuOpen, isRoomSearchOpen, isAttachmentMenuOpen]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -4580,6 +4588,18 @@ export default function Beranda() {
               </div>
             )}
             <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-2">
+              <div className="flex flex-col items-center justify-center pt-8 pb-16">
+                <div className="w-[100px] h-[100px] mb-4 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center overflow-hidden shrink-0">
+                  <img src="/default-avatar.svg" className="w-full h-full object-cover" />
+                </div>
+                <h2 className="text-[20px] font-semibold text-black dark:text-[#E4E6EB] mb-2">Budi Santoso</h2>
+                <p className="text-gray-500 dark:text-[#B0B3B8] text-[15px] mb-8">{t("chat.youCreatedThisChat")}</p>
+                <div className="max-w-[400px] text-center text-[13px] text-gray-500 dark:text-[#B0B3B8] leading-relaxed px-4">
+                  <svg className="w-3.5 h-3.5 inline-block mr-1 align-baseline text-gray-400 dark:text-[#B0B3B8]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" /></svg>
+                  {t("chat.e2eEncryptionText")}{" "}
+                  <a href="#" className="text-[#2D88FF] hover:underline cursor-pointer">{t("chat.learnMore")}</a>
+                </div>
+              </div>
               <div className="flex items-start gap-2 max-w-[70%]">
                 <img
                   src="/default-avatar.svg"
@@ -4602,17 +4622,40 @@ export default function Beranda() {
             </div>
             <div className="p-4 bg-white dark:bg-[#242526] border-t border-gray-200 dark:border-[#3E4042] shrink-0">
               <div className="flex items-center gap-2">
-                <button className="bg-[#00B47A] text-white hover:bg-[#009E6B] p-2 rounded-full transition-colors flex items-center justify-center">
-                  <svg
-                    className="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
+                <div className="relative" ref={attachmentMenuRef}>
+                  <button 
+                    onClick={() => setIsAttachmentMenuOpen(!isAttachmentMenuOpen)}
+                    className="bg-[#00B47A] text-white hover:bg-[#009E6B] p-2 rounded-full transition-colors flex items-center justify-center"
                   >
-                    <path
-                      fillRule="evenodd"
-                      d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                      clipRule="evenodd"
-                    />
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                    </svg>
+                  </button>
+                  
+                  {isAttachmentMenuOpen && (
+                    <div className="absolute bottom-full left-0 mb-3 w-[220px] bg-white dark:bg-[#242526] rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.25)] border border-gray-100 dark:border-[#3E4042] overflow-hidden py-2 z-50">
+                      <button className="w-full text-left px-5 py-3 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[15px] font-medium text-black dark:text-[#E4E6EB] transition-colors">
+                        <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center shrink-0">
+                          <svg className="w-5 h-5 text-[#2D88FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                        </div>
+                        {t("chat.uploadImage")}
+                      </button>
+                      <button className="w-full text-left px-5 py-3 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[15px] font-medium text-black dark:text-[#E4E6EB] transition-colors">
+                        <div className="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center shrink-0">
+                          <svg className="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                        </div>
+                        {t("chat.uploadFile")}
+                      </button>
+                    </div>
+                  )}
+                </div>
+                <button className="text-gray-500 dark:text-[#A8ABAF] hover:text-[#00B47A] transition-colors p-2 shrink-0">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z" clipRule="evenodd" />
                   </svg>
                 </button>
                 <div className="flex-1 flex items-center bg-[#F0F2F5] dark:bg-[#3A3B3C] rounded-full px-4 py-2 ml-1">
@@ -4621,17 +4664,9 @@ export default function Beranda() {
                     placeholder={t("chat.typeMessage")}
                     className="flex-1 bg-transparent outline-none text-[15px] text-black dark:text-[#E4E6EB]"
                   />
-                  <button className="text-[#00B47A] ml-2">
-                    <svg
-                      className="w-5 h-5"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z"
-                        clipRule="evenodd"
-                      />
+                  <button className="text-[#00B47A] hover:text-[#009E6B] ml-2 transition-colors shrink-0">
+                    <svg className="w-5 h-5 translate-x-[2px]" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
                     </svg>
                   </button>
                 </div>

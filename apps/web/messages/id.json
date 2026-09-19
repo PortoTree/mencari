@@ -73,7 +73,11 @@
     "filterArchive": "Arsip",
     "viewProfile": "Lihat profil",
     "report": "Laporkan",
-    "searchInChat": "Cari di obrolan..."
+    "searchInChat": "Cari di obrolan...",
+    "youCreatedThisChat": "Anda membuat obrolan ini",
+    "e2eEncryptionText": "Pesan anda diamankan dengan enkripsi ujung-ke-ujung. Hanya orang-orang dalam obrolan ini yang dapat membaca, melihat, dan membagikannya.",
+    "uploadImage": "Upload Gambar",
+    "uploadFile": "Upload File"
   },
   "login": {
     "title": "Login akun",

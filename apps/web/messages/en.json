@@ -73,7 +73,11 @@
     "filterArchive": "Archived",
     "viewProfile": "View profile",
     "report": "Report",
-    "searchInChat": "Search in chat..."
+    "searchInChat": "Search in chat...",
+    "youCreatedThisChat": "You created this chat",
+    "e2eEncryptionText": "Your messages are secured with end-to-end encryption. Only people in this chat can read, view, and share them.",
+    "uploadImage": "Upload Image",
+    "uploadFile": "Upload File"
   },
   "login": {
     "title": "Log in",
