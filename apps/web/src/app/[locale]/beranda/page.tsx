@@ -24,7 +24,7 @@ const ChatStatusMark = ({ status }: { status?: string }) => {
   }
   if (!src) return null;
   return (
-    <div 
+    <span 
       className={`w-[14px] h-[14px] shrink-0 inline-block align-text-bottom mr-1 ${colorClass}`} 
       style={{
         maskImage: `url('${src}')`, 

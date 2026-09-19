@@ -73,3 +73,4 @@
 - (Frontend) Memperbaiki logika auto-scroll ke bawah saat membuka room chat agar langsung tereksekusi ketika halaman dirender pertama kali (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menyesuaikan posisi munculnya dropdown menu pada pesan terbawah agar ke atas (bottom-full) sehingga tidak memotong layar atau menambah scroll ekstra ke bawah (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menambahkan icon status (terkirim, dibaca, dll) ke dalam preview list obrolan di sidebar kiri menggunakan teknik CSS mask agar SVG bisa diwarnai sesuai dengan status masing-masing (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Memperbaiki error hydration dengan mengganti tag <div> menjadi <span> pada komponen ChatStatusMark agar valid diletakkan di dalam tag <p> (src/app/[locale]/beranda/page.tsx)
