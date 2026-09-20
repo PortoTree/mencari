@@ -3578,7 +3578,7 @@ export default function Beranda() {
           
           {/* Input Area */}
           <div className="p-3 bg-white dark:bg-[#242526] shrink-0 border-t border-gray-200 dark:border-[#3E4042]">
-            <div className="flex items-center gap-2">
+            <div className="flex items-end gap-2">
               <div className="relative" ref={floatingAttachmentMenuRef}>
                 <button 
                   onClick={() => setIsFloatingAttachmentMenuOpen(!isFloatingAttachmentMenuOpen)}
@@ -5214,7 +5214,7 @@ export default function Beranda() {
               </div>
             </div>
             <div className="p-4 bg-transparent shrink-0">
-              <div className="flex items-center gap-2">
+              <div className="flex items-end gap-2">
                 <div className="relative" ref={attachmentMenuRef}>
                   <button 
                     onClick={() => setIsAttachmentMenuOpen(!isAttachmentMenuOpen)}
