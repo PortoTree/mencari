@@ -4311,9 +4311,6 @@ export default function Beranda() {
                 <div className="max-w-2xl mx-auto space-y-6">
                   {/* Inline Header */}
                   <div className="flex items-center gap-3">
-                    <button onClick={() => {setIsCreatingGroup(false); setSelectedFriendsToAdd([]);}} className="w-9 h-9 rounded-full hover:bg-gray-200 dark:hover:bg-[#3A3B3C] flex items-center justify-center transition-colors text-gray-600 dark:text-[#B0B3B8] -ml-2">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-                    </button>
                     <h2 className="font-bold text-[24px] text-black dark:text-[#E4E6EB]">{t('chat.createGroup')}</h2>
                   </div>
                   
@@ -4384,7 +4381,14 @@ export default function Beranda() {
                   </div>
 
                   {/* Create Button */}
-                  <div className="flex justify-end pt-2">
+                  <div className="flex justify-end gap-3 pt-2">
+                    <button onClick={() => {
+                      setIsCreatingGroup(false);
+                      setSelectedFriendsToAdd([]);
+                      setShowAddIcons(false);
+                    }} className="hover:bg-gray-100 dark:hover:bg-[#3A3B3C] text-gray-600 dark:text-gray-300 font-semibold text-[15px] py-2.5 px-6 rounded-xl transition-colors">
+                      {t('chat.cancel')}
+                    </button>
                     <button onClick={() => {
                       setIsCreatingGroup(false);
                       setSelectedFriendsToAdd([]);

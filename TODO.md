@@ -106,3 +106,4 @@
 - (Frontend) Hapus layer MiniListPreview, biarkan layar obrolan kosong (atau chat terakhir aktif) saat memilih member, dan hilangkan sticky footer Buat Grup ketika form Grup sudah terbuka di kolom tengah (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Gabung header Create Group langsung ke dalam body scrollable (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Pindahkan tombol Create Group dari sticky footer ke dalam scrollable body dan diposisikan di pojok kanan bawah (flex-end) sejajar dengan form (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Hapus icon back (<) di atas form grup, ganti menjadi tombol Cancel di sebelah tombol Create Group yang akan mereset state dan mematikan mode Add (src/app/[locale]/beranda/page.tsx)
