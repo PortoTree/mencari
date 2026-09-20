@@ -117,3 +117,4 @@
 - (Frontend) Menukar posisi menu di dropdown settings: Permintaan Pesan dipindah ke atas, Preferensi di paling bawah, dan menambahkan garis pembatas (divider) di atas menu Preferensi (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Memindahkan menu Manage Chats di dalam dropdown settings supaya berada di bawah garis pembatas (divider), sejajar dengan Preferensi (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Mengubah deskripsi empty state obrolan (noChatSelectedDesc) di file translation id.json dan en.json
+- (Frontend) Mengubah icon menu Manage Chats dari icon bubble chat menjadi icon list bergaris (src/app/[locale]/beranda/page.tsx)
