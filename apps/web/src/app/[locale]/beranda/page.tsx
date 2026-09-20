@@ -4227,7 +4227,15 @@ export default function Beranda() {
                             ),
                           }}
                         >
-                          <button className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                          <button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveChatMenu(null);
+                              setActiveChatIdx(idx);
+                              setIsChatInfoOpen(true);
+                            }}
+                            className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors"
+                          >
                             <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
@@ -4359,7 +4367,8 @@ export default function Beranda() {
                   {isChatMoreMenuOpen && (
                     <div className="absolute right-0 top-full mt-2 w-[280px] bg-white dark:bg-[#242526] rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.1)] border border-gray-100 dark:border-[#3E4042] py-1.5 z-50">
                       <button
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           setIsChatMoreMenuOpen(false);
                           setIsChatInfoOpen(true);
                         }}
