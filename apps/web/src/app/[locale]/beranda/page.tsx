@@ -4389,12 +4389,19 @@ export default function Beranda() {
                     }} className="hover:bg-gray-100 dark:hover:bg-[#3A3B3C] text-gray-600 dark:text-gray-300 font-semibold text-[15px] py-2.5 px-6 rounded-xl transition-colors">
                       {t('chat.cancel')}
                     </button>
-                    <button onClick={() => {
-                      setIsCreatingGroup(false);
-                      setSelectedFriendsToAdd([]);
-                      setActiveChatIdx(0); 
-                    }} className="bg-[#1877F2] hover:bg-blue-600 text-white font-semibold text-[15px] py-2.5 px-8 rounded-xl transition-colors shadow-sm flex items-center gap-2">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                    <button 
+                      onClick={() => {
+                        setIsCreatingGroup(false);
+                        setSelectedFriendsToAdd([]);
+                        setActiveChatIdx(0); 
+                      }} 
+                      disabled={selectedFriendsToAdd.length === 0}
+                      className={`font-semibold text-[15px] py-2.5 px-8 rounded-xl transition-colors flex items-center justify-center ${
+                        selectedFriendsToAdd.length === 0
+                          ? 'bg-gray-200 dark:bg-[#3A3B3C] text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                          : 'bg-[#1877F2] hover:bg-blue-600 text-white shadow-sm'
+                      }`}
+                    >
                       {t('chat.createGroupBtn')}
                     </button>
                   </div>
