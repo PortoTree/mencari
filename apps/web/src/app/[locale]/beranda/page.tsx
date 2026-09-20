@@ -311,11 +311,29 @@ export default function Beranda() {
   const floatingChatContainerRef = useRef<HTMLDivElement>(null);
   const [showMainStickyDate, setShowMainStickyDate] = useState(false);
   const [showFloatingStickyDate, setShowFloatingStickyDate] = useState(false);
+  const [mainStickyDateText, setMainStickyDateText] = useState("9/9/2026");
+  const [floatingStickyDateText, setFloatingStickyDateText] = useState("9/9/2026");
   const mainStickyDateTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const floatingStickyDateTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleMainChatScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    if (e.currentTarget.scrollTop > 60) {
+    const container = e.currentTarget;
+    const dateElements = container.querySelectorAll('.chat-date-separator');
+    let currentText = "9/9/2026";
+    let found = false;
+
+    for (let i = dateElements.length - 1; i >= 0; i--) {
+      const el = dateElements[i] as HTMLElement;
+      // if the separator has scrolled past the top (with 20px padding)
+      if (el.offsetTop <= container.scrollTop + 20) {
+        currentText = el.textContent || "";
+        found = true;
+        break;
+      }
+    }
+
+    if (found) {
+      setMainStickyDateText(currentText);
       setShowMainStickyDate(true);
       if (mainStickyDateTimeout.current) clearTimeout(mainStickyDateTimeout.current);
       mainStickyDateTimeout.current = setTimeout(() => setShowMainStickyDate(false), 5000);
@@ -325,7 +343,22 @@ export default function Beranda() {
   };
 
   const handleFloatingChatScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    if (e.currentTarget.scrollTop > 60) {
+    const container = e.currentTarget;
+    const dateElements = container.querySelectorAll('.chat-date-separator');
+    let currentText = "9/9/2026";
+    let found = false;
+
+    for (let i = dateElements.length - 1; i >= 0; i--) {
+      const el = dateElements[i] as HTMLElement;
+      if (el.offsetTop <= container.scrollTop + 20) {
+        currentText = el.textContent || "";
+        found = true;
+        break;
+      }
+    }
+
+    if (found) {
+      setFloatingStickyDateText(currentText);
       setShowFloatingStickyDate(true);
       if (floatingStickyDateTimeout.current) clearTimeout(floatingStickyDateTimeout.current);
       floatingStickyDateTimeout.current = setTimeout(() => setShowFloatingStickyDate(false), 5000);
@@ -3576,10 +3609,10 @@ export default function Beranda() {
           {/* Floating Chat Sticky Date */}
           <div className={`absolute top-[60px] left-1/2 transform -translate-x-1/2 z-20 pointer-events-none transition-opacity duration-300 ${showFloatingStickyDate ? "opacity-100" : "opacity-0"}`}>
             <span className="bg-[#E5E5E5] dark:bg-[#242526] text-gray-600 dark:text-[#A8ABAF] px-3 py-1 rounded-lg text-[12.5px] font-semibold tracking-wide shadow-md">
-              9/9/2026
+              {floatingStickyDateText}
             </span>
           </div>
-          <div ref={floatingChatContainerRef} onScroll={handleFloatingChatScroll} className="flex-1 overflow-y-auto p-3 flex flex-col gap-2 bg-[#F0F2F5] dark:bg-[#18191A] sidebar-scrollbar overscroll-none">
+          <div ref={floatingChatContainerRef} onScroll={handleFloatingChatScroll} className="flex-1 overflow-y-auto relative p-3 flex flex-col gap-2 bg-[#F0F2F5] dark:bg-[#18191A] sidebar-scrollbar overscroll-none">
             {activeFloatingChatIdx !== null && dummyChats[activeFloatingChatIdx] && (
               <>
                 <div className="flex flex-col items-center justify-center pt-4 pb-6">
@@ -3673,6 +3706,41 @@ export default function Beranda() {
                     <div className="flex items-center gap-1 mr-1">
                       <div className="w-4 h-4 bg-green-500" style={{ WebkitMask: 'url(/mark/diliat.svg) no-repeat center', WebkitMaskSize: 'contain', mask: 'url(/mark/diliat.svg) no-repeat center', maskSize: 'contain' }} />
                       <span className="text-[10px] text-gray-500 dark:text-[#B0B3B8]">Dilihat 11.12</span>
+                    </div>
+                  </div>
+                </div>
+                {/* Tanggal Chat 2 */}
+                <div className="flex justify-center my-4">
+                  <span className="chat-date-separator bg-[#E5E5E5] dark:bg-[#242526] text-gray-600 dark:text-[#A8ABAF] px-3 py-1 rounded-lg text-[12.5px] font-semibold tracking-wide shadow-sm">
+                    10/9/2026
+                  </span>
+                </div>
+
+                <div className="flex items-start gap-2 max-w-[90%] group mt-2">
+                  <img src="/default-avatar.svg" className="w-7 h-7 rounded-full border border-gray-300 shrink-0 mt-1" />
+                  <div className="flex flex-col gap-1 ">
+                    <div className="bg-white dark:bg-[#3A3B3C] px-3 py-2 rounded-2xl rounded-tl-none shadow-sm flex flex-col">
+                      <p className="text-[13.5px] text-black dark:text-[#E4E6EB]">
+                        Eh bro, sorry baru balas. Kemarin sibuk banget parah.
+                      </p>
+                      <span className="text-[10px] text-gray-500 dark:text-[#B0B3B8] mt-1 self-start">
+                        08:15
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-end justify-end gap-2 max-w-[90%] self-end mt-2">
+                  <div className="flex flex-col gap-1 items-end">
+                    <div className="bg-emerald-600 dark:bg-emerald-500 px-3 py-2 rounded-2xl rounded-tr-none shadow-sm flex flex-col items-end">
+                      <p className="text-[13.5px] text-white">
+                        Santai bro, ini besok jadi kumpul kan di tempat biasa?
+                      </p>
+                      <span className="text-[10px] text-emerald-100 mt-1">08:20</span>
+                    </div>
+                    <div className="flex items-center gap-1 mr-1">
+                      <div className="w-4 h-4 bg-green-500" style={{ WebkitMask: 'url(/mark/diliat.svg) no-repeat center', WebkitMaskSize: 'contain', mask: 'url(/mark/diliat.svg) no-repeat center', maskSize: 'contain' }} />
+                      <span className="text-[10px] text-gray-500 dark:text-[#B0B3B8]">Dilihat 08:22</span>
                     </div>
                   </div>
                 </div>
@@ -5150,10 +5218,10 @@ export default function Beranda() {
             {/* Main Chat Sticky Date */}
             <div className={`absolute top-[70px] left-1/2 transform -translate-x-1/2 z-20 pointer-events-none transition-opacity duration-300 ${showMainStickyDate ? "opacity-100" : "opacity-0"}`}>
               <span className="bg-[#E5E5E5] dark:bg-[#242526] text-gray-600 dark:text-[#A8ABAF] px-3 py-1 rounded-lg text-[12.5px] font-semibold tracking-wide shadow-md">
-                9/9/2026
+                {mainStickyDateText}
               </span>
             </div>
-            <div ref={chatContainerRef} onScroll={handleMainChatScroll} className="flex-1 overflow-y-auto chat-scrollbar p-4 flex flex-col gap-2 overscroll-none">
+            <div ref={chatContainerRef} onScroll={handleMainChatScroll} className="flex-1 overflow-y-auto relative chat-scrollbar p-4 flex flex-col gap-2 overscroll-none">
               <div className="flex flex-col items-center justify-center pt-8 pb-16">
                 <div className="w-[100px] h-[100px] mb-4 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center overflow-hidden shrink-0">
                   <img src="/default-avatar.svg" className="w-full h-full object-cover" />
@@ -5327,6 +5395,41 @@ export default function Beranda() {
                   </div>
                 </div>
               </div>
+                {/* Tanggal Chat 2 */}
+                <div className="flex justify-center my-4">
+                  <span className="chat-date-separator bg-[#E5E5E5] dark:bg-[#242526] text-gray-600 dark:text-[#A8ABAF] px-3 py-1 rounded-lg text-[12.5px] font-semibold tracking-wide shadow-sm">
+                    10/9/2026
+                  </span>
+                </div>
+
+                <div className="flex items-start gap-2 max-w-[70%] group mt-2">
+                  <img src="/default-avatar.svg" className="w-7 h-7 rounded-full border border-gray-300 shrink-0 mt-1" />
+                  <div className="flex flex-col gap-1 ">
+                    <div className="bg-white dark:bg-[#3A3B3C] px-3 py-2 rounded-2xl rounded-tl-none shadow-sm flex flex-col">
+                      <p className="text-[14px] text-black dark:text-[#E4E6EB]">
+                        Eh bro, sorry baru balas. Kemarin sibuk banget parah.
+                      </p>
+                      <span className="text-[11px] text-gray-500 dark:text-[#B0B3B8] mt-1 self-start">
+                        08:15
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-end justify-end gap-2 max-w-[70%] self-end mt-2">
+                  <div className="flex flex-col gap-1 items-end">
+                    <div className="bg-emerald-600 dark:bg-emerald-500 px-3 py-2 rounded-2xl rounded-tr-none shadow-sm flex flex-col items-end">
+                      <p className="text-[14px] text-white">
+                        Santai bro, ini besok jadi kumpul kan di tempat biasa?
+                      </p>
+                      <span className="text-[11px] text-emerald-100 mt-1">08:20</span>
+                    </div>
+                    <div className="flex items-center gap-1 mr-1">
+                      <div className="w-4 h-4 bg-green-500" style={{ WebkitMask: 'url(/mark/diliat.svg) no-repeat center', WebkitMaskSize: 'contain', mask: 'url(/mark/diliat.svg) no-repeat center', maskSize: 'contain' }} />
+                      <span className="text-[11px] text-gray-500 dark:text-[#B0B3B8]">Dilihat 08:22</span>
+                    </div>
+                  </div>
+                </div>
             </div>
             <div className="p-4 bg-transparent shrink-0">
               <div className="flex items-end gap-2">

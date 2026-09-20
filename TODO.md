@@ -148,3 +148,4 @@
 - (Frontend) Memperbesar ukuran badge tanggal di floating chat dan memastikan auto-scroll ke bawah saat buka chat/panel
 - (Frontend) Menambahkan fitur sticky date (mengambang di atas pesan) saat scroll chat, dengan animasi fade in/out dan auto-hide selama 5 detik
 - (Frontend) Mengoptimalkan gaya visual (font-weight dan letter-spacing) pada label tanggal agar tidak terlihat terlalu tipis dan sempit
+- (Frontend) Menyempurnakan logic sticky date agar tidak muncul ganda (muncul hanya jika di-scroll melebihi posisi tanggal asli), serta menambahkan dummy chat dengan tanggal berbeda (10/9/2026) untuk pengetesan scroll panjang
