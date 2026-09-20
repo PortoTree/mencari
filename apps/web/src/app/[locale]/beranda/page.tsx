@@ -3370,6 +3370,7 @@ export default function Beranda() {
                             "text-[12px] text-gray-500 dark:text-[#B0B3B8] shrink-0 " +
                             (activeChatMenu === idx ? "opacity-0" : "")
                           }
+                          suppressHydrationWarning
                         >
                           {formatChatDate(chat.ts, locale)}
                         </span>
@@ -4174,7 +4175,7 @@ export default function Beranda() {
                           <h4 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB] truncate">
                             {chat.name}
                           </h4>
-                          <span className="text-[12px] text-gray-500">
+                          <span className="text-[12px] text-gray-500" suppressHydrationWarning>
                             {formatChatDate(chat.ts, locale)}
                           </span>
                         </div>

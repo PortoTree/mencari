@@ -74,3 +74,4 @@
 - (Frontend) Menyesuaikan posisi munculnya dropdown menu pada pesan terbawah agar ke atas (bottom-full) sehingga tidak memotong layar atau menambah scroll ekstra ke bawah (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menambahkan icon status (terkirim, dibaca, dll) ke dalam preview list obrolan di sidebar kiri menggunakan teknik CSS mask agar SVG bisa diwarnai sesuai dengan status masing-masing (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Memperbaiki error hydration dengan mengganti tag <div> menjadi <span> pada komponen ChatStatusMark agar valid diletakkan di dalam tag <p> (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Menambahkan suppressHydrationWarning pada elemen tanggal/waktu di list obrolan untuk mencegah error hydration (tanggal beda antara server dan client akibat Date.now()) (src/app/[locale]/beranda/page.tsx)
