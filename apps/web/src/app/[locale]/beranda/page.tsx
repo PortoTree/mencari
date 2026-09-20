@@ -235,9 +235,6 @@ export default function Beranda() {
     return "home";
   });
   const lottieRef = useRef<any>(null);
-  const [chatSidebarView, setChatSidebarView] = useState<"chats" | "friends">(
-    "chats",
-  );
   const [isChatInfoOpen, setIsChatInfoOpen] = useState(true);
   const [isChatMoreMenuOpen, setIsChatMoreMenuOpen] = useState(false);
   const chatMoreMenuRef = useRef<HTMLDivElement>(null);
@@ -4077,10 +4074,9 @@ export default function Beranda() {
             <div className="pt-4 px-4 border-b border-gray-200 dark:border-[#3E4042]">
               <div className="flex items-center justify-between">
                 <h2 className="font-bold text-[24px] text-black dark:text-[#E4E6EB]">
-                  {chatSidebarView === 'friends' ? t('chat.yourFriends') : t('chat.title')}
+                  {t('chat.title')}
                 </h2>
                 <div className="flex items-center gap-2">
-                  {chatSidebarView === "chats" && (
                     <div className="relative group/options" ref={chatListSettingsRef}>
                       <button onClick={() => setIsChatListSettingsOpen(!isChatListSettingsOpen)} className="w-9 h-9 rounded-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] flex items-center justify-center transition-colors text-black dark:text-[#E4E6EB]">
                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" /></svg>
@@ -4101,24 +4097,6 @@ export default function Beranda() {
                         </div>
                       )}
                     </div>
-                  )}
-                  <div className="relative group/friendlist">
-                    <button 
-                      onClick={() => setChatSidebarView(chatSidebarView === 'chats' ? 'friends' : 'chats')} 
-                      className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors ${chatSidebarView === 'friends' ? 'bg-gray-300 dark:bg-[#4E4F50]' : 'bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50]'}`}
-                    >
-                      {chatSidebarView === "chats" ? (
-                        <img src="/navigasi/teman.svg" className="w-5 h-5 dark:invert" />
-                      ) : (
-                        <svg className="w-5 h-5 text-gray-700 dark:text-[#E4E6EB]" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M19.06 4.94a1.5 1.5 0 00-2.12 0L12 9.88 7.06 4.94a1.5 1.5 0 00-2.12 2.12L9.88 12l-4.94 4.94a1.5 1.5 0 102.12 2.12L12 14.12l4.94 4.94a1.5 1.5 0 002.12-2.12L14.12 12l4.94-4.94a1.5 1.5 0 000-2.12z" />
-                        </svg>
-                      )}
-                    </button>
-                    <div className="absolute -bottom-9 left-1/2 -translate-x-1/2 px-2.5 py-1.5 bg-gray-800/90 text-[#E4E6EB] text-[13px] font-medium rounded-lg opacity-0 group-hover/friendlist:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
-                      {chatSidebarView === "friends" ? t('chat.closeTooltip') : t('chat.friendlistTooltip')}
-                    </div>
-                  </div>
                   <div className="relative group/newchat">
                     <button onClick={() => setIsNewChatPanelOpen(true)} className="w-9 h-9 rounded-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] flex items-center justify-center transition-colors text-black dark:text-[#E4E6EB]">
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -4134,12 +4112,11 @@ export default function Beranda() {
               <div className="mt-3 relative">
                 <input 
                   type="text" 
-                  placeholder={chatSidebarView === 'friends' ? t('chat.searchUsername') : t('chat.searchChat')} 
+                  placeholder={t('chat.searchChat')} 
                   className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] text-black dark:text-[#E4E6EB] px-4 py-2 rounded-full outline-none text-[15px]" 
                 />
               </div>
-              {chatSidebarView === "chats" ? (
-                <div className="mt-3 flex items-center justify-between">
+              <div className="mt-3 flex items-center justify-between">
                   <div className="flex items-center gap-1">
                     <button 
                       onClick={() => setChatListFilter('all')}
@@ -4180,13 +4157,9 @@ export default function Beranda() {
                     )}
                   </div>
                 </div>
-              ) : (
-                <div className="pb-4"></div>
-              )}
             </div>
               <div className="overscroll-contain flex-1 overflow-y-auto sidebar-scrollbar p-2">
-                {chatSidebarView === "chats" ? (
-                  dummyChats.map((chat, idx) => (
+                  {dummyChats.map((chat, idx) => (
                     <div
                       key={idx}
                       onClick={() => setActiveChatIdx(idx)}
@@ -4323,55 +4296,7 @@ export default function Beranda() {
                         </div>
                       )}
                     </div>
-                  ))
-                ) : (
-                  <>
-                    <div className="px-2 pt-2 pb-1 text-[13px] font-semibold text-gray-500 dark:text-[#B0B3B8]">
-                      {t('chat.activeFriends')} ({dummyChats.filter(c => c.isOnline).length})
-                    </div>
-                    {dummyChats.filter(c => c.isOnline).map((chat, idx) => (
-                      <div
-                        key={'online-'+idx}
-                        className="relative group flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors mb-1"
-                      >
-                        <div className="relative w-14 h-14 shrink-0">
-                          <img
-                            src="/default-avatar.svg"
-                            className="w-full h-full rounded-full object-cover border border-emerald-600 dark:border-emerald-400"
-                          />
-                          <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-[#31A24C] rounded-full border-2 border-white dark:border-[#242526]"></div>
-                        </div>
-                        <div className="flex-1 min-w-0 flex flex-col justify-center">
-                          <h4 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB] truncate">
-                            {chat.name}
-                          </h4>
-                        </div>
-                      </div>
-                    ))}
-
-                    <div className="px-2 pt-4 pb-1 text-[13px] font-semibold text-gray-500 dark:text-[#B0B3B8]">
-                      {t('chat.offlineFriends')} ({dummyChats.filter(c => !c.isOnline).length})
-                    </div>
-                    {dummyChats.filter(c => !c.isOnline).map((chat, idx) => (
-                      <div
-                        key={'offline-'+idx}
-                        className="relative group flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors mb-1"
-                      >
-                        <div className="relative w-14 h-14 shrink-0">
-                          <img
-                            src="/default-avatar.svg"
-                            className="w-full h-full rounded-full object-cover border border-emerald-600 dark:border-emerald-400"
-                          />
-                        </div>
-                        <div className="flex-1 min-w-0 flex flex-col justify-center">
-                          <h4 className="font-semibold text-[15px] text-gray-500 dark:text-[#A8ABAF] truncate">
-                            {chat.name}
-                          </h4>
-                        </div>
-                      </div>
-                    ))}
-                  </>
-                )}
+                  ))}
               </div>
           </div>
           {activeChatIdx !== null ? (
@@ -4965,10 +4890,15 @@ export default function Beranda() {
 
           {/* KANAN: Chat Info Sidebar */}
           {isChatInfoOpen && (
-            <div className="w-[360px] bg-white dark:bg-[#242526] border-l border-gray-200 dark:border-[#3E4042] flex flex-col shrink-0">
-
+            <div className="w-[360px] bg-white dark:bg-[#242526] border-l border-gray-200 dark:border-[#3E4042] flex flex-col shrink-0 relative">
+              <button 
+                onClick={() => setIsChatInfoOpen(false)}
+                className="absolute top-4 right-4 w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center justify-center transition-colors text-gray-500 dark:text-[#B0B3B8] z-10"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
               <div className="flex-1 overflow-y-auto sidebar-scrollbar p-4 flex flex-col items-center gap-4">
-                <div className="w-24 h-24 shrink-0 rounded-full overflow-hidden border-2 border-gray-200 dark:border-[#3E4042]">
+                <div className="w-24 h-24 shrink-0 rounded-full overflow-hidden border-2 border-gray-200 dark:border-[#3E4042] mt-4">
                   <img
                     src="/default-avatar.svg"
                     className="w-full h-full object-cover"
@@ -5097,6 +5027,70 @@ export default function Beranda() {
                <p className="text-[15px] text-gray-500 dark:text-[#B0B3B8] max-w-[400px] text-center">
                  {t("chat.noChatSelectedDesc")}
                </p>
+            </div>
+          )}
+
+          {/* KANAN: Friend List Sidebar (Shows when Chat Info is closed or no chat selected) */}
+          {(!isChatInfoOpen || activeChatIdx === null) && (
+            <div className="w-[360px] bg-white dark:bg-[#242526] border-l border-gray-200 dark:border-[#3E4042] flex flex-col shrink-0">
+              <div className="pt-4 px-4 border-b border-gray-200 dark:border-[#3E4042]">
+                <h2 className="font-bold text-[24px] text-black dark:text-[#E4E6EB]">
+                  {t('chat.yourFriends')}
+                </h2>
+                <div className="mt-3 relative pb-3">
+                  <input 
+                    type="text" 
+                    placeholder={t('chat.searchUsername')} 
+                    className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] text-black dark:text-[#E4E6EB] px-4 py-2 rounded-full outline-none text-[15px]" 
+                  />
+                </div>
+              </div>
+              <div className="flex-1 overflow-y-auto sidebar-scrollbar px-2 py-2">
+                <div className="px-2 pt-2 pb-1 text-[13px] font-semibold text-gray-500 dark:text-[#B0B3B8]">
+                  {t('chat.activeFriends')} ({dummyChats.filter(c => c.isOnline).length})
+                </div>
+                {dummyChats.filter(c => c.isOnline).map((chat, idx) => (
+                  <div
+                    key={'online-'+idx}
+                    className="relative group flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors mb-1"
+                  >
+                    <div className="relative w-14 h-14 shrink-0">
+                      <img
+                        src="/default-avatar.svg"
+                        className="w-full h-full rounded-full object-cover border border-emerald-600 dark:border-emerald-400"
+                      />
+                      <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-[#31A24C] rounded-full border-2 border-white dark:border-[#242526]"></div>
+                    </div>
+                    <div className="flex-1 min-w-0 flex flex-col justify-center">
+                      <h4 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB] truncate">
+                        {chat.name}
+                      </h4>
+                    </div>
+                  </div>
+                ))}
+
+                <div className="px-2 pt-4 pb-1 text-[13px] font-semibold text-gray-500 dark:text-[#B0B3B8]">
+                  {t('chat.offlineFriends')} ({dummyChats.filter(c => !c.isOnline).length})
+                </div>
+                {dummyChats.filter(c => !c.isOnline).map((chat, idx) => (
+                  <div
+                    key={'offline-'+idx}
+                    className="relative group flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors mb-1"
+                  >
+                    <div className="relative w-14 h-14 shrink-0">
+                      <img
+                        src="/default-avatar.svg"
+                        className="w-full h-full rounded-full object-cover border border-emerald-600 dark:border-emerald-400"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0 flex flex-col justify-center">
+                      <h4 className="font-semibold text-[15px] text-gray-500 dark:text-[#A8ABAF] truncate">
+                        {chat.name}
+                      </h4>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>
