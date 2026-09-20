@@ -3575,22 +3575,22 @@ export default function Beranda() {
           className={`hidden lg:flex fixed bottom-0 right-[396px] w-[380px] bg-white dark:bg-[#242526] rounded-t-xl shadow-[0_0_15px_rgba(0,0,0,0.15)] border border-gray-200 dark:border-[#3E4042] flex-col z-50 transition-all duration-300 ease-in-out transform origin-bottom ${activeFloatingChatIdx !== null ? "scale-y-100 opacity-100 h-[500px]" : "scale-y-0 opacity-0 h-0 pointer-events-none"}`}
         >
           {/* Header */}
-          <div className="h-[52px] bg-white dark:bg-[#242526] border-b border-gray-200 dark:border-[#3E4042] flex items-center justify-between px-3 shadow-sm shrink-0 rounded-t-xl hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors cursor-pointer" onClick={() => setActiveFloatingChatIdx(null)}>
+          <div className="h-[60px] bg-white dark:bg-[#242526] border-b border-gray-200 dark:border-[#3E4042] flex items-center justify-between px-4 shadow-sm shrink-0 rounded-t-xl hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors cursor-pointer" onClick={() => setActiveFloatingChatIdx(null)}>
             <div className="flex items-center gap-2 min-w-0">
-              <div className="relative w-8 h-8 shrink-0">
+              <div className="relative w-10 h-10 shrink-0">
                 <img
                   src="/default-avatar.svg"
                   className="w-full h-full rounded-full object-cover border border-emerald-600 dark:border-emerald-400"
                 />
                 {activeFloatingChatIdx !== null && dummyChats[activeFloatingChatIdx]?.isOnline && (
-                  <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[#31A24C] rounded-full border-[1.5px] border-white dark:border-[#242526]"></div>
+                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#31A24C] rounded-full border-2 border-white dark:border-[#242526]"></div>
                 )}
               </div>
               <div className="flex flex-col min-w-0">
-                <h3 className="font-semibold text-[14px] text-black dark:text-[#E4E6EB] leading-tight truncate max-w-[120px]">
+                <h3 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB] leading-tight truncate max-w-[200px]">
                   {activeFloatingChatIdx !== null && dummyChats[activeFloatingChatIdx] ? dummyChats[activeFloatingChatIdx].name : "Obrolan"}
                 </h3>
-                <p className="text-[11px] text-gray-500 dark:text-[#B0B3B8] leading-tight truncate">
+                <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] leading-tight truncate">
                   {activeFloatingChatIdx !== null && dummyChats[activeFloatingChatIdx]?.isOnline ? t("chat.activeNow") : t("chat.offline", { defaultMessage: "Offline" })}
                 </p>
               </div>
