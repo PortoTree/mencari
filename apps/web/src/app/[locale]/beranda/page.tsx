@@ -394,7 +394,7 @@ export default function Beranda() {
       clearTimeout(timeout);
       clearTimeout(timeout2);
     };
-  }, [activeChatIdx, activeFloatingChatIdx]);
+  }, [activeChatIdx, activeFloatingChatIdx, isFloatingChatInfoOpen]);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -3422,7 +3422,7 @@ export default function Beranda() {
                 {dummyChats.map((chat, idx) => (
                   <div
                     key={idx}
-                    onClick={() => setActiveFloatingChatIdx(idx)}
+                    onClick={() => { setActiveFloatingChatIdx(idx); setIsFloatingChatInfoOpen(false); }}
                     className={`relative group flex items-center gap-3 p-3 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors ${
                       activeFloatingChatIdx === idx ? "bg-gray-200 dark:bg-[#3A3B3C]" : ""
                     }`}

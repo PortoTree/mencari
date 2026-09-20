@@ -152,3 +152,4 @@
 - (Frontend) Memperbaiki logic kalkulasi posisi scroll untuk sticky date menggunakan getBoundingClientRect agar akurat di semua ukuran layar dan terhindar dari bug offset flexbox
 - (Frontend) Menyelaraskan styling header di panel floating chat (ukuran avatar, ukuran font nama & status, serta indikator online) agar identik dengan header utama di halaman /obrolan
 - (Frontend) Menambahkan fitur state info profil untuk floating chat (saat header di-klik) dengan layout yang sama persis seperti sidebar info profil pada halaman /obrolan
+- (Frontend) Memperbaiki fitur autoscroll ke bawah saat kembali dari info profil floating chat, serta me-reset state info profil saat membuka obrolan baru
