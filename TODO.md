@@ -151,3 +151,4 @@
 - (Frontend) Menyempurnakan logic sticky date agar tidak muncul ganda (muncul hanya jika di-scroll melebihi posisi tanggal asli), serta menambahkan dummy chat dengan tanggal berbeda (10/9/2026) untuk pengetesan scroll panjang
 - (Frontend) Memperbaiki logic kalkulasi posisi scroll untuk sticky date menggunakan getBoundingClientRect agar akurat di semua ukuran layar dan terhindar dari bug offset flexbox
 - (Frontend) Menyelaraskan styling header di panel floating chat (ukuran avatar, ukuran font nama & status, serta indikator online) agar identik dengan header utama di halaman /obrolan
+- (Frontend) Menambahkan fitur state info profil untuk floating chat (saat header di-klik) dengan layout yang sama persis seperti sidebar info profil pada halaman /obrolan
