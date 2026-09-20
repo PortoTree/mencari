@@ -99,3 +99,5 @@
 - (Frontend) Refactor icon + pada friend list sidebar: profil tetap hover-only, icon + permanent saat mode add aktif, icon selected ganti jadi X merah (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Sembunyikan icon + saat mode add tidak aktif (hanya tampil jika showAddIcons = true) (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Header sidebar kanan: icon + berubah jadi Cancel/Remove All (trash) sesuai kondisi mode add dan seleksi. Tambah localStorage untuk state selectedFriendsToAdd (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Jadikan friend list di sidebar kanan clickable untuk langsung membuka room chat (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Set setIsChatInfoOpen(true) saat klik row di sidebar kanan supaya konsisten dengan sidebar kiri (src/app/[locale]/beranda/page.tsx)

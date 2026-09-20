@@ -5374,6 +5374,7 @@ export default function Beranda() {
                   return (
                     <div
                       key={'online-'+idx}
+                      onClick={() => { setActiveChatIdx(realIdx); setIsChatInfoOpen(true); setProfileViewIdx(null); setIsCreatingGroup(false); setSelectedNewChatUsers([]); }}
                       className={`relative group flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors mb-1 ${isAdded ? 'bg-green-50 dark:bg-[#00B47A]/10 hover:bg-green-100 dark:hover:bg-[#00B47A]/20' : 'hover:bg-gray-100 dark:hover:bg-[#3A3B3C]'}`}
                     >
                       <div className="relative w-14 h-14 shrink-0">
@@ -5398,7 +5399,7 @@ export default function Beranda() {
                         {/* Icon Profil */}
                         <div className="relative group/tooltip opacity-0 group-hover:opacity-100 transition-opacity">
                           <button
-                            onClick={() => { setProfileViewIdx(realIdx); setActiveChatIdx(null); setIsCreatingGroup(false); }}
+                            onClick={(e) => { e.stopPropagation(); setProfileViewIdx(realIdx); setActiveChatIdx(null); setIsCreatingGroup(false); }}
                             className="w-8 h-8 rounded-full bg-gray-200 dark:bg-[#3A3B3C] hover:bg-[#E7F3FF] dark:hover:bg-[#183966] flex items-center justify-center text-gray-500 dark:text-[#B0B3B8] hover:text-[#1877F2] dark:hover:text-[#2D88FF] transition-colors"
                           >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
@@ -5411,7 +5412,7 @@ export default function Beranda() {
                         {/* Icon + Tambahkan */}
                         <div className={`relative group/tooltip transition-opacity ${showAddIcons ? 'opacity-100' : 'hidden'}`}>
                           <button
-                            onClick={() => setSelectedFriendsToAdd(prev => isAdded ? prev.filter(i => i !== realIdx) : [...prev, realIdx])}
+                            onClick={(e) => { e.stopPropagation(); setSelectedFriendsToAdd(prev => isAdded ? prev.filter(i => i !== realIdx) : [...prev, realIdx]); }}
                             className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${isAdded ? 'bg-red-100 dark:bg-red-900/30 text-red-500' : 'bg-gray-200 dark:bg-[#3A3B3C] hover:bg-[#E7F3FF] dark:hover:bg-[#183966] text-gray-500 dark:text-[#B0B3B8] hover:text-[#1877F2] dark:hover:text-[#2D88FF]'}`}
                           >
                             {isAdded
@@ -5437,6 +5438,7 @@ export default function Beranda() {
                   return (
                     <div
                       key={'offline-'+idx}
+                      onClick={() => { setActiveChatIdx(realIdx); setIsChatInfoOpen(true); setProfileViewIdx(null); setIsCreatingGroup(false); setSelectedNewChatUsers([]); }}
                       className={`relative group flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors mb-1 ${isAdded ? 'bg-green-50 dark:bg-[#00B47A]/10 hover:bg-green-100 dark:hover:bg-[#00B47A]/20' : 'hover:bg-gray-100 dark:hover:bg-[#3A3B3C]'}`}
                     >
                       <div className="relative w-14 h-14 shrink-0">
@@ -5459,7 +5461,7 @@ export default function Beranda() {
                       <div className="flex items-center gap-1 shrink-0">
                         <div className="relative group/tooltip opacity-0 group-hover:opacity-100 transition-opacity">
                           <button
-                            onClick={() => { setProfileViewIdx(realIdx); setActiveChatIdx(null); setIsCreatingGroup(false); }}
+                            onClick={(e) => { e.stopPropagation(); setProfileViewIdx(realIdx); setActiveChatIdx(null); setIsCreatingGroup(false); }}
                             className="w-8 h-8 rounded-full bg-gray-200 dark:bg-[#3A3B3C] hover:bg-[#E7F3FF] dark:hover:bg-[#183966] flex items-center justify-center text-gray-500 dark:text-[#B0B3B8] hover:text-[#1877F2] dark:hover:text-[#2D88FF] transition-colors"
                           >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
@@ -5471,7 +5473,7 @@ export default function Beranda() {
                         </div>
                         <div className={`relative group/tooltip transition-opacity ${showAddIcons ? 'opacity-100' : 'hidden'}`}>
                           <button
-                            onClick={() => setSelectedFriendsToAdd(prev => isAdded ? prev.filter(i => i !== realIdx) : [...prev, realIdx])}
+                            onClick={(e) => { e.stopPropagation(); setSelectedFriendsToAdd(prev => isAdded ? prev.filter(i => i !== realIdx) : [...prev, realIdx]); }}
                             className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${isAdded ? 'bg-red-100 dark:bg-red-900/30 text-red-500' : 'bg-gray-200 dark:bg-[#3A3B3C] hover:bg-[#E7F3FF] dark:hover:bg-[#183966] text-gray-500 dark:text-[#B0B3B8] hover:text-[#1877F2] dark:hover:text-[#2D88FF]'}`}
                           >
                             {isAdded
