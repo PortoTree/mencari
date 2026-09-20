@@ -102,3 +102,5 @@
 - (Frontend) Jadikan friend list di sidebar kanan clickable untuk langsung membuka room chat (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Set setIsChatInfoOpen(true) saat klik row di sidebar kanan supaya konsisten dengan sidebar kiri (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Perbaiki auto-scroll room chat (ubah dependency useEffect dari [] menjadi [activeChatIdx]) agar selalu turun ke pesan terbaru setiap kali ganti obrolan (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Sinkronisasi state selectedFriendsToAdd dengan form Grup: sidebar kanan tidak reset saat membuka form grup, remove dari sidebar langsung update di member grup (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Hapus layer MiniListPreview, biarkan layar obrolan kosong (atau chat terakhir aktif) saat memilih member, dan hilangkan sticky footer Buat Grup ketika form Grup sudah terbuka di kolom tengah (src/app/[locale]/beranda/page.tsx)
