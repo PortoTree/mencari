@@ -80,3 +80,4 @@
 - (Frontend) Menambahkan state activeChatIdx untuk mengatur status apakah sebuah obrolan sedang terbuka atau tidak. Jika tidak ada obrolan terbuka, halaman utama menampilkan placeholder kosong. (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menukar posisi icon + (New Chat) dan icon Teman (Friendlist) di bagian header sidebar kiri (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menambahkan panel Buat Obrolan Pribadi atau Grup yang muncul (slide dari kiri ke kanan) saat klik icon + di sidebar chat. (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Memperbaiki dropdown popup menu pada icon titik 3 di header obrolan agar tidak terpotong (diubah menjadi rata kanan / right-0) akibat adanya overflow-hidden di sidebar. (src/app/[locale]/beranda/page.tsx)
