@@ -85,3 +85,5 @@
 - (Frontend) Menambahkan icon X di pojok kanan atas sidebar Chat Info untuk menutup panel Chat Info dan memunculkan kembali Friendlist (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Memperbaiki tombol Lihat Profil di dropdown header room chat agar bisa membuka state profil (Chat Info) di sidebar kanan (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menambahkan otomatis buka Chat Info saat klik chat list item, dan view profil di tengah layar saat klik Lihat Profil dari titik 3 (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Mengubah tampilan Profile Info di kolom tengah menjadi Full Screen, menambahkan icon action Profile dan Chat, serta menambahkan placeholder Links, Media Gallery, dan Media Files dengan style yang lebih lega (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Mengubah aksi pada icon Chat di Profile Info tengah agar otomatis membuka panel Chat Info di sidebar kanan saat memasuki room chat (src/app/[locale]/beranda/page.tsx)
