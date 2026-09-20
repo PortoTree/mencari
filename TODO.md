@@ -139,3 +139,4 @@
 - (Frontend) Membuat logika pergantian tombol PING menjadi tombol Kirim jika input terisi (berlaku untuk panel utama dan panel widget)
 - (Frontend) Membuat tombol kirim memiliki teks dan icon pesawat kertas menghadap kanan pada panel widget dan chat utama
 - (Frontend) Memperbaiki layout shift pada tombol PING ke Kirim dengan min-width, dan mengubah warna icon emoji menjadi hijau emerald
+- (Frontend) Membuat input chat menjadi multiline textarea dengan auto-resize, batas max-height, dan alignment tombol mengikuti tinggi input

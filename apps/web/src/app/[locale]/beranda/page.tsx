@@ -3611,13 +3611,18 @@ export default function Beranda() {
                 )}
               </div>
               
-              <div className="flex-1 flex items-center bg-[#F0F2F5] dark:bg-[#3A3B3C] border border-gray-300 dark:border-[#4E4F50] rounded-full px-3 py-1.5 min-w-0">
-                <input 
-                  type="text" 
+              <div className="flex-1 flex items-end bg-[#F0F2F5] dark:bg-[#3A3B3C] border border-gray-300 dark:border-[#4E4F50] rounded-[20px] px-3 py-1.5 min-w-0">
+                <textarea 
+                  rows={1}
                   placeholder={t("chat.typeMessage")} 
-                  className="flex-1 bg-transparent border-none outline-none text-[13px] text-black dark:text-[#E4E6EB] placeholder-gray-500 dark:placeholder-[#B0B3B8] min-w-0"
+                  className="flex-1 bg-transparent border-none outline-none text-[13px] text-black dark:text-[#E4E6EB] placeholder-gray-500 dark:placeholder-[#B0B3B8] min-w-0 resize-none max-h-[100px] overflow-y-auto sidebar-scrollbar"
+                  style={{ minHeight: "20px" }}
                   value={floatingChatMessage}
-                  onChange={(e) => setFloatingChatMessage(e.target.value)}
+                  onChange={(e) => {
+                    setFloatingChatMessage(e.target.value);
+                    e.target.style.height = 'auto';
+                    e.target.style.height = e.target.scrollHeight + 'px';
+                  }}
                 />
                 <button className="text-[#00B47A] hover:text-[#009E6B] transition-colors shrink-0 ml-1.5 flex items-center justify-center">
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -5241,13 +5246,18 @@ export default function Beranda() {
                     </div>
                   )}
                 </div>
-                <div className="flex-1 flex items-center bg-white dark:bg-[#242526] border border-gray-300 dark:border-[#3E4042] rounded-full px-4 py-2 ml-1">
-                  <input
-                    type="text"
+                <div className="flex-1 flex items-end bg-white dark:bg-[#242526] border border-gray-300 dark:border-[#3E4042] rounded-[24px] px-4 py-2 ml-1">
+                  <textarea
+                    rows={1}
                     placeholder={t("chat.typeMessage")}
-                    className="flex-1 bg-transparent outline-none text-[15px] text-black dark:text-[#E4E6EB]"
+                    className="flex-1 bg-transparent outline-none text-[15px] text-black dark:text-[#E4E6EB] resize-none max-h-[120px] overflow-y-auto sidebar-scrollbar"
+                    style={{ minHeight: "24px" }}
                     value={mainChatMessage}
-                    onChange={(e) => setMainChatMessage(e.target.value)}
+                    onChange={(e) => {
+                      setMainChatMessage(e.target.value);
+                      e.target.style.height = 'auto';
+                      e.target.style.height = e.target.scrollHeight + 'px';
+                    }}
                   />
                   <button className="text-[#00B47A] hover:text-[#009E6B] transition-colors shrink-0 ml-2 flex items-center justify-center">
                     <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
