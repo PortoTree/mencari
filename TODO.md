@@ -121,3 +121,4 @@
 
 - (Frontend) Menyelaraskan dropdown filter di panel chat melayang (floating widget) agar sama dengan dropdown filter di halaman /obrolan (menggunakan icon SVG untuk Group Chat dan Archived)
 - (Frontend) Memperbaiki JSX syntax error (Expression expected) akibat splice baris yang salah pada panel chat melayang (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Menambahkan menu filter Favorite (dengan icon SVG) di urutan paling atas pada dropdown filter di panel chat melayang (src/app/[locale]/beranda/page.tsx)
