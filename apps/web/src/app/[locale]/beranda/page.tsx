@@ -309,6 +309,30 @@ export default function Beranda() {
   const langRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const floatingChatContainerRef = useRef<HTMLDivElement>(null);
+  const [showMainStickyDate, setShowMainStickyDate] = useState(false);
+  const [showFloatingStickyDate, setShowFloatingStickyDate] = useState(false);
+  const mainStickyDateTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const floatingStickyDateTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleMainChatScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    if (e.currentTarget.scrollTop > 60) {
+      setShowMainStickyDate(true);
+      if (mainStickyDateTimeout.current) clearTimeout(mainStickyDateTimeout.current);
+      mainStickyDateTimeout.current = setTimeout(() => setShowMainStickyDate(false), 5000);
+    } else {
+      setShowMainStickyDate(false);
+    }
+  };
+
+  const handleFloatingChatScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    if (e.currentTarget.scrollTop > 60) {
+      setShowFloatingStickyDate(true);
+      if (floatingStickyDateTimeout.current) clearTimeout(floatingStickyDateTimeout.current);
+      floatingStickyDateTimeout.current = setTimeout(() => setShowFloatingStickyDate(false), 5000);
+    } else {
+      setShowFloatingStickyDate(false);
+    }
+  };
 
   // Auto-scroll chat to bottom
   useEffect(() => {
@@ -3549,7 +3573,13 @@ export default function Beranda() {
           </div>
           
           {/* Messages Area */}
-          <div ref={floatingChatContainerRef} className="flex-1 overflow-y-auto p-3 flex flex-col gap-2 bg-[#F0F2F5] dark:bg-[#18191A] sidebar-scrollbar overscroll-none">
+          {/* Floating Chat Sticky Date */}
+          <div className={`absolute top-[60px] left-1/2 transform -translate-x-1/2 z-20 pointer-events-none transition-opacity duration-300 ${showFloatingStickyDate ? "opacity-100" : "opacity-0"}`}>
+            <span className="bg-[#E5E5E5] dark:bg-[#242526] text-gray-600 dark:text-[#A8ABAF] px-3 py-1 rounded-lg text-[12.5px] font-medium shadow-md">
+              9/9/2026
+            </span>
+          </div>
+          <div ref={floatingChatContainerRef} onScroll={handleFloatingChatScroll} className="flex-1 overflow-y-auto p-3 flex flex-col gap-2 bg-[#F0F2F5] dark:bg-[#18191A] sidebar-scrollbar overscroll-none">
             {activeFloatingChatIdx !== null && dummyChats[activeFloatingChatIdx] && (
               <>
                 <div className="flex flex-col items-center justify-center pt-4 pb-6">
@@ -5117,7 +5147,13 @@ export default function Beranda() {
                 </button>
               </div>
             )}
-            <div ref={chatContainerRef} className="flex-1 overflow-y-auto chat-scrollbar p-4 flex flex-col gap-2 overscroll-none">
+            {/* Main Chat Sticky Date */}
+            <div className={`absolute top-[70px] left-1/2 transform -translate-x-1/2 z-20 pointer-events-none transition-opacity duration-300 ${showMainStickyDate ? "opacity-100" : "opacity-0"}`}>
+              <span className="bg-[#E5E5E5] dark:bg-[#242526] text-gray-600 dark:text-[#A8ABAF] px-3 py-1 rounded-lg text-[12.5px] font-medium shadow-md">
+                9/9/2026
+              </span>
+            </div>
+            <div ref={chatContainerRef} onScroll={handleMainChatScroll} className="flex-1 overflow-y-auto chat-scrollbar p-4 flex flex-col gap-2 overscroll-none">
               <div className="flex flex-col items-center justify-center pt-8 pb-16">
                 <div className="w-[100px] h-[100px] mb-4 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center overflow-hidden shrink-0">
                   <img src="/default-avatar.svg" className="w-full h-full object-cover" />
