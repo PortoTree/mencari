@@ -3620,8 +3620,13 @@ export default function Beranda() {
                   value={floatingChatMessage}
                   onChange={(e) => {
                     setFloatingChatMessage(e.target.value);
+                    const prev = e.target.style.height;
                     e.target.style.height = 'auto';
                     e.target.style.height = e.target.scrollHeight + 'px';
+                    if (prev !== e.target.style.height) {
+                      const msgs = e.target.closest('.flex-col')?.querySelector('.overflow-y-auto');
+                      if (msgs) msgs.scrollTop = msgs.scrollHeight;
+                    }
                   }}
                 />
                 <button className="text-[#00B47A] hover:text-[#009E6B] transition-colors shrink-0 ml-1.5 flex items-center justify-center">
@@ -5255,8 +5260,13 @@ export default function Beranda() {
                     value={mainChatMessage}
                     onChange={(e) => {
                       setMainChatMessage(e.target.value);
-                      e.target.style.height = 'auto';
-                      e.target.style.height = e.target.scrollHeight + 'px';
+                    const prev = e.target.style.height;
+                    e.target.style.height = 'auto';
+                    e.target.style.height = e.target.scrollHeight + 'px';
+                    if (prev !== e.target.style.height) {
+                      const msgs = e.target.closest('.flex-col')?.querySelector('.overflow-y-auto');
+                      if (msgs) msgs.scrollTop = msgs.scrollHeight;
+                    }
                     }}
                   />
                   <button className="text-[#00B47A] hover:text-[#009E6B] transition-colors shrink-0 ml-2 flex items-center justify-center">

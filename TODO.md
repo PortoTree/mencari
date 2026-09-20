@@ -141,3 +141,4 @@
 - (Frontend) Memperbaiki layout shift pada tombol PING ke Kirim dengan min-width, dan mengubah warna icon emoji menjadi hijau emerald
 - (Frontend) Membuat input chat menjadi multiline textarea dengan auto-resize, batas max-height, dan alignment tombol mengikuti tinggi input
 - (Frontend) Memperbaiki posisi tombol lampiran dan kirim agar rata bawah (items-end) saat textarea membesar
+- (Frontend) Menambahkan auto-scroll ke bawah pada list chat (messages container) saat textarea chat membesar agar pesan terbaru (bubble chat terakhir) tidak tertutup
