@@ -4966,12 +4966,21 @@ export default function Beranda() {
                         </div>
                         <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{t("chat.links")}</span>
                       </div>
-                      <svg className="w-5 h-5 text-gray-500 group-hover:text-black dark:group-hover:text-[#E4E6EB] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                      <svg className="w-5 h-5 text-gray-500 group-hover:text-black dark:group-hover:text-[#E4E6EB] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                     </button>
-                    {/* Dummy Content */}
-                    <div className="flex flex-col gap-3 pb-4">
-                       <a href="#" className="text-[14px] text-[#2D88FF] hover:underline truncate">https://dribbble.com/shots/popular</a>
-                       <a href="#" className="text-[14px] text-[#2D88FF] hover:underline truncate">https://github.com/mencari/web-app</a>
+                    <div className="flex flex-col gap-2 pb-4">
+                       <a href="#" className="flex items-center gap-3 p-2 -mx-2 text-[14px] text-[#2D88FF] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 rounded-lg group/link transition-colors">
+                         <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center shrink-0">
+                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+                         </div>
+                         <span className="truncate group-hover/link:underline">https://dribbble.com/shots/popular</span>
+                       </a>
+                       <a href="#" className="flex items-center gap-3 p-2 -mx-2 text-[14px] text-[#2D88FF] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 rounded-lg group/link transition-colors">
+                         <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center shrink-0">
+                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+                         </div>
+                         <span className="truncate group-hover/link:underline">https://github.com/mencari/web-app</span>
+                       </a>
                     </div>
                   </div>
 
@@ -4984,17 +4993,16 @@ export default function Beranda() {
                         </div>
                         <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{t("chat.mediaGallery")}</span>
                       </div>
-                      <svg className="w-5 h-5 text-gray-500 group-hover:text-black dark:group-hover:text-[#E4E6EB] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                      <svg className="w-5 h-5 text-gray-500 group-hover:text-black dark:group-hover:text-[#E4E6EB] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                     </button>
-                    {/* Dummy Content */}
-                    <div className="grid grid-cols-3 gap-2 pb-4">
-                      <div className="aspect-square bg-gray-200 dark:bg-[#3A3B3C] rounded-lg cursor-pointer hover:opacity-80 transition-opacity flex items-center justify-center overflow-hidden">
-                        <img src="/default-avatar.svg" className="w-full h-full object-cover" />
+                    <div className="grid grid-cols-3 gap-2 pb-4 px-2 -mx-2">
+                      <div className="aspect-square bg-gray-100 dark:bg-[#3A3B3C] rounded-lg cursor-pointer hover:opacity-80 transition-opacity flex items-center justify-center overflow-hidden border border-transparent dark:border-[#4E4F50]">
+                        <img src="/default-avatar.svg" className="w-full h-full object-cover opacity-90" />
                       </div>
-                      <div className="aspect-square bg-gray-200 dark:bg-[#3A3B3C] rounded-lg cursor-pointer hover:opacity-80 transition-opacity flex items-center justify-center overflow-hidden">
-                        <img src="/default-avatar.svg" className="w-full h-full object-cover" />
+                      <div className="aspect-square bg-gray-100 dark:bg-[#3A3B3C] rounded-lg cursor-pointer hover:opacity-80 transition-opacity flex items-center justify-center overflow-hidden border border-transparent dark:border-[#4E4F50]">
+                        <img src="/default-avatar.svg" className="w-full h-full object-cover opacity-90" />
                       </div>
-                      <div className="aspect-square bg-gray-100 dark:bg-[#3A3B3C] rounded-lg cursor-pointer hover:bg-gray-200 dark:hover:bg-[#4E4F50] transition-colors flex items-center justify-center">
+                      <div className="aspect-square bg-gray-100 dark:bg-[#3A3B3C] rounded-lg cursor-pointer hover:bg-gray-200 dark:hover:bg-[#4E4F50] transition-colors flex items-center justify-center border border-transparent dark:border-[#4E4F50]">
                         <span className="text-[14px] font-semibold text-gray-500 dark:text-[#B0B3B8]">12+</span>
                       </div>
                     </div>
@@ -5009,25 +5017,24 @@ export default function Beranda() {
                         </div>
                         <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{t("chat.mediaFiles")}</span>
                       </div>
-                      <svg className="w-5 h-5 text-gray-500 group-hover:text-black dark:group-hover:text-[#E4E6EB] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                      <svg className="w-5 h-5 text-gray-500 group-hover:text-black dark:group-hover:text-[#E4E6EB] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                     </button>
-                    {/* Dummy Content */}
-                    <div className="flex flex-col gap-3 pb-4">
-                      <div className="flex items-center gap-3 cursor-pointer group/file">
-                        <div className="w-10 h-10 rounded-lg bg-red-100 dark:bg-red-900/20 flex items-center justify-center shrink-0">
+                    <div className="flex flex-col gap-1 pb-4">
+                      <div className="flex items-center gap-3 cursor-pointer group/file p-2 -mx-2 hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 rounded-lg transition-colors">
+                        <div className="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-500/10 border border-red-100 dark:border-red-500/20 flex items-center justify-center shrink-0">
                            <span className="text-[11px] font-bold text-red-600 dark:text-red-400">PDF</span>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-[14px] font-semibold text-black dark:text-[#E4E6EB] truncate group-hover/file:underline">Briefing_Design_Q3.pdf</p>
+                          <p className="text-[14px] font-semibold text-black dark:text-[#E4E6EB] truncate">Briefing_Design_Q3.pdf</p>
                           <p className="text-[12px] text-gray-500">2.4 MB • 12 Ags</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-3 cursor-pointer group/file">
-                        <div className="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/20 flex items-center justify-center shrink-0">
+                      <div className="flex items-center gap-3 cursor-pointer group/file p-2 -mx-2 hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 rounded-lg transition-colors">
+                        <div className="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20 flex items-center justify-center shrink-0">
                            <span className="text-[11px] font-bold text-blue-600 dark:text-blue-400">DOC</span>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-[14px] font-semibold text-black dark:text-[#E4E6EB] truncate group-hover/file:underline">Draft_Kontrak_Kerja.docx</p>
+                          <p className="text-[14px] font-semibold text-black dark:text-[#E4E6EB] truncate">Draft_Kontrak_Kerja.docx</p>
                           <p className="text-[12px] text-gray-500">840 KB • 10 Ags</p>
                         </div>
                       </div>
