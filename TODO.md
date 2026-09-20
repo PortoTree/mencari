@@ -130,3 +130,4 @@
 - (Frontend) Membuat dropdown filter pada panel obrolan (floating widget) bisa di-autoclose saat user klik di luar area dropdown (memisahkan ref & state dari halaman utama)
 - (Frontend) Menghilangkan tombol titik tiga (hover menu) di list obrolan pada panel melayang, sehingga tombol tersebut hanya ada di halaman utama /obrolan
 - (Frontend) Memperbaiki bug pada global event listener handleClickOutside yang tidak mendeteksi floatingChatFilterRef, sehingga dropdown filter sekarang bisa auto-close saat klik di luar
+- (Frontend) Menyelaraskan layout dan komponen Panel Room Chat (floating window) agar persis sama dengan UI Room Chat di halaman utama /obrolan (termasuk Header lengkap, intro E2E, style bubble chat, tombol Plus, dan tombol PING)
