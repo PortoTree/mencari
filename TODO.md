@@ -122,3 +122,8 @@
 - (Frontend) Menyelaraskan dropdown filter di panel chat melayang (floating widget) agar sama dengan dropdown filter di halaman /obrolan (menggunakan icon SVG untuk Group Chat dan Archived)
 - (Frontend) Memperbaiki JSX syntax error (Expression expected) akibat splice baris yang salah pada panel chat melayang (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menambahkan menu filter Favorite (dengan icon SVG) di urutan paling atas pada dropdown filter di panel chat melayang (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Membuat Panel Room Chat (floating window) di sebelah kiri Panel Obrolan (floating widget) pada halaman beranda, yang akan terbuka saat sebuah chat diklik (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Memisahkan state aktif antara chat room utama (halaman /obrolan) dengan chat room melayang (floating widget) untuk menghindari konflik terbuka bersamaan (menggunakan activeFloatingChatIdx)
+- (Frontend) Memperbaiki posisi layout Floating Chat Room agar jaraknya pas (right-[396px]) di sebelah panel obrolan (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Memperbaiki tombol close pada Floating Chat Room yang tidak berfungsi karena salah memanggil setter state
+- (Frontend) Menambahkan fitur auto-close pada Floating Chat Room ketika user berpindah ke halaman utama /obrolan (tab chat aktif)
