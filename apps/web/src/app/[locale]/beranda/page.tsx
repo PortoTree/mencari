@@ -384,6 +384,12 @@ export default function Beranda() {
         setIsChatFilterOpen(false);
       }
       if (
+        floatingChatFilterRef.current &&
+        !floatingChatFilterRef.current.contains(event.target as Node)
+      ) {
+        setIsFloatingChatFilterOpen(false);
+      }
+      if (
         chatMenuRef.current &&
         !chatMenuRef.current.contains(event.target as Node)
       ) {
