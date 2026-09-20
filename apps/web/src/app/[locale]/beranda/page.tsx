@@ -3559,7 +3559,7 @@ export default function Beranda() {
                 
                 <div className="flex items-start gap-2 max-w-[90%] group">
                   <img src="/default-avatar.svg" className="w-7 h-7 rounded-full border border-gray-300 shrink-0 mt-1" />
-                  <div className="flex flex-col gap-1 w-full">
+                  <div className="flex flex-col gap-1 ">
                     <div className="bg-white dark:bg-[#3A3B3C] px-3 py-2 rounded-2xl rounded-tl-none shadow-sm flex flex-col">
                       <p className="text-[13.5px] text-black dark:text-[#E4E6EB]">
                         {dummyChats[activeFloatingChatIdx].msg}
@@ -3576,7 +3576,7 @@ export default function Beranda() {
           
           {/* Input Area */}
           <div className="p-3 bg-white dark:bg-[#242526] shrink-0 border-t border-gray-200 dark:border-[#3E4042]">
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-2">
               <div className="relative" ref={floatingAttachmentMenuRef}>
                 <button 
                   onClick={() => setIsFloatingAttachmentMenuOpen(!isFloatingAttachmentMenuOpen)}
@@ -3608,24 +3608,21 @@ export default function Beranda() {
                   </div>
                 )}
               </div>
-              <button className="text-gray-500 dark:text-[#A8ABAF] hover:text-[#00B47A] transition-colors p-1.5 shrink-0">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z" clipRule="evenodd" />
-                </svg>
-              </button>
+              
               <div className="flex-1 flex items-center bg-[#F0F2F5] dark:bg-[#3A3B3C] border border-gray-300 dark:border-[#4E4F50] rounded-full px-3 py-1.5 min-w-0">
                 <input
                   type="text"
                   placeholder={t("chat.typeMessage")}
                   className="flex-1 bg-transparent outline-none text-[13px] text-black dark:text-[#E4E6EB] min-w-0"
                 />
-                <button className="bg-[#00B47A] text-white p-1 rounded-full hover:bg-[#009E6B] ml-1.5 transition-colors shrink-0 flex items-center justify-center w-6 h-6">
-                  <svg className="w-3.5 h-3.5 translate-x-[1px] -translate-y-[1px]" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                <button className="text-gray-500 dark:text-[#A8ABAF] hover:text-[#00B47A] transition-colors shrink-0 ml-1.5 flex items-center justify-center">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z" clipRule="evenodd" />
                   </svg>
                 </button>
               </div>
-              <button className="flex items-center gap-1 bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded-full transition-colors font-bold text-[11px] shadow-sm shrink-0">
+              
+              <button className="flex items-center gap-1 bg-red-500 hover:bg-red-600 text-white px-2.5 py-1.5 rounded-full transition-colors font-bold text-[11px] shadow-sm shrink-0">
                 <svg
                   className="w-3.5 h-3.5"
                   viewBox="0 0 512 512"

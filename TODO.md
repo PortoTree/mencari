@@ -132,3 +132,5 @@
 - (Frontend) Memperbaiki bug pada global event listener handleClickOutside yang tidak mendeteksi floatingChatFilterRef, sehingga dropdown filter sekarang bisa auto-close saat klik di luar
 - (Frontend) Menyelaraskan layout dan komponen Panel Room Chat (floating window) agar persis sama dengan UI Room Chat di halaman utama /obrolan (termasuk Header lengkap, intro E2E, style bubble chat, tombol Plus, dan tombol PING)
 - (Frontend) Menambahkan icon lampiran (paperclip dropdown) dan icon di tombol PING pada Panel Room Chat (floating widget) serta menyesuaikan lebar/tingginya (w-380px, h-500px) agar muat seperti halaman obrolan utama
+- (Frontend) Memperbaiki padding bubble chat pada panel melayang (menghapus class w-full) agar lebar bubble menyesuaikan panjang teks
+- (Frontend) Memindahkan icon emoji ke dalam kolom input (menggantikan posisi tombol kirim) dan menghapus tombol kirim di panel melayang
