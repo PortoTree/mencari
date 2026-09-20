@@ -272,5 +272,23 @@
     "publicGroup": "Public Group",
     "members": "members",
     "requestToJoin": "Requested to join"
+  },
+  "notif": {
+    "title": "Notifications",
+    "all": "All",
+    "unread": "Unread",
+    "friendRequest": "{name} sent you a friend request.",
+    "likedPost": "{name} liked your post.",
+    "commented": "{name} commented on your post: \"{text}\"",
+    "groupInvite": "{name} invited you to join the group {group}.",
+    "mentioned": "{name} mentioned you in a comment.",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "minutesAgo": "{n} minutes ago",
+    "hoursAgo": "{n} hours ago",
+    "daysAgo": "{n} days ago",
+    "yesterday": "Yesterday",
+    "markAllRead": "Mark all as read",
+    "settings": "Notification settings"
   }
 }

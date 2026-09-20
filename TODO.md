@@ -159,3 +159,9 @@
 - (Frontend) Memperbaiki garis putih di scrollbar gutter dark mode dengan mendefinisikan CSS variable .dark { --background: #18191A } di globals.css
 - (Frontend) Mengganti scrollbar-gutter ke pendekatan overflow-y:scroll + scrollbar transparan 4px agar layout stabil tanpa menampilkan garis kepotong
 - (Frontend) Menambahkan panel pemberitahuan sidebar slide-in dari kanan (z-index 300), lengkap dengan backdrop overlay, tombol close, filter tab, dan 5 dummy notifikasi (permintaan teman, like, komentar, undangan grup, mention)
+- (Frontend) Memindahkan panel notifikasi ke React Portal (render langsung ke document.body) agar tidak terkena clip atau z-index parent manapun
+- (Frontend) Mengubah panel notifikasi dari full overlay menjadi popup dropdown (posisi top-right di bawah navbar) dengan animasi scale+opacity, tanpa backdrop gelap, seperti dropdown info akun
+- (Frontend) Mengganti semua teks hardcode pada panel notifikasi dengan t() dari next-intl, menambahkan keys notif.* ke en.json dan id.json
+- (Frontend) Menambahkan visual state read/unread pada item notifikasi: unread = dot hijau + background biru muda + teks terang, read = tanpa dot + opacity-60
+- (Frontend) Mengganti tombol X di header panel notifikasi dengan tombol 3-dot yang memunculkan dropdown (Tandai semua telah dibaca + Pengaturan notifikasi), lengkap dengan i18n
+- (Frontend) Memperbaiki bug dimana dropdown menu notifikasi (3-dot) tetap terbuka saat panel notifikasi ditutup

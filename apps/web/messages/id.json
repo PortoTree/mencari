@@ -272,5 +272,23 @@
     "publicGroup": "Grup Publik",
     "members": "anggota",
     "requestToJoin": "Meminta bergabung ke"
+  },
+  "notif": {
+    "title": "Pemberitahuan",
+    "all": "Semua",
+    "unread": "Belum Dibaca",
+    "friendRequest": "{name} mengirimkan permintaan pertemanan kepada kamu.",
+    "likedPost": "{name} menyukai postingan kamu.",
+    "commented": "{name} mengomentari postingan kamu: \"{text}\"",
+    "groupInvite": "{name} mengundangmu bergabung ke grup {group}.",
+    "mentioned": "{name} menyebutmu di sebuah komentar.",
+    "confirm": "Konfirmasi",
+    "delete": "Hapus",
+    "minutesAgo": "{n} menit yang lalu",
+    "hoursAgo": "{n} jam yang lalu",
+    "daysAgo": "{n} hari yang lalu",
+    "yesterday": "Kemarin",
+    "markAllRead": "Tandai semua telah dibaca",
+    "settings": "Pengaturan notifikasi"
   }
 }
