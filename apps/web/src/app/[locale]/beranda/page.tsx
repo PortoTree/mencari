@@ -309,6 +309,7 @@ export default function Beranda() {
   const floatingAttachmentMenuRef = useRef<HTMLDivElement>(null);
   const notifPanelRef = useRef<HTMLDivElement>(null);
   const notifBtnRef = useRef<HTMLButtonElement>(null);
+  const notifMenuRef = useRef<HTMLDivElement>(null);
   const [floatingChatMessage, setFloatingChatMessage] = useState("");
   const [mainChatMessage, setMainChatMessage] = useState("");
   const [isLangOpen, setIsLangOpen] = useState(false);
@@ -511,6 +512,12 @@ export default function Beranda() {
         !chatMoreMenuRef.current.contains(event.target as Node)
       ) {
         setIsChatMoreMenuOpen(false);
+      }
+      if (
+        notifMenuRef.current &&
+        !notifMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsNotifMenuOpen(false);
       }
       if (
         roomSearchRef.current &&
@@ -6062,7 +6069,7 @@ export default function Beranda() {
         <div className="flex items-center justify-between px-5 pt-4 pb-3 shrink-0">
           <h2 className="text-[20px] font-bold text-black dark:text-[#E4E6EB]">{t("notif.title")}</h2>
           {/* 3-dot menu */}
-          <div className="relative">
+          <div className="relative" ref={notifMenuRef}>
             <button
               onClick={(e) => { e.stopPropagation(); setIsNotifMenuOpen(!isNotifMenuOpen); }}
               className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors text-gray-500 dark:text-[#B0B3B8] ${isNotifMenuOpen ? "bg-gray-200 dark:bg-[#3A3B3C]" : "hover:bg-gray-200 dark:hover:bg-[#3A3B3C]"}`}
@@ -6079,7 +6086,7 @@ export default function Beranda() {
               >
                 <button
                   onClick={() => setIsNotifMenuOpen(false)}
-                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-[#4E4F50] transition-colors text-left text-[14px] text-black dark:text-[#E4E6EB]"
+                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-200 dark:hover:bg-[#4E4F50] transition-colors text-left text-[14px] text-black dark:text-[#E4E6EB]"
                 >
                   <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-[#4E4F50] flex items-center justify-center shrink-0">
                     <svg className="w-4 h-4 text-black dark:text-[#E4E6EB]" fill="currentColor" viewBox="0 0 20 20">
@@ -6090,7 +6097,7 @@ export default function Beranda() {
                 </button>
                 <button
                   onClick={() => setIsNotifMenuOpen(false)}
-                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-[#4E4F50] transition-colors text-left text-[14px] text-black dark:text-[#E4E6EB]"
+                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-200 dark:hover:bg-[#4E4F50] transition-colors text-left text-[14px] text-black dark:text-[#E4E6EB]"
                 >
                   <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-[#4E4F50] flex items-center justify-center shrink-0">
                     <svg className="w-4 h-4 text-black dark:text-[#E4E6EB]" fill="currentColor" viewBox="0 0 20 20">

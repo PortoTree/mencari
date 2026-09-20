@@ -165,3 +165,5 @@
 - (Frontend) Menambahkan visual state read/unread pada item notifikasi: unread = dot hijau + background biru muda + teks terang, read = tanpa dot + opacity-60
 - (Frontend) Mengganti tombol X di header panel notifikasi dengan tombol 3-dot yang memunculkan dropdown (Tandai semua telah dibaca + Pengaturan notifikasi), lengkap dengan i18n
 - (Frontend) Memperbaiki bug dimana dropdown menu notifikasi (3-dot) tetap terbuka saat panel notifikasi ditutup
+- (Frontend) Memperbaiki dropdown menu notifikasi agar autoclose saat diklik di luar area dropdown (meskipun masih di dalam panel notifikasi)
+- (Frontend) Optimasi hover dropdown menu notifikasi di light mode menggunakan bg-gray-200 agar lebih jelas
