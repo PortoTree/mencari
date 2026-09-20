@@ -5339,7 +5339,19 @@ export default function Beranda() {
                   return (
                     <div
                       key={'online-'+idx}
-                      onClick={() => { setActiveChatIdx(realIdx); setIsChatInfoOpen(true); setProfileViewIdx(null); setIsCreatingGroup(false); setSelectedFriendsToAdd([]); setShowAddIcons(false); }}
+                      onClick={() => {
+                        if (showAddIcons) {
+                          const isAdded = selectedFriendsToAdd.includes(realIdx);
+                          setSelectedFriendsToAdd(prev => isAdded ? prev.filter(i => i !== realIdx) : [...prev, realIdx]);
+                        } else {
+                          setActiveChatIdx(realIdx);
+                          setIsChatInfoOpen(true);
+                          setProfileViewIdx(null);
+                          setIsCreatingGroup(false);
+                          setSelectedFriendsToAdd([]);
+                          setShowAddIcons(false);
+                        }
+                      }}
                       className={`relative group flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors mb-1 ${isAdded ? 'bg-green-50 dark:bg-[#00B47A]/10 hover:bg-green-100 dark:hover:bg-[#00B47A]/20' : 'hover:bg-gray-100 dark:hover:bg-[#3A3B3C]'}`}
                     >
                       <div className="relative w-14 h-14 shrink-0">
@@ -5403,7 +5415,19 @@ export default function Beranda() {
                   return (
                     <div
                       key={'offline-'+idx}
-                      onClick={() => { setActiveChatIdx(realIdx); setIsChatInfoOpen(true); setProfileViewIdx(null); setIsCreatingGroup(false); setSelectedFriendsToAdd([]); setShowAddIcons(false); }}
+                      onClick={() => {
+                        if (showAddIcons) {
+                          const isAdded = selectedFriendsToAdd.includes(realIdx);
+                          setSelectedFriendsToAdd(prev => isAdded ? prev.filter(i => i !== realIdx) : [...prev, realIdx]);
+                        } else {
+                          setActiveChatIdx(realIdx);
+                          setIsChatInfoOpen(true);
+                          setProfileViewIdx(null);
+                          setIsCreatingGroup(false);
+                          setSelectedFriendsToAdd([]);
+                          setShowAddIcons(false);
+                        }
+                      }}
                       className={`relative group flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors mb-1 ${isAdded ? 'bg-green-50 dark:bg-[#00B47A]/10 hover:bg-green-100 dark:hover:bg-[#00B47A]/20' : 'hover:bg-gray-100 dark:hover:bg-[#3A3B3C]'}`}
                     >
                       <div className="relative w-14 h-14 shrink-0">

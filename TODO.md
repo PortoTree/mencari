@@ -110,3 +110,4 @@
 - (Frontend) Logika baru: jika form grup sedang terbuka, dan user mengklik cancel/remove all di header sidebar kanan, maka form grup akan tertutup dan kolom tengah kembali ke halaman awal (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Perbaiki logika tombol Cancel/Remove All di sidebar kanan: Remove All (tong sampah) hanya akan mengosongkan list tanpa menutup form grup, sedangkan Cancel (X, saat mode off) baru akan menutup form grup (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menghapus icon centang pada tombol Create Group di form. Menambahkan fitur validasi: tombol otomatis ter-disable (tidak bisa diklik dan jadi warna abu-abu) jika tidak ada member grup yang dipilih (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Perbaiki UX row klik sidebar kanan: Jika Add Mode ON, mengklik seluruh row akan berfungsi sebagai toggle add/remove member grup. Jika Add Mode OFF, baru mengklik row akan membuka halaman chat (src/app/[locale]/beranda/page.tsx)
