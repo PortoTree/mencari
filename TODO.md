@@ -84,3 +84,4 @@
 - (Frontend) Menghapus icon Teman dari header sidebar kiri (chat list) dan memindahkan Daftar Teman ke sidebar kanan. Sidebar kanan otomatis menampilkan Friendlist saat Chat Info ditutup atau saat belum ada chat yang dipilih. (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menambahkan icon X di pojok kanan atas sidebar Chat Info untuk menutup panel Chat Info dan memunculkan kembali Friendlist (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Memperbaiki tombol Lihat Profil di dropdown header room chat agar bisa membuka state profil (Chat Info) di sidebar kanan (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Menambahkan otomatis buka Chat Info saat klik chat list item, dan view profil di tengah layar saat klik Lihat Profil dari titik 3 (src/app/[locale]/beranda/page.tsx)

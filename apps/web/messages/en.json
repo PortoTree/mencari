@@ -97,7 +97,8 @@
     "noChatSelected": "No chat selected",
     "noChatSelectedDesc": "Please select a chat from the list on the left to start messaging.",
     "offline": "Offline",
-    "newChatTitle": "Create personal or group chat"
+    "newChatTitle": "Create personal or group chat",
+    "mediaFile": "Media Files"
   },
   "login": {
     "title": "Log in",

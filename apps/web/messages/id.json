@@ -97,7 +97,8 @@
     "noChatSelected": "Belum ada obrolan terbuka",
     "noChatSelectedDesc": "Silakan pilih salah satu obrolan dari daftar di sebelah kiri untuk mulai mengirim pesan.",
     "offline": "Offline",
-    "newChatTitle": "Buat obrolan pribadi atau grub"
+    "newChatTitle": "Buat obrolan pribadi atau grub",
+    "mediaFile": "File Media"
   },
   "login": {
     "title": "Login akun",

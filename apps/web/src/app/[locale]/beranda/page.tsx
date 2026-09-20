@@ -261,6 +261,7 @@ export default function Beranda() {
   >("all");
   const [activeChatMenu, setActiveChatMenu] = useState<number | null>(null);
   const [activeChatIdx, setActiveChatIdx] = useState<number | null>(null);
+  const [profileViewIdx, setProfileViewIdx] = useState<number | null>(null);
   const [isRoomSearchOpen, setIsRoomSearchOpen] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ top: 0 });
   const chatMenuRef = useRef<HTMLDivElement | null>(null);
@@ -4162,7 +4163,11 @@ export default function Beranda() {
                   {dummyChats.map((chat, idx) => (
                     <div
                       key={idx}
-                      onClick={() => setActiveChatIdx(idx)}
+                      onClick={() => {
+                        setActiveChatIdx(idx);
+                        setIsChatInfoOpen(true);
+                        setProfileViewIdx(null);
+                      }}
                       className={`relative group flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors mb-1 ${
                         activeChatIdx === idx ? "bg-gray-100 dark:bg-[#3A3B3C]" : ""
                       }`}
@@ -4231,8 +4236,8 @@ export default function Beranda() {
                             onClick={(e) => {
                               e.stopPropagation();
                               setActiveChatMenu(null);
-                              setActiveChatIdx(idx);
-                              setIsChatInfoOpen(true);
+                              setActiveChatIdx(null);
+                              setProfileViewIdx(idx);
                             }}
                             className="w-full text-left px-5 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors"
                           >
@@ -4307,7 +4312,51 @@ export default function Beranda() {
                   ))}
               </div>
           </div>
-          {activeChatIdx !== null ? (
+              {/* TENGAH & KANAN */}
+          {profileViewIdx !== null ? (
+            <div className="flex-1 bg-[#F0F2F5] dark:bg-[#18191A] flex flex-col items-center justify-center relative py-10">
+              <div className="w-full max-w-[420px] h-full max-h-[85vh] bg-white dark:bg-[#242526] rounded-xl shadow-md border border-gray-200 dark:border-[#3E4042] flex flex-col overflow-hidden relative">
+                <button 
+                  onClick={() => setProfileViewIdx(null)}
+                  className="absolute top-4 right-4 w-8 h-8 rounded-full hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center justify-center transition-colors text-gray-500 dark:text-[#B0B3B8] z-10"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+                <div className="flex-1 overflow-y-auto sidebar-scrollbar p-6 flex flex-col items-center gap-4">
+                  <div className="w-32 h-32 shrink-0 rounded-full overflow-hidden border-2 border-gray-200 dark:border-[#3E4042] mt-4">
+                    <img src="/default-avatar.svg" className="w-full h-full object-cover" />
+                  </div>
+                  <h3 className="font-bold text-[24px] text-black dark:text-[#E4E6EB]">
+                    {dummyChats[profileViewIdx]?.name || "Budi Santoso"}
+                  </h3>
+                  
+                  {/* Category: Media File */}
+                  <div className="w-full border-t border-gray-200 dark:border-[#3E4042] mt-4">
+                    <button className="w-full flex items-center justify-between py-4 hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 transition-colors group px-2 -mx-2 rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                        </div>
+                        <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{t("chat.mediaFile")}</span>
+                      </div>
+                      <svg className="w-5 h-5 text-gray-500 group-hover:text-black dark:group-hover:text-[#E4E6EB] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                    <div className="flex flex-col gap-1 pb-4">
+                      <div className="flex items-center gap-3 cursor-pointer group/file p-2 -mx-2 hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 rounded-lg transition-colors">
+                        <div className="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-500/10 border border-red-100 dark:border-red-500/20 flex items-center justify-center shrink-0">
+                           <span className="text-[11px] font-bold text-red-600 dark:text-red-400">PDF</span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-[14px] font-semibold text-black dark:text-[#E4E6EB] truncate">Briefing_Design_Q3.pdf</p>
+                          <p className="text-[12px] text-gray-500">2.4 MB • 12 Ags</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : activeChatIdx !== null ? (
             <>
               {/* TENGAH: Chat Room */}
               <div className="flex-1 bg-transparent flex flex-col relative">
@@ -4914,7 +4963,7 @@ export default function Beranda() {
                   />
                 </div>
                 <h3 className="font-bold text-[20px] text-black dark:text-[#E4E6EB]">
-                  Budi Santoso
+                  {dummyChats[activeChatIdx]?.name || "Budi Santoso"}
                 </h3>
                 <div className="flex gap-4">
                   <div className="flex flex-col items-center gap-1 cursor-pointer group">
