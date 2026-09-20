@@ -127,3 +127,5 @@
 - (Frontend) Memperbaiki posisi layout Floating Chat Room agar jaraknya pas (right-[396px]) di sebelah panel obrolan (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Memperbaiki tombol close pada Floating Chat Room yang tidak berfungsi karena salah memanggil setter state
 - (Frontend) Menambahkan fitur auto-close pada Floating Chat Room ketika user berpindah ke halaman utama /obrolan (tab chat aktif)
+- (Frontend) Membuat dropdown filter pada panel obrolan (floating widget) bisa di-autoclose saat user klik di luar area dropdown (memisahkan ref & state dari halaman utama)
+- (Frontend) Menghilangkan tombol titik tiga (hover menu) di list obrolan pada panel melayang, sehingga tombol tersebut hanya ada di halaman utama /obrolan

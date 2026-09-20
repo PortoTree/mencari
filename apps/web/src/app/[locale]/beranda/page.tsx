@@ -293,6 +293,8 @@ export default function Beranda() {
   const [themeLoaded, setThemeLoaded] = useState(false);
   const chatSettingsRef = useRef<HTMLDivElement>(null);
   const chatFilterRef = useRef<HTMLDivElement>(null);
+  const floatingChatFilterRef = useRef<HTMLDivElement>(null);
+  const [isFloatingChatFilterOpen, setIsFloatingChatFilterOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [activePostMenu, setActivePostMenu] = useState<string | null>(null);
   const [activeMessageDropdown, setActiveMessageDropdown] = useState<number | null>(null);
@@ -3290,11 +3292,11 @@ export default function Beranda() {
                   {t("chat.unread")}
                 </button>
 
-                <div className="ml-auto relative" ref={chatFilterRef}>
+                <div className="ml-auto relative" ref={floatingChatFilterRef}>
                   <div
                     onClick={(e) => {
                       e.stopPropagation();
-                      setIsChatFilterOpen(!isChatFilterOpen);
+                      setIsFloatingChatFilterOpen(!isFloatingChatFilterOpen);
                     }}
                     className="p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full cursor-pointer transition-colors"
                   >
@@ -3314,17 +3316,17 @@ export default function Beranda() {
                   </div>
 
                   {/* Filter Dropdown */}
-                  {isChatFilterOpen && (
+                  {isFloatingChatFilterOpen && (
                       <div className="absolute right-0 top-full mt-1 w-48 bg-white dark:bg-[#242526] rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.1)] border border-gray-100 dark:border-[#3E4042] py-1.5 z-50">
-                        <button onClick={(e) => { e.stopPropagation(); setChatListFilter('favorite'); setIsChatFilterOpen(false); }} className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[14px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                        <button onClick={(e) => { e.stopPropagation(); setChatListFilter('favorite'); setIsFloatingChatFilterOpen(false); }} className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[14px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
                           <svg className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z"/></svg>
                           {t('chat.filterFavorite')}
                         </button>
-                        <button onClick={(e) => { e.stopPropagation(); setChatListFilter('group'); setIsChatFilterOpen(false); }} className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[14px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                        <button onClick={(e) => { e.stopPropagation(); setChatListFilter('group'); setIsFloatingChatFilterOpen(false); }} className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[14px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
                           <svg className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" /></svg>
                           {t('chat.filterGroup')}
                         </button>
-                        <button onClick={(e) => { e.stopPropagation(); setChatListFilter('archive'); setIsChatFilterOpen(false); }} className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[14px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                        <button onClick={(e) => { e.stopPropagation(); setChatListFilter('archive'); setIsFloatingChatFilterOpen(false); }} className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[14px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
                           <svg className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]" fill="currentColor" viewBox="0 0 24 24"><path d="M20.54 5.23l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5L6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.81-1h12.14l.84 1H5.12z" /></svg>
                           {t('chat.filterArchive')}
                         </button>
@@ -3361,10 +3363,10 @@ export default function Beranda() {
                           {chat.name}
                         </h4>
                         <span
-                          className={
-                            "text-[12px] text-gray-500 dark:text-[#B0B3B8] shrink-0 " +
-                            (activeChatMenu === idx ? "opacity-0" : "")
-                          }
+                          className="text-[12px] text-gray-500 dark:text-[#B0B3B8] shrink-0"
+
+
+
                           suppressHydrationWarning
                         >
                           {formatChatDate(chat.ts, locale)}
@@ -3375,30 +3377,30 @@ export default function Beranda() {
                         {chat.msg}
                       </p>
                     </div>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        const rect = e.currentTarget.getBoundingClientRect();
-                        setMenuPosition({ top: rect.top });
-                        setActiveChatMenu(activeChatMenu === idx ? null : idx);
-                      }}
-                      className={
-                        "absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#E4E6EB] dark:bg-[#4E4F50] flex items-center justify-center text-gray-600 dark:text-[#B0B3B8] hover:bg-[#D8D9DB] dark:hover:bg-[#5A5B5C] transition-all z-10 " +
-                        (activeChatMenu === idx
-                          ? "opacity-100"
-                          : "opacity-0 group-hover:opacity-100")
-                      }
-                    >
-                      <svg
-                        className="w-4 h-4"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle cx="5" cy="12" r="1.5" />
-                        <circle cx="12" cy="12" r="1.5" />
-                        <circle cx="19" cy="12" r="1.5" />
-                      </svg>
-                    </button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                       {activeChatMenu === idx && (
                         <div
                           ref={chatMenuRef}
