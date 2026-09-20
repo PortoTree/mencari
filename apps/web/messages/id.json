@@ -95,7 +95,7 @@
     "select": "Pilih",
     "delete": "Hapus",
     "noChatSelected": "Belum ada obrolan terbuka",
-    "noChatSelectedDesc": "Silakan pilih salah satu obrolan dari daftar di sebelah kiri untuk mulai mengirim pesan.",
+    "noChatSelectedDesc": "Silakan pilih salah satu obrolan dari daftar obrolan atau daftar teman anda.",
     "offline": "Offline",
     "newChatTitle": "Buat obrolan pribadi atau grub",
     "mediaFile": "File Media",

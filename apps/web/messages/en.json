@@ -95,7 +95,7 @@
     "select": "Select",
     "delete": "Delete",
     "noChatSelected": "No chat selected",
-    "noChatSelectedDesc": "Please select a chat from the list on the left to start messaging.",
+    "noChatSelectedDesc": "Please select a chat from the chat list or your friend list.",
     "offline": "Offline",
     "newChatTitle": "Create personal or group chat",
     "mediaFile": "Media Files",

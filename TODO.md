@@ -114,3 +114,6 @@
 - (Frontend) Memindahkan menu Permintaan Pesan dari dropdown Filter ke dalam dropdown Settings di sidebar kiri (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Mengubah teks dropdown Settings (chat.settings) menjadi Preferensi (src/app/[locale]/beranda/page.tsx & messages)
 - (Frontend) Perbaiki bug salah penempatan menu Permintaan Pesan (memindahkannya ke dropdown settings sidebar utama) (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Menukar posisi menu di dropdown settings: Permintaan Pesan dipindah ke atas, Preferensi di paling bawah, dan menambahkan garis pembatas (divider) di atas menu Preferensi (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Memindahkan menu Manage Chats di dalam dropdown settings supaya berada di bawah garis pembatas (divider), sejajar dengan Preferensi (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Mengubah deskripsi empty state obrolan (noChatSelectedDesc) di file translation id.json dan en.json
