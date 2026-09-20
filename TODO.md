@@ -157,3 +157,4 @@
 - (Frontend) Mengubah urutan tab Obrolan menjadi posisi ketiga di navbar tengah (di antara Mencari dan Teman)
 - (Frontend) Menambahkan scrollbar-gutter: stable ke html & body di globals.css agar layout tidak geser saat berpindah antara halaman yang bisa/tidak bisa di-scroll
 - (Frontend) Memperbaiki garis putih di scrollbar gutter dark mode dengan mendefinisikan CSS variable .dark { --background: #18191A } di globals.css
+- (Frontend) Mengganti scrollbar-gutter ke pendekatan overflow-y:scroll + scrollbar transparan 4px agar layout stabil tanpa menampilkan garis kepotong

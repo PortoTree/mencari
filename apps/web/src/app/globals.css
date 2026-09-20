@@ -6,7 +6,7 @@
   --foreground: #171717;
 }
 
-/* Dark mode root vars so the scrollbar gutter background matches the page */
+/* Dark mode root vars */
 .dark {
   --background: #18191A;
   --foreground: #E4E6EB;
@@ -19,15 +19,45 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* Prevent layout shift when scrollbar appears/disappears between pages.
-   scrollbar-gutter: stable always reserves space for the scrollbar track.
-   The body background fills the gutter so it's invisible when not scrollable. */
-html,
 body {
-  scrollbar-gutter: stable;
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ─── Prevent layout shift from scrollbar appearing/disappearing ──────────────
+   Strategy: always reserve a tiny 4px scrollbar channel via overflow-y: scroll,
+   but make the track transparent and the thumb extremely subtle.
+   Result: layout is stable AND there's no visible "cut" strip on short pages. */
+/* Scrollbar thumb is visible when content IS scrollable (thumb auto-hides
+   when page is too short to scroll — no thumb = no overflow). Track stays
+   6px transparent so no visual "cut" on short pages. Layout is always stable. */
+html {
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.25) transparent; /* Firefox */
+}
+html::-webkit-scrollbar {
+  width: 6px;
+}
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+html::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+html::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+html.dark {
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent; /* Firefox dark */
+}
+html.dark::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+html.dark::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.35);
 }
 
 /* Sidebar Scrollbar Auto-Hide */
