@@ -298,14 +298,24 @@ export default function Beranda() {
 
   // Auto-scroll chat to bottom
   useEffect(() => {
-    if (chatContainerRef.current) {
-      setTimeout(() => {
-        if (chatContainerRef.current) {
-          chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-        }
-      }, 100); // slight delay to allow DOM to render
-    }
-  }, []);
+    const scrollToBottom = () => {
+      if (chatContainerRef.current) {
+        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      }
+    };
+    
+    // Call immediately in case it's ready
+    scrollToBottom();
+    
+    // Call after a short delay to wait for DOM updates (rendering messages)
+    const timeout = setTimeout(scrollToBottom, 50);
+    const timeout2 = setTimeout(scrollToBottom, 200);
+    
+    return () => {
+      clearTimeout(timeout);
+      clearTimeout(timeout2);
+    };
+  }, [activeChatIdx]);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");

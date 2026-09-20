@@ -101,3 +101,4 @@
 - (Frontend) Header sidebar kanan: icon + berubah jadi Cancel/Remove All (trash) sesuai kondisi mode add dan seleksi. Tambah localStorage untuk state selectedFriendsToAdd (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Jadikan friend list di sidebar kanan clickable untuk langsung membuka room chat (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Set setIsChatInfoOpen(true) saat klik row di sidebar kanan supaya konsisten dengan sidebar kiri (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Perbaiki auto-scroll room chat (ubah dependency useEffect dari [] menjadi [activeChatIdx]) agar selalu turun ke pesan terbaru setiap kali ganti obrolan (src/app/[locale]/beranda/page.tsx)
