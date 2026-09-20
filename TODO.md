@@ -90,3 +90,4 @@
 - (Frontend) Menambahkan fitur agar display profil (foto & nama) pada header room chat bisa diklik untuk membuka panel Chat Info di sidebar kanan (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Memperbaiki hardcoded nama pada bagian welcome intro di dalam room chat agar sesuai dengan chat yang sedang aktif (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menghapus background hover abu-abu pada kategori accordion (Links, Media Gallery, Media Files) di Info Profil (tengah & kanan) dan menggantinya dengan efek hover underline pada teks (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Mengubah UX panel Buat Obrolan: user dapat memilih beberapa teman (multi-select), list pilihan akan masuk sebagai pill/chip di dalam kolom pencarian, dan tombol Kirim (icon pesawat) akan muncul jika ada teman yang dipilih (src/app/[locale]/beranda/page.tsx)
