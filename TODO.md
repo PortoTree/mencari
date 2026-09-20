@@ -76,3 +76,4 @@
 - (Frontend) Memperbaiki error hydration dengan mengganti tag <div> menjadi <span> pada komponen ChatStatusMark agar valid diletakkan di dalam tag <p> (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menambahkan suppressHydrationWarning pada elemen tanggal/waktu di list obrolan untuk mencegah error hydration (tanggal beda antara server dan client akibat Date.now()) (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Mengoptimalkan UI/UX pada bagian sidebar kanan (Links, Media Gallery, Media Files) dengan merapikan padding, menambahkan hover states, icon pada link, dan membetulkan arah panah accordion (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Menambahkan icon X (Close) di sebelah icon titik tiga pada header room chat (src/app/[locale]/beranda/page.tsx)

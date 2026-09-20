@@ -4657,6 +4657,11 @@ export default function Beranda() {
                     </div>
                   )}
                 </div>
+                <button
+                  className="text-[#00B47A] w-10 h-10 rounded-full flex items-center justify-center transition-colors hover:bg-gray-100 dark:hover:bg-[#3A3B3C]"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
               </div>
             </div>
             {isRoomSearchOpen && (
