@@ -154,3 +154,4 @@
 - (Frontend) Menambahkan fitur state info profil untuk floating chat (saat header di-klik) dengan layout yang sama persis seperti sidebar info profil pada halaman /obrolan
 - (Frontend) Memperbaiki fitur autoscroll ke bawah saat kembali dari info profil floating chat, serta me-reset state info profil saat membuka obrolan baru
 - (Frontend) Memindahkan navigasi Obrolan ke navbar tengah (berdampingan dengan Home, Mencari, dll) dan menggunakan icon chat.svg / chat-aktif.svg dengan dukungan tema gelap/terang otomatis via mask
+- (Frontend) Mengubah urutan tab Obrolan menjadi posisi ketiga di navbar tengah (di antara Mencari dan Teman)

@@ -616,6 +616,24 @@ export default function Beranda() {
           </div>
           <div
             onClick={() => {
+              setActiveTab("chat");
+              window.history.pushState(null, "", `/${locale}/obrolan`);
+            }}
+            className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "chat" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
+          >
+            <div
+              className="w-7 h-7 bg-current"
+              style={{
+                WebkitMask: `url(${activeTab === "chat" ? "/navigasi/chat-aktif.svg" : "/navigasi/chat.svg"}) center/contain no-repeat`,
+                mask: `url(${activeTab === "chat" ? "/navigasi/chat-aktif.svg" : "/navigasi/chat.svg"}) center/contain no-repeat`,
+              }}
+            />
+            <span className="text-[11px] font-semibold mt-0.5">
+              {t("nav.chat")}
+            </span>
+          </div>
+          <div
+            onClick={() => {
               setActiveTab("friend");
               window.history.pushState(null, "", `/${locale}/friend`);
             }}
@@ -648,24 +666,6 @@ export default function Beranda() {
             />
             <span className="text-[11px] font-semibold mt-0.5">
               {t("tabs.groups")}
-            </span>
-          </div>
-          <div
-            onClick={() => {
-              setActiveTab("chat");
-              window.history.pushState(null, "", `/${locale}/obrolan`);
-            }}
-            className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "chat" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
-          >
-            <div
-              className="w-7 h-7 bg-current"
-              style={{
-                WebkitMask: `url(${activeTab === "chat" ? "/navigasi/chat-aktif.svg" : "/navigasi/chat.svg"}) center/contain no-repeat`,
-                mask: `url(${activeTab === "chat" ? "/navigasi/chat-aktif.svg" : "/navigasi/chat.svg"}) center/contain no-repeat`,
-              }}
-            />
-            <span className="text-[11px] font-semibold mt-0.5">
-              {t("nav.chat")}
             </span>
           </div>
         </div>
