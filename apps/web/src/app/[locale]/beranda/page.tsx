@@ -4307,16 +4307,15 @@ export default function Beranda() {
               {/* TENGAH & KANAN */}
           {isCreatingGroup ? (
             <div className="flex-1 bg-[#F0F2F5] dark:bg-[#18191A] flex flex-col relative h-full">
-              {/* Header */}
-              <div className="h-[60px] bg-white dark:bg-[#242526] border-b border-gray-200 dark:border-[#3E4042] flex items-center px-4 gap-4 shrink-0">
-                 <button onClick={() => {setIsCreatingGroup(false); setSelectedFriendsToAdd([]);}} className="w-9 h-9 rounded-full hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center justify-center transition-colors text-gray-500 dark:text-[#B0B3B8]">
-                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-                 </button>
-                 <h2 className="font-semibold text-[17px] text-black dark:text-[#E4E6EB]">{t('chat.createGroup')}</h2>
-              </div>
-
               <div className="flex-1 overflow-y-auto sidebar-scrollbar p-6">
                 <div className="max-w-2xl mx-auto space-y-6">
+                  {/* Inline Header */}
+                  <div className="flex items-center gap-3">
+                    <button onClick={() => {setIsCreatingGroup(false); setSelectedFriendsToAdd([]);}} className="w-9 h-9 rounded-full hover:bg-gray-200 dark:hover:bg-[#3A3B3C] flex items-center justify-center transition-colors text-gray-600 dark:text-[#B0B3B8] -ml-2">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+                    </button>
+                    <h2 className="font-bold text-[24px] text-black dark:text-[#E4E6EB]">{t('chat.createGroup')}</h2>
+                  </div>
                   
                   {/* Group Icon & Name */}
                   <div className="bg-white dark:bg-[#242526] rounded-xl p-4 shadow-sm border border-gray-100 dark:border-[#3E4042] flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -4384,19 +4383,18 @@ export default function Beranda() {
                      </div>
                   </div>
 
+                  {/* Create Button */}
+                  <div className="flex justify-end pt-2">
+                    <button onClick={() => {
+                      setIsCreatingGroup(false);
+                      setSelectedFriendsToAdd([]);
+                      setActiveChatIdx(0); 
+                    }} className="bg-[#1877F2] hover:bg-blue-600 text-white font-semibold text-[15px] py-2.5 px-8 rounded-xl transition-colors shadow-sm flex items-center gap-2">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                      {t('chat.createGroupBtn')}
+                    </button>
+                  </div>
                 </div>
-              </div>
-
-              {/* Footer */}
-              <div className="p-4 bg-white dark:bg-[#242526] border-t border-gray-200 dark:border-[#3E4042] flex justify-center shrink-0">
-                 <button onClick={() => {
-                   setIsCreatingGroup(false);
-                   setSelectedFriendsToAdd([]);
-                   setActiveChatIdx(0); 
-                 }} className="bg-[#1877F2] hover:bg-blue-600 text-white font-semibold text-[15px] py-2.5 px-8 rounded-xl transition-colors shadow-sm flex items-center gap-2">
-                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                   {t('chat.createGroupBtn')}
-                 </button>
               </div>
             </div>
           ) : profileViewIdx !== null ? (
