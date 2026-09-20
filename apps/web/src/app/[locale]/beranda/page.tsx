@@ -5228,20 +5228,15 @@ export default function Beranda() {
                     </div>
                   )}
                 </div>
-                <button className="text-gray-500 dark:text-[#A8ABAF] hover:text-[#00B47A] transition-colors p-2 shrink-0">
-                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z" clipRule="evenodd" />
-                  </svg>
-                </button>
                 <div className="flex-1 flex items-center bg-white dark:bg-[#242526] border border-gray-300 dark:border-[#3E4042] rounded-full px-4 py-2 ml-1">
                   <input
                     type="text"
                     placeholder={t("chat.typeMessage")}
                     className="flex-1 bg-transparent outline-none text-[15px] text-black dark:text-[#E4E6EB]"
                   />
-                  <button className="bg-[#00B47A] text-white p-1.5 rounded-full hover:bg-[#009E6B] ml-2 transition-colors shrink-0 flex items-center justify-center w-8 h-8">
-                    <svg className="w-5 h-5 translate-x-[1px] -translate-y-[1px]" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                  <button className="text-gray-500 dark:text-[#A8ABAF] hover:text-[#00B47A] transition-colors shrink-0 ml-2 flex items-center justify-center">
+                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z" clipRule="evenodd" />
                     </svg>
                   </button>
                 </div>
