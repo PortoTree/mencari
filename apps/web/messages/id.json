@@ -116,7 +116,9 @@
     "createGroupFromFriends": "Buat grup",
     "removeFromList": "Hapus",
     "showAddIcons": "Tambah teman ke grup",
-    "hideAddIcons": "Selesai memilih"
+    "hideAddIcons": "Selesai memilih",
+    "cancel": "Batal",
+    "removeAll": "Hapus semua"
   },
   "login": {
     "title": "Login akun",
