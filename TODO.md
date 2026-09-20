@@ -118,3 +118,6 @@
 - (Frontend) Memindahkan menu Manage Chats di dalam dropdown settings supaya berada di bawah garis pembatas (divider), sejajar dengan Preferensi (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Mengubah deskripsi empty state obrolan (noChatSelectedDesc) di file translation id.json dan en.json
 - (Frontend) Mengubah icon menu Manage Chats dari icon bubble chat menjadi icon list bergaris (src/app/[locale]/beranda/page.tsx)
+
+- (Frontend) Menyelaraskan dropdown filter di panel chat melayang (floating widget) agar sama dengan dropdown filter di halaman /obrolan (menggunakan icon SVG untuk Group Chat dan Archived)
+- (Frontend) Memperbaiki JSX syntax error (Expression expected) akibat splice baris yang salah pada panel chat melayang (src/app/[locale]/beranda/page.tsx)
