@@ -91,3 +91,7 @@
 - (Frontend) Memperbaiki hardcoded nama pada bagian welcome intro di dalam room chat agar sesuai dengan chat yang sedang aktif (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menghapus background hover abu-abu pada kategori accordion (Links, Media Gallery, Media Files) di Info Profil (tengah & kanan) dan menggantinya dengan efek hover underline pada teks (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Mengubah UX panel Buat Obrolan: user dapat memilih beberapa teman (multi-select), list pilihan akan masuk sebagai pill/chip di dalam kolom pencarian, dan tombol Kirim (icon pesawat) akan muncul jika ada teman yang dipilih (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Menambahkan fitur pembuatan grup dan form UI di kolom tengah ketika user memilih >1 obrolan baru (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Menghapus pill list dan aksi pada header sidebar, dan memindahkannya ke kolom tengah sebagai preview mini list jika user memilih chat baru (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Optimasi UI/UX layout mini list (preview anggota grup) supaya tidak berantakan saat judul/pill teks panjang (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Merombak ulang layout preview mini list agar menyatu dengan body kolom tengah (bukan modal/kotak melayang) (src/app/[locale]/beranda/page.tsx)

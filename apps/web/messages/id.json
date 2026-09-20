@@ -99,7 +99,18 @@
     "offline": "Offline",
     "newChatTitle": "Buat obrolan pribadi atau grub",
     "mediaFile": "File Media",
-    "chat": "Chat"
+    "chat": "Chat",
+    "createGroup": "Buat grup",
+    "groupIcon": "Ikon grup",
+    "groupName": "Nama grup",
+    "tempMessages": "Pesan sementara",
+    "groupPermissions": "Izin grup",
+    "createGroupBtn": "Buat Grup",
+    "on": "Nyala",
+    "off": "Mati",
+    "groupMembers": "Anggota Grup",
+    "createChat": "Buat obrolan",
+    "selectedUsers": "Pengguna terpilih"
   },
   "login": {
     "title": "Login akun",

@@ -99,7 +99,18 @@
     "offline": "Offline",
     "newChatTitle": "Create personal or group chat",
     "mediaFile": "Media Files",
-    "chat": "Chat"
+    "chat": "Chat",
+    "createGroup": "Create group",
+    "groupIcon": "Group icon",
+    "groupName": "Group name",
+    "tempMessages": "Temporary messages",
+    "groupPermissions": "Group permissions",
+    "createGroupBtn": "Create Group",
+    "on": "On",
+    "off": "Off",
+    "groupMembers": "Group Members",
+    "createChat": "Create chat",
+    "selectedUsers": "Selected users"
   },
   "login": {
     "title": "Log in",
