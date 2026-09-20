@@ -6,6 +6,12 @@
   --foreground: #171717;
 }
 
+/* Dark mode root vars so the scrollbar gutter background matches the page */
+.dark {
+  --background: #18191A;
+  --foreground: #E4E6EB;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -13,7 +19,12 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Prevent layout shift when scrollbar appears/disappears between pages.
+   scrollbar-gutter: stable always reserves space for the scrollbar track.
+   The body background fills the gutter so it's invisible when not scrollable. */
+html,
 body {
+  scrollbar-gutter: stable;
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;

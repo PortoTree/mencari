@@ -155,3 +155,5 @@
 - (Frontend) Memperbaiki fitur autoscroll ke bawah saat kembali dari info profil floating chat, serta me-reset state info profil saat membuka obrolan baru
 - (Frontend) Memindahkan navigasi Obrolan ke navbar tengah (berdampingan dengan Home, Mencari, dll) dan menggunakan icon chat.svg / chat-aktif.svg dengan dukungan tema gelap/terang otomatis via mask
 - (Frontend) Mengubah urutan tab Obrolan menjadi posisi ketiga di navbar tengah (di antara Mencari dan Teman)
+- (Frontend) Menambahkan scrollbar-gutter: stable ke html & body di globals.css agar layout tidak geser saat berpindah antara halaman yang bisa/tidak bisa di-scroll
+- (Frontend) Memperbaiki garis putih di scrollbar gutter dark mode dengan mendefinisikan CSS variable .dark { --background: #18191A } di globals.css
