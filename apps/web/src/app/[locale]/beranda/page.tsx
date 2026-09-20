@@ -650,29 +650,28 @@ export default function Beranda() {
               {t("tabs.groups")}
             </span>
           </div>
+          <div
+            onClick={() => {
+              setActiveTab("chat");
+              window.history.pushState(null, "", `/${locale}/obrolan`);
+            }}
+            className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "chat" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
+          >
+            <div
+              className="w-7 h-7 bg-current"
+              style={{
+                WebkitMask: `url(${activeTab === "chat" ? "/navigasi/chat-aktif.svg" : "/navigasi/chat.svg"}) center/contain no-repeat`,
+                mask: `url(${activeTab === "chat" ? "/navigasi/chat-aktif.svg" : "/navigasi/chat.svg"}) center/contain no-repeat`,
+              }}
+            />
+            <span className="text-[11px] font-semibold mt-0.5">
+              {t("nav.chat")}
+            </span>
+          </div>
         </div>
 
         {/* Right: Icons & Avatar */}
         <div className="flex items-center gap-2 relative">
-          <div className="relative group">
-            <button
-              onClick={() => {
-                setActiveTab("chat");
-                window.history.pushState(null, "", `/${locale}/obrolan`);
-              }}
-              className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors overflow-hidden ${activeTab === "chat" ? "bg-[#D8F0E2] dark:bg-[#203D2E] text-emerald-600 dark:text-emerald-400" : "bg-[#E4E6EB] dark:bg-[#3A3B3C] text-black dark:text-[#E4E6EB] hover:bg-[#F3F2EF] dark:hover:bg-[#18191A]"}`}
-            >
-              <img
-                src="/logo-chat.svg"
-                alt="Chat"
-                className="w-[22px] h-[22px] object-contain"
-              />
-            </button>
-            <div className="absolute top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/80 text-white text-[13px] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap z-[60]">
-              {t("nav.chat")}
-            </div>
-          </div>
-
           <div className="relative group">
             <button className="w-10 h-10 rounded-full bg-[#E4E6EB] dark:bg-[#3A3B3C] flex items-center justify-center text-black dark:text-[#E4E6EB] hover:bg-[#F3F2EF] dark:hover:bg-[#18191A] transition-colors overflow-hidden">
               <img
