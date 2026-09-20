@@ -138,3 +138,4 @@
 - (Frontend) Memindahkan icon emoji ke posisi icon kirim (menggantikan tombol kirim) pada halaman utama /obrolan di file src/app/[locale]/beranda/page.tsx
 - (Frontend) Membuat logika pergantian tombol PING menjadi tombol Kirim jika input terisi (berlaku untuk panel utama dan panel widget)
 - (Frontend) Membuat tombol kirim memiliki teks dan icon pesawat kertas menghadap kanan pada panel widget dan chat utama
+- (Frontend) Memperbaiki layout shift pada tombol PING ke Kirim dengan min-width, dan mengubah warna icon emoji menjadi hijau emerald

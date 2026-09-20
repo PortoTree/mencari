@@ -3619,7 +3619,7 @@ export default function Beranda() {
                   value={floatingChatMessage}
                   onChange={(e) => setFloatingChatMessage(e.target.value)}
                 />
-                <button className="text-gray-500 dark:text-[#A8ABAF] hover:text-[#00B47A] transition-colors shrink-0 ml-1.5 flex items-center justify-center">
+                <button className="text-[#00B47A] hover:text-[#009E6B] transition-colors shrink-0 ml-1.5 flex items-center justify-center">
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z" clipRule="evenodd" />
                   </svg>
@@ -3627,14 +3627,14 @@ export default function Beranda() {
               </div>
               
               {floatingChatMessage.trim().length > 0 ? (
-                <button className="flex items-center gap-1 bg-[#00B47A] hover:bg-[#009E6B] text-white px-2.5 py-1.5 rounded-full transition-colors font-bold text-[11px] shadow-sm shrink-0 ml-1">
+                <button className="flex items-center justify-center gap-1 bg-[#00B47A] hover:bg-[#009E6B] text-white px-2.5 py-1.5 rounded-full transition-colors font-bold text-[11px] shadow-sm shrink-0 ml-1 min-w-[76px]">
                   {t("chat.send")}
                   <svg className="w-3.5 h-3.5 rotate-90" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
                   </svg>
                 </button>
               ) : (
-                <button className="flex items-center gap-1 bg-red-500 hover:bg-red-600 text-white px-2.5 py-1.5 rounded-full transition-colors font-bold text-[11px] shadow-sm shrink-0 ml-1">
+                <button className="flex items-center justify-center gap-1 bg-red-500 hover:bg-red-600 text-white px-2.5 py-1.5 rounded-full transition-colors font-bold text-[11px] shadow-sm shrink-0 ml-1 min-w-[76px]">
                   <svg
                     className="w-3.5 h-3.5"
                     viewBox="0 0 512 512"
@@ -5249,7 +5249,7 @@ export default function Beranda() {
                     value={mainChatMessage}
                     onChange={(e) => setMainChatMessage(e.target.value)}
                   />
-                  <button className="text-gray-500 dark:text-[#A8ABAF] hover:text-[#00B47A] transition-colors shrink-0 ml-2 flex items-center justify-center">
+                  <button className="text-[#00B47A] hover:text-[#009E6B] transition-colors shrink-0 ml-2 flex items-center justify-center">
                     <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z" clipRule="evenodd" />
                     </svg>
@@ -5257,14 +5257,14 @@ export default function Beranda() {
                 </div>
                 
                 {mainChatMessage.trim().length > 0 ? (
-                  <button className="flex items-center gap-1.5 bg-[#00B47A] hover:bg-[#009E6B] text-white px-4 py-1.5 rounded-full transition-colors ml-1 font-bold text-[15px] shadow-sm shrink-0">
+                  <button className="flex items-center justify-center gap-1.5 bg-[#00B47A] hover:bg-[#009E6B] text-white px-4 py-1.5 rounded-full transition-colors ml-1 font-bold text-[15px] shadow-sm shrink-0 min-w-[112px]">
                     {t("chat.send")}
                     <svg className="w-5 h-5 rotate-90" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
                     </svg>
                   </button>
                 ) : (
-                  <button className="flex items-center gap-1.5 bg-red-500 hover:bg-red-600 text-white px-4 py-1.5 rounded-full transition-colors ml-1 font-bold text-[15px] shadow-sm">
+                  <button className="flex items-center justify-center gap-1.5 bg-red-500 hover:bg-red-600 text-white px-4 py-1.5 rounded-full transition-colors ml-1 font-bold text-[15px] shadow-sm shrink-0 min-w-[112px]">
                     <svg
                       className="w-5 h-5"
                       viewBox="0 0 512 512"
