@@ -3559,6 +3559,13 @@ export default function Beranda() {
                   </p>
                 </div>
                 
+                {/* Tanggal Chat */}
+                <div className="flex justify-center my-3">
+                  <span className="bg-[#E5E5E5] dark:bg-[#242526] text-gray-600 dark:text-[#A8ABAF] px-2.5 py-0.5 rounded-lg text-[11px] font-medium shadow-sm">
+                    9/9/2026
+                  </span>
+                </div>
+
                 <div className="flex items-start gap-2 max-w-[90%] group">
                   <img src="/default-avatar.svg" className="w-7 h-7 rounded-full border border-gray-300 shrink-0 mt-1" />
                   <div className="flex flex-col gap-1 ">
@@ -3567,7 +3574,7 @@ export default function Beranda() {
                         {dummyChats[activeFloatingChatIdx].msg}
                       </p>
                     <span className="text-[10.5px] text-gray-500 dark:text-[#B0B3B8] mt-1 self-start">
-                      {new Date(dummyChats[activeFloatingChatIdx].ts).toLocaleTimeString([], {hour: "2-digit", minute:"2-digit"})}
+                      {new Date(dummyChats[activeFloatingChatIdx].ts).toLocaleTimeString([], {hour: "2-digit", minute:"2-digit", hour12: false})}
                     </span>
                     </div>
                   </div>

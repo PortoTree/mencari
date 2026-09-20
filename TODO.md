@@ -144,3 +144,4 @@
 - (Frontend) Menambahkan auto-scroll ke bawah pada list chat (messages container) saat textarea chat membesar agar pesan terbaru (bubble chat terakhir) tidak tertutup
 - (Frontend) Menambahkan 4 dummy chat dengan status (gagal kirim, mengirim, terkirim, dilihat) di panel room chat, dan memasukkan waktu ke dalam bubble chat sesuai referensi visual
 - (Frontend) Memperbaiki masalah scroll chaining (overscroll) pada semua panel scroll (termasuk floating chat) agar background tidak ikut terscroll
+- (Frontend) Menambahkan dummy separator tanggal pada panel floating chat dan mengubah format waktu menjadi default 24-hour
