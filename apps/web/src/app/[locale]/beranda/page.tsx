@@ -5376,7 +5376,7 @@ export default function Beranda() {
                           </div>
                         </div>
                         {/* Icon + Tambahkan */}
-                        <div className={`relative group/tooltip transition-opacity ${showAddIcons ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                        <div className={`relative group/tooltip transition-opacity ${showAddIcons ? 'opacity-100' : 'hidden'}`}>
                           <button
                             onClick={() => setSelectedFriendsToAdd(prev => isAdded ? prev.filter(i => i !== realIdx) : [...prev, realIdx])}
                             className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${isAdded ? 'bg-red-100 dark:bg-red-900/30 text-red-500' : 'bg-gray-200 dark:bg-[#3A3B3C] hover:bg-[#E7F3FF] dark:hover:bg-[#183966] text-gray-500 dark:text-[#B0B3B8] hover:text-[#1877F2] dark:hover:text-[#2D88FF]'}`}
@@ -5436,7 +5436,7 @@ export default function Beranda() {
                             <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800 dark:border-t-[#E4E6EB]"></div>
                           </div>
                         </div>
-                        <div className={`relative group/tooltip transition-opacity ${showAddIcons ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                        <div className={`relative group/tooltip transition-opacity ${showAddIcons ? 'opacity-100' : 'hidden'}`}>
                           <button
                             onClick={() => setSelectedFriendsToAdd(prev => isAdded ? prev.filter(i => i !== realIdx) : [...prev, realIdx])}
                             className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${isAdded ? 'bg-red-100 dark:bg-red-900/30 text-red-500' : 'bg-gray-200 dark:bg-[#3A3B3C] hover:bg-[#E7F3FF] dark:hover:bg-[#183966] text-gray-500 dark:text-[#B0B3B8] hover:text-[#1877F2] dark:hover:text-[#2D88FF]'}`}

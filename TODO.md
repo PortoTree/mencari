@@ -97,3 +97,4 @@
 - (Frontend) Merombak ulang layout preview mini list agar menyatu dengan body kolom tengah (bukan modal/kotak melayang) (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Tambah hover icons (profil & +) dengan Tailwind tooltip dan sticky footer Buat Grup di sidebar kanan friend list (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Refactor icon + pada friend list sidebar: profil tetap hover-only, icon + permanent saat mode add aktif, icon selected ganti jadi X merah (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Sembunyikan icon + saat mode add tidak aktif (hanya tampil jika showAddIcons = true) (src/app/[locale]/beranda/page.tsx)
