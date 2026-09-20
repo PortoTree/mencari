@@ -1112,41 +1112,10 @@ export default function Beranda() {
             {/* Profile Card / Bookmarks Area */}
             {activeTab === "mencari" ? (
               <>
-                <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl shadow-sm border border-transparent overflow-hidden p-5 text-white relative">
-                  {/* Decorative circles */}
-                  <div className="absolute -right-6 -top-6 w-24 h-24 bg-white opacity-10 rounded-full"></div>
-                  <div className="absolute right-12 -top-2 w-8 h-8 bg-white opacity-10 rounded-full"></div>
-
-                  <div className="relative z-10">
-                    <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mb-4 backdrop-blur-sm">
-                      <svg
-                        className="w-7 h-7 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
-                        />
-                      </svg>
-                    </div>
-                    <h3 className="font-bold text-[17px] mb-2 leading-snug">
-                      {t("mencari.cta_title")}
-                    </h3>
-                    <p className="text-[13px] text-emerald-50 mb-4 leading-relaxed opacity-90">
-                      {t("mencari.cta_desc")}
-                    </p>
-                    <button className="w-full bg-white text-emerald-600 hover:bg-emerald-700 hover:text-white font-bold text-[14px] py-2.5 px-4 rounded-lg transition-colors shadow-sm">
-                      {t("mencari.cta_button")}
-                    </button>
-                  </div>
-                </div>
+                {/* CTA moved to center */}
 
                 {/* History Block (Moved from Right) */}
-                <div className="mt-4">
+                <div className="mt-4 hidden">
                   <div className="flex items-center justify-between mb-2 px-2">
                     <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px]">
                       {t("mencari.history")}
@@ -1844,6 +1813,47 @@ export default function Beranda() {
                   <span className="text-[13px] font-medium text-black dark:text-[#E4E6EB]">
                     {t("mencari.shortcut_add")}
                   </span>
+                </div>
+              </div>
+
+                            {/* Moved CTA Block */}
+              <div className="w-full max-w-[600px] mx-auto mt-6 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl shadow-sm border border-transparent overflow-hidden p-5 sm:p-6 text-white relative">
+                {/* Decorative circles */}
+                <div className="absolute -right-6 -top-6 w-24 h-24 bg-white opacity-10 rounded-full"></div>
+                <div className="absolute right-12 -top-2 w-8 h-8 bg-white opacity-10 rounded-full"></div>
+
+                <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 justify-between">
+                  <div className="flex items-center gap-4 flex-1">
+                    <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center shrink-0 backdrop-blur-sm">
+                      <svg
+                        className="w-7 h-7 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                        />
+                      </svg>
+                    </div>
+                    <div className="flex flex-col text-left">
+                      <h3 className="font-bold text-[17px] mb-1 leading-snug">
+                        {t("mencari.cta_title")}
+                      </h3>
+                      <p className="text-[13px] text-emerald-50 leading-relaxed opacity-90 m-0">
+                        {t("mencari.cta_desc")}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="w-full sm:w-auto shrink-0 mt-2 sm:mt-0">
+                    <button className="w-full sm:w-auto whitespace-nowrap bg-white text-emerald-600 hover:bg-emerald-700 hover:text-white font-bold text-[14px] py-2.5 px-6 rounded-lg transition-colors shadow-sm">
+                      {t("mencari.cta_button")}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -3039,7 +3049,7 @@ export default function Beranda() {
       <>
         {/* Right Sidebar: Ads (Mencari Tab) */}
         {activeTab === "mencari" && (
-          <div className="hidden lg:block fixed right-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-24 sidebar-scrollbar">
+          <div className="hidden">
             <div className="space-y-3">
               <a
                 href="https://resume.portotree.com"
