@@ -142,3 +142,4 @@
 - (Frontend) Membuat input chat menjadi multiline textarea dengan auto-resize, batas max-height, dan alignment tombol mengikuti tinggi input
 - (Frontend) Memperbaiki posisi tombol lampiran dan kirim agar rata bawah (items-end) saat textarea membesar
 - (Frontend) Menambahkan auto-scroll ke bawah pada list chat (messages container) saat textarea chat membesar agar pesan terbaru (bubble chat terakhir) tidak tertutup
+- (Frontend) Menambahkan 4 dummy chat dengan status (gagal kirim, mengirim, terkirim, dilihat) di panel room chat, dan memasukkan waktu ke dalam bubble chat sesuai referensi visual
