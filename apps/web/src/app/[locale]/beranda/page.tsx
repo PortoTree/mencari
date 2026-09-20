@@ -1659,7 +1659,7 @@ export default function Beranda() {
                   {/* Expanded Dropdown Content */}
                   {isSearchExpanded && (
                     <div className="w-full border-t border-gray-100 dark:border-[#3E4042] pt-2 mt-1">
-                      <div className="flex flex-col w-full max-h-[195px] overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-[#4E4F50] [&::-webkit-scrollbar-thumb]:rounded-full">
+                      <div className="flex flex-col w-full max-h-[195px] overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-[#4E4F50] [&::-webkit-scrollbar-thumb]:rounded-full overscroll-none">
                         {[
                           "translate - Google Search",
                           "portotree",
@@ -3545,7 +3545,7 @@ export default function Beranda() {
           </div>
           
           {/* Messages Area */}
-          <div className="flex-1 overflow-y-auto p-3 flex flex-col gap-2 bg-[#F0F2F5] dark:bg-[#18191A] sidebar-scrollbar">
+          <div className="flex-1 overflow-y-auto p-3 flex flex-col gap-2 bg-[#F0F2F5] dark:bg-[#18191A] sidebar-scrollbar overscroll-none">
             {activeFloatingChatIdx !== null && dummyChats[activeFloatingChatIdx] && (
               <>
                 <div className="flex flex-col items-center justify-center pt-4 pb-6">
@@ -3678,7 +3678,7 @@ export default function Beranda() {
                 <textarea 
                   rows={1}
                   placeholder={t("chat.typeMessage")} 
-                  className="flex-1 bg-transparent border-none outline-none text-[13px] text-black dark:text-[#E4E6EB] placeholder-gray-500 dark:placeholder-[#B0B3B8] min-w-0 resize-none max-h-[100px] overflow-y-auto sidebar-scrollbar"
+                  className="flex-1 bg-transparent border-none outline-none text-[13px] text-black dark:text-[#E4E6EB] placeholder-gray-500 dark:placeholder-[#B0B3B8] min-w-0 resize-none max-h-[100px] overflow-y-auto sidebar-scrollbar overscroll-none"
                   style={{ minHeight: "20px" }}
                   value={floatingChatMessage}
                   onChange={(e) => {
@@ -3776,7 +3776,7 @@ export default function Beranda() {
           </div>
 
           {/* Contact List */}
-          <div className="flex-1 overflow-y-auto sidebar-scrollbar">
+          <div className="flex-1 overflow-y-auto sidebar-scrollbar overscroll-none">
             {/* Pam Faiz */}
             <div className="flex items-center gap-3 p-3 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors">
               <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-emerald-600 dark:border-emerald-400">
@@ -4526,7 +4526,7 @@ export default function Beranda() {
               {/* TENGAH & KANAN */}
           {isCreatingGroup ? (
             <div className="flex-1 bg-[#F0F2F5] dark:bg-[#18191A] flex flex-col relative h-full">
-              <div className="flex-1 overflow-y-auto sidebar-scrollbar p-6">
+              <div className="flex-1 overflow-y-auto sidebar-scrollbar p-6 overscroll-none">
                 <div className="max-w-2xl mx-auto space-y-6">
                   {/* Inline Header */}
                   <div className="flex items-center gap-3">
@@ -4636,7 +4636,7 @@ export default function Beranda() {
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
-                <div className="flex-1 overflow-y-auto sidebar-scrollbar p-8 flex flex-col items-center gap-6">
+                <div className="flex-1 overflow-y-auto sidebar-scrollbar p-8 flex flex-col items-center gap-6 overscroll-none">
                   <div className="w-40 h-40 shrink-0 rounded-full overflow-hidden border-2 border-gray-200 dark:border-[#3E4042] mt-8">
                     <img src="/default-avatar.svg" className="w-full h-full object-cover" />
                   </div>
@@ -5106,7 +5106,7 @@ export default function Beranda() {
                 </button>
               </div>
             )}
-            <div ref={chatContainerRef} className="flex-1 overflow-y-auto chat-scrollbar p-4 flex flex-col gap-2">
+            <div ref={chatContainerRef} className="flex-1 overflow-y-auto chat-scrollbar p-4 flex flex-col gap-2 overscroll-none">
               <div className="flex flex-col items-center justify-center pt-8 pb-16">
                 <div className="w-[100px] h-[100px] mb-4 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center overflow-hidden shrink-0">
                   <img src="/default-avatar.svg" className="w-full h-full object-cover" />
@@ -5318,7 +5318,7 @@ export default function Beranda() {
                   <textarea
                     rows={1}
                     placeholder={t("chat.typeMessage")}
-                    className="flex-1 bg-transparent outline-none text-[15px] text-black dark:text-[#E4E6EB] resize-none max-h-[120px] overflow-y-auto sidebar-scrollbar"
+                    className="flex-1 bg-transparent outline-none text-[15px] text-black dark:text-[#E4E6EB] resize-none max-h-[120px] overflow-y-auto sidebar-scrollbar overscroll-none"
                     style={{ minHeight: "24px" }}
                     value={mainChatMessage}
                     onChange={(e) => {
@@ -5384,7 +5384,7 @@ export default function Beranda() {
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
-              <div className="flex-1 overflow-y-auto sidebar-scrollbar p-4 flex flex-col items-center gap-4">
+              <div className="flex-1 overflow-y-auto sidebar-scrollbar p-4 flex flex-col items-center gap-4 overscroll-none">
                 <div className="w-24 h-24 shrink-0 rounded-full overflow-hidden border-2 border-gray-200 dark:border-[#3E4042] mt-4">
                   <img
                     src="/default-avatar.svg"
@@ -5566,7 +5566,7 @@ export default function Beranda() {
                   />
                 </div>
               </div>
-              <div className="flex-1 overflow-y-auto sidebar-scrollbar px-2 py-2">
+              <div className="flex-1 overflow-y-auto sidebar-scrollbar px-2 py-2 overscroll-none">
                 <div className="px-2 pt-2 pb-1 text-[13px] font-semibold text-gray-500 dark:text-[#B0B3B8]">
                   {t('chat.activeFriends')} ({dummyChats.filter(c => c.isOnline).length})
                 </div>
