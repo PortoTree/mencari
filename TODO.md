@@ -107,3 +107,5 @@
 - (Frontend) Gabung header Create Group langsung ke dalam body scrollable (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Pindahkan tombol Create Group dari sticky footer ke dalam scrollable body dan diposisikan di pojok kanan bawah (flex-end) sejajar dengan form (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Hapus icon back (<) di atas form grup, ganti menjadi tombol Cancel di sebelah tombol Create Group yang akan mereset state dan mematikan mode Add (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Logika baru: jika form grup sedang terbuka, dan user mengklik cancel/remove all di header sidebar kanan, maka form grup akan tertutup dan kolom tengah kembali ke halaman awal (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Perbaiki logika tombol Cancel/Remove All di sidebar kanan: Remove All (tong sampah) hanya akan mengosongkan list tanpa menutup form grup, sedangkan Cancel (X, saat mode off) baru akan menutup form grup (src/app/[locale]/beranda/page.tsx)

@@ -5289,6 +5289,7 @@ export default function Beranda() {
                         } else {
                           if (selectedFriendsToAdd.length === 0) {
                             setShowAddIcons(false);
+                            setIsCreatingGroup(false);
                           } else {
                             setSelectedFriendsToAdd([]);
                           }
