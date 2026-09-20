@@ -145,3 +145,4 @@
 - (Frontend) Menambahkan 4 dummy chat dengan status (gagal kirim, mengirim, terkirim, dilihat) di panel room chat, dan memasukkan waktu ke dalam bubble chat sesuai referensi visual
 - (Frontend) Memperbaiki masalah scroll chaining (overscroll) pada semua panel scroll (termasuk floating chat) agar background tidak ikut terscroll
 - (Frontend) Menambahkan dummy separator tanggal pada panel floating chat dan mengubah format waktu menjadi default 24-hour
+- (Frontend) Memperbesar ukuran badge tanggal di floating chat dan memastikan auto-scroll ke bawah saat buka chat/panel

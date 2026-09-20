@@ -308,12 +308,16 @@ export default function Beranda() {
   const postMenuRef = useRef<HTMLDivElement>(null);
   const langRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const floatingChatContainerRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll chat to bottom
   useEffect(() => {
     const scrollToBottom = () => {
       if (chatContainerRef.current) {
         chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      }
+      if (floatingChatContainerRef.current) {
+        floatingChatContainerRef.current.scrollTop = floatingChatContainerRef.current.scrollHeight;
       }
     };
     
@@ -328,7 +332,7 @@ export default function Beranda() {
       clearTimeout(timeout);
       clearTimeout(timeout2);
     };
-  }, [activeChatIdx]);
+  }, [activeChatIdx, activeFloatingChatIdx]);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -3545,7 +3549,7 @@ export default function Beranda() {
           </div>
           
           {/* Messages Area */}
-          <div className="flex-1 overflow-y-auto p-3 flex flex-col gap-2 bg-[#F0F2F5] dark:bg-[#18191A] sidebar-scrollbar overscroll-none">
+          <div ref={floatingChatContainerRef} className="flex-1 overflow-y-auto p-3 flex flex-col gap-2 bg-[#F0F2F5] dark:bg-[#18191A] sidebar-scrollbar overscroll-none">
             {activeFloatingChatIdx !== null && dummyChats[activeFloatingChatIdx] && (
               <>
                 <div className="flex flex-col items-center justify-center pt-4 pb-6">
@@ -3561,7 +3565,7 @@ export default function Beranda() {
                 
                 {/* Tanggal Chat */}
                 <div className="flex justify-center my-3">
-                  <span className="bg-[#E5E5E5] dark:bg-[#242526] text-gray-600 dark:text-[#A8ABAF] px-2.5 py-0.5 rounded-lg text-[11px] font-medium shadow-sm">
+                  <span className="bg-[#E5E5E5] dark:bg-[#242526] text-gray-600 dark:text-[#A8ABAF] px-3 py-1 rounded-lg text-[12.5px] font-medium shadow-sm">
                     9/9/2026
                   </span>
                 </div>
