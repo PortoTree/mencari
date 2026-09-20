@@ -110,7 +110,10 @@
     "off": "Off",
     "groupMembers": "Group Members",
     "createChat": "Create chat",
-    "selectedUsers": "Selected users"
+    "selectedUsers": "Selected users",
+    "profileInfo": "Profile info",
+    "addFriend": "Add",
+    "createGroupFromFriends": "Create group"
   },
   "login": {
     "title": "Log in",

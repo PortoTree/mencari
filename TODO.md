@@ -95,3 +95,4 @@
 - (Frontend) Menghapus pill list dan aksi pada header sidebar, dan memindahkannya ke kolom tengah sebagai preview mini list jika user memilih chat baru (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Optimasi UI/UX layout mini list (preview anggota grup) supaya tidak berantakan saat judul/pill teks panjang (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Merombak ulang layout preview mini list agar menyatu dengan body kolom tengah (bukan modal/kotak melayang) (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Tambah hover icons (profil & +) dengan Tailwind tooltip dan sticky footer Buat Grup di sidebar kanan friend list (src/app/[locale]/beranda/page.tsx)

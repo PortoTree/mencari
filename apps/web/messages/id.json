@@ -110,7 +110,10 @@
     "off": "Mati",
     "groupMembers": "Anggota Grup",
     "createChat": "Buat obrolan",
-    "selectedUsers": "Pengguna terpilih"
+    "selectedUsers": "Pengguna terpilih",
+    "profileInfo": "Info profil",
+    "addFriend": "Tambahkan",
+    "createGroupFromFriends": "Buat grup"
   },
   "login": {
     "title": "Login akun",
