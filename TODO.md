@@ -158,3 +158,4 @@
 - (Frontend) Menambahkan scrollbar-gutter: stable ke html & body di globals.css agar layout tidak geser saat berpindah antara halaman yang bisa/tidak bisa di-scroll
 - (Frontend) Memperbaiki garis putih di scrollbar gutter dark mode dengan mendefinisikan CSS variable .dark { --background: #18191A } di globals.css
 - (Frontend) Mengganti scrollbar-gutter ke pendekatan overflow-y:scroll + scrollbar transparan 4px agar layout stabil tanpa menampilkan garis kepotong
+- (Frontend) Menambahkan panel pemberitahuan sidebar slide-in dari kanan (z-index 300), lengkap dengan backdrop overlay, tombol close, filter tab, dan 5 dummy notifikasi (permintaan teman, like, komentar, undangan grup, mention)
