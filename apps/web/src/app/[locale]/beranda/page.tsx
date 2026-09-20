@@ -257,11 +257,13 @@ export default function Beranda() {
   const [isChatListSettingsOpen, setIsChatListSettingsOpen] = useState(false);
   const chatListSettingsRef = useRef<HTMLDivElement>(null);
   const [isNewMessageOpen, setIsNewMessageOpen] = useState(false);
+  const [isNewChatPanelOpen, setIsNewChatPanelOpen] = useState(false);
   const [isChatFilterOpen, setIsChatFilterOpen] = useState(false);
   const [chatListFilter, setChatListFilter] = useState<
     "all" | "unread" | "favorite" | "group" | "archive"
   >("all");
   const [activeChatMenu, setActiveChatMenu] = useState<number | null>(null);
+  const [activeChatIdx, setActiveChatIdx] = useState<number | null>(null);
   const [isRoomSearchOpen, setIsRoomSearchOpen] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ top: 0 });
   const chatMenuRef = useRef<HTMLDivElement | null>(null);
@@ -3346,7 +3348,10 @@ export default function Beranda() {
                 {dummyChats.map((chat, idx) => (
                   <div
                     key={idx}
-                    className="relative group flex items-center gap-3 p-3 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors"
+                    onClick={() => setActiveChatIdx(idx)}
+                    className={`relative group flex items-center gap-3 p-3 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors ${
+                      activeChatIdx === idx ? "bg-gray-200 dark:bg-[#3A3B3C]" : ""
+                    }`}
                   >
                     <div className="relative w-12 h-12 shrink-0">
                       <div className="w-full h-full rounded-full flex items-center justify-center overflow-hidden border border-emerald-600 dark:border-emerald-400">
@@ -4043,7 +4048,32 @@ export default function Beranda() {
       {activeTab === "chat" && (
         <div className="fixed top-[56px] left-0 right-0 bottom-0 flex w-full bg-[#F0F2F5] dark:bg-[#18191A] z-40 overflow-hidden">
           
-          <div className="w-[360px] bg-white dark:bg-[#242526] border-r border-gray-200 dark:border-[#3E4042] flex flex-col shrink-0">
+          <div className="w-[360px] bg-white dark:bg-[#242526] border-r border-gray-200 dark:border-[#3E4042] flex flex-col shrink-0 relative overflow-hidden">
+             {/* New Chat Panel */}
+             <div className={`absolute top-0 left-0 w-full h-full bg-white dark:bg-[#242526] z-50 flex flex-col transition-transform duration-300 ${isNewChatPanelOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+               <div className="h-[60px] flex items-center px-4 border-b border-gray-200 dark:border-[#3E4042] gap-3">
+                 <h2 className="font-semibold text-[17px] text-black dark:text-[#E4E6EB] flex-1">
+                   {t('chat.newChatTitle')}
+                 </h2>
+                 <button onClick={() => setIsNewChatPanelOpen(false)} className="w-8 h-8 rounded-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] flex items-center justify-center transition-colors text-black dark:text-[#E4E6EB]">
+                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                 </button>
+               </div>
+               <div className="px-4 py-3 border-b border-gray-200 dark:border-[#3E4042] flex items-center gap-2">
+                 <span className="text-[15px] text-black dark:text-[#E4E6EB]">{t('chat.to')}</span>
+                 <input type="text" className="flex-1 bg-transparent outline-none text-[15px] text-black dark:text-[#E4E6EB]" />
+               </div>
+               <div className="flex-1 overflow-y-auto sidebar-scrollbar mt-2">
+                 {dummyChats.map((chat, idx) => (
+                   <div key={idx} onClick={() => { setActiveChatIdx(idx); setIsNewChatPanelOpen(false); }} className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors">
+                     <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 border border-transparent dark:border-[#4E4F50]">
+                       <img src="/default-avatar.svg" className="w-full h-full object-cover" />
+                     </div>
+                     <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{chat.name}</span>
+                   </div>
+                 ))}
+               </div>
+             </div>
             <div className="pt-4 px-4 border-b border-gray-200 dark:border-[#3E4042]">
               <div className="flex items-center justify-between">
                 <h2 className="font-bold text-[24px] text-black dark:text-[#E4E6EB]">
@@ -4072,16 +4102,6 @@ export default function Beranda() {
                       )}
                     </div>
                   )}
-                  <div className="relative group/newchat">
-                    <button className="w-9 h-9 rounded-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] flex items-center justify-center transition-colors text-black dark:text-[#E4E6EB]">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
-                      </svg>
-                    </button>
-                    <div className="absolute -bottom-9 left-1/2 -translate-x-1/2 px-2.5 py-1.5 bg-gray-800/90 text-[#E4E6EB] text-[13px] font-medium rounded-lg opacity-0 group-hover/newchat:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
-                      {t('chat.newChatTooltip')}
-                    </div>
-                  </div>
                   <div className="relative group/friendlist">
                     <button 
                       onClick={() => setChatSidebarView(chatSidebarView === 'chats' ? 'friends' : 'chats')} 
@@ -4097,6 +4117,16 @@ export default function Beranda() {
                     </button>
                     <div className="absolute -bottom-9 left-1/2 -translate-x-1/2 px-2.5 py-1.5 bg-gray-800/90 text-[#E4E6EB] text-[13px] font-medium rounded-lg opacity-0 group-hover/friendlist:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
                       {chatSidebarView === "friends" ? t('chat.closeTooltip') : t('chat.friendlistTooltip')}
+                    </div>
+                  </div>
+                  <div className="relative group/newchat">
+                    <button onClick={() => setIsNewChatPanelOpen(true)} className="w-9 h-9 rounded-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] flex items-center justify-center transition-colors text-black dark:text-[#E4E6EB]">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
+                      </svg>
+                    </button>
+                    <div className="absolute -bottom-9 left-1/2 -translate-x-1/2 px-2.5 py-1.5 bg-gray-800/90 text-[#E4E6EB] text-[13px] font-medium rounded-lg opacity-0 group-hover/newchat:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
+                      {t('chat.newChatTooltip')}
                     </div>
                   </div>
                 </div>
@@ -4159,7 +4189,10 @@ export default function Beranda() {
                   dummyChats.map((chat, idx) => (
                     <div
                       key={idx}
-                      className="relative group flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors mb-1"
+                      onClick={() => setActiveChatIdx(idx)}
+                      className={`relative group flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors mb-1 ${
+                        activeChatIdx === idx ? "bg-gray-100 dark:bg-[#3A3B3C]" : ""
+                      }`}
                     >
                       <div className="relative w-14 h-14 shrink-0">
                         <img
@@ -4341,9 +4374,10 @@ export default function Beranda() {
                 )}
               </div>
           </div>
-
-          {/* TENGAH: Chat Room */}
-          <div className="flex-1 bg-transparent flex flex-col relative">
+          {activeChatIdx !== null ? (
+            <>
+              {/* TENGAH: Chat Room */}
+              <div className="flex-1 bg-transparent flex flex-col relative">
             <div className="h-[60px] bg-white dark:bg-[#242526] border-b border-gray-200 dark:border-[#3E4042] flex items-center px-4 shadow-sm shrink-0">
               <div className="flex items-center gap-3">
                 <div className="relative w-10 h-10 shrink-0">
@@ -4351,13 +4385,16 @@ export default function Beranda() {
                     src="/default-avatar.svg"
                     className="w-full h-full rounded-full object-cover border border-emerald-600 dark:border-emerald-400"
                   />
+                  {dummyChats[activeChatIdx]?.isOnline && (
+                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#31A24C] rounded-full border-2 border-white dark:border-[#242526]"></div>
+                  )}
                 </div>
                 <div>
                   <h3 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
-                    Budi Santoso
+                    {dummyChats[activeChatIdx]?.name || "Budi Santoso"}
                   </h3>
                   <p className="text-[12px] text-gray-500">
-                    {t("chat.activeNow")}
+                    {dummyChats[activeChatIdx]?.isOnline ? t("chat.activeNow") : t("chat.offline", { defaultMessage: "Offline" })}
                   </p>
                 </div>
               </div>
@@ -4658,6 +4695,7 @@ export default function Beranda() {
                   )}
                 </div>
                 <button
+                  onClick={() => setActiveChatIdx(null)}
                   className="text-[#00B47A] w-10 h-10 rounded-full flex items-center justify-center transition-colors hover:bg-gray-100 dark:hover:bg-[#3A3B3C]"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
@@ -5047,6 +5085,18 @@ export default function Beranda() {
                   </div>
                 </div>
               </div>
+            </div>
+            )}
+            </>
+          ) : (
+            <div className="flex-1 bg-[#F0F2F5] dark:bg-[#18191A] flex flex-col items-center justify-center relative">
+               <div className="w-32 h-32 mb-6 rounded-full bg-white dark:bg-[#242526] flex items-center justify-center text-gray-300 dark:text-[#4E4F50] shadow-sm">
+                 <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.03 2 11c0 2.84 1.455 5.375 3.738 7.025l-.946 2.836a1 1 0 001.265 1.265l2.836-.946A10.871 10.871 0 0012 20c5.523 0 10-4.03 10-9s-4.477-9-10-9zm0 16c-1.1 0-2.162-.178-3.155-.506a1 1 0 00-.81.085l-1.89.63.63-1.89a1 1 0 00-.085-.81C4.78 14.156 4 12.656 4 11c0-3.86 3.582-7 8-7s8 3.14 8 7-3.582 7-8 7zm-3-8a1 1 0 110-2 1 1 0 010 2zm3 0a1 1 0 110-2 1 1 0 010 2zm3 0a1 1 0 110-2 1 1 0 010 2z"/></svg>
+               </div>
+               <h3 className="text-xl font-semibold text-black dark:text-[#E4E6EB] mb-2">{t("chat.noChatSelected")}</h3>
+               <p className="text-[15px] text-gray-500 dark:text-[#B0B3B8] max-w-[400px] text-center">
+                 {t("chat.noChatSelectedDesc")}
+               </p>
             </div>
           )}
         </div>

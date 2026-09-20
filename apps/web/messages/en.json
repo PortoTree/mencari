@@ -93,7 +93,11 @@
     "copy": "Copy",
     "forward": "Forward",
     "select": "Select",
-    "delete": "Delete"
+    "delete": "Delete",
+    "noChatSelected": "No chat selected",
+    "noChatSelectedDesc": "Please select a chat from the list on the left to start messaging.",
+    "offline": "Offline",
+    "newChatTitle": "Create personal or group chat"
   },
   "login": {
     "title": "Log in",

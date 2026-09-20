@@ -93,7 +93,11 @@
     "copy": "Salin",
     "forward": "Teruskan",
     "select": "Pilih",
-    "delete": "Hapus"
+    "delete": "Hapus",
+    "noChatSelected": "Belum ada obrolan terbuka",
+    "noChatSelectedDesc": "Silakan pilih salah satu obrolan dari daftar di sebelah kiri untuk mulai mengirim pesan.",
+    "offline": "Offline",
+    "newChatTitle": "Buat obrolan pribadi atau grub"
   },
   "login": {
     "title": "Login akun",

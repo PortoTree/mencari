@@ -77,3 +77,6 @@
 - (Frontend) Menambahkan suppressHydrationWarning pada elemen tanggal/waktu di list obrolan untuk mencegah error hydration (tanggal beda antara server dan client akibat Date.now()) (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Mengoptimalkan UI/UX pada bagian sidebar kanan (Links, Media Gallery, Media Files) dengan merapikan padding, menambahkan hover states, icon pada link, dan membetulkan arah panah accordion (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Menambahkan icon X (Close) di sebelah icon titik tiga pada header room chat (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Menambahkan state activeChatIdx untuk mengatur status apakah sebuah obrolan sedang terbuka atau tidak. Jika tidak ada obrolan terbuka, halaman utama menampilkan placeholder kosong. (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Menukar posisi icon + (New Chat) dan icon Teman (Friendlist) di bagian header sidebar kiri (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Menambahkan panel Buat Obrolan Pribadi atau Grup yang muncul (slide dari kiri ke kanan) saat klik icon + di sidebar chat. (src/app/[locale]/beranda/page.tsx)
