@@ -42,7 +42,7 @@
     "clearChat": "Bersihkan obrolan",
     "deleteChat": "Hapus obrolan",
     "manage": "Kelola obrolan",
-    "settings": "Pengaturan",
+    "settings": "Preferensi",
     "yourFriends": "Teman anda",
     "activeFriends": "Teman Aktif",
     "offlineFriends": "Teman Offline",
@@ -118,7 +118,8 @@
     "showAddIcons": "Tambah teman ke grup",
     "hideAddIcons": "Selesai memilih",
     "cancel": "Batal",
-    "removeAll": "Hapus semua"
+    "removeAll": "Hapus semua",
+    "messageRequests": "Permintaan pesan"
   },
   "login": {
     "title": "Login akun",

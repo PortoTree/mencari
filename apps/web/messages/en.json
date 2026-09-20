@@ -42,7 +42,7 @@
     "clearChat": "Clear chat",
     "deleteChat": "Delete chat",
     "manage": "Manage chats",
-    "settings": "Settings",
+    "settings": "Preferences",
     "yourFriends": "Your friends",
     "activeFriends": "Active Friends",
     "offlineFriends": "Offline Friends",
@@ -118,7 +118,8 @@
     "showAddIcons": "Add friends to group",
     "hideAddIcons": "Done selecting",
     "cancel": "Cancel",
-    "removeAll": "Remove all"
+    "removeAll": "Remove all",
+    "messageRequests": "Message requests"
   },
   "login": {
     "title": "Log in",
