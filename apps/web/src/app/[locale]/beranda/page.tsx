@@ -3575,7 +3575,7 @@ export default function Beranda() {
           {/* Messages Area */}
           {/* Floating Chat Sticky Date */}
           <div className={`absolute top-[60px] left-1/2 transform -translate-x-1/2 z-20 pointer-events-none transition-opacity duration-300 ${showFloatingStickyDate ? "opacity-100" : "opacity-0"}`}>
-            <span className="bg-[#E5E5E5] dark:bg-[#242526] text-gray-600 dark:text-[#A8ABAF] px-3 py-1 rounded-lg text-[12.5px] font-medium shadow-md">
+            <span className="bg-[#E5E5E5] dark:bg-[#242526] text-gray-600 dark:text-[#A8ABAF] px-3 py-1 rounded-lg text-[12.5px] font-semibold tracking-wide shadow-md">
               9/9/2026
             </span>
           </div>
@@ -3595,7 +3595,7 @@ export default function Beranda() {
                 
                 {/* Tanggal Chat */}
                 <div className="flex justify-center my-3">
-                  <span className="bg-[#E5E5E5] dark:bg-[#242526] text-gray-600 dark:text-[#A8ABAF] px-3 py-1 rounded-lg text-[12.5px] font-medium shadow-sm">
+                  <span className="bg-[#E5E5E5] dark:bg-[#242526] text-gray-600 dark:text-[#A8ABAF] px-3 py-1 rounded-lg text-[12.5px] font-semibold tracking-wide shadow-sm">
                     9/9/2026
                   </span>
                 </div>
@@ -5149,7 +5149,7 @@ export default function Beranda() {
             )}
             {/* Main Chat Sticky Date */}
             <div className={`absolute top-[70px] left-1/2 transform -translate-x-1/2 z-20 pointer-events-none transition-opacity duration-300 ${showMainStickyDate ? "opacity-100" : "opacity-0"}`}>
-              <span className="bg-[#E5E5E5] dark:bg-[#242526] text-gray-600 dark:text-[#A8ABAF] px-3 py-1 rounded-lg text-[12.5px] font-medium shadow-md">
+              <span className="bg-[#E5E5E5] dark:bg-[#242526] text-gray-600 dark:text-[#A8ABAF] px-3 py-1 rounded-lg text-[12.5px] font-semibold tracking-wide shadow-md">
                 9/9/2026
               </span>
             </div>
@@ -5168,7 +5168,7 @@ export default function Beranda() {
               </div>
               {/* Tanggal Chat */}
               <div className="flex justify-center my-4">
-                <span className="bg-[#E5E5E5] dark:bg-[#242526] text-gray-600 dark:text-[#A8ABAF] px-3 py-1 rounded-lg text-[12.5px] font-medium shadow-sm">
+                <span className="bg-[#E5E5E5] dark:bg-[#242526] text-gray-600 dark:text-[#A8ABAF] px-3 py-1 rounded-lg text-[12.5px] font-semibold tracking-wide shadow-sm">
                   9/9/2026
                 </span>
               </div>

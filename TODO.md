@@ -147,3 +147,4 @@
 - (Frontend) Menambahkan dummy separator tanggal pada panel floating chat dan mengubah format waktu menjadi default 24-hour
 - (Frontend) Memperbesar ukuran badge tanggal di floating chat dan memastikan auto-scroll ke bawah saat buka chat/panel
 - (Frontend) Menambahkan fitur sticky date (mengambang di atas pesan) saat scroll chat, dengan animasi fade in/out dan auto-hide selama 5 detik
+- (Frontend) Mengoptimalkan gaya visual (font-weight dan letter-spacing) pada label tanggal agar tidak terlihat terlalu tipis dan sempit
