@@ -321,11 +321,13 @@ export default function Beranda() {
     const dateElements = container.querySelectorAll('.chat-date-separator');
     let currentText = "9/9/2026";
     let found = false;
+    const containerRect = container.getBoundingClientRect();
 
     for (let i = dateElements.length - 1; i >= 0; i--) {
       const el = dateElements[i] as HTMLElement;
-      // if the separator has scrolled past the top (with 20px padding)
-      if (el.offsetTop <= container.scrollTop + 20) {
+      const elRect = el.getBoundingClientRect();
+      // If the date separator has scrolled above the top of the container (+ threshold)
+      if (elRect.top <= containerRect.top + 60) {
         currentText = el.textContent || "";
         found = true;
         break;
@@ -347,10 +349,12 @@ export default function Beranda() {
     const dateElements = container.querySelectorAll('.chat-date-separator');
     let currentText = "9/9/2026";
     let found = false;
+    const containerRect = container.getBoundingClientRect();
 
     for (let i = dateElements.length - 1; i >= 0; i--) {
       const el = dateElements[i] as HTMLElement;
-      if (el.offsetTop <= container.scrollTop + 20) {
+      const elRect = el.getBoundingClientRect();
+      if (elRect.top <= containerRect.top + 60) {
         currentText = el.textContent || "";
         found = true;
         break;
