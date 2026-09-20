@@ -87,3 +87,6 @@
 - (Frontend) Menambahkan otomatis buka Chat Info saat klik chat list item, dan view profil di tengah layar saat klik Lihat Profil dari titik 3 (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Mengubah tampilan Profile Info di kolom tengah menjadi Full Screen, menambahkan icon action Profile dan Chat, serta menambahkan placeholder Links, Media Gallery, dan Media Files dengan style yang lebih lega (src/app/[locale]/beranda/page.tsx)
 - (Frontend) Mengubah aksi pada icon Chat di Profile Info tengah agar otomatis membuka panel Chat Info di sidebar kanan saat memasuki room chat (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Menambahkan fitur agar display profil (foto & nama) pada header room chat bisa diklik untuk membuka panel Chat Info di sidebar kanan (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Memperbaiki hardcoded nama pada bagian welcome intro di dalam room chat agar sesuai dengan chat yang sedang aktif (src/app/[locale]/beranda/page.tsx)
+- (Frontend) Menghapus background hover abu-abu pada kategori accordion (Links, Media Gallery, Media Files) di Info Profil (tengah & kanan) dan menggantinya dengan efek hover underline pada teks (src/app/[locale]/beranda/page.tsx)

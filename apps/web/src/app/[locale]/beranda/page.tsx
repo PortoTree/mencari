@@ -4365,12 +4365,12 @@ export default function Beranda() {
                   <div className="w-full flex flex-col">
                     {/* Category: Links */}
                     <div className="w-full border-t border-gray-200 dark:border-[#3E4042]">
-                      <button className="w-full flex items-center justify-between py-5 hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 transition-colors group px-4 rounded-lg mt-2">
+                      <button className="w-full flex items-center justify-between py-5 transition-colors group px-4 rounded-lg mt-2">
                         <div className="flex items-center gap-4">
                           <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-[#2D88FF]">
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
                           </div>
-                          <span className="font-semibold text-[16px] text-black dark:text-[#E4E6EB]">{t("chat.links", { defaultMessage: "Links" })}</span>
+                          <span className="font-semibold text-[16px] text-black dark:text-[#E4E6EB] group-hover:underline">{t("chat.links", { defaultMessage: "Links" })}</span>
                         </div>
                         <svg className="w-6 h-6 text-gray-500 group-hover:text-black dark:group-hover:text-[#E4E6EB] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                       </button>
@@ -4392,12 +4392,12 @@ export default function Beranda() {
 
                     {/* Category: Media Gallery */}
                     <div className="w-full border-t border-gray-200 dark:border-[#3E4042]">
-                      <button className="w-full flex items-center justify-between py-5 hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 transition-colors group px-4 rounded-lg mt-2">
+                      <button className="w-full flex items-center justify-between py-5 transition-colors group px-4 rounded-lg mt-2">
                         <div className="flex items-center gap-4">
                           <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-[#00B47A]">
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                           </div>
-                          <span className="font-semibold text-[16px] text-black dark:text-[#E4E6EB]">{t("chat.mediaGallery")}</span>
+                          <span className="font-semibold text-[16px] text-black dark:text-[#E4E6EB] group-hover:underline">{t("chat.mediaGallery")}</span>
                         </div>
                         <svg className="w-6 h-6 text-gray-500 group-hover:text-black dark:group-hover:text-[#E4E6EB] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                       </button>
@@ -4416,12 +4416,12 @@ export default function Beranda() {
 
                     {/* Category: Media File */}
                     <div className="w-full border-t border-gray-200 dark:border-[#3E4042]">
-                      <button className="w-full flex items-center justify-between py-5 hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 transition-colors group px-4 rounded-lg mt-2">
+                      <button className="w-full flex items-center justify-between py-5 transition-colors group px-4 rounded-lg mt-2">
                         <div className="flex items-center gap-4">
                           <div className="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                           </div>
-                          <span className="font-semibold text-[16px] text-black dark:text-[#E4E6EB]">{t("chat.mediaFile")}</span>
+                          <span className="font-semibold text-[16px] text-black dark:text-[#E4E6EB] group-hover:underline">{t("chat.mediaFile")}</span>
                         </div>
                         <svg className="w-6 h-6 text-gray-500 group-hover:text-black dark:group-hover:text-[#E4E6EB] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                       </button>
@@ -4455,7 +4455,10 @@ export default function Beranda() {
               {/* TENGAH: Chat Room */}
               <div className="flex-1 bg-transparent flex flex-col relative">
             <div className="h-[60px] bg-white dark:bg-[#242526] border-b border-gray-200 dark:border-[#3E4042] flex items-center px-4 shadow-sm shrink-0">
-              <div className="flex items-center gap-3">
+              <div 
+                className="flex items-center gap-3 cursor-pointer group"
+                onClick={() => setIsChatInfoOpen(true)}
+              >
                 <div className="relative w-10 h-10 shrink-0">
                   <img
                     src="/default-avatar.svg"
@@ -4466,7 +4469,7 @@ export default function Beranda() {
                   )}
                 </div>
                 <div>
-                  <h3 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
+                  <h3 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB] group-hover:underline">
                     {dummyChats[activeChatIdx]?.name || "Budi Santoso"}
                   </h3>
                   <p className="text-[12px] text-gray-500">
@@ -4794,7 +4797,7 @@ export default function Beranda() {
                 <div className="w-[100px] h-[100px] mb-4 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center overflow-hidden shrink-0">
                   <img src="/default-avatar.svg" className="w-full h-full object-cover" />
                 </div>
-                <h2 className="text-[20px] font-semibold text-black dark:text-[#E4E6EB] mb-2">Budi Santoso</h2>
+                <h2 className="text-[20px] font-semibold text-black dark:text-[#E4E6EB] mb-2">{dummyChats[activeChatIdx]?.name || "Budi Santoso"}</h2>
                 <p className="text-gray-500 dark:text-[#B0B3B8] text-[15px] mb-8">{t("chat.youCreatedThisChat")}</p>
                 <div className="max-w-[400px] text-center text-[13px] text-gray-500 dark:text-[#B0B3B8] leading-relaxed px-4">
                   <svg className="w-3.5 h-3.5 inline-block mr-1 align-baseline text-gray-400 dark:text-[#B0B3B8]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" /></svg>
@@ -5084,12 +5087,12 @@ export default function Beranda() {
                 <div className="w-full flex flex-col mt-4">
                   {/* Category: Links */}
                   <div className="w-full border-t border-gray-200 dark:border-[#3E4042]">
-                    <button className="w-full flex items-center justify-between py-4 hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 transition-colors group px-2 -mx-2 rounded-lg">
+                    <button className="w-full flex items-center justify-between py-4 transition-colors group px-2 -mx-2 rounded-lg">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-[#2D88FF]">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
                         </div>
-                        <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{t("chat.links")}</span>
+                        <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB] group-hover:underline">{t("chat.links")}</span>
                       </div>
                       <svg className="w-5 h-5 text-gray-500 group-hover:text-black dark:group-hover:text-[#E4E6EB] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                     </button>
@@ -5111,12 +5114,12 @@ export default function Beranda() {
 
                   {/* Category: Media Gallery */}
                   <div className="w-full border-t border-gray-200 dark:border-[#3E4042]">
-                    <button className="w-full flex items-center justify-between py-4 hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 transition-colors group px-2 -mx-2 rounded-lg">
+                    <button className="w-full flex items-center justify-between py-4 transition-colors group px-2 -mx-2 rounded-lg">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-[#00B47A]">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                         </div>
-                        <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{t("chat.mediaGallery")}</span>
+                        <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB] group-hover:underline">{t("chat.mediaGallery")}</span>
                       </div>
                       <svg className="w-5 h-5 text-gray-500 group-hover:text-black dark:group-hover:text-[#E4E6EB] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                     </button>
@@ -5135,12 +5138,12 @@ export default function Beranda() {
 
                   {/* Category: Media File */}
                   <div className="w-full border-t border-gray-200 dark:border-[#3E4042]">
-                    <button className="w-full flex items-center justify-between py-4 hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 transition-colors group px-2 -mx-2 rounded-lg">
+                    <button className="w-full flex items-center justify-between py-4 transition-colors group px-2 -mx-2 rounded-lg">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                         </div>
-                        <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{t("chat.mediaFiles")}</span>
+                        <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB] group-hover:underline">{t("chat.mediaFiles")}</span>
                       </div>
                       <svg className="w-5 h-5 text-gray-500 group-hover:text-black dark:group-hover:text-[#E4E6EB] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                     </button>
