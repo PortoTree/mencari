@@ -289,6 +289,9 @@
     "daysAgo": "{n} days ago",
     "yesterday": "Yesterday",
     "markAllRead": "Mark all as read",
-    "settings": "Notification settings"
+    "settings": "Notification settings",
+    "filterMessage": "Message requests",
+    "filterFriend": "Friend requests",
+    "filterGroup": "Group join requests"
   }
 }

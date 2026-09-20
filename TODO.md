@@ -167,3 +167,4 @@
 - (Frontend) Memperbaiki bug dimana dropdown menu notifikasi (3-dot) tetap terbuka saat panel notifikasi ditutup
 - (Frontend) Memperbaiki dropdown menu notifikasi agar autoclose saat diklik di luar area dropdown (meskipun masih di dalam panel notifikasi)
 - (Frontend) Optimasi hover dropdown menu notifikasi di light mode menggunakan bg-gray-200 agar lebih jelas
+- (Frontend) Menambahkan icon filter di panel notifikasi beserta dropdown menu (Permintaan pesan, Permintaan pertemanan, Permintaan gabung grup) lengkap dengan icon masing-masing dan i18n support

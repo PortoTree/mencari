@@ -289,6 +289,9 @@
     "daysAgo": "{n} hari yang lalu",
     "yesterday": "Kemarin",
     "markAllRead": "Tandai semua telah dibaca",
-    "settings": "Pengaturan notifikasi"
+    "settings": "Pengaturan notifikasi",
+    "filterMessage": "Permintaan pesan",
+    "filterFriend": "Permintaan pertemanan",
+    "filterGroup": "Permintaan gabung grup"
   }
 }
