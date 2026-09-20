@@ -113,7 +113,10 @@
     "selectedUsers": "Pengguna terpilih",
     "profileInfo": "Info profil",
     "addFriend": "Tambahkan",
-    "createGroupFromFriends": "Buat grup"
+    "createGroupFromFriends": "Buat grup",
+    "removeFromList": "Hapus",
+    "showAddIcons": "Tambah teman ke grup",
+    "hideAddIcons": "Selesai memilih"
   },
   "login": {
     "title": "Login akun",

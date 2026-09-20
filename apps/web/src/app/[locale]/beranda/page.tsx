@@ -254,10 +254,10 @@ export default function Beranda() {
   const [isChatListSettingsOpen, setIsChatListSettingsOpen] = useState(false);
   const chatListSettingsRef = useRef<HTMLDivElement>(null);
   const [isNewMessageOpen, setIsNewMessageOpen] = useState(false);
-  const [isNewChatPanelOpen, setIsNewChatPanelOpen] = useState(false);
   const [isCreatingGroup, setIsCreatingGroup] = useState(false);
   const [isTempMessageOn, setIsTempMessageOn] = useState(false);
   const [selectedFriendsToAdd, setSelectedFriendsToAdd] = useState<number[]>([]);
+  const [showAddIcons, setShowAddIcons] = useState(false);
   const [selectedNewChatUsers, setSelectedNewChatUsers] = useState<number[]>([]);
   const [isChatFilterOpen, setIsChatFilterOpen] = useState(false);
   const [chatListFilter, setChatListFilter] = useState<
@@ -4051,46 +4051,6 @@ export default function Beranda() {
         <div className="fixed top-[56px] left-0 right-0 bottom-0 flex w-full bg-[#F0F2F5] dark:bg-[#18191A] z-40 overflow-hidden">
           
           <div className="w-[360px] bg-white dark:bg-[#242526] border-r border-gray-200 dark:border-[#3E4042] flex flex-col shrink-0 relative overflow-hidden">
-             {/* New Chat Panel */}
-             <div className={`absolute top-0 left-0 w-full h-full bg-white dark:bg-[#242526] z-50 flex flex-col transition-transform duration-300 ${isNewChatPanelOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-               <div className="h-[60px] flex items-center px-4 border-b border-gray-200 dark:border-[#3E4042] gap-3">
-                 <h2 className="font-semibold text-[17px] text-black dark:text-[#E4E6EB] flex-1">
-                   {t('chat.newChatTitle')}
-                 </h2>
-                 <button onClick={() => setIsNewChatPanelOpen(false)} className="w-8 h-8 rounded-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] flex items-center justify-center transition-colors text-black dark:text-[#E4E6EB]">
-                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-                 </button>
-                </div>
-                <div className="px-4 py-3 border-b border-gray-200 dark:border-[#3E4042] flex items-center gap-3 h-[60px]">
-                  <span className="text-[15px] font-medium text-black dark:text-[#E4E6EB] shrink-0">{t('chat.to')}</span>
-                  <input type="text" className="flex-1 bg-transparent outline-none text-[15px] text-black dark:text-[#E4E6EB] py-1" />
-                </div>
-                <div className="flex-1 overflow-y-auto sidebar-scrollbar mt-2 pb-10">
-                  {dummyChats.map((chat, idx) => (
-                    <div 
-                      key={idx} 
-                      onClick={() => {
-                        if (selectedNewChatUsers.includes(idx)) {
-                          setSelectedNewChatUsers(prev => prev.filter(id => id !== idx));
-                        } else {
-                          setSelectedNewChatUsers(prev => [...prev, idx]);
-                        }
-                      }} 
-                      className={`flex items-center gap-3 px-4 py-2.5 cursor-pointer transition-colors ${selectedNewChatUsers.includes(idx) ? 'bg-gray-50 dark:bg-[#3A3B3C]/50' : 'hover:bg-gray-100 dark:hover:bg-[#3A3B3C]'}`}
-                    >
-                      <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 border border-transparent dark:border-[#4E4F50]">
-                        <img src="/default-avatar.svg" className="w-full h-full object-cover" />
-                      </div>
-                      <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB] flex-1">{chat.name}</span>
-                      {selectedNewChatUsers.includes(idx) && (
-                        <div className="w-5 h-5 rounded-full bg-[#00B47A] flex items-center justify-center shrink-0">
-                          <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-               </div>
             <div className="pt-4 px-4 border-b border-gray-200 dark:border-[#3E4042]">
               <div className="flex items-center justify-between">
                 <h2 className="font-bold text-[24px] text-black dark:text-[#E4E6EB]">
@@ -4117,16 +4077,7 @@ export default function Beranda() {
                         </div>
                       )}
                     </div>
-                  <div className="relative group/newchat">
-                    <button onClick={() => setIsNewChatPanelOpen(true)} className="w-9 h-9 rounded-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] flex items-center justify-center transition-colors text-black dark:text-[#E4E6EB]">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
-                      </svg>
-                    </button>
-                    <div className="absolute -bottom-9 left-1/2 -translate-x-1/2 px-2.5 py-1.5 bg-gray-800/90 text-[#E4E6EB] text-[13px] font-medium rounded-lg opacity-0 group-hover/newchat:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
-                      {t('chat.newChatTooltip')}
-                    </div>
-                  </div>
+
                 </div>
               </div>
               <div className="mt-3 relative">
@@ -4463,7 +4414,7 @@ export default function Beranda() {
               <div className="px-6 py-4 bg-[#F0F2F5] dark:bg-[#18191A] border-t border-gray-200 dark:border-[#3E4042] flex justify-end shrink-0">
                 {selectedNewChatUsers.length === 1 ? (
                   <button
-                    onClick={() => { setActiveChatIdx(selectedNewChatUsers[0]); setSelectedNewChatUsers([]); setIsNewChatPanelOpen(false); setIsCreatingGroup(false); }}
+                    onClick={() => { setActiveChatIdx(selectedNewChatUsers[0]); setSelectedNewChatUsers([]); ; setIsCreatingGroup(false); }}
                     className="bg-[#1877F2] hover:bg-blue-600 text-white font-semibold text-[15px] py-2.5 px-7 rounded-xl transition-all flex items-center gap-2"
                   >
                     <svg className="w-5 h-5 -translate-y-[1px] translate-x-[1px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
@@ -5356,9 +5307,22 @@ export default function Beranda() {
           {(!isChatInfoOpen || activeChatIdx === null) && (
             <div className="w-[360px] bg-white dark:bg-[#242526] border-l border-gray-200 dark:border-[#3E4042] flex flex-col shrink-0">
               <div className="pt-4 px-4 border-b border-gray-200 dark:border-[#3E4042]">
-                <h2 className="font-bold text-[24px] text-black dark:text-[#E4E6EB]">
-                  {t('chat.yourFriends')}
-                </h2>
+                <div className="flex items-center justify-between">
+                  <h2 className="font-bold text-[24px] text-black dark:text-[#E4E6EB]">
+                    {t('chat.yourFriends')}
+                  </h2>
+                  <div className="relative group/addtoggle">
+                    <button
+                      onClick={() => setShowAddIcons(!showAddIcons)}
+                      className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors ${showAddIcons ? 'bg-[#1877F2] text-white' : 'bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB]'}`}
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                    </button>
+                    <div className="absolute -bottom-9 right-0 px-2.5 py-1.5 bg-gray-800/90 text-[#E4E6EB] text-[13px] font-medium rounded-lg opacity-0 group-hover/addtoggle:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
+                      {showAddIcons ? t('chat.hideAddIcons') : t('chat.showAddIcons')}
+                    </div>
+                  </div>
+                </div>
                 <div className="mt-3 relative pb-3">
                   <input 
                     type="text" 
@@ -5397,7 +5361,7 @@ export default function Beranda() {
                         </h4>
                       </div>
                       {/* Hover Action Icons */}
-                      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+                      <div className={`flex items-center gap-1 transition-opacity shrink-0 ${showAddIcons ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                         {/* Icon Profil */}
                         <div className="relative group/tooltip">
                           <button
@@ -5423,7 +5387,7 @@ export default function Beranda() {
                             }
                           </button>
                           <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 bg-gray-800 dark:bg-[#E4E6EB] text-white dark:text-black text-[12px] font-medium px-2 py-1 rounded-md whitespace-nowrap opacity-0 group-hover/tooltip:opacity-100 transition-opacity z-50">
-                            {isAdded ? t('chat.selectedUsers') : t('chat.addFriend')}
+                            {isAdded ? t('chat.removeFromList') : t('chat.addFriend')}
                             <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800 dark:border-t-[#E4E6EB]"></div>
                           </div>
                         </div>
@@ -5459,7 +5423,7 @@ export default function Beranda() {
                         </h4>
                       </div>
                       {/* Hover Action Icons */}
-                      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+                      <div className={`flex items-center gap-1 transition-opacity shrink-0 ${showAddIcons ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                         <div className="relative group/tooltip">
                           <button
                             onClick={() => { setProfileViewIdx(realIdx); setActiveChatIdx(null); setIsCreatingGroup(false); }}
@@ -5483,7 +5447,7 @@ export default function Beranda() {
                             }
                           </button>
                           <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 bg-gray-800 dark:bg-[#E4E6EB] text-white dark:text-black text-[12px] font-medium px-2 py-1 rounded-md whitespace-nowrap opacity-0 group-hover/tooltip:opacity-100 transition-opacity z-50">
-                            {isAdded ? t('chat.selectedUsers') : t('chat.addFriend')}
+                            {isAdded ? t('chat.removeFromList') : t('chat.addFriend')}
                             <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800 dark:border-t-[#E4E6EB]"></div>
                           </div>
                         </div>

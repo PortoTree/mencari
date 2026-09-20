@@ -113,7 +113,10 @@
     "selectedUsers": "Selected users",
     "profileInfo": "Profile info",
     "addFriend": "Add",
-    "createGroupFromFriends": "Create group"
+    "createGroupFromFriends": "Create group",
+    "removeFromList": "Remove",
+    "showAddIcons": "Add friends to group",
+    "hideAddIcons": "Done selecting"
   },
   "login": {
     "title": "Log in",
