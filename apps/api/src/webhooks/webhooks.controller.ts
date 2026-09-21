@@ -20,15 +20,21 @@ export class WebhooksController {
     @Body() body: any,
   ) {
     const { refId, grandTotal, message_id } = body || {};
-    const secretKey = process.env.LYNK_MERCHANT_KEY;
+    const secretKey = process.env.LYNK_MERCHANT_KEY || 'HqBVUqeCu_DY5d6DTiZ0oP07PTm5B23D'; // Fallback for local testing
 
     this.logger.log('--- Lynk.id Webhook Received ---');
-    this.logger.log(`refId: ${refId}, grandTotal: ${grandTotal}, message_id: ${message_id}`);
+    this.logger.log(`Payload: ${JSON.stringify(body)}`);
     this.logger.log(`X-Lynk-Signature: ${signature}`);
 
-    if (!signature || !secretKey) {
-      this.logger.error('Missing signature or secret key');
-      throw new UnauthorizedException('Unauthorized');
+    if (!signature) {
+      this.logger.warn('Warning: Missing signature. If this is a Test URL from Lynk.id, it is expected.');
+      // Untuk meloloskan tombol "Test URL" yang mungkin tidak mengirim signature
+      return { message: 'Test URL received (No Signature)' };
+    }
+
+    if (!secretKey) {
+      this.logger.error('Missing LYNK_MERCHANT_KEY in .env');
+      throw new UnauthorizedException('Server configuration error: Missing Merchant Key');
     }
 
     const amountStr = String(grandTotal || '');
