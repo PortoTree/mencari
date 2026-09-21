@@ -54,7 +54,7 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Match semua path kecuali static files
-    '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|json)$).*)',
+    // Match semua path kecuali static files, api, dan webhooks
+    '/((?!api|webhooks|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|json)$).*)',
   ],
 };
