@@ -6,6 +6,17 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({ message: 'Webhook endpoint is active (Next.js)' });
 }
 
+export async function OPTIONS(request: NextRequest) {
+  // Tangkap request OPTIONS (Preflight) agar tidak error 405
+  return NextResponse.json({}, {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, x-lynk-signature',
+    },
+  });
+}
+
 export async function POST(request: NextRequest) {
   try {
     const signature = request.headers.get('x-lynk-signature');
