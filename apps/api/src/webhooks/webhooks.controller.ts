@@ -1,9 +1,17 @@
-import { Controller, Post, Body, Headers, UnauthorizedException, HttpCode, HttpStatus, Logger } from '@nestjs/common';
+import { Controller, Post, Get, Body, Headers, UnauthorizedException, HttpCode, HttpStatus, Logger } from '@nestjs/common';
 import * as crypto from 'crypto';
 
 @Controller('webhooks')
 export class WebhooksController {
   private readonly logger = new Logger(WebhooksController.name);
+
+  // Menambahkan GET handler untuk meloloskan 'Test URL' Lynk.id yang mungkin mengirim GET request
+  @Get('lynk')
+  @HttpCode(HttpStatus.OK)
+  testLynkWebhook() {
+    this.logger.log('Lynk.id Test URL GET Request received');
+    return { message: 'Webhook endpoint is active' };
+  }
 
   @Post('lynk')
   @HttpCode(HttpStatus.OK)
