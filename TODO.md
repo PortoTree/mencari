@@ -171,3 +171,5 @@
 - (Frontend) Menyembunyikan 3 gambar iklan PortoTree di sidebar kanan dan riwayat (history) di sidebar kiri pada halaman /mencari, namun dummy data tetap dipertahankan (hidden)
 - (Frontend) Memindahkan panel CTA hijau (Is your website not in our search yet?) dari sidebar kiri ke tengah, posisinya tepat di bawah tombol Add Shortcut pada halaman /mencari
 - (Frontend) Mengubah layout panel CTA hijau pada halaman /mencari menjadi horizontal (lebar lebih besar, tombol register ada di sebelah kanan)
+### Update (Webhook Lynk.id)
+- (Backend) Integrasi webhook Lynk.id di NestJS (apps/api/src/webhooks) untuk memproses notifikasi pembayaran.
