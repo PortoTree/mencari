@@ -153,7 +153,10 @@
     "slug_desc": "Only use lowercase letters (a-z), numbers (0-9), and hyphens (-). No spaces.",
     "desc_label": "Short Description",
     "desc_placeholder": "Write a short description about your business or services...",
-    "submit": "Register Now"
+    "submit": "Register Now",
+    "name_tooltip": "This will appear on the user search display",
+    "logo_label": "Upload Logo",
+    "media_url_label": "Media URL (Optional)"
   },
   "forgotPassword": {
     "title": "Forgot Password",

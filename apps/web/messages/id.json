@@ -153,7 +153,10 @@
     "slug_desc": "Hanya gunakan huruf kecil (a-z), angka (0-9), dan tanda strip (-). Tanpa spasi.",
     "desc_label": "Deskripsi Singkat",
     "desc_placeholder": "Tuliskan deskripsi singkat mengenai bisnis atau layanan Anda...",
-    "submit": "Daftar Sekarang"
+    "submit": "Daftar Sekarang",
+    "name_tooltip": "Ini akan muncul pada tampilan pencarian user",
+    "logo_label": "Upload Logo",
+    "media_url_label": "URL Media (Opsional)"
   },
   "forgotPassword": {
     "title": "Lupa Password",
