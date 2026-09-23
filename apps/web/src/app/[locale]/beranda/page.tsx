@@ -1907,7 +1907,7 @@ export default function Beranda() {
                                 className={`w-full text-left px-4 py-2 text-[13px] transition-colors ${
                                   productSort === option.id 
                                     ? "bg-emerald-50 text-emerald-600 dark:bg-[#203D2E] dark:text-emerald-400 font-medium" 
-                                    : "text-gray-700 dark:text-[#E4E6EB] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]"
+                                    : "text-gray-700 dark:text-[#E4E6EB] hover:bg-gray-200 dark:hover:bg-[#3A3B3C]"
                                 }`}
                               >
                                 {option.label}
