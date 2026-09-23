@@ -4443,10 +4443,9 @@ export default function Beranda() {
 
       {/* Profile Right Sidebar */}
       <div
-        className={`hidden lg:block fixed right-0 top-[56px] w-[340px] xl:w-[380px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-32 transition-transform duration-300 ease-in-out transform ${isProfileSidebarOpen ? "translate-x-0" : "translate-x-full"} z-40 sidebar-scrollbar`}
+        className={`hidden lg:block fixed right-0 top-[56px] w-[340px] xl:w-[380px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto transition-transform duration-300 ease-in-out transform ${isProfileSidebarOpen ? "translate-x-0" : "translate-x-full"} z-40 sidebar-scrollbar bg-white dark:bg-[#242526] border-l border-gray-200 dark:border-[#3E4042]`}
       >
-        <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] overflow-hidden">
-          {selectedProfile && (
+        {selectedProfile && (
             <>
               {/* Header (Cover Photo & Avatar) */}
               <div className="relative">
@@ -4879,7 +4878,6 @@ export default function Beranda() {
               </div>
             </>
           )}
-        </div>
       </div>
 
       {/* Add Shortcut Modal */}
