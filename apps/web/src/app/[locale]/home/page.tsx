@@ -748,8 +748,8 @@ export default function Beranda() {
                         className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 dark:bg-[#3A3B3C] hover:bg-emerald-50 dark:hover:bg-[#203D2E] transition-colors shrink-0 border border-gray-200 dark:border-[#4E4F50]"
                       >
                         <img
-                          src="/visit.png"
-                          alt="Visit"
+                          src="/icon-apk.png"
+                          alt="Mencari"
                           className="w-7 h-7 object-contain group-hover/visit:scale-110 transition-transform"
                         />
                       </button>
@@ -1770,19 +1770,7 @@ export default function Beranda() {
                   </span>
                 </button>
                 <button className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors">
-                  <svg
-                    className="w-6 h-6 text-cyan-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
-                    />
-                  </svg>
+                  <img src="/visit.png" alt="Your Page" className="w-6 h-6 object-contain" />
                   <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
                     {t("nav.webpage")}
                   </span>
