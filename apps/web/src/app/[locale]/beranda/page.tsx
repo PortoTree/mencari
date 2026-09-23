@@ -1611,6 +1611,25 @@ export default function Beranda() {
                 </button>
                 <button
                   onClick={() => {
+                    setActiveTab("group");
+                    window.history.pushState(null, "", `/${locale}/group`);
+                  }}
+                  className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors"
+                >
+                  <div
+                    className="w-6 h-6 bg-current text-green-500"
+                    style={{
+                      WebkitMask:
+                        "url(/navigasi/grub.svg) center/contain no-repeat",
+                      mask: "url(/navigasi/grub.svg) center/contain no-repeat",
+                    }}
+                  />
+                  <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
+                    {t("tabs.groups")}
+                  </span>
+                </button>
+                <button
+                  onClick={() => {
                     setActiveTab("friend");
                     window.history.pushState(null, "", `/${locale}/friend`);
                   }}
@@ -1644,19 +1663,6 @@ export default function Beranda() {
                   </svg>
                   <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
                     {t("sidebar.saved")}
-                  </span>
-                </button>
-                <button className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors">
-                  <div
-                    className="w-6 h-6 bg-current text-green-500"
-                    style={{
-                      WebkitMask:
-                        "url(/navigasi/grub.svg) center/contain no-repeat",
-                      mask: "url(/navigasi/grub.svg) center/contain no-repeat",
-                    }}
-                  />
-                  <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
-                    {t("tabs.groups")}
                   </span>
                 </button>
                 <button className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors">

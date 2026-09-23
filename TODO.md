@@ -173,3 +173,6 @@
 - (Frontend) Mengubah layout panel CTA hijau pada halaman /mencari menjadi horizontal (lebar lebih besar, tombol register ada di sebelah kanan)
 ### Update (Webhook Lynk.id)
 - (Backend) Integrasi webhook Lynk.id di NestJS (apps/api/src/webhooks) untuk memproses notifikasi pembayaran.
+
+- (Frontend) Mengubah urutan menu navigasi sidebar menjadi: Mencari, Halaman kamu, Grup, Teman, Tersimpan, Acara
+- (Frontend) Menambahkan onClick event handler (routing ke /group) pada menu navigasi sidebar Grup
