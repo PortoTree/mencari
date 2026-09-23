@@ -1959,7 +1959,7 @@ export default function Beranda() {
           )}
 
           {activeTab === "mencari" && (
-            <div className="w-full flex flex-col items-center pt-24 max-w-[680px]">
+            <div className="w-full flex flex-col items-center pt-8 max-w-[680px]">
               {/* Lottie Animation (Logo) */}
               <div className="w-[400px] h-[140px] mb-4 flex items-center justify-center [&>div]:w-full [&>div]:h-full">
                 <Lottie
