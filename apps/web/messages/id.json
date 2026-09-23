@@ -232,7 +232,10 @@
     "cta_button": "Daftarkan Gratis",
     "community_cta_title": "Ingin membangun komunitas Anda sendiri?",
     "community_cta_desc": "Buat grup sekarang dan kumpulkan orang-orang dengan minat yang sama untuk saling berbagi.",
-    "community_cta_button": "Buat komunitas"
+    "community_cta_button": "Buat komunitas",
+    "product_cta_title": "Punya produk digital?",
+    "product_cta_desc": "Pasarkan produk digital Anda dan jangkau lebih banyak pembeli di platform kami.",
+    "product_cta_button": "Mulai Jualan"
   },
   "friend": {
     "searchTitle": "Cari Pengguna",

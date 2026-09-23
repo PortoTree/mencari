@@ -3346,6 +3346,31 @@ export default function Beranda() {
                 </button>
               </div>
             </div>
+            {/* Sell Product CTA Card */}
+            <div className="bg-gradient-to-br from-orange-700 to-orange-900 rounded-xl overflow-hidden shadow-sm p-4 text-white relative mt-4">
+              {/* Decorative circles */}
+              <div className="absolute -right-6 -top-6 w-24 h-24 bg-white opacity-10 rounded-full"></div>
+              <div className="absolute right-12 -top-2 w-8 h-8 bg-white opacity-10 rounded-full"></div>
+
+              <div className="relative z-10 flex flex-col gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center shrink-0 backdrop-blur-sm">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                  </div>
+                  <h3 className="font-bold text-[15px] leading-snug m-0">
+                    {t("mencari.product_cta_title")}
+                  </h3>
+                </div>
+                <p className="text-[13px] text-orange-50 leading-relaxed opacity-90 m-0">
+                  {t("mencari.product_cta_desc")}
+                </p>
+                <button onClick={() => router.push(`/${locale}/product?create=true`)} className="w-full mt-1 whitespace-nowrap bg-white text-orange-700 hover:bg-orange-800 hover:text-white font-bold text-[14px] py-2.5 px-4 rounded-lg transition-colors shadow-sm">
+                  {t("mencari.product_cta_button")}
+                </button>
+              </div>
+            </div>
           </div>
         )}
 

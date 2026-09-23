@@ -232,7 +232,10 @@
     "cta_button": "Register for Free",
     "community_cta_title": "Want to build your own community?",
     "community_cta_desc": "Create a group now and gather people with similar interests to share and connect.",
-    "community_cta_button": "Create community"
+    "community_cta_button": "Create community",
+    "product_cta_title": "Have digital products?",
+    "product_cta_desc": "Market your digital products and reach more buyers on our platform.",
+    "product_cta_button": "Start Selling"
   },
   "friend": {
     "searchTitle": "Search Users",
