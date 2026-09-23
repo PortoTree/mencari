@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import { createPortal } from "react-dom";
 
@@ -56,7 +56,7 @@ export default function RegisterPage() {
 
   const notifPanelRef = React.useRef<HTMLDivElement>(null);
 
-  const locale = "id"; // fallback locale
+  const locale = useLocale();
 
   
   
@@ -667,16 +667,16 @@ export default function RegisterPage() {
 
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] overflow-hidden">
             <div className="bg-emerald-500 p-6 sm:p-8 text-white">
-              <h1 className="text-2xl sm:text-3xl font-bold mb-2">Daftarkan Bisnis Anda</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold mb-2">{t("register.title")}</h1>
               <p className="text-emerald-50 text-[15px] opacity-90">
-                Jangkau ribuan pengguna dengan memasukkan website atau profil bisnis Anda ke dalam mesin pencarian mencari.online secara gratis.
+                {t("register.subtitle")}
               </p>
             </div>
 
             <div className="p-6 sm:p-8">
               <div className="mb-6">
                 <label className="block text-sm font-bold text-gray-700 dark:text-[#E4E6EB] mb-3">
-                  Tipe Pendaftaran
+                  {t("register.type_label")}
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div 
@@ -684,9 +684,9 @@ export default function RegisterPage() {
                     className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${type === "website" ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20" : "border-gray-200 dark:border-[#3E4042] hover:border-emerald-300"}`}
                   >
                     <div className="flex items-center gap-3 mb-1">
-                      <span className={`font-bold ${type === "website" ? "text-emerald-700 dark:text-emerald-400" : "text-gray-700 dark:text-[#E4E6EB]"}`}>Sudah Punya Website</span>
+                      <span className={`font-bold ${type === "website" ? "text-emerald-700 dark:text-emerald-400" : "text-gray-700 dark:text-[#E4E6EB]"}`}>{t("register.type_website")}</span>
                     </div>
-                    <p className="text-[13px] text-gray-500 dark:text-[#B0B3B8] ml-2">Saya ingin menautkan domain website saya sendiri (misal: .com, .id).</p>
+                    <p className="text-[13px] text-gray-500 dark:text-[#B0B3B8] ml-2">{t("register.type_website_desc")}</p>
                   </div>
                   
                   <div 
@@ -694,9 +694,9 @@ export default function RegisterPage() {
                     className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${type === "profile" ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20" : "border-gray-200 dark:border-[#3E4042] hover:border-emerald-300"}`}
                   >
                     <div className="flex items-center gap-3 mb-1">
-                      <span className={`font-bold ${type === "profile" ? "text-emerald-700 dark:text-emerald-400" : "text-gray-700 dark:text-[#E4E6EB]"}`}>Belum Punya Website</span>
+                      <span className={`font-bold ${type === "profile" ? "text-emerald-700 dark:text-emerald-400" : "text-gray-700 dark:text-[#E4E6EB]"}`}>{t("register.type_profile")}</span>
                     </div>
-                    <p className="text-[13px] text-gray-500 dark:text-[#B0B3B8] ml-2">Buat profil landing page profesional langsung dari platform mencari.online.</p>
+                    <p className="text-[13px] text-gray-500 dark:text-[#B0B3B8] ml-2">{t("register.type_profile_desc")}</p>
                   </div>
                 </div>
               </div>
@@ -705,7 +705,7 @@ export default function RegisterPage() {
                 {type === "website" && (
                   <div>
                     <label className="block text-[14px] font-bold text-gray-700 dark:text-[#E4E6EB] mb-1.5">
-                      URL Website Asli
+                      {t("register.url_label")}
                     </label>
                     <input 
                       type="url" 
@@ -717,18 +717,18 @@ export default function RegisterPage() {
 
                 <div>
                   <label className="block text-[14px] font-bold text-gray-700 dark:text-[#E4E6EB] mb-1.5">
-                    Nama Bisnis / Judul Halaman
+                    {t("register.name_label")}
                   </label>
                   <input 
                     type="text" 
-                    placeholder="Misal: Toko Kopi Budi" 
+                    placeholder={t("register.name_placeholder")} 
                     className="w-full bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-[#4E4F50] rounded-lg px-4 py-2.5 text-[15px] text-black dark:text-[#E4E6EB] focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                   />
                 </div>
 
                 <div>
                   <label className="block text-[14px] font-bold text-gray-700 dark:text-[#E4E6EB] mb-1.5">
-                    Link Kustom (Slug) <span className="text-red-500">*</span>
+                    {t("register.slug_label")} <span className="text-red-500">*</span>
                   </label>
                   <div className="flex">
                     <span className="inline-flex items-center px-4 rounded-l-lg border border-r-0 border-gray-200 dark:border-[#4E4F50] bg-gray-100 dark:bg-[#242526] text-gray-500 dark:text-[#B0B3B8] text-[15px] font-medium">
@@ -743,24 +743,24 @@ export default function RegisterPage() {
                     />
                   </div>
                   <p className="mt-1.5 text-[12px] text-gray-500 dark:text-[#B0B3B8]">
-                    Hanya gunakan huruf kecil (a-z), angka (0-9), dan tanda strip (-). Tanpa spasi.
+                    {t("register.slug_desc")}
                   </p>
                 </div>
 
                 <div>
                   <label className="block text-[14px] font-bold text-gray-700 dark:text-[#E4E6EB] mb-1.5">
-                    Deskripsi Singkat
+                    {t("register.desc_label")}
                   </label>
                   <textarea 
                     rows={3}
-                    placeholder="Tuliskan deskripsi singkat mengenai bisnis atau layanan Anda..." 
+                    placeholder={t("register.desc_placeholder")} 
                     className="w-full bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-[#4E4F50] rounded-lg px-4 py-2.5 text-[15px] text-black dark:text-[#E4E6EB] focus:outline-none focus:ring-2 focus:ring-emerald-500/50 resize-none"
                   />
                 </div>
 
                 <div className="pt-2">
                   <button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-[16px] py-3 px-6 rounded-lg transition-colors shadow-sm flex items-center justify-center gap-2">
-                    <span>Daftar Sekarang</span>
+                    <span>{t("register.submit")}</span>
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                   </button>
                 </div>
