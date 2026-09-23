@@ -1953,7 +1953,7 @@ export default function Beranda() {
                   </div>
                   
                   <div className="w-full sm:w-auto shrink-0 mt-2 sm:mt-0">
-                    <button className="w-full sm:w-auto whitespace-nowrap bg-white text-emerald-600 hover:bg-emerald-700 hover:text-white font-bold text-[14px] py-2.5 px-6 rounded-lg transition-colors shadow-sm">
+                    <button onClick={() => router.push(`/${locale}/page`)} className="w-full sm:w-auto whitespace-nowrap bg-white text-emerald-600 hover:bg-emerald-700 hover:text-white font-bold text-[14px] py-2.5 px-6 rounded-lg transition-colors shadow-sm">
                       {t("mencari.cta_button")}
                     </button>
                   </div>
@@ -3170,7 +3170,7 @@ export default function Beranda() {
                 <p className="text-[13px] text-emerald-50 leading-relaxed opacity-90 m-0">
                   {t("mencari.cta_desc")}
                 </p>
-                <button className="w-full mt-1 whitespace-nowrap bg-white text-emerald-600 hover:bg-emerald-700 hover:text-white font-bold text-[14px] py-2.5 px-4 rounded-lg transition-colors shadow-sm">
+                <button onClick={() => router.push(`/${locale}/page`)} className="w-full mt-1 whitespace-nowrap bg-white text-emerald-600 hover:bg-emerald-700 hover:text-white font-bold text-[14px] py-2.5 px-4 rounded-lg transition-colors shadow-sm">
                   {t("mencari.cta_button")}
                 </button>
               </div>
