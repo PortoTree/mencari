@@ -757,43 +757,41 @@ export default function RegisterPage() {
               </div>
 
               {type === "profile" && (
-                <>
-                  <div>
-                    <label className="block text-[14px] font-bold text-gray-700 dark:text-[#E4E6EB] mb-1.5">
-                      {t("register.slug_label")} <span className="text-red-500">*</span>
-                    </label>
-                    <div className="flex">
-                      <span className="inline-flex items-center px-4 rounded-l-lg border border-r-0 border-gray-200 dark:border-[#4E4F50] bg-gray-100 dark:bg-[#242526] text-gray-500 dark:text-[#B0B3B8] text-[15px] font-medium">
-                        mencari.online/
-                      </span>
-                      <input 
-                        type="text" 
-                        value={slug}
-                        onChange={handleSlugChange}
-                        placeholder="tokobudi" 
-                        className="flex-1 min-w-0 bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-[#4E4F50] rounded-r-lg px-4 py-2.5 text-[15px] text-black dark:text-[#E4E6EB] focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
-                      />
-                    </div>
-                    <p className="mt-1.5 text-[12px] text-gray-500 dark:text-[#B0B3B8]">
-                      {t("register.slug_desc")}
-                    </p>
-                  </div>
-
-                  <div>
-                    <label className="block text-[14px] font-bold text-gray-700 dark:text-[#E4E6EB] mb-1.5">
-                      {t("register.desc_label")}
-                    </label>
-                    <textarea 
-                      rows={3}
-                      placeholder={t("register.desc_placeholder")} 
-                      className="w-full bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-[#4E4F50] rounded-lg px-4 py-2.5 text-[15px] text-black dark:text-[#E4E6EB] focus:outline-none focus:ring-2 focus:ring-emerald-500/50 resize-none"
+                <div>
+                  <label className="block text-[14px] font-bold text-gray-700 dark:text-[#E4E6EB] mb-1.5">
+                    {t("register.slug_label")} <span className="text-red-500">*</span>
+                  </label>
+                  <div className="flex">
+                    <span className="inline-flex items-center px-4 rounded-l-lg border border-r-0 border-gray-200 dark:border-[#4E4F50] bg-gray-100 dark:bg-[#242526] text-gray-500 dark:text-[#B0B3B8] text-[15px] font-medium">
+                      mencari.online/
+                    </span>
+                    <input 
+                      type="text" 
+                      value={slug}
+                      onChange={handleSlugChange}
+                      placeholder="tokobudi" 
+                      className="flex-1 min-w-0 bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-[#4E4F50] rounded-r-lg px-4 py-2.5 text-[15px] text-black dark:text-[#E4E6EB] focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                     />
                   </div>
-                </>
+                  <p className="mt-1.5 text-[12px] text-gray-500 dark:text-[#B0B3B8]">
+                    {t("register.slug_desc")}
+                  </p>
+                </div>
               )}
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div>
+              <div>
+                <label className="block text-[14px] font-bold text-gray-700 dark:text-[#E4E6EB] mb-1.5">
+                  {t("register.desc_label")}
+                </label>
+                <textarea 
+                  rows={3}
+                  placeholder={t("register.desc_placeholder")} 
+                  className="w-full bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-[#4E4F50] rounded-lg px-4 py-2.5 text-[15px] text-black dark:text-[#E4E6EB] focus:outline-none focus:ring-2 focus:ring-emerald-500/50 resize-none"
+                />
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-6">
+                <div className="shrink-0">
                   <label className="block text-[14px] font-bold text-gray-700 dark:text-[#E4E6EB] mb-1.5">
                     {t("register.logo_label")}
                   </label>
@@ -804,7 +802,7 @@ export default function RegisterPage() {
                   </div>
                 </div>
 
-                <div>
+                <div className="flex-1 sm:max-w-[300px]">
                   <label className="block text-[14px] font-bold text-gray-700 dark:text-[#E4E6EB] mb-1.5">
                     {t("register.media_url_label")}
                   </label>
