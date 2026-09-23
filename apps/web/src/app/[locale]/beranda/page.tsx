@@ -1934,7 +1934,7 @@ export default function Beranda() {
                         <div className="w-5 h-5 rounded-full bg-gray-200 dark:bg-[#4E4F50] overflow-hidden shrink-0 flex items-center justify-center">
                            <img src="/default-avatar.svg" alt="Store" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                         </div>
-                        <span className="text-[12px] font-medium text-gray-500 dark:text-[#B0B3B8] truncate">Toko Digital Kreatif {i + 1}</span>
+                        <span className="text-[12px] font-medium text-gray-500 dark:text-[#B0B3B8] truncate hover:underline hover:text-gray-700 dark:hover:text-[#E4E6EB] transition-colors cursor-pointer">Toko Digital Kreatif {i + 1}</span>
                       </div>
                       <h3 className="font-semibold text-[13px] sm:text-[14px] text-black dark:text-[#E4E6EB] line-clamp-2 leading-tight flex-1">Template Website Profesional {i + 1}</h3>
                       <div className="mt-3 flex items-center justify-between">
