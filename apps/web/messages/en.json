@@ -298,6 +298,9 @@
     "sort_popular": "Popular",
     "sort_lowest_price": "Lowest price",
     "sort_highest_price": "Highest price",
-    "sort_highest_rating": "Highest rating"
+    "sort_highest_rating": "Highest rating",
+    "buy_now": "Buy Now",
+    "checkout_at": "Checkout product at",
+    "dummy_description": "A professional website template with a modern, responsive, and easy-to-customize design. Perfect for businesses, portfolios, or digital product landing pages."
   }
 }
