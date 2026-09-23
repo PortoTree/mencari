@@ -1502,7 +1502,7 @@ export default function Beranda() {
               <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] overflow-hidden">
                 <div className="h-20 bg-gray-200 dark:bg-[#3A3B3C] w-full relative">
                   {/* Profile image overlapping */}
-                  <div className="absolute -bottom-8 left-4 w-[72px] h-[72px] bg-white dark:bg-[#242526] rounded-full p-1 shadow-sm">
+                  <div className="absolute -bottom-8 left-4 w-[72px] h-[72px] bg-white dark:bg-[#242526] rounded-xl p-1 shadow-sm">
                     <div className="w-full h-full rounded-full flex items-center justify-center overflow-hidden">
                       <img
                         src="/default-avatar.svg"
@@ -1573,8 +1573,8 @@ export default function Beranda() {
                 <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] overflow-hidden">
                   <div className="h-20 bg-emerald-500 dark:bg-emerald-600 w-full relative">
                     <div className="absolute -bottom-8 left-4 w-[72px] h-[72px] bg-white dark:bg-[#242526] rounded-full p-1 shadow-sm">
-                      <div className="w-full h-full rounded-full flex items-center justify-center overflow-hidden bg-gray-100 dark:bg-[#3A3B3C]">
-                        <img src="/default-avatar.svg" alt="Toko" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                      <div className="w-full h-full rounded-xl flex items-center justify-center overflow-hidden bg-gray-100 dark:bg-[#3A3B3C]">
+                        <img src="/produk-placeholder.png" alt="Toko" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                       </div>
                     </div>
                   </div>
@@ -1942,7 +1942,7 @@ export default function Beranda() {
                     <div className="p-3 flex flex-col flex-1">
                                             <div className="flex items-center gap-2 mb-2" onClick={(e) => e.stopPropagation()}>
                         <div className="w-5 h-5 rounded bg-gray-200 dark:bg-[#4E4F50] overflow-hidden shrink-0 flex items-center justify-center">
-                           <img src="/default-avatar.svg" alt="Store" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                           <img src="/produk-placeholder.png" alt="Store" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                         </div>
                         <span className="text-[12px] font-medium text-gray-500 dark:text-[#B0B3B8] truncate hover:underline hover:text-gray-700 dark:hover:text-[#E4E6EB] transition-colors cursor-pointer">Toko Digital Kreatif {i + 1}</span>
                       </div>
@@ -4466,8 +4466,8 @@ export default function Beranda() {
               <div className="p-3 flex flex-col">
                 {/* Store Row */}
                 <div className="flex items-center gap-2 mb-2" onClick={(e) => e.stopPropagation()}>
-                  <div className="w-5 h-5 rounded-full bg-gray-200 dark:bg-[#4E4F50] overflow-hidden shrink-0 flex items-center justify-center">
-                    <img src="/default-avatar.svg" alt="Store" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                  <div className="w-5 h-5 rounded bg-gray-200 dark:bg-[#4E4F50] overflow-hidden shrink-0 flex items-center justify-center">
+                    <img src="/produk-placeholder.png" alt="Store" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                   </div>
                   <span className="text-[12px] font-medium text-gray-500 dark:text-[#B0B3B8] truncate hover:underline hover:text-gray-700 dark:hover:text-[#E4E6EB] transition-colors cursor-pointer">{selectedProduct.store}</span>
                 </div>
