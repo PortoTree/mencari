@@ -296,7 +296,7 @@ export default function Beranda() {
     if (activeTab !== "product") {
       setIsProductDetailOpen(false);
     }
-    if (activeTab !== "beranda") {
+    if (activeTab !== "home") {
       setIsProfileSidebarOpen(false);
     }
   }, [activeTab]);
@@ -4455,27 +4455,20 @@ export default function Beranda() {
       >
         {selectedProfile && (
             <>
-              {/* Header (Cover Photo & Avatar) */}
-              <div className="relative">
-                {/* Close Button on top of cover */}
+              {/* Sticky Close Button */}
+              <div className="sticky top-0 z-50 w-full h-0">
                 <button
                   onClick={() => setIsProfileSidebarOpen(false)}
-                  className="absolute top-2 right-2 p-1.5 rounded-full bg-black/40 hover:bg-black/60 text-white z-10 transition-colors backdrop-blur-sm shadow-sm"
+                  className="absolute top-3 right-3 w-8 h-8 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center transition-colors shadow-sm"
                 >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
+              </div>
+
+              {/* Header (Cover Photo & Avatar) */}
+              <div className="relative">
 
                 {/* Cover Photo */}
                 <div className="h-[110px] w-full bg-gray-300 dark:bg-[#3A3B3C]">
