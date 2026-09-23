@@ -211,3 +211,5 @@
 - (Frontend) Cleaned up over 100+ temporary scripts from workspace
 - (Frontend) Increased light-mode contrast for product category hover and active states
 - (Frontend) Implemented Facebook-style Create Post modal dialog triggered by clicking the input in the home feed
+
+- (Frontend) Replaced icons in Create Post modal and feed inputs with Video, Calendar, and File icons.

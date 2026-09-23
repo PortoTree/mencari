@@ -2200,17 +2200,13 @@ export default function Beranda() {
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
-                        clipRule="evenodd"
-                      />
+                      <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm12.553 1.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
                     </svg>
-                    Link
+                    Vidio
                   </button>
                   <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
                     <svg
-                      className="w-[24px] h-[24px] text-[#F5C33B]"
+                      className="w-[24px] h-[24px] text-[#F97316]"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -2224,19 +2220,13 @@ export default function Beranda() {
                   </button>
                   <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
                     <svg
-                      className="w-[24px] h-[24px] text-[#F35369]"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
+                      className="w-[24px] h-[24px] text-[#F5C33B]"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4 6h16M4 12h16M4 18h16"
-                      />
+                      <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
                     </svg>
-                    {t("feed.more")}
+                    File
                   </button>
                 </div>
               </div>
@@ -2965,7 +2955,7 @@ export default function Beranda() {
                 </button>
                 <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
                   <svg
-                    className="w-[24px] h-[24px] text-[#F5C33B]"
+                    className="w-[24px] h-[24px] text-[#F97316]"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -2979,7 +2969,7 @@ export default function Beranda() {
                 </button>
                 <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
                   <svg
-                    className="w-[24px] h-[24px] text-[#F35369]"
+                    className="w-[24px] h-[24px] text-[#F5C33B]"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -6752,19 +6742,13 @@ export default function Beranda() {
                             <svg className="w-6 h-6 text-[#45BD62]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" /></svg>
                           </button>
                           <button className="p-1.5 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
-                            <svg className="w-6 h-6 text-[#1877F2]" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" /></svg>
+                            <svg className="w-6 h-6 text-[#1877F2]" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm12.553 1.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" /></svg>
                           </button>
                           <button className="p-1.5 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
-                            <svg className="w-6 h-6 text-[#F5C33B]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-7.536 5.879a1 1 0 001.415 0 3 3 0 014.242 0 1 1 0 001.415-1.415 5 5 0 00-7.072 0 1 1 0 000 1.415z" clipRule="evenodd" /></svg>
+                            <svg className="w-6 h-6 text-[#F97316]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" /></svg>
                           </button>
                           <button className="p-1.5 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
-                            <svg className="w-6 h-6 text-[#F35369]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" /></svg>
-                          </button>
-                          <button className="p-1.5 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
-                            <div className="w-6 h-6 flex items-center justify-center font-bold text-[#2CBCA5] text-[10px] border-[2px] border-[#2CBCA5] rounded-md">GIF</div>
-                          </button>
-                          <button className="p-1.5 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
-                            <svg className="w-6 h-6 text-gray-500 dark:text-[#B0B3B8]" fill="currentColor" viewBox="0 0 20 20"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" /></svg>
+                            <svg className="w-6 h-6 text-[#F5C33B]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" /></svg>
                           </button>
                         </div>
                       </div>
