@@ -1,5 +1,5 @@
 "use client";
-import BerandaPage from "../beranda/page";
+import BerandaPage from "../home/page";
 export default function Page() {
   return <BerandaPage />;
 }

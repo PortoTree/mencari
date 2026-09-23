@@ -26,8 +26,8 @@ export function middleware(request: NextRequest) {
   if (isPublicRoute) {
     // Kalau sudah login tapi akses halaman publik (kecuali secure) -> lempar ke beranda
     if (token && !pathWithoutLocale.startsWith('/secure')) {
-      console.log(`[Middleware] Authenticated user on public route, redirecting to /id/beranda`);
-      return NextResponse.redirect(new URL('/id/beranda', request.url));
+      console.log(`[Middleware] Authenticated user on public route, redirecting to /id/home`);
+      return NextResponse.redirect(new URL('/id/home', request.url));
     }
     
     // Kalau user maksa masuk ke /id/login, redirect balik ke /login (tanpa locale)
@@ -40,7 +40,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Jika ini BUKAN public route (berarti halaman yang butuh login seperti /beranda)
+  // Jika ini BUKAN public route (berarti halaman yang butuh login seperti /home)
   if (!token) {
     // Kalau belum login, lempar ke login (tanpa locale)
     console.log(`[Middleware] No token, redirecting to /login`);
@@ -48,7 +48,7 @@ export function middleware(request: NextRequest) {
   }
 
   // Khusus route internal (beranda, profil), jalankan next-intl middleware 
-  // agar otomatis diredirect ke /id/beranda atau /en/beranda
+  // agar otomatis diredirect ke /id/home atau /en/home
   return intlMiddleware(request);
 }
 

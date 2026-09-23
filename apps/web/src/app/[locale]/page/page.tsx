@@ -55,7 +55,7 @@ export default function RegisterPage() {
 
 
 
-  const [activeTab, setActiveTab] = useState<"home" | "mencari" | "friend" | "group" | "groups" | "chat" | "product">("none" as any);
+  const [activeTab, setActiveTab] = useState<"home" | "mencari" | "friend" | "community" | "community-groups" | "chat" | "product">("none" as any);
   const [isSearchNavOpen, setIsSearchNavOpen] = useState(false);
   const searchNavRef = React.useRef<HTMLDivElement>(null);
   const [isNotifPanelOpen, setIsNotifPanelOpen] = useState(false);
@@ -97,10 +97,10 @@ export default function RegisterPage() {
   };
 
   const handleNav = (tab: string) => {
-    if (tab === "home") router.push("/beranda");
+    if (tab === "home") router.push("/home");
     else if (tab === "product") router.push("/product");
     else if (tab === "friend") router.push("/friend");
-    else if (tab === "group") router.push("/group");
+    else if (tab === "group") router.push("/community");
   };
 
   return (
@@ -125,7 +125,7 @@ export default function RegisterPage() {
         <div className="hidden md:flex items-center justify-center gap-2 absolute left-1/2 -translate-x-1/2 h-full">
           <div
             onClick={() => {
-              router.push(`/${locale}/beranda`);
+              router.push(`/${locale}/home`);
             }}
             className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer ${activeTab === "home" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1 transition-colors"}`}
           >
@@ -193,15 +193,15 @@ export default function RegisterPage() {
           </div>
           <div
             onClick={() => {
-              router.push(`/${locale}/group`);
+              router.push(`/${locale}/community`);
             }}
-            className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "group" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
+            className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "community" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
           >
             <div
               className="w-7 h-7 bg-current"
               style={{
-                WebkitMask: `url(${activeTab === "group" || activeTab === "groups" ? "/navigasi/grub-aktif.svg" : "/navigasi/grub.svg"}) center/contain no-repeat`,
-                mask: `url(${activeTab === "group" || activeTab === "groups" ? "/navigasi/grub-aktif.svg" : "/navigasi/grub.svg"}) center/contain no-repeat`,
+                WebkitMask: `url(${activeTab === "community" ? "/navigasi/komunitas-aktif.svg" : "/navigasi/komunitas.svg"}) center/contain no-repeat`,
+                mask: `url(${activeTab === "community" ? "/navigasi/komunitas-aktif.svg" : "/navigasi/komunitas.svg"}) center/contain no-repeat`,
               }}
             />
             <span className="text-[11px] font-semibold mt-0.5">
@@ -265,7 +265,7 @@ export default function RegisterPage() {
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
                             setIsSearchNavOpen(false);
-                            router.push(`/${locale}/beranda`);
+                            router.push(`/${locale}/home`);
 
                           }
                         }}
@@ -391,7 +391,7 @@ export default function RegisterPage() {
                       "",
                     );
                     window.location.href =
-                      "/id" + (pathWithoutLocale || "/beranda");
+                      "/id" + (pathWithoutLocale || "/home");
                   }}
                   className={`w-full flex items-center gap-3 p-2 rounded-lg transition-colors ${locale === "id" ? "bg-[#E4E6EB] dark:bg-[#3A3B3C]" : "hover:bg-gray-200 dark:hover:bg-[#3A3B3C]"}`}
                 >
@@ -418,7 +418,7 @@ export default function RegisterPage() {
                       "",
                     );
                     window.location.href =
-                      "/en" + (pathWithoutLocale || "/beranda");
+                      "/en" + (pathWithoutLocale || "/home");
                   }}
                   className={`w-full flex items-center gap-3 p-2 rounded-lg transition-colors mt-1 ${String(locale) === "en" ? "bg-[#E4E6EB] dark:bg-[#3A3B3C]" : "hover:bg-gray-200 dark:hover:bg-[#3A3B3C]"}`}
                 >

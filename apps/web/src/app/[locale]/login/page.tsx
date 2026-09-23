@@ -49,7 +49,7 @@ export default function Login() {
         showToast(t('successMsg'), true);
         setTimeout(() => {
           console.log("[Login] Redirecting to beranda...");
-          window.location.href = `/${locale}/beranda`;
+          window.location.href = `/${locale}/home`;
         }, 1500);
       } else {
         console.log("[Login] Failed:", data.message);

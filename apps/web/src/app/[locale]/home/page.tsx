@@ -232,14 +232,14 @@ export default function Beranda() {
   const [isProductDetailOpen, setIsProductDetailOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<
-    "home" | "mencari" | "friend" | "group" | "groups" | "chat" | "product"
+    "home" | "mencari" | "friend" | "community" | "community" | "chat" | "product"
   >(() => {
     if (pathname.includes("/obrolan")) return "chat";
     if (pathname.includes("/mencari")) return "mencari";
     if (pathname.includes("/friend")) return "friend";
     if (pathname.includes("/product")) return "product";
-      if (pathname.includes("/group")) return "group";
-    if (pathname.includes("/groups")) return "groups";
+      if (pathname.includes("/community")) return "community";
+    if (pathname.includes("/communitys")) return "community";
     return "home";
   });
   const lottieRef = useRef<any>(null);
@@ -281,7 +281,7 @@ export default function Beranda() {
   }, [selectedFriendsToAdd]);
     const [isChatFilterOpen, setIsChatFilterOpen] = useState(false);
   const [chatListFilter, setChatListFilter] = useState<
-    "all" | "unread" | "favorite" | "group" | "archive" | "requests"
+    "all" | "unread" | "favorite" | "community" | "archive" | "requests"
   >("all");
   const [activeChatMenu, setActiveChatMenu] = useState<number | null>(null);
   const [activeChatIdx, setActiveChatIdx] = useState<number | null>(null);
@@ -621,7 +621,7 @@ export default function Beranda() {
           <div
             onClick={() => {
               setActiveTab("home");
-              window.history.pushState(null, "", `/${locale}/beranda`);
+              window.history.pushState(null, "", `/${locale}/home`);
             }}
             className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer ${activeTab === "home" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1 transition-colors"}`}
           >
@@ -692,16 +692,16 @@ export default function Beranda() {
           </div>
           <div
             onClick={() => {
-              setActiveTab("group");
-              window.history.pushState(null, "", `/${locale}/group`);
+              setActiveTab("community");
+              window.history.pushState(null, "", `/${locale}/community`);
             }}
-            className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "group" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
+            className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "community" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
           >
             <div
               className="w-7 h-7 bg-current"
               style={{
-                WebkitMask: `url(${activeTab === "group" || activeTab === "groups" ? "/navigasi/grub-aktif.svg" : "/navigasi/grub.svg"}) center/contain no-repeat`,
-                mask: `url(${activeTab === "group" || activeTab === "groups" ? "/navigasi/grub-aktif.svg" : "/navigasi/grub.svg"}) center/contain no-repeat`,
+                WebkitMask: `url(${activeTab === "community" ? "/navigasi/komunitas-aktif.svg" : "/navigasi/komunitas.svg"}) center/contain no-repeat`,
+                mask: `url(${activeTab === "community" ? "/navigasi/komunitas-aktif.svg" : "/navigasi/komunitas.svg"}) center/contain no-repeat`,
               }}
             />
             <span className="text-[11px] font-semibold mt-0.5">
@@ -895,7 +895,7 @@ export default function Beranda() {
                       "",
                     );
                     window.location.href =
-                      "/id" + (pathWithoutLocale || "/beranda");
+                      "/id" + (pathWithoutLocale || "/home");
                   }}
                   className={`w-full flex items-center gap-3 p-2 rounded-lg transition-colors ${locale === "id" ? "bg-[#E4E6EB] dark:bg-[#3A3B3C]" : "hover:bg-gray-200 dark:hover:bg-[#3A3B3C]"}`}
                 >
@@ -922,7 +922,7 @@ export default function Beranda() {
                       "",
                     );
                     window.location.href =
-                      "/en" + (pathWithoutLocale || "/beranda");
+                      "/en" + (pathWithoutLocale || "/home");
                   }}
                   className={`w-full flex items-center gap-3 p-2 rounded-lg transition-colors mt-1 ${locale === "en" ? "bg-[#E4E6EB] dark:bg-[#3A3B3C]" : "hover:bg-gray-200 dark:hover:bg-[#3A3B3C]"}`}
                 >
@@ -1397,7 +1397,7 @@ export default function Beranda() {
                   </div>
                 </div>
               </div>
-            ) : activeTab === "group" || activeTab === "groups" ? (
+            ) : activeTab === "community" ? (
               <div ref={groupSearchRef} className="relative z-10">
                 <div className="flex flex-col gap-3 mb-4">
                   <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px] px-2">
@@ -1697,7 +1697,7 @@ export default function Beranda() {
             )}
 
             {/* Group List (Group Tab) */}
-            {(activeTab === "group" || activeTab === "groups") && (
+            {(activeTab === "community") && (
               <div>
                 <div className="flex items-center justify-between mb-2 px-2 mt-2">
                   <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px]">
@@ -1789,8 +1789,8 @@ export default function Beranda() {
                 </button>
                 <button
                   onClick={() => {
-                    setActiveTab("group");
-                    window.history.pushState(null, "", `/${locale}/group`);
+                    setActiveTab("community");
+                    window.history.pushState(null, "", `/${locale}/community`);
                   }}
                   className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors"
                 >
@@ -1798,8 +1798,8 @@ export default function Beranda() {
                     className="w-6 h-6 bg-current text-green-500"
                     style={{
                       WebkitMask:
-                        "url(/navigasi/grub.svg) center/contain no-repeat",
-                      mask: "url(/navigasi/grub.svg) center/contain no-repeat",
+                        "url(/navigasi/komunitas.svg) center/contain no-repeat",
+                      mask: "url(/navigasi/komunitas.svg) center/contain no-repeat",
                     }}
                   />
                   <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
@@ -2546,7 +2546,7 @@ export default function Beranda() {
               </div>
             </div>
           )}
-          {(activeTab === "group" || activeTab === "groups") && (
+          {(activeTab === "community") && (
             <div className="space-y-4 max-w-[590px] w-full px-4 pt-4">
               {/* Group Post 1 */}
               <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] pt-4 px-0">
@@ -3364,7 +3364,7 @@ export default function Beranda() {
                 <p className="text-[13px] text-indigo-50 leading-relaxed opacity-90 m-0">
                   {t("mencari.community_cta_desc")}
                 </p>
-                <button onClick={() => router.push(`/${locale}/group?create=true`)} className="w-full mt-1 whitespace-nowrap bg-white text-indigo-600 hover:bg-indigo-700 hover:text-white font-bold text-[14px] py-2.5 px-4 rounded-lg transition-colors shadow-sm">
+                <button onClick={() => router.push(`/${locale}/community?create=true`)} className="w-full mt-1 whitespace-nowrap bg-white text-indigo-600 hover:bg-indigo-700 hover:text-white font-bold text-[14px] py-2.5 px-4 rounded-lg transition-colors shadow-sm">
                   {t("mencari.community_cta_button")}
                 </button>
               </div>
@@ -3483,7 +3483,7 @@ export default function Beranda() {
         )}
 
         {/* Right Sidebar: Group Tab - Permintaan Bergabung */}
-        {(activeTab === "group" || activeTab === "groups") && (
+        {(activeTab === "community") && (
           <div className="hidden lg:block fixed right-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-24 sidebar-scrollbar">
             <div className="space-y-4">
               <div>
@@ -3773,7 +3773,7 @@ export default function Beranda() {
                           <svg className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z"/></svg>
                           {t('chat.filterFavorite')}
                         </button>
-                        <button onClick={(e) => { e.stopPropagation(); setChatListFilter('group'); setIsFloatingChatFilterOpen(false); }} className="w-full text-left px-4 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[14px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                        <button onClick={(e) => { e.stopPropagation(); setChatListFilter('community'); setIsFloatingChatFilterOpen(false); }} className="w-full text-left px-4 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[14px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
                           <svg className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" /></svg>
                           {t('chat.filterGroup')}
                         </button>
@@ -5024,7 +5024,7 @@ export default function Beranda() {
                     </button>
                     {isChatFilterOpen && (
                       <div className="absolute right-0 top-full mt-1 w-48 bg-white dark:bg-[#242526] rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.1)] border border-gray-100 dark:border-[#3E4042] py-1.5 z-50">
-                                                <button onClick={(e) => { e.stopPropagation(); setChatListFilter('group'); setIsChatFilterOpen(false); }} className="w-full text-left px-4 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[14px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                                                <button onClick={(e) => { e.stopPropagation(); setChatListFilter('community'); setIsChatFilterOpen(false); }} className="w-full text-left px-4 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] flex items-center gap-3 text-[14px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
                           <svg className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" /></svg>
                           {t('chat.filterGroup')}
                         </button>

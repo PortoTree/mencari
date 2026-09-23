@@ -55,7 +55,7 @@ export default function Login() {
         setTimeout(() => {
           // Redirect ke dashboard atau halaman utama setelah login
           console.log("[Login] Redirecting to beranda...");
-          window.location.href = "/beranda";
+          window.location.href = "/home";
         }, 1500);
       } else {
         console.log("[Login] Failed:", data.message);
