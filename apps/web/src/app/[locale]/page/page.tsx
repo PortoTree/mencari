@@ -636,13 +636,7 @@ export default function RegisterPage() {
 
       <main className="min-h-screen bg-[#F0F2F5] dark:bg-[#18191A] flex justify-center py-10 px-4">
         <div className="w-full max-w-2xl">
-          <button 
-            onClick={() => router.back()}
-            className="flex items-center gap-2 text-gray-500 hover:text-gray-700 dark:text-[#B0B3B8] dark:hover:text-[#E4E6EB] mb-6 transition-colors"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-            <span className="font-semibold text-[15px]">Kembali</span>
-          </button>
+          
 
           <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] overflow-hidden">
             <div className="bg-emerald-500 p-6 sm:p-8 text-white">
