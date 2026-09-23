@@ -1752,19 +1752,7 @@ export default function Beranda() {
                   }}
                   className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors"
                 >
-                  <svg
-                    className="w-6 h-6 text-blue-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2.5}
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
+                  <img src="/logo.png" alt="Mencari" className="w-6 h-6 object-contain" />
                   <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
                     Mencari
                   </span>
@@ -1773,6 +1761,24 @@ export default function Beranda() {
                   <img src="/visit.png" alt="Your Page" className="w-6 h-6 object-contain" />
                   <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
                     {t("nav.webpage")}
+                  </span>
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveTab("product");
+                    window.history.pushState(null, "", `/${locale}/product`);
+                  }}
+                  className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors"
+                >
+                  <div
+                    className="w-6 h-6 bg-current text-[#8B4513] dark:text-[#CD853F]"
+                    style={{
+                      WebkitMask: "url(/navigasi/produk-aktif.svg) center/contain no-repeat",
+                      mask: "url(/navigasi/produk-aktif.svg) center/contain no-repeat",
+                    }}
+                  />
+                  <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
+                    {t("tabs.product")}
                   </span>
                 </button>
                 <button
