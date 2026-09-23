@@ -233,7 +233,8 @@ export default function Beranda() {
     if (pathname.includes("/obrolan")) return "chat";
     if (pathname.includes("/mencari")) return "mencari";
     if (pathname.includes("/friend")) return "friend";
-    if (pathname.includes("/group")) return "group";
+    if (pathname.includes("/product")) return "product";
+      if (pathname.includes("/group")) return "group";
     if (pathname.includes("/groups")) return "groups";
     return "home";
   });
