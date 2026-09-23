@@ -1606,7 +1606,7 @@ export default function Beranda() {
                 <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-2 flex flex-col gap-0.5">
                   <h4 className="font-bold text-[14px] text-black dark:text-[#E4E6EB] px-2 pt-1 pb-2">Kategori</h4>
                   {[
-                    { id: "all", label: t("product.filter_all"), emoji: "💠" },
+                    { id: "all", label: t("product.filter_all"), emoji: "🗂️" },
                     { id: "ai_prompt", label: "AI & Prompt", emoji: "🤖" },
                     { id: "design", label: "Desain & Grafis", emoji: "🎨" },
                     { id: "document", label: "Dokumen & Template", emoji: "📄" },
