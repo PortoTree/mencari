@@ -229,7 +229,10 @@
     "history": "History",
     "cta_title": "Is your website not in our search yet?",
     "cta_desc": "Make your website, portfolio, or business easily discoverable by thousands of our users",
-    "cta_button": "Register for Free"
+    "cta_button": "Register for Free",
+    "community_cta_title": "Want to build your own community?",
+    "community_cta_desc": "Create a group now and gather people with similar interests to share and connect.",
+    "community_cta_button": "Create community"
   },
   "friend": {
     "searchTitle": "Search Users",

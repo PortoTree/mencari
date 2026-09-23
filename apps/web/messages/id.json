@@ -229,7 +229,10 @@
     "history": "Riwayat",
     "cta_title": "Website kamu belum ada di pencarian kami?",
     "cta_desc": "Jadikan website, portofolio, atau bisnismu mudah ditemukan oleh ribuan pengguna kami",
-    "cta_button": "Daftarkan Gratis"
+    "cta_button": "Daftarkan Gratis",
+    "community_cta_title": "Ingin membangun komunitas Anda sendiri?",
+    "community_cta_desc": "Buat grup sekarang dan kumpulkan orang-orang dengan minat yang sama untuk saling berbagi.",
+    "community_cta_button": "Buat komunitas"
   },
   "friend": {
     "searchTitle": "Cari Pengguna",
