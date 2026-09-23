@@ -291,6 +291,14 @@ export default function Beranda() {
     if (activeTab === "chat") {
       setActiveFloatingChatIdx(null);
     }
+    
+    // Auto-close sidebars when leaving their tabs
+    if (activeTab !== "product") {
+      setIsProductDetailOpen(false);
+    }
+    if (activeTab !== "beranda") {
+      setIsProfileSidebarOpen(false);
+    }
   }, [activeTab]);
 
   const [profileViewIdx, setProfileViewIdx] = useState<number | null>(null);
