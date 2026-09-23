@@ -1789,11 +1789,11 @@ export default function Beranda() {
                   className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors"
                 >
                   <div
-                    className="w-6 h-6 bg-current text-green-500"
+                    className="w-6 h-6 bg-current text-blue-800 dark:text-blue-600"
                     style={{
                       WebkitMask:
-                        "url(/navigasi/komunitas.svg) center/contain no-repeat",
-                      mask: "url(/navigasi/komunitas.svg) center/contain no-repeat",
+                        "url(/navigasi/komunitas-aktif.svg) center/contain no-repeat",
+                      mask: "url(/navigasi/komunitas-aktif.svg) center/contain no-repeat",
                     }}
                   />
                   <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
@@ -1811,8 +1811,8 @@ export default function Beranda() {
                     className="w-6 h-6 bg-current text-black dark:text-[#E4E6EB]"
                     style={{
                       WebkitMask:
-                        "url(/navigasi/teman.svg) center/contain no-repeat",
-                      mask: "url(/navigasi/teman.svg) center/contain no-repeat",
+                        "url(/navigasi/teman-aktif.svg) center/contain no-repeat",
+                      mask: "url(/navigasi/teman-aktif.svg) center/contain no-repeat",
                     }}
                   />
                   <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
@@ -1822,16 +1822,10 @@ export default function Beranda() {
                 <button className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors">
                   <svg
                     className="w-6 h-6 text-purple-500"
-                    fill="none"
-                    stroke="currentColor"
+                    fill="currentColor"
                     viewBox="0 0 24 24"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-                    />
+                    <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                   </svg>
                   <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
                     {t("sidebar.saved")}
@@ -1840,16 +1834,10 @@ export default function Beranda() {
                 <button className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors">
                   <svg
                     className="w-6 h-6 text-orange-500"
-                    fill="none"
-                    stroke="currentColor"
                     viewBox="0 0 24 24"
+                    fill="currentColor"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
+                    <path fillRule="evenodd" d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z" clipRule="evenodd" />
                   </svg>
                   <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
                     {t("sidebar.events")}
