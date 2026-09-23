@@ -3355,9 +3355,7 @@ export default function Beranda() {
               <div className="relative z-10 flex flex-col gap-3">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center shrink-0 backdrop-blur-sm">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                    </svg>
+                    <img src="/navigasi/produk-aktif.svg" alt="Product" className="w-6 h-6 object-contain brightness-0 invert" />
                   </div>
                   <h3 className="font-bold text-[15px] leading-snug m-0">
                     {t("mencari.product_cta_title")}
