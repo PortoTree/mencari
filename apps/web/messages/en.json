@@ -14,7 +14,9 @@
     "friends": "Friends",
     "groups": "Groups",
     "marketplace": "Marketplace",
-    "watch": "Watch"
+    "watch": "Watch",
+    "product": "Product",
+    "search": "Search"
   },
   "sidebar": {
     "friends": "Friends",
@@ -293,5 +295,10 @@
     "filterMessage": "Message requests",
     "filterFriend": "Friend requests",
     "filterGroup": "Group join requests"
+  },
+  "search": {
+    "recent": "Recent Searches",
+    "edit": "Edit",
+    "visit": "Visit search page"
   }
 }

@@ -226,7 +226,7 @@ export default function Beranda() {
   const [isGroupSearchExpanded, setIsGroupSearchExpanded] = useState(false);
   const groupSearchRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<
-    "home" | "mencari" | "friend" | "group" | "groups" | "chat"
+    "home" | "mencari" | "friend" | "group" | "groups" | "chat" | "product"
   >(() => {
     if (pathname.includes("/obrolan")) return "chat";
     if (pathname.includes("/mencari")) return "mencari";
@@ -298,6 +298,8 @@ export default function Beranda() {
   const [isFloatingChatFilterOpen, setIsFloatingChatFilterOpen] = useState(false);
   const [isFloatingChatInfoOpen, setIsFloatingChatInfoOpen] = useState(false);
   const [isFloatingAttachmentMenuOpen, setIsFloatingAttachmentMenuOpen] = useState(false);
+  const [isSearchNavOpen, setIsSearchNavOpen] = useState(false);
+  const searchNavRef = useRef<HTMLDivElement>(null);
   const [isNotifPanelOpen, setIsNotifPanelOpen] = useState(false);
   const [isNotifMenuOpen, setIsNotifMenuOpen] = useState(false);
   const [isNotifFilterOpen, setIsNotifFilterOpen] = useState(false);
@@ -441,6 +443,12 @@ export default function Beranda() {
   // Handle click outside to close dropdown
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
+      if (
+        searchNavRef.current &&
+        !searchNavRef.current.contains(event.target as Node)
+      ) {
+        setIsSearchNavOpen(false);
+      }
       if (
         searchRef.current &&
         !searchRef.current.contains(event.target as Node)
@@ -615,35 +623,21 @@ export default function Beranda() {
           </div>
           <div
             onClick={() => {
-              setActiveTab("mencari");
-              window.history.pushState(null, "", `/${locale}/mencari`);
+              setActiveTab("product");
+              window.history.pushState(null, "", `/${locale}/product`);
             }}
-            className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "mencari" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
+            className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "product" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
           >
-            {activeTab === "mencari" ? (
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fillRule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            ) : (
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2.5}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            )}
-            <span className="text-[11px] font-semibold mt-1">Mencari</span>
+            <div
+              className="w-7 h-7 bg-current"
+              style={{
+                WebkitMask: `url(${activeTab === "product" ? "/navigasi/produk-aktif.svg" : "/navigasi/produk.svg"}) center/contain no-repeat`,
+                mask: `url(${activeTab === "product" ? "/navigasi/produk-aktif.svg" : "/navigasi/produk.svg"}) center/contain no-repeat`,
+              }}
+            />
+            <span className="text-[11px] font-semibold mt-0.5">
+              {t("tabs.product")}
+            </span>
           </div>
           <div
             onClick={() => {
@@ -703,6 +697,109 @@ export default function Beranda() {
 
         {/* Right: Icons & Avatar */}
         <div className="flex items-center gap-2 relative">
+          <div className="relative group" ref={searchNavRef}>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsSearchNavOpen(!isSearchNavOpen);
+              }}
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors overflow-hidden ${isSearchNavOpen || activeTab === "mencari" ? "bg-[#D8F0E2] dark:bg-[#203D2E] text-emerald-600 dark:text-emerald-400" : "bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#F3F2EF] dark:hover:bg-[#18191A] text-black dark:text-[#E4E6EB]"}`}
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
+            
+            {/* Tooltip */}
+            <div className="absolute top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/80 text-white text-[13px] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap z-[60]">
+              Mencari
+            </div>
+
+            {/* Search Dropdown */}
+            {isSearchNavOpen && (
+              <div
+                className="absolute top-[52px] right-0 w-[300px] sm:w-[360px] bg-white dark:bg-[#242526] rounded-xl shadow-[0_0_15px_rgba(0,0,0,0.2)] border border-gray-100 dark:border-[#3E4042] z-[100]"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="p-3">
+                  <div className="flex items-center gap-3">
+                    <div className="relative group/visit">
+                      <button
+                        onClick={() => {
+                          setActiveTab("mencari");
+                          setIsSearchNavOpen(false);
+                          window.history.pushState(null, "", `/${locale}/mencari`);
+                        }}
+                        className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 dark:bg-[#3A3B3C] hover:bg-emerald-50 dark:hover:bg-[#203D2E] transition-colors shrink-0 border border-gray-200 dark:border-[#4E4F50]"
+                      >
+                        <img
+                          src="/visit.png"
+                          alt="Visit"
+                          className="w-7 h-7 object-contain group-hover/visit:scale-110 transition-transform"
+                        />
+                      </button>
+                      <div className="absolute top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/80 text-white text-[13px] rounded-lg opacity-0 group-hover/visit:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap z-[60]">
+                        {t("search.visit")}
+                      </div>
+                    </div>
+                    <div className="flex-1 flex items-center gap-2 bg-gray-100 dark:bg-[#3A3B3C] rounded-full px-4 py-2 border border-gray-200 dark:border-[#4E4F50] focus-within:border-emerald-500 transition-colors">
+                      <svg className="w-5 h-5 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                      <input
+                        type="text"
+                        placeholder="Pencarian..."
+                        className="w-full bg-transparent border-none outline-none text-[15px] text-black dark:text-[#E4E6EB] placeholder-gray-500 min-w-0"
+                        autoFocus
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            setActiveTab("mencari");
+                            setIsSearchNavOpen(false);
+                            window.history.pushState(null, "", `/${locale}/mencari`);
+                          }
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Dummy Recent Searches */}
+                  <div className="mt-4 px-1 pb-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="text-[15px] font-semibold text-black dark:text-[#E4E6EB]">
+                        {t("search.recent") || "Pencarian Terakhir"}
+                      </h4>
+                      <button className="text-[14px] text-emerald-600 dark:text-emerald-400 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] px-2 py-1 rounded-md transition-colors">
+                        {t("search.edit") || "Edit"}
+                      </button>
+                    </div>
+                    <div className="flex flex-col">
+                      {[
+                        "Villa murah di Bali",
+                        "Lowongan kerja Jakarta",
+                        "Jasa desain grafis",
+                      ].map((item, idx) => (
+                        <div key={idx} className="flex items-center gap-3 p-2 -mx-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer group transition-colors">
+                          <div className="w-9 h-9 rounded-full bg-gray-200 dark:bg-[#4E4F50] flex items-center justify-center shrink-0">
+                            <svg className="w-5 h-5 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                          </div>
+                          <span className="flex-1 text-[15px] font-medium text-black dark:text-[#E4E6EB] truncate">
+                            {item}
+                          </span>
+                          <button className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-300 dark:hover:bg-[#4E4F50] text-gray-500 opacity-0 group-hover:opacity-100 transition-all" title="Hapus">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
           <div className="relative group">
             <button
               ref={notifBtnRef}

@@ -14,7 +14,9 @@
     "friends": "Teman",
     "groups": "Grup",
     "marketplace": "Marketplace",
-    "watch": "Watch"
+    "watch": "Watch",
+    "product": "Produk",
+    "search": "Mencari"
   },
   "sidebar": {
     "friends": "Teman",
@@ -293,5 +295,10 @@
     "filterMessage": "Permintaan pesan",
     "filterFriend": "Permintaan pertemanan",
     "filterGroup": "Permintaan gabung grup"
+  },
+  "search": {
+    "recent": "Pencarian Terakhir",
+    "edit": "Edit",
+    "visit": "Kunjungi halaman mencari"
   }
 }

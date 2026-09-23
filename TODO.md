@@ -181,3 +181,11 @@
 - (Frontend) Fix file pemberitahuan.svg yang blank/hilang dengan menambahkan atribut viewBox agar SVG custom bisa scale/mengecil (karena sebelumnya SVG custom terpotong dan terlihat hilang)
 - (Frontend) Mengubah warna icon pemberitahuan.svg menjadi gradient oranye sesuai permintaan user
 - (Frontend) Memperbesar ukuran icon pemberitahuan di navbar dari 22px menjadi 26px
+- (Frontend) Memindahkan tab navbar 'Mencari' ke bagian kanan dekat 'Pemberitahuan'
+- (Frontend) Mengganti tab tengah yang lama dengan tab 'Produk' menggunakan icon produk.svg dan produk-aktif.svg
+- (Frontend) Mengubah perilaku tombol Mencari di navbar kanan menjadi dropdown searchbox, dengan tombol visit/panah untuk masuk ke halaman /mencari (serta mengubah tooltipnya menjadi "Mencari")
+- (Frontend) Memindahkan tombol visit ke luar searchbox (di sebelah kirinya) dan menggunakan icon visit.svg custom
+- (Frontend) Mengubah icon visit pada dropdown searchbox dari SVG (mask) menjadi tag img menggunakan visit.png
+- (Frontend) Memperbesar ukuran icon visit.png di dropdown search dari 20px menjadi 28px
+- (Frontend) Menambahkan riwayat pencarian (recent searches) berupa dummy item di bawah input pencarian pada dropdown navbar
+- (Frontend) Memperbaiki custom tooltip pada menu dropdown search yang terpotong karena styling overflow-hidden di parent container-nya
