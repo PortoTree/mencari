@@ -289,10 +289,15 @@
   },
   "product": {
     "title": "Discover digital products from various platforms",
-    "search_placeholder": "Search digital products...",
+    "search_placeholder": "Search products or categories...",
     "filter_all": "All",
     "badge_new": "New",
     "sold": "Sold",
-    "manage": "Manage"
+    "manage": "Manage",
+    "sort_placeholder": "Select filter",
+    "sort_popular": "Popular",
+    "sort_lowest_price": "Lowest price",
+    "sort_highest_price": "Highest price",
+    "sort_highest_rating": "Highest rating"
   }
 }

@@ -289,10 +289,15 @@
   },
   "product": {
     "title": "Temukan produk digital dari berbagai platform",
-    "search_placeholder": "Cari produk digital...",
+    "search_placeholder": "Cari produk atau kategori...",
     "filter_all": "Semua",
     "badge_new": "Baru",
     "sold": "Terjual",
-    "manage": "Kelola"
+    "manage": "Kelola",
+    "sort_placeholder": "Pilih filter",
+    "sort_popular": "Populer",
+    "sort_lowest_price": "Harga terendah",
+    "sort_highest_price": "Harga tertinggi",
+    "sort_highest_rating": "Rating tertinggi"
   }
 }
