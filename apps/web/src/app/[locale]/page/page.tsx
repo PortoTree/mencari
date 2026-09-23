@@ -20,7 +20,19 @@ export default function RegisterPage() {
   const langRef = React.useRef<HTMLDivElement>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  React.useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "light") {
+      setIsDarkMode(false);
+      document.documentElement.classList.remove("dark");
+    } else {
+      setIsDarkMode(true);
+      document.documentElement.classList.add("dark");
+    }
+  }, []);
+
   const [currentUser, setCurrentUser] = useState<any>({ displayName: "User", email: "user@example.com", photoURL: "/profil.jpg", username: "User" });
 
   React.useEffect(() => {
@@ -228,7 +240,7 @@ export default function RegisterPage() {
                   <div className="flex items-center gap-3">
                     <div className="relative group/visit">
                       <button
-                        onClick={() => router.push(`/${locale}/beranda`)}
+                        onClick={() => router.push(`/${locale}/mencari`)}
                         className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 dark:bg-[#3A3B3C] hover:bg-emerald-50 dark:hover:bg-[#203D2E] transition-colors shrink-0 border border-gray-200 dark:border-[#4E4F50]"
                       >
                         <img
@@ -592,7 +604,17 @@ export default function RegisterPage() {
                   </button>
 
                   <button
-                    onClick={() => setIsDarkMode(!isDarkMode)}
+                    onClick={() => {
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+    if (newMode) {
+      localStorage.setItem("theme", "dark");
+      document.documentElement.classList.add("dark");
+    } else {
+      localStorage.setItem("theme", "light");
+      document.documentElement.classList.remove("dark");
+    }
+  }}
                     className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors"
                   >
                     <div className="w-9 h-9 rounded-full bg-[#E4E6EB] dark:bg-[#3A3B3C] flex items-center justify-center shrink-0 overflow-hidden">
