@@ -4381,7 +4381,7 @@ export default function Beranda() {
 
       {/* Product Detail Right Sidebar */}
       <div
-        className={`hidden lg:block fixed right-0 top-[56px] w-[340px] xl:w-[380px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto bg-white dark:bg-[#18191A] sidebar-scrollbar transition-transform duration-300 ease-in-out transform ${isProductDetailOpen ? "translate-x-0" : "translate-x-full"} z-40`}
+        className={`hidden lg:block fixed right-0 top-[56px] w-[340px] xl:w-[380px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto bg-white dark:bg-[#18191A] sidebar-scrollbar transition-transform duration-300 ease-in-out transform ${isProductDetailOpen ? "translate-x-0" : "translate-x-full"} z-[9999]`}
       >
         {selectedProduct && (
           <div className="bg-white dark:bg-[#242526] h-full flex flex-col">
@@ -4440,7 +4440,7 @@ export default function Beranda() {
 
       {/* Overlay for product detail on mobile */}
       {isProductDetailOpen && (
-        <div className="fixed inset-0 z-30 lg:hidden bg-black/50" onClick={() => setIsProductDetailOpen(false)} />
+        <div className="fixed inset-0 z-[9998] lg:hidden bg-black/50" onClick={() => setIsProductDetailOpen(false)} />
       )}
 
       {/* Profile Right Sidebar */}
