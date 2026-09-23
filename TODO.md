@@ -176,3 +176,8 @@
 
 - (Frontend) Mengubah urutan menu navigasi sidebar menjadi: Mencari, Halaman kamu, Grup, Teman, Tersimpan, Acara
 - (Frontend) Menambahkan onClick event handler (routing ke /group) pada menu navigasi sidebar Grup
+- (Frontend) Menambahkan panel hijau CTA (Website kamu belum ada...) ke sidebar kanan halaman /beranda
+- (Frontend) Perbaikan layout squished pada panel CTA sidebar kanan /beranda, dikembalikan ke layout vertikal agar sesuai dengan lebar sidebar (280px-320px)
+- (Frontend) Fix file pemberitahuan.svg yang blank/hilang dengan menambahkan atribut viewBox agar SVG custom bisa scale/mengecil (karena sebelumnya SVG custom terpotong dan terlihat hilang)
+- (Frontend) Mengubah warna icon pemberitahuan.svg menjadi gradient oranye sesuai permintaan user
+- (Frontend) Memperbesar ukuran icon pemberitahuan di navbar dari 22px menjadi 26px
