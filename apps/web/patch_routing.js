@@ -1,36 +1,40 @@
 const fs = require('fs');
+const pageCode = fs.readFileSync('src/app/[locale]/page/page.tsx', 'utf8');
+const lines = pageCode.split('\n');
+let modified = false;
 
-// 1. Modify beranda/page.tsx to check pathname and update pushState
-let file = fs.readFileSync('src/app/[locale]/beranda/page.tsx', 'utf8');
-
-file = file.replace(
-  'import { useRouter } from "next/navigation";',
-  'import { useRouter, usePathname } from "next/navigation";'
-);
-
-file = file.replace(
-  "const [activeTab, setActiveTab] = useState<'home' | 'mencari'>('home');",
-  "const pathname = usePathname();\n  const [activeTab, setActiveTab] = useState<'home' | 'mencari'>(pathname.includes('/mencari') ? 'mencari' : 'home');"
-);
-
-// Update onClick for tabs to also pushState
-file = file.replace(
-  "onClick={() => setActiveTab('home')}",
-  "onClick={() => { setActiveTab('home'); window.history.pushState(null, '', pathname.replace('/mencari', '/beranda')); }}"
-);
-
-file = file.replace(
-  "onClick={() => setActiveTab('mencari')}",
-  "onClick={() => { setActiveTab('mencari'); window.history.pushState(null, '', pathname.replace('/beranda', '/mencari')); }}"
-);
-
-fs.writeFileSync('src/app/[locale]/beranda/page.tsx', file);
-
-// 2. Create mencari/page.tsx that just re-exports beranda
-const mencariDir = 'src/app/[locale]/mencari';
-if (!fs.existsSync(mencariDir)) {
-  fs.mkdirSync(mencariDir, { recursive: true });
+for (let i = 0; i < lines.length; i++) {
+  if (lines[i].includes('setActiveTab(') && lines[i+1] && lines[i+1].includes('window.history.pushState')) {
+    // We found a block!
+    const tabNameMatch = lines[i].match(/setActiveTab\("([^"]+)"\)/);
+    if (tabNameMatch) {
+      let route = tabNameMatch[1];
+      if (route === 'home') route = 'beranda';
+      if (route === 'chat') route = 'obrolan';
+      
+      lines[i-1] = `            onClick={() => router.push(\`/\${locale}/${route}\`)}`;
+      lines[i] = '';
+      lines[i+1] = '';
+      lines[i+2] = '';
+      modified = true;
+    }
+  }
 }
-fs.writeFileSync(mencariDir + '/page.tsx', 'export { default } from "../beranda/page";\n');
 
-console.log('✅ Updated routing logic');
+// Check the search history items
+for (let i = 0; i < lines.length; i++) {
+  if (lines[i].includes('setActiveTab("mencari")') && lines[i+1].includes('setIsSearchNavOpen(false)')) {
+    lines[i-1] = `onClick={() => router.push(\`/\${locale}/beranda\`)}`;
+    lines[i] = '';
+    lines[i+1] = '';
+    lines[i+2] = '';
+    modified = true;
+  }
+}
+
+if (modified) {
+  fs.writeFileSync('src/app/[locale]/page/page.tsx', lines.join('\n'));
+  console.log('Successfully patched routing');
+} else {
+  console.log('No matches found for routing patch');
+}

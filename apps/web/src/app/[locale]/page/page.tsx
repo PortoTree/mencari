@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { createPortal } from "react-dom";
+
 import Image from "next/image";
 
 export default function RegisterPage() {
@@ -10,13 +12,35 @@ export default function RegisterPage() {
   const router = useRouter();
   const [type, setType] = useState<"website" | "profile">("website");
   const [slug, setSlug] = useState("");
+  const [isMounted, setIsMounted] = React.useState(false);
+  React.useEffect(() => setIsMounted(true), []);
+
 
   const [isLangOpen, setIsLangOpen] = useState(false);
   const langRef = React.useRef<HTMLDivElement>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const currentUser = { displayName: "User", email: "user@example.com", photoURL: "/profil.jpg", username: "user" };
+  const [currentUser, setCurrentUser] = useState<any>({ displayName: "User", email: "user@example.com", photoURL: "/profil.jpg", username: "User" });
+
+  React.useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        if (payload.username || payload.name) {
+          setCurrentUser({
+            username: payload.username || payload.name || "User",
+            displayName: payload.displayName || payload.username || payload.name || "User",
+            photoURL: "/profil.jpg"
+          });
+        }
+      } catch (e) {
+        console.error("Failed to parse token");
+      }
+    }
+  }, []);
+
 
 
   const [activeTab, setActiveTab] = useState<"home" | "mencari" | "friend" | "group" | "groups" | "chat" | "product">("none" as any);
@@ -24,6 +48,14 @@ export default function RegisterPage() {
   const searchNavRef = React.useRef<HTMLDivElement>(null);
   const [isNotifPanelOpen, setIsNotifPanelOpen] = useState(false);
   const notifBtnRef = React.useRef<HTMLButtonElement>(null);
+
+  const [isNotifMenuOpen, setIsNotifMenuOpen] = React.useState(false);
+  const notifMenuRef = React.useRef<HTMLDivElement>(null);
+  const [isNotifFilterOpen, setIsNotifFilterOpen] = React.useState(false);
+  const notifFilterRef = React.useRef<HTMLDivElement>(null);
+
+  const notifPanelRef = React.useRef<HTMLDivElement>(null);
+
   const locale = "id"; // fallback locale
 
   
@@ -35,7 +67,11 @@ export default function RegisterPage() {
       }
       if (langRef.current && !langRef.current.contains(event.target as Node)) setIsLangOpen(false);
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) setIsDropdownOpen(false);
+      
+      if (notifMenuRef.current && !notifMenuRef.current.contains(event.target as Node)) setIsNotifMenuOpen(false);
+      if (notifFilterRef.current && !notifFilterRef.current.contains(event.target as Node)) setIsNotifFilterOpen(false);
       if (notifBtnRef.current && !notifBtnRef.current.contains(event.target as Node)) {
+  
         setIsNotifPanelOpen(false);
       }
     }
@@ -77,8 +113,7 @@ export default function RegisterPage() {
         <div className="hidden md:flex items-center justify-center gap-2 absolute left-1/2 -translate-x-1/2 h-full">
           <div
             onClick={() => {
-              setActiveTab("home");
-              window.history.pushState(null, "", `/${locale}/beranda`);
+              router.push(`/${locale}/beranda`);
             }}
             className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer ${activeTab === "home" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1 transition-colors"}`}
           >
@@ -95,8 +130,7 @@ export default function RegisterPage() {
           </div>
           <div
             onClick={() => {
-              setActiveTab("product");
-              window.history.pushState(null, "", `/${locale}/product`);
+              router.push(`/${locale}/product`);
             }}
             className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "product" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
           >
@@ -113,8 +147,7 @@ export default function RegisterPage() {
           </div>
           <div
             onClick={() => {
-              setActiveTab("chat");
-              window.history.pushState(null, "", `/${locale}/obrolan`);
+              router.push(`/${locale}/obrolan`);
             }}
             className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "chat" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
           >
@@ -131,8 +164,7 @@ export default function RegisterPage() {
           </div>
           <div
             onClick={() => {
-              setActiveTab("friend");
-              window.history.pushState(null, "", `/${locale}/friend`);
+              router.push(`/${locale}/friend`);
             }}
             className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "friend" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
           >
@@ -149,8 +181,7 @@ export default function RegisterPage() {
           </div>
           <div
             onClick={() => {
-              setActiveTab("group");
-              window.history.pushState(null, "", `/${locale}/group`);
+              router.push(`/${locale}/group`);
             }}
             className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "group" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
           >
@@ -197,11 +228,7 @@ export default function RegisterPage() {
                   <div className="flex items-center gap-3">
                     <div className="relative group/visit">
                       <button
-                        onClick={() => {
-                          setActiveTab("mencari");
-                          setIsSearchNavOpen(false);
-                          window.history.pushState(null, "", `/${locale}/mencari`);
-                        }}
+                        onClick={() => router.push(`/${locale}/beranda`)}
                         className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 dark:bg-[#3A3B3C] hover:bg-emerald-50 dark:hover:bg-[#203D2E] transition-colors shrink-0 border border-gray-200 dark:border-[#4E4F50]"
                       >
                         <img
@@ -224,10 +251,10 @@ export default function RegisterPage() {
                         className="w-full bg-transparent border-none outline-none text-[15px] text-black dark:text-[#E4E6EB] placeholder-gray-500 min-w-0"
                         autoFocus
                         onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
-                            setActiveTab("mencari");
+                          if (e.key === "Enter") {
                             setIsSearchNavOpen(false);
-                            window.history.pushState(null, "", `/${locale}/mencari`);
+                            router.push(`/${locale}/beranda`);
+
                           }
                         }}
                       />
@@ -742,6 +769,201 @@ export default function RegisterPage() {
           </div>
         </div>
       </main>
+{isMounted && createPortal(
+    <>
+      {/* Click-outside invisible backdrop (no dark overlay) */}
+      {isNotifPanelOpen && (
+        <div
+          onClick={() => setIsNotifPanelOpen(false)}
+          className="fixed inset-0 z-[290]"
+        />
+      )}
+      {/* Popup Panel */}
+      <div
+        ref={notifPanelRef}
+        className={`fixed top-[56px] right-4 w-[380px] max-w-[calc(100vw-2rem)] max-h-[calc(100vh-72px)] bg-white dark:bg-[#242526] rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.25)] z-[300] flex flex-col overflow-hidden transition-all duration-200 origin-top-right ${isNotifPanelOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"}`}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between px-5 pt-4 pb-3 shrink-0">
+          <h2 className="text-[20px] font-bold text-black dark:text-[#E4E6EB]">{t("notif.title")}</h2>
+          {/* 3-dot menu */}
+          <div className="relative" ref={notifMenuRef}>
+            <button
+              onClick={(e) => { e.stopPropagation(); setIsNotifMenuOpen(!isNotifMenuOpen); }}
+              className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors text-gray-500 dark:text-[#B0B3B8] ${isNotifMenuOpen ? "bg-gray-200 dark:bg-[#3A3B3C]" : "hover:bg-gray-200 dark:hover:bg-[#3A3B3C]"}`}
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+              </svg>
+            </button>
+            {/* Dropdown */}
+            {isNotifMenuOpen && (
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className="absolute right-0 top-11 w-[240px] bg-white dark:bg-[#3A3B3C] rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.2)] border border-gray-100 dark:border-[#4E4F50] overflow-hidden z-10"
+              >
+                <button
+                  onClick={() => setIsNotifMenuOpen(false)}
+                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-200 dark:hover:bg-[#4E4F50] transition-colors text-left text-[14px] text-black dark:text-[#E4E6EB]"
+                >
+                  <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-[#4E4F50] flex items-center justify-center shrink-0">
+                    <svg className="w-4 h-4 text-black dark:text-[#E4E6EB]" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <span className="font-medium">{t("notif.markAllRead")}</span>
+                </button>
+                <button
+                  onClick={() => setIsNotifMenuOpen(false)}
+                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-200 dark:hover:bg-[#4E4F50] transition-colors text-left text-[14px] text-black dark:text-[#E4E6EB]"
+                >
+                  <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-[#4E4F50] flex items-center justify-center shrink-0">
+                    <svg className="w-4 h-4 text-black dark:text-[#E4E6EB]" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <span className="font-medium">{t("notif.settings")}</span>
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+        {/* Filter Tabs */}
+        <div className="flex items-center justify-between px-4 pb-2 shrink-0">
+          <div className="flex gap-1">
+            {[t("notif.all"), t("notif.unread")].map((tab, idx) => (
+              <button key={tab} className={`px-3 py-1.5 rounded-full text-[13px] font-semibold transition-colors ${idx === 0 ? "bg-[#E7F3FF] dark:bg-[#263951] text-[#2D88FF]" : "bg-gray-100 dark:bg-[#3A3B3C] text-black dark:text-[#E4E6EB] hover:bg-gray-200 dark:hover:bg-[#4E4F50]"}`}>{tab}</button>
+            ))}
+          </div>
+          <div className="relative" ref={notifFilterRef}>
+            <button
+              onClick={(e) => { e.stopPropagation(); setIsNotifFilterOpen(!isNotifFilterOpen); }}
+              className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors text-black dark:text-[#E4E6EB] ${isNotifFilterOpen ? "bg-[#E7F3FF] dark:bg-[#263951] text-[#2D88FF]" : "hover:bg-gray-200 dark:hover:bg-[#3A3B3C]"}`}
+            >
+              <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+              </svg>
+            </button>
+            {isNotifFilterOpen && (
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className="absolute right-0 top-10 w-[240px] bg-white dark:bg-[#3A3B3C] rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.2)] border border-gray-100 dark:border-[#4E4F50] overflow-hidden z-10"
+              >
+                <button
+                  onClick={() => setIsNotifFilterOpen(false)}
+                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-200 dark:hover:bg-[#4E4F50] transition-colors text-left text-[14px] text-black dark:text-[#E4E6EB]"
+                >
+                  <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-[#4E4F50] flex items-center justify-center shrink-0">
+                    <svg className="w-4 h-4 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                  </div>
+                  <span className="font-medium">{t("notif.filterMessage")}</span>
+                </button>
+                <button
+                  onClick={() => setIsNotifFilterOpen(false)}
+                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-200 dark:hover:bg-[#4E4F50] transition-colors text-left text-[14px] text-black dark:text-[#E4E6EB]"
+                >
+                  <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-[#4E4F50] flex items-center justify-center shrink-0">
+                    <svg className="w-4 h-4 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                    </svg>
+                  </div>
+                  <span className="font-medium">{t("notif.filterFriend")}</span>
+                </button>
+                <button
+                  onClick={() => setIsNotifFilterOpen(false)}
+                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-200 dark:hover:bg-[#4E4F50] transition-colors text-left text-[14px] text-black dark:text-[#E4E6EB]"
+                >
+                  <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-[#4E4F50] flex items-center justify-center shrink-0">
+                    <svg className="w-4 h-4 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  </div>
+                  <span className="font-medium">{t("notif.filterGroup")}</span>
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+        {/* Notification List */}
+        <div className="flex-1 overflow-y-auto sidebar-scrollbar overscroll-none py-1">
+          {/* Friend Request */}
+          <div className="flex items-start gap-3 px-3 py-2.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors rounded-xl mx-1">
+            <div className="relative shrink-0">
+              <img src="/default-avatar.svg" className="w-14 h-14 rounded-full border border-gray-200 dark:border-[#3E4042] object-cover" />
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center border-2 border-white dark:border-[#242526]">
+                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" /></svg>
+              </div>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[14px] text-black dark:text-[#E4E6EB] leading-snug">{t("notif.friendRequest", { name: "Budi Santoso" })}</p>
+              <p className="text-[12px] text-[#00B47A] font-semibold mt-1">{t("notif.minutesAgo", { n: 5 })}</p>
+              <div className="flex gap-2 mt-2">
+                <button className="px-4 py-1.5 bg-[#00B47A] hover:bg-[#009E6B] text-white text-[13px] font-semibold rounded-lg transition-colors">{t("notif.confirm")}</button>
+                <button className="px-4 py-1.5 bg-gray-100 dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] text-[13px] font-semibold rounded-lg transition-colors">{t("notif.delete")}</button>
+              </div>
+            </div>
+            <div className="w-3 h-3 rounded-full bg-[#00B47A] shrink-0 mt-1"></div>
+          </div>
+          {/* Like */}
+          <div className="flex items-start gap-3 px-3 py-2.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors rounded-xl mx-1">
+            <div className="relative shrink-0">
+              <img src="/default-avatar.svg" className="w-14 h-14 rounded-full border border-gray-200 dark:border-[#3E4042] object-cover" />
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center border-2 border-white dark:border-[#242526]">
+                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" /></svg>
+              </div>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[14px] text-black dark:text-[#E4E6EB] leading-snug">{t("notif.likedPost", { name: "Siti Aminah" })}</p>
+              <p className="text-[12px] text-[#00B47A] font-semibold mt-1">{t("notif.minutesAgo", { n: 23 })}</p>
+            </div>
+            <div className="w-3 h-3 rounded-full bg-[#00B47A] shrink-0 mt-1"></div>
+          </div>
+          {/* Comment */}
+          <div className="flex items-start gap-3 px-3 py-2.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors rounded-xl mx-1 opacity-60">
+            <div className="relative shrink-0">
+              <img src="/default-avatar.svg" className="w-14 h-14 rounded-full border border-gray-200 dark:border-[#3E4042] object-cover" />
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-[#2D88FF] rounded-full flex items-center justify-center border-2 border-white dark:border-[#242526]">
+                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" /></svg>
+              </div>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[14px] text-black dark:text-[#E4E6EB] leading-snug">{t("notif.commented", { name: "Agus Pratama", text: "Keren banget bro!" })}</p>
+              <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] font-semibold mt-1">{t("notif.hoursAgo", { n: 2 })}</p>
+            </div>
+          </div>
+          {/* Group Invite */}
+          <div className="flex items-start gap-3 px-3 py-2.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors rounded-xl mx-1 opacity-60">
+            <div className="relative shrink-0">
+              <div className="w-14 h-14 rounded-full bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center">
+                <svg className="w-7 h-7 text-emerald-600 dark:text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" /></svg>
+              </div>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[14px] text-black dark:text-[#E4E6EB] leading-snug">{t("notif.groupInvite", { name: "Dewi Lestari", group: "Programmer Jakarta" })}</p>
+              <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] font-semibold mt-1">{`${t("notif.yesterday")} 14:30`}</p>
+            </div>
+          </div>
+          {/* Mention */}
+          <div className="flex items-start gap-3 px-3 py-2.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors rounded-xl mx-1 opacity-60">
+            <div className="relative shrink-0">
+              <img src="/default-avatar.svg" className="w-14 h-14 rounded-full border border-gray-200 dark:border-[#3E4042] object-cover" />
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-orange-400 rounded-full flex items-center justify-center border-2 border-white dark:border-[#242526]">
+                <span className="text-white text-[11px] font-bold">@</span>
+              </div>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[14px] text-black dark:text-[#E4E6EB] leading-snug">{t("notif.mentioned", { name: "Andi Wijaya" })}</p>
+              <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] font-semibold mt-1">{t("notif.daysAgo", { n: 3 })}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>,
+    document.body
+  )}
+  
     </>
   );
 }
