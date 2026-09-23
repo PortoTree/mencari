@@ -1843,7 +1843,7 @@ export default function Beranda() {
                       <h3 className="font-semibold text-[13px] sm:text-[14px] text-black dark:text-[#E4E6EB] line-clamp-2 leading-tight flex-1">Template Website Profesional {i + 1}</h3>
                       <div className="mt-3 flex items-center justify-between">
                         <span className="font-bold text-emerald-500 text-[13px] sm:text-[14px]">Rp 150.000</span>
-                        <span className="text-[10px] sm:text-[11px] text-gray-400 dark:text-[#B0B3B8] bg-gray-50 dark:bg-[#18191A] px-1.5 py-0.5 rounded">{t("product.sold")} 12</span>
+                        
                       </div>
                     </div>
                   </div>
