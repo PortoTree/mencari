@@ -286,5 +286,12 @@
     "recent": "Recent Searches",
     "edit": "Edit",
     "visit": "Visit search page"
+  },
+  "product": {
+    "title": "Digital Products",
+    "search_placeholder": "Search digital products...",
+    "filter_all": "All",
+    "badge_new": "New",
+    "sold": "Sold"
   }
 }

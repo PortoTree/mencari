@@ -286,5 +286,12 @@
     "recent": "Pencarian Terakhir",
     "edit": "Edit",
     "visit": "Kunjungi halaman mencari"
+  },
+  "product": {
+    "title": "Produk Digital",
+    "search_placeholder": "Cari produk digital...",
+    "filter_all": "Semua",
+    "badge_new": "Baru",
+    "sold": "Terjual"
   }
 }
