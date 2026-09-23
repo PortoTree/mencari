@@ -3332,7 +3332,7 @@ export default function Beranda() {
               <div className="relative z-10 flex flex-col gap-3">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center shrink-0 backdrop-blur-sm">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
+                    <img src="/visit.png" alt="Website" className="w-6 h-6 object-contain" />
                   </div>
                   <h3 className="font-bold text-[15px] leading-snug m-0">
                     {t("mencari.cta_title")}
