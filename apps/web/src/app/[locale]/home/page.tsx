@@ -1638,8 +1638,8 @@ export default function Beranda() {
                       }}
                       className={`w-full text-left px-3 py-2.5 text-[13.5px] font-medium transition-colors flex items-center gap-3 rounded-lg ${
                         productFilter === cat.id
-                          ? "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold"
-                          : "text-gray-700 dark:text-[#E4E6EB] hover:bg-gray-100 dark:hover:bg-[#3A3B3C]"
+                          ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 font-bold"
+                          : "text-gray-700 hover:text-gray-900 hover:bg-gray-200 dark:text-[#E4E6EB] dark:hover:bg-[#3A3B3C]"
                       }`}
                     >
                       <span className="text-[16px] leading-none shrink-0">{cat.emoji}</span>
