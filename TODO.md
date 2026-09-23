@@ -208,3 +208,6 @@
 
 - (Frontend) Membangun halaman `/page` untuk pendaftaran website/profil bisnis
 - (Frontend) Menghubungkan CTA "Register for Free" di `/beranda` ke routing `/page`
+- (Frontend) Cleaned up over 100+ temporary scripts from workspace
+- (Frontend) Increased light-mode contrast for product category hover and active states
+- (Frontend) Implemented Facebook-style Create Post modal dialog triggered by clicking the input in the home feed

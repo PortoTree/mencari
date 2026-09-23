@@ -240,6 +240,7 @@ export default function Beranda() {
   const [isProductSortOpen, setIsProductSortOpen] = useState(false);
   const [productSort, setProductSort] = useState("popular");
   const [isProductDetailOpen, setIsProductDetailOpen] = useState(false);
+  const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<
     "home" | "mencari" | "friend" | "community" | "community" | "chat" | "product"
@@ -2175,6 +2176,7 @@ export default function Beranda() {
                     placeholder={t("feed.createPost")}
                     className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-[#E4E6EB] dark:hover:bg-[#4E4F50] transition-colors rounded-full px-4 py-2.5 focus:outline-none cursor-pointer text-gray-600 dark:text-[#B0B3B8] text-[17px]"
                     readOnly
+                    onClick={() => setIsCreatePostModalOpen(true)}
                   />
                 </div>
                 <div className="flex justify-between items-center pt-3 px-1">
@@ -2238,6 +2240,89 @@ export default function Beranda() {
                   </button>
                 </div>
               </div>
+
+              {isCreatePostModalOpen && (
+                <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-white/50 dark:bg-black/70 px-4">
+                  <div className="w-full max-w-[500px] bg-white dark:bg-[#242526] rounded-xl shadow-xl flex flex-col relative border border-gray-200 dark:border-[#3E4042]">
+                    {/* Header */}
+                    <div className="flex items-center justify-center p-4 border-b border-gray-200 dark:border-[#3E4042] relative">
+                      <h2 className="text-[20px] font-bold text-black dark:text-[#E4E6EB]">Create post</h2>
+                      <button onClick={() => setIsCreatePostModalOpen(false)} className="absolute right-4 w-9 h-9 bg-gray-200 dark:bg-[#3A3B3C] rounded-full flex items-center justify-center hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors text-gray-600 dark:text-[#B0B3B8]">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                      </button>
+                    </div>
+
+                    {/* Body */}
+                    <div className="p-4 flex flex-col">
+                      {/* User Info */}
+                      <div className="flex items-center gap-3 mb-4">
+                        <img src="/default-avatar.svg" className="w-10 h-10 rounded-full object-cover border border-gray-200 dark:border-[#3E4042]" />
+                        <div>
+                          <h3 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">Pam Faiz</h3>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <button className="flex items-center gap-1 bg-gray-200 dark:bg-[#3A3B3C] px-2 py-0.5 rounded-md text-[12px] font-semibold text-gray-700 dark:text-[#E4E6EB]">
+                              <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" /></svg>
+                              Friends
+                              <svg className="w-3.5 h-3.5 ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+                            </button>
+                            <button className="flex items-center gap-1 bg-gray-200 dark:bg-[#3A3B3C] px-2 py-0.5 rounded-md text-[12px] font-semibold text-gray-700 dark:text-[#E4E6EB]">
+                              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                              AI label off
+                              <svg className="w-3.5 h-3.5 ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Textarea */}
+                      <textarea 
+                        placeholder="What's on your mind, Pam?" 
+                        className="w-full bg-transparent border-none outline-none text-[24px] text-black dark:text-[#E4E6EB] placeholder-gray-500 min-h-[150px] resize-none"
+                      />
+
+                      {/* Extras */}
+                      <div className="flex items-center justify-between mb-4">
+                        <button className="w-9 h-9 rounded-lg overflow-hidden shrink-0 flex items-center justify-center bg-gradient-to-tr from-pink-500 via-red-500 to-yellow-500 text-white font-bold text-[18px]">
+                          Aa
+                        </button>
+                        <button className="text-gray-400 hover:text-gray-500 dark:text-[#B0B3B8] dark:hover:text-[#E4E6EB] transition-colors">
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </button>
+                      </div>
+
+                      {/* Add to your post */}
+                      <div className="flex items-center justify-between border border-gray-300 dark:border-[#4E4F50] rounded-xl p-3 mb-4 shadow-sm">
+                        <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">Add to your post</span>
+                        <div className="flex items-center gap-1">
+                          <button className="p-1.5 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
+                            <svg className="w-6 h-6 text-[#45BD62]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" /></svg>
+                          </button>
+                          <button className="p-1.5 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
+                            <svg className="w-6 h-6 text-[#1877F2]" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" /></svg>
+                          </button>
+                          <button className="p-1.5 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
+                            <svg className="w-6 h-6 text-[#F5C33B]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-7.536 5.879a1 1 0 001.415 0 3 3 0 014.242 0 1 1 0 001.415-1.415 5 5 0 00-7.072 0 1 1 0 000 1.415z" clipRule="evenodd" /></svg>
+                          </button>
+                          <button className="p-1.5 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
+                            <svg className="w-6 h-6 text-[#F35369]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" /></svg>
+                          </button>
+                          <button className="p-1.5 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
+                            <div className="w-6 h-6 flex items-center justify-center font-bold text-[#2CBCA5] text-[10px] border-[2px] border-[#2CBCA5] rounded-md">GIF</div>
+                          </button>
+                          <button className="p-1.5 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
+                            <svg className="w-6 h-6 text-gray-500 dark:text-[#B0B3B8]" fill="currentColor" viewBox="0 0 20 20"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" /></svg>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Post Button */}
+                      <button className="w-full bg-gray-200 dark:bg-[#4E4F50] text-gray-400 dark:text-gray-500 font-semibold py-2 rounded-lg cursor-not-allowed">
+                        Post
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Post 1 */}
               <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] pt-4 px-0">
