@@ -1876,27 +1876,7 @@ export default function Beranda() {
                     />
                   </div>
                   
-                  {/* Filters / Chips */}
-                  <div className="flex items-center gap-2 overflow-x-auto pb-2 hide-scroll" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                    <style dangerouslySetInnerHTML={{__html: `
-                      .hide-scroll::-webkit-scrollbar {
-                        display: none;
-                      }
-                    `}} />
-                    {["all", "Ebook", "Template", "Prompt AI", "Course", "Design", "Software"].map((filter) => (
-                      <button
-                        key={filter}
-                        onClick={() => setProductFilter(filter)}
-                        className={`whitespace-nowrap px-4 py-1.5 rounded-full text-[13px] font-semibold transition-colors border ${
-                          productFilter === filter 
-                            ? "bg-emerald-500 text-white border-emerald-500 shadow-sm" 
-                            : "bg-white dark:bg-[#242526] text-gray-600 dark:text-[#B0B3B8] border-gray-200 dark:border-[#3E4042] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]"
-                        }`}
-                      >
-                        {filter === "all" ? t("product.filter_all") : filter}
-                      </button>
-                    ))}
-                  </div>
+                  
                 </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                 {Array.from({ length: 11 }).map((_, i) => (
