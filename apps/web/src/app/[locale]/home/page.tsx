@@ -2091,7 +2091,7 @@ export default function Beranda() {
               </div>
 
                             {/* Moved CTA Block */}
-              <div className="w-full max-w-[600px] mx-auto mt-6 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl shadow-sm border border-transparent overflow-hidden p-5 sm:p-6 text-white relative">
+              <div className="w-full max-w-[600px] mx-auto mt-6 bg-gradient-to-br from-green-800 to-green-950 rounded-xl shadow-sm border border-transparent overflow-hidden p-5 sm:p-6 text-white relative">
                 {/* Decorative circles */}
                 <div className="absolute -right-6 -top-6 w-24 h-24 bg-white opacity-10 rounded-full"></div>
                 <div className="absolute right-12 -top-2 w-8 h-8 bg-white opacity-10 rounded-full"></div>
@@ -2099,19 +2099,7 @@ export default function Beranda() {
                 <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 justify-between">
                   <div className="flex items-center gap-4 flex-1">
                     <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center shrink-0 backdrop-blur-sm">
-                      <svg
-                        className="w-7 h-7 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
-                        />
-                      </svg>
+                      <img src="/visit.png" alt="Website" className="w-7 h-7 object-contain" />
                     </div>
                     <div className="flex flex-col text-left">
                       <h3 className="font-bold text-[17px] mb-1 leading-snug">
@@ -2130,6 +2118,7 @@ export default function Beranda() {
                   </div>
                 </div>
               </div>
+
             </div>
           )}
           {activeTab === "friend" && (
@@ -3324,7 +3313,7 @@ export default function Beranda() {
                 {/* Right Sidebar: Home Tab */}
         {activeTab === "home" && (
           <div className="hidden lg:block fixed right-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-24 sidebar-scrollbar">
-            <div className="w-full bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl shadow-sm border border-transparent overflow-hidden p-4 text-white relative">
+            <div className="w-full bg-gradient-to-br from-green-800 to-green-950 rounded-xl shadow-sm border border-transparent overflow-hidden p-4 text-white relative">
               {/* Decorative circles */}
               <div className="absolute -right-6 -top-6 w-24 h-24 bg-white opacity-10 rounded-full"></div>
               <div className="absolute right-12 -top-2 w-8 h-8 bg-white opacity-10 rounded-full"></div>
@@ -3347,7 +3336,7 @@ export default function Beranda() {
               </div>
             </div>
             {/* Create Community CTA Card */}
-            <div className="bg-gradient-to-br from-blue-800 to-blue-950 rounded-xl overflow-hidden shadow-sm p-4 text-white relative mt-4">
+            <div className="bg-gradient-to-br from-blue-900 to-slate-950 rounded-xl overflow-hidden shadow-sm p-4 text-white relative mt-4">
               {/* Decorative circles */}
               <div className="absolute -right-6 -top-6 w-24 h-24 bg-white opacity-10 rounded-full"></div>
               <div className="absolute right-12 -top-2 w-8 h-8 bg-white opacity-10 rounded-full"></div>
