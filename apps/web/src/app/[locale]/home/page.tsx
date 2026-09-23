@@ -1572,7 +1572,7 @@ export default function Beranda() {
                 {/* Store Profile Card */}
                 <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] overflow-hidden">
                   <div className="h-20 bg-emerald-500 dark:bg-emerald-600 w-full relative">
-                    <div className="absolute -bottom-8 left-4 w-[72px] h-[72px] bg-white dark:bg-[#242526] rounded-full p-1 shadow-sm">
+                    <div className="absolute -bottom-8 left-4 w-[72px] h-[72px] bg-white dark:bg-[#242526] rounded-xl p-1 shadow-sm">
                       <div className="w-full h-full rounded-xl flex items-center justify-center overflow-hidden bg-gray-100 dark:bg-[#3A3B3C]">
                         <img src="/produk-placeholder.png" alt="Toko" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                       </div>
