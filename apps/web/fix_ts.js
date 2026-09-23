@@ -1,8 +1,12 @@
 const fs = require('fs');
-let code = fs.readFileSync('src/app/[locale]/beranda/page.tsx', 'utf8');
+let code = fs.readFileSync('src/app/[locale]/page/page.tsx', 'utf8');
 
-const regex = /useState<"home" \| "mencari" \| "friend" \| "group" \| "groups" \| "chat">/;
-code = code.replace(regex, 'useState<"home" | "mencari" | "friend" | "group" | "groups" | "chat" | "product">');
+code = code.replace(
+  '{ displayName: "User", email: "user@example.com", photoURL: "/profil.jpg" }', 
+  '{ displayName: "User", email: "user@example.com", photoURL: "/profil.jpg", username: "user" }'
+);
 
-fs.writeFileSync('src/app/[locale]/beranda/page.tsx', code);
-console.log('Fixed TS Error');
+code = code.replace('locale === "en"', 'String(locale) === "en"');
+
+fs.writeFileSync('src/app/[locale]/page/page.tsx', code);
+console.log('Fixed TS');
