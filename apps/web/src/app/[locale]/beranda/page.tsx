@@ -1570,13 +1570,13 @@ export default function Beranda() {
                     <h3 className="font-bold text-[17px] text-black dark:text-[#E4E6EB]">
                       Toko Digital Kreatif
                     </h3>
-                    <p className="text-[13px] text-gray-500 dark:text-[#B0B3B8] mt-1 line-clamp-2">
-                      Menyediakan berbagai macam template, UI kit, dan produk digital premium.
-                    </p>
-                    <div className="mt-3 flex items-center gap-2 text-gray-500 dark:text-[#B0B3B8] text-[13px]">
-                      <svg className="w-[16px] h-[16px] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                      <span className="truncate">Malang, Jawa Timur</span>
+                    <div className="mt-1 flex items-center gap-1.5 text-gray-500 dark:text-[#B0B3B8] hover:text-emerald-500 transition-colors cursor-pointer group w-fit">
+                      <span className="text-[13px] truncate">mencari.online/toko</span>
+                      <svg className="w-3.5 h-3.5 text-gray-400 group-hover:text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
                     </div>
+                    <button className="mt-3.5 w-full py-1.5 bg-gray-100 dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold text-[13.5px] rounded-lg transition-colors">
+                      {t("product.manage")}
+                    </button>
                   </div>
                 </div>
 
