@@ -194,7 +194,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [isEditingGender, setIsEditingGender] = useState(false);
   const [isEditingDOB, setIsEditingDOB] = useState(false);
   const [dobDay, setDobDay] = useState("1");
-  const [dobMonth, setDobMonth] = useState(t("months.jan"));
+  const [dobMonth, setDobMonth] = useState(t("monthsShort.jan"));
   const [dobYear, setDobYear] = useState("2000");
   const [isEditingLocation, setIsEditingLocation] = useState(false);
   const [isEditingProfession, setIsEditingProfession] = useState(false);
@@ -228,14 +228,14 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [socialUsername, setSocialUsername] = useState("");
   
   // Privacy States
-  const [privacyGender, setPrivacyGender] = useState("Public");
-  const [privacyBirth, setPrivacyBirth] = useState("Public");
-  const [privacyLoc, setPrivacyLoc] = useState("Public");
-  const [privacyFriendList, setPrivacyFriendList] = useState("Public");
-  const [privacyComment, setPrivacyComment] = useState("Public");
-  const [privacyDM, setPrivacyDM] = useState("Izinkan");
-  const [privacyTag, setPrivacyTag] = useState("Public");
-  const [privacyOnline, setPrivacyOnline] = useState("Tampilkan");
+  const [privacyGender, setPrivacyGender] = useState(t("public"));
+  const [privacyBirth, setPrivacyBirth] = useState(t("public"));
+  const [privacyLoc, setPrivacyLoc] = useState(t("public"));
+  const [privacyFriendList, setPrivacyFriendList] = useState(t("public"));
+  const [privacyComment, setPrivacyComment] = useState(t("public"));
+  const [privacyDM, setPrivacyDM] = useState(t("allow"));
+  const [privacyTag, setPrivacyTag] = useState(t("public"));
+  const [privacyOnline, setPrivacyOnline] = useState(t("show"));
 
   useEffect(() => {
     if (isOpen) {
@@ -254,9 +254,9 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   if (!isOpen) return null;
 
   const getPrivacyIcon = (val: string) => {
-    if (val === "Public") return <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>;
-    if (val === "Hanya teman") return <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>;
-    if (val === "Private") return <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>;
+    if (val === t("public")) return <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>;
+    if (val === t("friendsOnly")) return <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>;
+    if (val === t("private")) return <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>;
     return null;
   };
 
@@ -507,7 +507,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                           <CustomSelect 
                             className="flex-1" 
                             columns={3}
-                            options={["Jan.", "Feb.", "Mar.", "Apr.", "Mei", "Jun.", "Jul.", "Agu.", "Sep.", "Okt.", "Nov.", "Des."]} 
+                            options={[t("monthsShort.jan"), t("monthsShort.feb"), t("monthsShort.mar"), t("monthsShort.apr"), t("monthsShort.may"), t("monthsShort.jun"), t("monthsShort.jul"), t("monthsShort.aug"), t("monthsShort.sep"), t("monthsShort.oct"), t("monthsShort.nov"), t("monthsShort.dec")]} 
                             value={dobMonth} 
                             onChange={setDobMonth} 
                           />

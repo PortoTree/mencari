@@ -443,6 +443,20 @@
       "dec": "December"
     },
     "expTitlePlaceholder": "e.g. Senior Frontend Engineer",
-    "expCompanyPlaceholder": "e.g. Tech Solutions Inc."
+    "expCompanyPlaceholder": "e.g. Tech Solutions Inc.",
+    "monthsShort": {
+      "jan": "Jan",
+      "feb": "Feb",
+      "mar": "Mar",
+      "apr": "Apr",
+      "may": "May",
+      "jun": "Jun",
+      "jul": "Jul",
+      "aug": "Aug",
+      "sep": "Sep",
+      "oct": "Oct",
+      "nov": "Nov",
+      "dec": "Dec"
+    }
   }
 }

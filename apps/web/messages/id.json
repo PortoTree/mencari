@@ -443,6 +443,20 @@
       "dec": "Desember"
     },
     "expTitlePlaceholder": "Misal: Senior Frontend Engineer",
-    "expCompanyPlaceholder": "Misal: PT Teknologi Cerdas"
+    "expCompanyPlaceholder": "Misal: PT Teknologi Cerdas",
+    "monthsShort": {
+      "jan": "Jan.",
+      "feb": "Feb.",
+      "mar": "Mar.",
+      "apr": "Apr.",
+      "may": "Mei",
+      "jun": "Jun.",
+      "jul": "Jul.",
+      "aug": "Agu.",
+      "sep": "Sep.",
+      "oct": "Okt.",
+      "nov": "Nov.",
+      "dec": "Des."
+    }
   }
 }
