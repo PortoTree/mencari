@@ -628,9 +628,9 @@ export default function Beranda() {
 
   return (
   <>
-    <main className="min-h-screen bg-[#F3F2EF] dark:bg-[#18191A] text-black dark:text-[#E4E6EB] pb-10">
+    <main className="min-h-screen bg-[#F3F2EF] dark:bg-[#18191A] text-black dark:text-[#E4E6EB] pb-10 pt-[56px]">
       {/* Navbar Fixed Top */}
-      <nav className="bg-white dark:bg-[#242526] shadow-sm sticky top-0 z-[10100] h-[56px] px-4 flex items-center justify-between border-b border-gray-200 dark:border-[#3E4042]">
+      <nav className="bg-white dark:bg-[#242526] shadow-sm fixed top-0 w-full z-[10100] h-[56px] px-4 flex items-center justify-between border-b border-gray-200 dark:border-[#3E4042]">
         {/* Left: Logo & Search */}
         <div className="flex items-center gap-2">
           {/* Logo - dark text for light mode, white text for dark mode */}
