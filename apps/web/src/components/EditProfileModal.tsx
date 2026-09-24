@@ -83,6 +83,23 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [privacyTag, setPrivacyTag] = useState("Publik");
   const [privacyOnline, setPrivacyOnline] = useState("Tampilkan");
 
+  const getPrefix = (platform: string) => {
+    switch (platform) {
+      case "Instagram": return "instagram.com/";
+      case "Whatsapp": return "wa.me/";
+      case "Facebook": return "facebook.com/";
+      case "Tiktok": return "tiktok.com/@";
+      case "Github": return "github.com/";
+      case "Portotree": return "portotree.com/p/";
+      case "Linkedin": return "linkedin.com/in/";
+      case "Youtube": return "youtube.com/@";
+      case "Telegram": return "t.me/";
+      case "Twitter": return "twitter.com/";
+      case "Lainnya": return "https://";
+      default: return "";
+    }
+  };
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -248,9 +265,27 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                   <label className="block text-base font-bold text-gray-900 dark:text-white mb-4">Tautan Sosial Media</label>
                   <div className="space-y-4">
                     <div className="flex flex-col sm:flex-row gap-3 relative z-10">
-                      <CustomSelect className="w-full sm:w-[150px]" options={["Website", "Instagram", "TikTok", "YouTube"]} value={socialPlatform} onChange={setSocialPlatform} />
-                      <input type="text" placeholder="https://mencari.online" className="flex-1 px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus:border-[#10B981] text-gray-900 dark:text-white outline-none text-sm" />
-                      <button className="p-3 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-colors border border-transparent hover:border-red-200 dark:hover:border-red-500/20">
+                      <CustomSelect 
+                        className="w-full sm:w-[150px] shrink-0" 
+                        options={["Instagram", "Whatsapp", "Facebook", "Tiktok", "Github", "Portotree", "Linkedin", "Youtube", "Telegram", "Twitter", "Lainnya"]} 
+                        value={socialPlatform} 
+                        onChange={setSocialPlatform} 
+                      />
+                      
+                      <div className="flex-1 flex rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus-within:border-[#10B981] transition-colors overflow-hidden">
+                        {getPrefix(socialPlatform) && (
+                          <span className="pl-3 pr-2 py-2.5 text-gray-500 dark:text-gray-400 text-sm font-medium flex items-center bg-gray-100 dark:bg-[#2A2B2C] border-r border-gray-200 dark:border-gray-600">
+                            {getPrefix(socialPlatform)}
+                          </span>
+                        )}
+                        <input 
+                          type="text" 
+                          placeholder={socialPlatform === "Lainnya" ? "domain.com" : "username"} 
+                          className="flex-1 px-3 py-2.5 bg-transparent text-gray-900 dark:text-white outline-none text-sm w-full" 
+                        />
+                      </div>
+
+                      <button className="p-3 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-colors border border-transparent hover:border-red-200 dark:hover:border-red-500/20 shrink-0">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                       </button>
                     </div>
