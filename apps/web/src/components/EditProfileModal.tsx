@@ -140,6 +140,12 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
             {activeTab === "sosial" && (
               <div className="space-y-8 max-w-2xl">
                 <div>
+                  <label className="block text-base font-bold text-gray-900 dark:text-white mb-3">Profesi / Pekerjaan</label>
+                  <input type="text" placeholder="Misal: Web Developer, UI/UX Designer..." className="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus:border-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                </div>
+
+                <hr className="border-gray-200 dark:border-gray-700" />
+                <div>
                   <label className="block text-base font-bold text-gray-900 dark:text-white mb-4">Minat & Hobi</label>
                   <div className="flex flex-wrap gap-2.5 mb-4">
                     <span className="px-4 py-1.5 bg-[#10B981]/10 text-[#10B981] rounded-full text-sm font-semibold flex items-center gap-2 border border-[#10B981]/20">
