@@ -194,7 +194,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [isEditingGender, setIsEditingGender] = useState(false);
   const [isEditingDOB, setIsEditingDOB] = useState(false);
   const [dobDay, setDobDay] = useState("1");
-  const [dobMonth, setDobMonth] = useState(t("monthsShort.jan"));
+  const [dobMonth, setDobMonth] = useState(t("months.jan"));
   const [dobYear, setDobYear] = useState("2000");
   const [isEditingLocation, setIsEditingLocation] = useState(false);
   const [isEditingProfession, setIsEditingProfession] = useState(false);
@@ -402,11 +402,11 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     
                     <div className="flex justify-end gap-2 pt-2">
                       <button onClick={() => setIsEditingBio(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">
-                        Cancel
-                      </button>
+                        {t("cancel")}
+                        </button>
                       <button onClick={() => setIsEditingBio(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">
-                        Save
-                      </button>
+                        {t("save")}
+                        </button>
                     </div>
                   </div>
                 )}
@@ -443,11 +443,11 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     
                     <div className="flex justify-end gap-2 pt-2 border-b border-gray-200 dark:border-gray-700 pb-4">
                       <button onClick={() => setIsEditingName(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">
-                        Cancel
-                      </button>
+                        {t("cancel")}
+                        </button>
                       <button onClick={() => setIsEditingName(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">
-                        Save
-                      </button>
+                        {t("save")}
+                        </button>
                     </div>
                   </div>
                 )}
@@ -507,7 +507,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                           <CustomSelect 
                             className="flex-1" 
                             columns={3}
-                            options={[t("monthsShort.jan"), t("monthsShort.feb"), t("monthsShort.mar"), t("monthsShort.apr"), t("monthsShort.may"), t("monthsShort.jun"), t("monthsShort.jul"), t("monthsShort.aug"), t("monthsShort.sep"), t("monthsShort.oct"), t("monthsShort.nov"), t("monthsShort.dec")]} 
+                            options={[t("months.jan"), t("months.feb"), t("months.mar"), t("months.apr"), t("months.may"), t("months.jun"), t("months.jul"), t("months.aug"), t("months.sep"), t("months.oct"), t("months.nov"), t("months.dec")]} 
                             value={dobMonth} 
                             onChange={setDobMonth} 
                           />
