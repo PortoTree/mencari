@@ -69,8 +69,8 @@ export default function ProfilePage({
       <div className="max-w-[1100px] mx-auto px-4 md:px-8">
         
         {/* Cover Photo */}
-        <div className="w-full h-[280px] bg-[#D9D9D9] dark:bg-[#8A8A8A] rounded-b-[40px] flex items-center justify-center relative">
-          <span className="text-3xl md:text-5xl font-bold text-black/40 dark:text-black/50">Placeholder</span>
+        <div className="w-full h-[280px] rounded-b-[40px] relative overflow-hidden bg-gray-200 dark:bg-gray-700 shadow-sm">
+          <img src="/sampul-placeholder.png" alt="Cover" className="w-full h-full object-cover" />
         </div>
 
         {/* Main Content Grid */}
@@ -79,10 +79,8 @@ export default function ProfilePage({
           {/* Left Sidebar - Profile Card */}
           <div className="w-full md:w-[320px] shrink-0 bg-gradient-to-b from-white to-[#D9D9D9] dark:from-[#3A3B3C] dark:to-[#18191A] rounded-[40px] p-8 shadow-xl flex flex-col items-center border border-white/20 dark:border-white/5">
             {/* Avatar */}
-            <div className="w-[120px] h-[120px] bg-[#10B981] rounded-full flex items-center justify-center shadow-md mb-4">
-              <svg className="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 12a5 5 0 100-10 5 5 0 000 10zm0-2a3 3 0 110-6 3 3 0 010 6zm9 11a1 1 0 01-2 0v-2a3 3 0 00-3-3H8a3 3 0 00-3 3v2a1 1 0 01-2 0v-2a5 5 0 015-5h8a5 5 0 015 5v2z" />
-              </svg>
+            <div className="w-[120px] h-[120px] rounded-full border-[4px] border-white dark:border-[#3A3B3C] bg-white dark:bg-[#242526] flex items-center justify-center shadow-md mb-4 overflow-hidden">
+              <img src="/default-avatar.svg" alt="Avatar" className="w-full h-full object-cover" />
             </div>
             
             <h1 className="text-2xl font-bold text-black dark:text-white">{username === "pampam" ? "nama akun" : username}</h1>
@@ -143,9 +141,9 @@ export default function ProfilePage({
               <div className="w-full lg:w-[280px] shrink-0 bg-black rounded-[30px] p-5 flex flex-col justify-between shadow-lg">
                 <div className="flex items-center gap-4">
                   <div className="relative">
-                    {/* Fake Star Icon structure */}
-                    <div className="w-[60px] h-[60px] text-orange-400">
-                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    {/* Reputasi Logo */}
+                    <div className="w-[70px] h-[70px] shrink-0">
+                       <img src="/reputasi.png" alt="Reputasi" className="w-full h-full object-contain drop-shadow-md" />
                     </div>
                   </div>
                   <div className="text-white">
