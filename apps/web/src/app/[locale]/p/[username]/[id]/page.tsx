@@ -4,6 +4,7 @@
 import React, { useState, useEffect, use } from "react";
 import { useTranslations } from "next-intl";
 import Navbar from "@/components/Navbar";
+import EditProfileModal from "@/components/EditProfileModal";
 
 export default function ProfilePage({
   params,
@@ -20,6 +21,7 @@ export default function ProfilePage({
   const [currentUser, setCurrentUser] = useState<any>({ username: "Guest", id: "1" });
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [themeLoaded, setThemeLoaded] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const isOwnProfile = currentUser && currentUser.id === id;
 
@@ -74,7 +76,7 @@ export default function ProfilePage({
         <div className="w-full h-[280px] rounded-b-[40px] relative overflow-hidden bg-gray-200 dark:bg-gray-700 shadow-sm">
           <img src="/sampul-placeholder.png" alt="Cover" className="w-full h-full object-cover" />
           {isOwnProfile && (
-            <button className="absolute bottom-4 right-4 bg-black/50 hover:bg-black/70 text-white p-2.5 rounded-full backdrop-blur-sm transition-colors cursor-pointer shadow-md z-10">
+            <button onClick={() => setIsEditModalOpen(true)} className="absolute bottom-4 right-4 bg-black/50 hover:bg-black/70 text-white p-2.5 rounded-full backdrop-blur-sm transition-colors cursor-pointer shadow-md z-10">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
               </svg>
@@ -93,7 +95,7 @@ export default function ProfilePage({
                 <img src="/default-avatar.svg" alt="Avatar" className="w-full h-full object-cover" />
               </div>
               {isOwnProfile && (
-                <button className="absolute bottom-0 right-0 bg-gray-200 hover:bg-gray-300 dark:bg-[#4E4F50] dark:hover:bg-[#5E5F60] p-2 rounded-full border-[3px] border-white dark:border-[#3A3B3C] shadow-sm transition-colors text-black dark:text-white cursor-pointer z-10">
+                <button onClick={() => setIsEditModalOpen(true)} className="absolute bottom-0 right-0 bg-gray-200 hover:bg-gray-300 dark:bg-[#4E4F50] dark:hover:bg-[#5E5F60] p-2 rounded-full border-[3px] border-white dark:border-[#3A3B3C] shadow-sm transition-colors text-black dark:text-white cursor-pointer z-10">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                   </svg>
@@ -137,7 +139,7 @@ export default function ProfilePage({
               </div>
               <div className="flex items-center gap-3 mt-4 sm:mt-0">
                 {isOwnProfile ? (
-                  <button className="bg-gray-200 hover:bg-gray-300 dark:bg-[#4E4F50] dark:hover:bg-[#5E5F60] text-black dark:text-white font-bold py-2 px-5 rounded-full text-sm transition-colors shadow-sm flex items-center gap-2">
+                  <button onClick={() => setIsEditModalOpen(true)} className="bg-gray-200 hover:bg-gray-300 dark:bg-[#4E4F50] dark:hover:bg-[#5E5F60] text-black dark:text-white font-bold py-2 px-5 rounded-full text-sm transition-colors shadow-sm flex items-center gap-2">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                     </svg>
@@ -168,7 +170,7 @@ export default function ProfilePage({
               <div className="flex-1 bg-white dark:bg-[#4E4F50] rounded-[30px] min-h-[200px] flex items-center justify-center shadow-sm relative group">
                 <p className="text-gray-400 font-semibold text-lg">Tidak ada bio</p>
                 {isOwnProfile && (
-                  <button className="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 dark:bg-[#3A3B3C] dark:hover:bg-[#242526] p-2.5 rounded-full transition-colors text-gray-600 dark:text-gray-300 opacity-0 group-hover:opacity-100 cursor-pointer">
+                  <button onClick={() => setIsEditModalOpen(true)} className="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 dark:bg-[#3A3B3C] dark:hover:bg-[#242526] p-2.5 rounded-full transition-colors text-gray-600 dark:text-gray-300 opacity-0 group-hover:opacity-100 cursor-pointer">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                     </svg>
@@ -250,6 +252,11 @@ export default function ProfilePage({
         </div>
 
       </div>
+      <EditProfileModal 
+        isOpen={isEditModalOpen} 
+        onClose={() => setIsEditModalOpen(false)} 
+        currentUser={currentUser} 
+      />
     </main>
   );
 }
