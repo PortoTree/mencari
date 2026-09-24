@@ -72,10 +72,91 @@ function CustomSelect({ options, value, onChange, className, columns = 1, getIco
   );
 }
 
+const SOFT_SKILLS = ["Accountability","Adaptasi","Analytical Thinking","Assertiveness","Attention to Detail","Bahasa Inggris","Berbicara di Depan Umum","Berpikir Kritis","Classroom Management","Coaching","Communication Skills","Confidence","Continuous Learning","Critical Thinking","Curiosity","Customer Service","Customer-focused","Delegasi","Detail-oriented","Diplomacy","Disiplin","Empati","Enthusiasm","Etos Kerja","Facilitation","Fleksibilitas","Goal-oriented","Humility","Influence","Inisiatif","Innovation","Integritas","Kecerdasan Emosional","Kepemimpinan","Kerja sama tim","Kerja Tim","Kerjasama","Kesabaran","Kesadaran Budaya","Keterampilan Interpersonal","Keterampilan Penjualan","Keterampilan Presentasi","Kolaborasi","Komunikasi","Komunikasi efektif","Koordinasi","Kreativitas","Layanan Pelanggan","Leadership","Manajemen Stres","Manajemen Waktu","Mediation","Mendengarkan Aktif","Mentoring","Motivasi Diri","Multitasking","Negosiasi","Networking","Open-mindedness","Organisasi","Pemecahan Masalah","Pengambilan Keputusan","Perhatian terhadap Detail","Persuasion","Positive Attitude","Presentasi","Proaktif","Problem solving","Process-oriented","Profesionalisme","Public Speaking","Punctuality","Quality-focused","Reliability","Resilience","Resolusi Konflik","Resourcefulness","Results-driven","Self-motivated","Strategic Thinking","Tact","Tanggung Jawab","Teamwork","Time Management","Visionary","Work Ethic"];
+const HARD_SKILLS = ["3D Modeling","3D Rendering","A/B Testing","Account Management","Administrasi Jaringan","Airflow","Akuntansi","Analisis Bisnis","Analisis Data","Analisis Keuangan","Analisis Laporan Keuangan","Analisis Statistik","Android Development","Angular","Animasi","Apache Hadoop","Apache Kafka","Apache Spark","App Store Optimization","Application Security","Assessment Design","Audio Editing","Audit","AWS","B2B Sales","B2C Sales","Bash","Big Data","Brand Management","Branding","Budgeting","Business Development","Business Intelligence","C#","C++","CAD","Campaign Management","Candidate Sourcing","Chemical Engineering","CI/CD","Civil Engineering","Clinical Documentation","Cloud Security","Cold Calling","Color Grading","Compensation & Benefits","Competitor Analysis","Compliance","Computer Vision","Content Marketing","Contract Drafting","Contract Review","Conversion Optimization","Copywriting","Cordova","Corporate Law","Cryptography","CSS","Customer Insights","Customs Clearance","Dart","Data Engineering","Data Mining","Data Science","Data Visualization","Data Warehousing","Deep Learning","Demand Planning","Desain Grafis","Desain UI/UX","Desain Web","Digital Illustration","Distribution Management","Django","Docker","Due Diligence","E-commerce Management","E-learning Development","Editing Video","Educational Technology","Electrical Engineering","Electronic Health Records","Email Marketing","Employee Relations","Ethical Hacking","ETL","Event Management","Event Planning","Express.js","Firewall Management","Flask","Flutter","Food & Beverage Service","Forecasting","Fotografi","Freight Forwarding","Front Office Operations","GDPR Compliance","Go","Google Cloud Platform","Growth Hacking","Healthcare Administration","Hospitality Management","Hotel Management","Housekeeping Management","HR Analytics","HTML","IDS/IPS","Illustration","Import/Export","Incident Response","Industrial Engineering","Influencer Marketing","Information Architecture","Instructional Design","Intellectual Property","Interaction Design","Interviewing","Inventory Management","Ionic","iOS Development","ISO 27001","Java","JavaScript","Jetpack Compose","Keamanan Siber","Keras","Kotlin","Kreator Konten","Kubernetes","Labor Law","Laboratory Skills","Laravel","Layout Design","Lead Generation","Lean Manufacturing","Learning Management Systems","Legal Research","Legal Writing","Lesson Planning","Linux","Litigation","Logistics Coordination","Machine Learning","Manajemen Hubungan Pelanggan","Manajemen Inventaris","Manajemen Kualitas","Manajemen Operasional","Manajemen Proyek","Manajemen Rantai Pasokan","Manajemen Risiko","Market Research","Marketing Automation","Marketplace Management","Mechanical Engineering","Medical Billing","Medical Coding","Medical Terminology","Merchandising","Microsoft Azure","Mobile Analytics","Mobile UI Design","MongoDB","Monitoring","Motion Graphics","MySQL","Natural Language Processing","Network Security","Next.js","Node.js","NoSQL","NumPy","Nursing Care","Onboarding","Online Teaching","Order Fulfillment","Organizational Development","Pandas","Patient Care","Payroll Management","Pemasaran Digital","Pembukuan","Penetration Testing","Pengembangan Android","Pengembangan Bisnis","Pengembangan iOS","Pengembangan Kurikulum","Pengujian Perangkat Lunak","Penulisan Konten","Penulisan Teknis","Perencanaan Anggaran","Perencanaan Strategis","Performance Management","Performance Marketing","Perpajakan","Pharmacy Management","PHP","PLC Programming","PostgreSQL","PowerShell","Predictive Analytics","Pricing Strategy","Process Improvement","Procurement","Product Listing","Product Marketing","Project Estimation","Prototyping","Python","PyTorch","Quality Assurance","Quality Control","React","React Native","Recruitment","Redis","Regulatory Affairs","Reservation Systems","Riset Pasar","Ruby","Rust","Sales Forecasting","Sales Strategy","SCADA","Scikit-learn","Security Auditing","SEM","SEO","Shell Scripting","SIEM","Six Sigma","Social Media Marketing","Spring Boot","SQL","Statistical Modeling","Strategic Planning","Supply Chain Management","Swift","SwiftUI","Talent Acquisition","Technical Drawing","TensorFlow","Threat Intelligence","Time Series Analysis","Tour Guiding","Training & Development","Transportation Management","Travel Planning","Tutoring","TypeScript","Typography","Unix","Usability Testing","User Research","Vendor Management","Video Production","Vue.js","Vulnerability Assessment","Warehouse Management","Windows Server","Wireframing","Xamarin"];
+const SOFTWARE_SKILLS = ["3ds Max","Adobe After Effects","Adobe Captivate","Adobe Creative Suite","Adobe Illustrator","Adobe InDesign","Adobe Photoshop","Adobe Premiere Pro","Adobe XD","Affinity Designer","Ansible","Apache","Articulate Storyline","Asana","AutoCAD","Blender","Bukalapak","Canva","Capture One","CATIA","Chef","Cinema 4D","CircleCI","CorelDRAW","CRM","Datadog","DaVinci Resolve","Discord","Docker Desktop","Eclipse","ELK Stack","ERP","Excel","Facebook Ads Manager","Figma","Final Cut Pro","Firebase","Framer","Git","GitHub","GitHub Actions","GitLab","GitLab CI","Google Ads","Google Analytics","Google Docs","Google Sheets","Google Workspace","Grafana","HRIS","HubSpot","IntelliJ IDEA","InVision","Jenkins","Jira","Lazada","Lightroom","Magento","Mailchimp","MATLAB","Maya","Microsoft Excel","Microsoft Office","Microsoft PowerPoint","Microsoft Teams","Microsoft Word","Moodle","New Relic","Nginx","Oracle ERP","Point-of-sale (POS)","Postman","Power BI","PrestaShop","Principle","Procreate","Prometheus","ProtoPie","Puppet","QuickBooks","R Studio","Revit","Salesforce","SAP","Shopee","Shopify","Simulink","Sketch","SketchUp","Slack","SolidWorks","Splunk","SPSS","STATA","Substance Painter","Tableau","Terraform","Tokopedia","Travis CI","Trello","Vagrant","VirtualBox","Visual Studio Code","VMware","WooCommerce","WordPress","ZBrush","Zoom"];
+
 interface EditProfileModalProps {
   isOpen: boolean;
   onClose: () => void;
   currentUser: any;
+}
+
+function SkillInput({ title, options, selected, onChange }: { title: string, options: string[], selected: string[], onChange: (val: string[]) => void }) {
+  const [query, setQuery] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [dropUp, setDropUp] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  const filtered = options.filter(o => o.toLowerCase().includes(query.toLowerCase()) && !selected.includes(o));
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleInput = (e: any) => {
+    setQuery(e.target.value);
+    setIsOpen(true);
+    if (ref.current) {
+      const rect = ref.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      setDropUp(spaceBelow < 220 && rect.top > spaceBelow);
+    }
+  };
+
+  const addSkill = (skill: string) => {
+    onChange([...selected, skill]);
+    setQuery("");
+    setIsOpen(false);
+  };
+
+  const removeSkill = (skill: string) => {
+    onChange(selected.filter(s => s !== skill));
+  };
+
+  return (
+    <div className="space-y-3">
+      {selected.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {selected.map(s => (
+            <span key={s} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#10B981]/10 text-[#10B981] text-sm font-semibold border border-[#10B981]/20">
+              {s}
+              <button onClick={() => removeSkill(s)} className="hover:text-emerald-700 transition-colors"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/></svg></button>
+            </span>
+          ))}
+        </div>
+      )}
+      <div ref={ref} className="relative">
+        <input 
+          type="text" 
+          value={query}
+          onChange={handleInput}
+          onFocus={handleInput}
+          placeholder={`Ketik untuk mencari ${title.toLowerCase()}...`}
+          className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all"
+        />
+        {isOpen && filtered.length > 0 && (
+          <div className={`absolute z-50 w-full bg-[#1E1E1E] dark:bg-[#1E1E1E] bg-white border border-gray-200 dark:border-gray-700 rounded-xl shadow-2xl overflow-y-auto custom-scrollbar max-h-[220px] py-1.5 animate-in fade-in zoom-in-95 duration-150 ${dropUp ? "bottom-full mb-1.5 slide-in-from-bottom-2" : "top-full mt-1.5 slide-in-from-top-2"}`}>
+            {filtered.slice(0, 50).map(opt => (
+              <div 
+                key={opt}
+                onClick={() => addSkill(opt)}
+                className="px-4 py-2.5 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2A2B2C] hover:text-[#10B981] dark:hover:text-white cursor-pointer transition-colors"
+              >
+                {opt}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default function EditProfileModal({ isOpen, onClose, currentUser }: EditProfileModalProps) {
@@ -94,6 +175,12 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [isEditingExperience, setIsEditingExperience] = useState(false);
   const [isEditingLinks, setIsEditingLinks] = useState(false);
   const [isEditingSosmed, setIsEditingSosmed] = useState(false);
+  const [isEditingSoftSkill, setIsEditingSoftSkill] = useState(false);
+  const [isEditingHardSkill, setIsEditingHardSkill] = useState(false);
+  const [isEditingSoftwareSkill, setIsEditingSoftwareSkill] = useState(false);
+  const [selectedSoft, setSelectedSoft] = useState<string[]>([]);
+  const [selectedHard, setSelectedHard] = useState<string[]>([]);
+  const [selectedSoftware, setSelectedSoftware] = useState<string[]>([]);
   const [expCurrent, setExpCurrent] = useState(false);
   const [bioText, setBioText] = useState("");
 
@@ -674,12 +761,73 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
             {/* 7. SKILL */}
             {activeTab === "skill" && (
-              <div className="space-y-4 max-w-xl animate-in fade-in duration-200">
-                <label className="block text-base font-bold text-gray-900 dark:text-white mb-2">Skill / Keahlian</label>
-                <div className="flex gap-3">
-                  <input type="text" placeholder="Misal: React, Node.js, Public Speaking..." className="flex-1 px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus:border-[#10B981] text-gray-900 dark:text-white outline-none" />
-                  <button className="bg-gray-800 dark:bg-gray-600 hover:bg-gray-700 text-white px-5 py-2.5 rounded-xl font-bold transition-colors">Tambah</button>
-                </div>
+              <div className="space-y-6 max-w-xl animate-in fade-in duration-200 pb-32">
+                
+                {/* Soft Skill */}
+                {!isEditingSoftSkill ? (
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Soft Skill</h3>
+                    <button onClick={() => setIsEditingSoftSkill(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
+                      <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                      </div>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan soft skill</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4 animate-in fade-in duration-200">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Soft Skill</h3>
+                    <SkillInput title="Soft Skill" options={SOFT_SKILLS} selected={selectedSoft} onChange={setSelectedSoft} />
+                    <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <button onClick={() => setIsEditingSoftSkill(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
+                      <button onClick={() => setIsEditingSoftSkill(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Hard Skill */}
+                {!isEditingHardSkill ? (
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Hard Skill</h3>
+                    <button onClick={() => setIsEditingHardSkill(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
+                      <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                      </div>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan hard skill</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4 animate-in fade-in duration-200">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Hard Skill</h3>
+                    <SkillInput title="Hard Skill" options={HARD_SKILLS} selected={selectedHard} onChange={setSelectedHard} />
+                    <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <button onClick={() => setIsEditingHardSkill(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
+                      <button onClick={() => setIsEditingHardSkill(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Software Skill */}
+                {!isEditingSoftwareSkill ? (
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Software Skill</h3>
+                    <button onClick={() => setIsEditingSoftwareSkill(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
+                      <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" /></svg>
+                      </div>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan software skill</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4 animate-in fade-in duration-200">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Software Skill</h3>
+                    <SkillInput title="Software Skill" options={SOFTWARE_SKILLS} selected={selectedSoftware} onChange={setSelectedSoftware} />
+                    <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <button onClick={() => setIsEditingSoftwareSkill(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
+                      <button onClick={() => setIsEditingSoftwareSkill(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
