@@ -72,10 +72,10 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
             {/* Buttons */}
             <div className="p-4 border-t border-gray-200 dark:border-gray-700 flex gap-2.5 shrink-0">
-              <button onClick={onClose} className="w-[30%] px-2 py-3 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">
+              <button onClick={onClose} className="w-[40%] px-2 py-3 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">
                 Batal
               </button>
-              <button onClick={onClose} className="w-[70%] px-2 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold transition-colors shadow-sm text-sm">
+              <button onClick={onClose} className="w-[60%] px-2 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold transition-colors shadow-sm text-sm">
                 Simpan
               </button>
             </div>
@@ -103,8 +103,8 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       <input type="text" defaultValue={currentUser?.username || "Nama Akun"} className="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Username (Unik)</label>
-                      <input type="text" defaultValue={currentUser?.username || "pampam"} className="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Username</label>
+                      <input type="text" defaultValue={currentUser?.username || "pampam"} disabled className="w-full px-4 py-2.5 rounded-xl bg-gray-200 dark:bg-[#2A2B2C] border border-transparent text-gray-500 dark:text-gray-500 outline-none cursor-not-allowed" />
                     </div>
                   </div>
                 </div>
