@@ -167,9 +167,15 @@ export default function ProfilePage({
             <div className="flex flex-col lg:flex-row gap-4 mt-2">
               
               {/* Bio Card */}
-              <div className="flex-1 bg-white dark:bg-black rounded-[30px] min-h-[200px] flex items-center justify-center shadow-sm relative group">
-                <p className="text-gray-400 font-semibold text-lg">{t("noBio")}</p>
-                {isOwnProfile && (
+              <div className="flex-1 bg-[#F3F2EF] dark:bg-[#18191A] rounded-[30px] min-h-[200px] flex items-center justify-center shadow-sm relative group overflow-hidden border border-[#D9D9D9] dark:border-[#3A3B3C]">
+                  <div className="w-full h-full grid grid-cols-3 gap-[2px] bg-gray-300 dark:bg-[#18191A]">
+                      {[1,2,3,4,5,6].map(i => (
+                        <div key={i} className="bg-gradient-to-b from-white to-[#F3F2EF] dark:from-[#3A3B3C] dark:to-[#242526] w-full aspect-square flex items-center justify-center">
+                          <svg className="w-6 h-6 text-gray-300 dark:text-gray-500 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                        </div>
+                      ))}
+                    </div>
+                  {isOwnProfile && (
                   <button onClick={() => setIsEditModalOpen(true)} className="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 dark:bg-[#3A3B3C] dark:hover:bg-[#242526] p-2.5 rounded-full transition-colors text-gray-600 dark:text-gray-300 opacity-0 group-hover:opacity-100 cursor-pointer">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
