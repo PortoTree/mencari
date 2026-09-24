@@ -355,6 +355,7 @@ export default function Beranda() {
   const langRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const floatingChatContainerRef = useRef<HTMLDivElement>(null);
+  const privacyDropdownRef = useRef<HTMLDivElement>(null);
   const [showMainStickyDate, setShowMainStickyDate] = useState(false);
   const [showFloatingStickyDate, setShowFloatingStickyDate] = useState(false);
   const [mainStickyDateText, setMainStickyDateText] = useState("9/9/2026");
@@ -584,12 +585,28 @@ export default function Beranda() {
       ) {
         setActiveMessageDropdown(null);
       }
+      if (
+        privacyDropdownRef.current &&
+        !privacyDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsPrivacyDropdownOpen(false);
+      }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [activeChatMenu, isChatMoreMenuOpen, isRoomSearchOpen, isAttachmentMenuOpen, activeMessageDropdown]);
+  useEffect(() => {
+    if (isCreatePostModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isCreatePostModalOpen]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -6702,7 +6719,7 @@ export default function Beranda() {
                         <div>
                           <h3 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{currentUser.username}</h3>
                           <div className="flex items-center gap-2 mt-0.5">
-                  <div className="relative">
+                  <div className="relative" ref={privacyDropdownRef}>
                     <button onClick={() => setIsPrivacyDropdownOpen(!isPrivacyDropdownOpen)} className="flex items-center gap-1 bg-gray-200 dark:bg-[#3A3B3C] px-2 py-0.5 rounded-md text-[12px] font-semibold text-gray-700 dark:text-[#E4E6EB]">
                       {postPrivacy === "public" ? (
                         <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clipRule="evenodd" /></svg>
