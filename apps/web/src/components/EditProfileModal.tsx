@@ -74,6 +74,13 @@ function CustomSelect({ options, value, onChange, className, columns = 1, getIco
 
 const SOFT_SKILLS = ["Accountability","Adaptasi","Analytical Thinking","Assertiveness","Attention to Detail","Bahasa Inggris","Berbicara di Depan Umum","Berpikir Kritis","Classroom Management","Coaching","Communication Skills","Confidence","Continuous Learning","Critical Thinking","Curiosity","Customer Service","Customer-focused","Delegasi","Detail-oriented","Diplomacy","Disiplin","Empati","Enthusiasm","Etos Kerja","Facilitation","Fleksibilitas","Goal-oriented","Humility","Influence","Inisiatif","Innovation","Integritas","Kecerdasan Emosional","Kepemimpinan","Kerja sama tim","Kerja Tim","Kerjasama","Kesabaran","Kesadaran Budaya","Keterampilan Interpersonal","Keterampilan Penjualan","Keterampilan Presentasi","Kolaborasi","Komunikasi","Komunikasi efektif","Koordinasi","Kreativitas","Layanan Pelanggan","Leadership","Manajemen Stres","Manajemen Waktu","Mediation","Mendengarkan Aktif","Mentoring","Motivasi Diri","Multitasking","Negosiasi","Networking","Open-mindedness","Organisasi","Pemecahan Masalah","Pengambilan Keputusan","Perhatian terhadap Detail","Persuasion","Positive Attitude","Presentasi","Proaktif","Problem solving","Process-oriented","Profesionalisme","Public Speaking","Punctuality","Quality-focused","Reliability","Resilience","Resolusi Konflik","Resourcefulness","Results-driven","Self-motivated","Strategic Thinking","Tact","Tanggung Jawab","Teamwork","Time Management","Visionary","Work Ethic"];
 const HARD_SKILLS = ["3D Modeling","3D Rendering","A/B Testing","Account Management","Administrasi Jaringan","Airflow","Akuntansi","Analisis Bisnis","Analisis Data","Analisis Keuangan","Analisis Laporan Keuangan","Analisis Statistik","Android Development","Angular","Animasi","Apache Hadoop","Apache Kafka","Apache Spark","App Store Optimization","Application Security","Assessment Design","Audio Editing","Audit","AWS","B2B Sales","B2C Sales","Bash","Big Data","Brand Management","Branding","Budgeting","Business Development","Business Intelligence","C#","C++","CAD","Campaign Management","Candidate Sourcing","Chemical Engineering","CI/CD","Civil Engineering","Clinical Documentation","Cloud Security","Cold Calling","Color Grading","Compensation & Benefits","Competitor Analysis","Compliance","Computer Vision","Content Marketing","Contract Drafting","Contract Review","Conversion Optimization","Copywriting","Cordova","Corporate Law","Cryptography","CSS","Customer Insights","Customs Clearance","Dart","Data Engineering","Data Mining","Data Science","Data Visualization","Data Warehousing","Deep Learning","Demand Planning","Desain Grafis","Desain UI/UX","Desain Web","Digital Illustration","Distribution Management","Django","Docker","Due Diligence","E-commerce Management","E-learning Development","Editing Video","Educational Technology","Electrical Engineering","Electronic Health Records","Email Marketing","Employee Relations","Ethical Hacking","ETL","Event Management","Event Planning","Express.js","Firewall Management","Flask","Flutter","Food & Beverage Service","Forecasting","Fotografi","Freight Forwarding","Front Office Operations","GDPR Compliance","Go","Google Cloud Platform","Growth Hacking","Healthcare Administration","Hospitality Management","Hotel Management","Housekeeping Management","HR Analytics","HTML","IDS/IPS","Illustration","Import/Export","Incident Response","Industrial Engineering","Influencer Marketing","Information Architecture","Instructional Design","Intellectual Property","Interaction Design","Interviewing","Inventory Management","Ionic","iOS Development","ISO 27001","Java","JavaScript","Jetpack Compose","Keamanan Siber","Keras","Kotlin","Kreator Konten","Kubernetes","Labor Law","Laboratory Skills","Laravel","Layout Design","Lead Generation","Lean Manufacturing","Learning Management Systems","Legal Research","Legal Writing","Lesson Planning","Linux","Litigation","Logistics Coordination","Machine Learning","Manajemen Hubungan Pelanggan","Manajemen Inventaris","Manajemen Kualitas","Manajemen Operasional","Manajemen Proyek","Manajemen Rantai Pasokan","Manajemen Risiko","Market Research","Marketing Automation","Marketplace Management","Mechanical Engineering","Medical Billing","Medical Coding","Medical Terminology","Merchandising","Microsoft Azure","Mobile Analytics","Mobile UI Design","MongoDB","Monitoring","Motion Graphics","MySQL","Natural Language Processing","Network Security","Next.js","Node.js","NoSQL","NumPy","Nursing Care","Onboarding","Online Teaching","Order Fulfillment","Organizational Development","Pandas","Patient Care","Payroll Management","Pemasaran Digital","Pembukuan","Penetration Testing","Pengembangan Android","Pengembangan Bisnis","Pengembangan iOS","Pengembangan Kurikulum","Pengujian Perangkat Lunak","Penulisan Konten","Penulisan Teknis","Perencanaan Anggaran","Perencanaan Strategis","Performance Management","Performance Marketing","Perpajakan","Pharmacy Management","PHP","PLC Programming","PostgreSQL","PowerShell","Predictive Analytics","Pricing Strategy","Process Improvement","Procurement","Product Listing","Product Marketing","Project Estimation","Prototyping","Python","PyTorch","Quality Assurance","Quality Control","React","React Native","Recruitment","Redis","Regulatory Affairs","Reservation Systems","Riset Pasar","Ruby","Rust","Sales Forecasting","Sales Strategy","SCADA","Scikit-learn","Security Auditing","SEM","SEO","Shell Scripting","SIEM","Six Sigma","Social Media Marketing","Spring Boot","SQL","Statistical Modeling","Strategic Planning","Supply Chain Management","Swift","SwiftUI","Talent Acquisition","Technical Drawing","TensorFlow","Threat Intelligence","Time Series Analysis","Tour Guiding","Training & Development","Transportation Management","Travel Planning","Tutoring","TypeScript","Typography","Unix","Usability Testing","User Research","Vendor Management","Video Production","Vue.js","Vulnerability Assessment","Warehouse Management","Windows Server","Wireframing","Xamarin"];
+
+const MUSIC_OPTIONS = ["Pop", "Rock", "Jazz", "Hip Hop", "R&B", "Classical", "K-Pop", "Dangdut", "Indie"];
+const TV_OPTIONS = ["Drama", "Comedy", "Thriller", "Action", "Anime", "Documentary", "Reality Show"];
+const FILM_OPTIONS = ["Action", "Sci-Fi", "Romance", "Horror", "Comedy", "Thriller", "Animation"];
+const GAME_OPTIONS = ["RPG", "FPS", "MOBA", "Strategy", "Sports", "Simulation", "Puzzle", "Adventure"];
+const SPORT_OPTIONS = ["Sepak Bola", "Basket", "Bulu Tangkis", "Tenis", "F1", "MotoGP", "Renang", "Esports"];
+
 const HOBBIES = ["Membaca","Menulis","Fotografi","Berenang","Lari","Bersepeda","Mendaki","Gaming","Memasak","Baking","Berkebun","Melukis","Menggambar","Desain Grafis","Bermain Musik","Menyanyi","Menari","Traveling","Blogging","Vlogging","Programming","Coding","Otomotif","DIY/Crafting","Yoga","Meditasi","Fitness/Gym","Menonton Film","Anime","Mendengarkan Podcast","Koleksi Barang","Esports","Fotografi Jalanan","Catur","Bulu Tangkis","Sepak Bola","Basket","Tenis","Voli","Snorkeling","Diving","Cinta Alam","Relawan","Kuliner","Biliar"];
 const SOFTWARE_SKILLS = ["3ds Max","Adobe After Effects","Adobe Captivate","Adobe Creative Suite","Adobe Illustrator","Adobe InDesign","Adobe Photoshop","Adobe Premiere Pro","Adobe XD","Affinity Designer","Ansible","Apache","Articulate Storyline","Asana","AutoCAD","Blender","Bukalapak","Canva","Capture One","CATIA","Chef","Cinema 4D","CircleCI","CorelDRAW","CRM","Datadog","DaVinci Resolve","Discord","Docker Desktop","Eclipse","ELK Stack","ERP","Excel","Facebook Ads Manager","Figma","Final Cut Pro","Firebase","Framer","Git","GitHub","GitHub Actions","GitLab","GitLab CI","Google Ads","Google Analytics","Google Docs","Google Sheets","Google Workspace","Grafana","HRIS","HubSpot","IntelliJ IDEA","InVision","Jenkins","Jira","Lazada","Lightroom","Magento","Mailchimp","MATLAB","Maya","Microsoft Excel","Microsoft Office","Microsoft PowerPoint","Microsoft Teams","Microsoft Word","Moodle","New Relic","Nginx","Oracle ERP","Point-of-sale (POS)","Postman","Power BI","PrestaShop","Principle","Procreate","Prometheus","ProtoPie","Puppet","QuickBooks","R Studio","Revit","Salesforce","SAP","Shopee","Shopify","Simulink","Sketch","SketchUp","Slack","SolidWorks","Splunk","SPSS","STATA","Substance Painter","Tableau","Terraform","Tokopedia","Travis CI","Trello","Vagrant","VirtualBox","Visual Studio Code","VMware","WooCommerce","WordPress","ZBrush","Zoom"];
 
@@ -199,6 +206,16 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [selectedSoftware, setSelectedSoftware] = useState<string[]>([]);
   const [isEditingHobby, setIsEditingHobby] = useState(false);
   const [selectedHobby, setSelectedHobby] = useState<string[]>([]);
+  const [isEditingMusic, setIsEditingMusic] = useState(false);
+  const [selectedMusic, setSelectedMusic] = useState<string[]>([]);
+  const [isEditingTV, setIsEditingTV] = useState(false);
+  const [selectedTV, setSelectedTV] = useState<string[]>([]);
+  const [isEditingFilm, setIsEditingFilm] = useState(false);
+  const [selectedFilm, setSelectedFilm] = useState<string[]>([]);
+  const [isEditingGame, setIsEditingGame] = useState(false);
+  const [selectedGame, setSelectedGame] = useState<string[]>([]);
+  const [isEditingSport, setIsEditingSport] = useState(false);
+  const [selectedSport, setSelectedSport] = useState<string[]>([]);
   const [expCurrent, setExpCurrent] = useState(false);
   const [bioText, setBioText] = useState("");
 
@@ -879,32 +896,117 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
             {/* 9. MINAT */}
             {activeTab === "minat" && (
-              <div className="space-y-6 max-w-xl animate-in fade-in duration-200 pb-20">
-                <div className="mb-2">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white">Kategori Minat</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Pilih kategori yang Anda minati untuk ditampilkan di profil.</p>
-                </div>
+              <div className="space-y-6 max-w-xl animate-in fade-in duration-200 pb-32">
                 
-                {[
-                  { title: "Music", icon: "M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" },
-                  { title: "TV programmes", icon: "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
-                  { title: "Films", icon: "M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" },
-                  { title: "Games", icon: "M11 11V9a2 2 0 00-2-2m2 4v2a2 2 0 01-2 2m2-4h2a2 2 0 012 2m-2-4h.01M15 13h.01M7 21h10a4 4 0 004-4v-6a4 4 0 00-4-4H7a4 4 0 00-4 4v6a4 4 0 004 4z" },
-                  { title: "Sports teams and athletes", icon: "M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" }
-                ].map((item, i) => (
-                  <div key={i} className="group flex flex-col gap-3">
-                    <div className="flex items-center gap-4 px-2">
-                      <svg className="w-6 h-6 text-gray-500 dark:text-gray-400 group-hover:text-[#10B981] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={item.icon}/></svg>
-                      <h4 className="font-bold text-gray-800 dark:text-gray-200">{item.title}</h4>
-                    </div>
-                    <div className="ml-12">
-                      <button className="text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#10B981] dark:hover:text-[#10B981] flex items-center gap-1.5 transition-colors">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/></svg>
-                        Tambahkan {item.title}
-                      </button>
+                {/* Music */}
+                {!isEditingMusic ? (
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Music</h3>
+                    <button onClick={() => setIsEditingMusic(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
+                      <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" /></svg>
+                      </div>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan Music</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4 animate-in fade-in duration-200">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Music</h3>
+                    <SkillInput title="Music" options={MUSIC_OPTIONS} selected={selectedMusic} onChange={setSelectedMusic} />
+                    <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <button onClick={() => setIsEditingMusic(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
+                      <button onClick={() => setIsEditingMusic(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
                     </div>
                   </div>
-                ))}
+                )}
+                
+                {/* TV programmes */}
+                {!isEditingTV ? (
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">TV programmes</h3>
+                    <button onClick={() => setIsEditingTV(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
+                      <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                      </div>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan TV programmes</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4 animate-in fade-in duration-200">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">TV programmes</h3>
+                    <SkillInput title="TV programmes" options={TV_OPTIONS} selected={selectedTV} onChange={setSelectedTV} />
+                    <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <button onClick={() => setIsEditingTV(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
+                      <button onClick={() => setIsEditingTV(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                    </div>
+                  </div>
+                )}
+                
+                {/* Films */}
+                {!isEditingFilm ? (
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Films</h3>
+                    <button onClick={() => setIsEditingFilm(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
+                      <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" /></svg>
+                      </div>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan Films</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4 animate-in fade-in duration-200">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Films</h3>
+                    <SkillInput title="Films" options={FILM_OPTIONS} selected={selectedFilm} onChange={setSelectedFilm} />
+                    <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <button onClick={() => setIsEditingFilm(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
+                      <button onClick={() => setIsEditingFilm(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                    </div>
+                  </div>
+                )}
+                
+                {/* Games */}
+                {!isEditingGame ? (
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Games</h3>
+                    <button onClick={() => setIsEditingGame(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
+                      <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      </div>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan Games</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4 animate-in fade-in duration-200">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Games</h3>
+                    <SkillInput title="Games" options={GAME_OPTIONS} selected={selectedGame} onChange={setSelectedGame} />
+                    <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <button onClick={() => setIsEditingGame(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
+                      <button onClick={() => setIsEditingGame(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                    </div>
+                  </div>
+                )}
+                
+                {/* Sports teams and athletes */}
+                {!isEditingSport ? (
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Sports teams and athletes</h3>
+                    <button onClick={() => setIsEditingSport(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
+                      <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      </div>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan Sports teams and athletes</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4 animate-in fade-in duration-200">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Sports teams and athletes</h3>
+                    <SkillInput title="Sports teams and athletes" options={SPORT_OPTIONS} selected={selectedSport} onChange={setSelectedSport} />
+                    <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <button onClick={() => setIsEditingSport(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
+                      <button onClick={() => setIsEditingSport(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
