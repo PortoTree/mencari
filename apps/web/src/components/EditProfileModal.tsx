@@ -751,7 +751,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                           />
                           <div className="flex-1 flex rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus-within:border-[#10B981] focus-within:ring-1 focus-within:ring-[#10B981] transition-all overflow-hidden">
                             {getPrefix(socialPlatform) && (
-                              <span className="pl-3 pr-2 py-2.5 text-gray-500 dark:text-gray-400 text-sm font-medium flex items-center bg-gray-100 dark:bg-[#2A2B2C] border-r border-gray-300 dark:border-gray-600 shrink-0 max-w-[120px] overflow-hidden truncate">
+                              <span className="pl-3 pr-2 py-2.5 text-gray-500 dark:text-gray-400 text-sm font-medium flex items-center bg-gray-100 dark:bg-[#2A2B2C] border-r border-gray-300 dark:border-gray-600 shrink-0 max-w-[140px] overflow-hidden truncate">
                                 {getPrefix(socialPlatform)}
                               </span>
                             )}
@@ -1015,7 +1015,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                 {privacySettings.map((item, idx) => (
                   <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-gray-50 dark:bg-[#3A3B3C]/40 border border-gray-100 dark:border-gray-700/50 hover:border-[#10B981]/30 transition-colors">
                     <label className="text-sm font-semibold text-gray-700 dark:text-gray-200">{item.label}</label>
-                    <CustomSelect className="w-full sm:w-[160px]" options={item.options} value={item.state} onChange={item.setState} />
+                    <CustomSelect className="w-full sm:w-[160px]" options={item.options} value={item.state} onChange={item.setState} getIcon={getPrivacyIcon} />
                   </div>
                 ))}
               </div>
