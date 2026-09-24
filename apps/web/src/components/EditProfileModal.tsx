@@ -100,6 +100,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   // Form States (for custom selects)
   const [gender, setGender] = useState("Pilih...");
   const [socialPlatform, setSocialPlatform] = useState("Instagram");
+  const [socialUsername, setSocialUsername] = useState("");
   
   // Privacy States
   const [privacyGender, setPrivacyGender] = useState("Public");
@@ -639,7 +640,15 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                           )}
                           <input 
                             type="text" 
-                            placeholder="username" 
+                            placeholder={socialPlatform === "Whatsapp" ? "Your number" : "username"} 
+                            value={socialUsername}
+                            onChange={(e) => {
+                              let val = e.target.value;
+                              if (socialPlatform === "Whatsapp") {
+                                val = val.replace(/\D/g, '');
+                              }
+                              setSocialUsername(val);
+                            }}
                             className="flex-1 px-3 py-2.5 bg-transparent text-gray-900 dark:text-white outline-none text-sm w-full min-w-0" 
                           />
                         </div>
