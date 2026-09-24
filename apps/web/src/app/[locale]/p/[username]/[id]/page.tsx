@@ -179,7 +179,7 @@ export default function ProfilePage({
               </div>
 
               {/* Reputasi Card */}
-              <div className="w-full lg:w-[280px] shrink-0 bg-black rounded-[30px] p-5 flex flex-col justify-between shadow-lg">
+              <div className="w-full lg:w-[280px] shrink-0 bg-gradient-to-br from-blue-900 to-slate-900 border border-blue-800/30 rounded-[30px] p-5 flex flex-col justify-between shadow-lg">
                 <div className="flex items-center gap-4">
                   <div className="relative">
                     {/* Reputasi Logo */}
