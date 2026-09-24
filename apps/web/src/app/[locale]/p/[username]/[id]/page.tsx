@@ -73,7 +73,14 @@ export default function ProfilePage({
         {/* Cover Photo */}
         <div className="w-full h-[280px] rounded-b-[40px] relative overflow-hidden bg-gray-200 dark:bg-gray-700 shadow-sm">
           <img src="/sampul-placeholder.png" alt="Cover" className="w-full h-full object-cover" />
-          </div>
+          {isOwnProfile && (
+            <button className="absolute bottom-4 right-4 bg-black/50 hover:bg-black/70 text-white p-2.5 rounded-full backdrop-blur-sm transition-colors cursor-pointer shadow-md z-10">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+            </button>
+          )}
+        </div>
 
         {/* Main Content Grid */}
         <div className="flex flex-col md:flex-row gap-6 -mt-[80px] px-2 md:px-6 relative z-10">
@@ -179,29 +186,45 @@ export default function ProfilePage({
                     </div>
                   </div>
                   <div className="text-white flex flex-col justify-center">
-                    <p className="font-bold text-[18px] leading-none mb-1.5 tracking-wide">Point</p>
-                    <div className="flex items-center gap-1.5 mt-1">
-                      <p className="font-extrabold text-[22px] leading-none tracking-wide">1.238</p>
-                      <div
-                        className="w-6 h-6 bg-emerald-700 dark:bg-emerald-500 mb-0.5 shrink-0"
-                        style={{
-                          WebkitMask: 'url(/review.svg) center/contain no-repeat',
-                          mask: 'url(/review.svg) center/contain no-repeat',
-                        }}
-                      />
-                    </div>
+                  <p className="font-bold text-[18px] leading-none mb-1.5 tracking-wide">{isOwnProfile ? "Point anda" : "Point"}</p>
+                  <div className="flex items-center gap-1.5 mt-1">
+                    <p className="font-extrabold text-[22px] leading-none tracking-wide">1.238</p>
+                    <div
+                      className="w-6 h-6 bg-emerald-700 dark:bg-emerald-500 mb-0.5 shrink-0"
+                      style={{
+                        WebkitMask: 'url(/review.svg) center/contain no-repeat',
+                        mask: 'url(/review.svg) center/contain no-repeat',
+                      }}
+                    />
                   </div>
                 </div>
+              </div>
 
-                <div className="space-y-3 mt-6">
-                  <div className="flex gap-2">
-                    <button className="flex-1 bg-gray-600 hover:bg-gray-500 text-white font-semibold py-1.5 rounded-full text-[13px] transition-colors">Check</button>
-                    <button className="flex-1 bg-gradient-to-b from-red-600 to-red-900 hover:from-red-500 hover:to-red-800 border-t border-red-500 text-white font-semibold py-1.5 rounded-full text-[13px] shadow-sm transition-colors">Laporkan!</button>
-                  </div>
-                  <button className="w-full bg-gradient-to-r from-[#B066FE] to-[#10B981] hover:brightness-110 text-white font-bold py-2 rounded-full text-[15px] transition-all shadow-[0_6px_0_0_#0D9488,0_10px_20px_rgba(0,0,0,0.5)] active:shadow-[0_0px_0_0_#0D9488,0_0px_0px_rgba(0,0,0,0.5)] active:translate-y-[6px]">
-                    + Reputasi
+              <div className="space-y-3 mt-6">
+                <div className="flex gap-2">
+                  <button className="flex-1 bg-gray-600 hover:bg-gray-500 text-white font-semibold py-1.5 rounded-full text-[13px] transition-colors">
+                    {isOwnProfile ? "Cara kerja" : "Check"}
                   </button>
+                  {isOwnProfile ? (
+                    <div className="flex-1 flex items-center justify-center border border-gray-600 rounded-full py-1.5">
+                      <span className="text-gray-400 font-medium text-[13px]">Belum aktif</span>
+                    </div>
+                  ) : (
+                    <button className="flex-1 bg-gradient-to-b from-red-600 to-red-900 hover:from-red-500 hover:to-red-800 border-t border-red-500 text-white font-semibold py-1.5 rounded-full text-[13px] shadow-sm transition-colors">
+                      Laporkan!
+                    </button>
+                  )}
                 </div>
+                <button 
+                  className={`w-full text-white font-bold py-2 rounded-full text-[15px] transition-all ${
+                    isOwnProfile 
+                      ? "bg-gradient-to-r from-emerald-600 to-emerald-900 hover:brightness-110 shadow-[0_6px_0_0_#064e3b,0_10px_20px_rgba(0,0,0,0.5)] active:shadow-[0_0px_0_0_#064e3b,0_0px_0px_rgba(0,0,0,0.5)] active:translate-y-[6px]" 
+                      : "bg-gradient-to-r from-[#B066FE] to-[#10B981] hover:brightness-110 shadow-[0_6px_0_0_#0D9488,0_10px_20px_rgba(0,0,0,0.5)] active:shadow-[0_0px_0_0_#0D9488,0_0px_0px_rgba(0,0,0,0.5)] active:translate-y-[6px]"
+                  }`}
+                >
+                  {isOwnProfile ? "Aktifkan" : "+ Reputasi"}
+                </button>
+              </div>
               </div>
 
             </div>
