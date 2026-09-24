@@ -231,6 +231,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [privacyGender, setPrivacyGender] = useState(t("public"));
   const [privacyBirth, setPrivacyBirth] = useState(t("public"));
   const [privacyLoc, setPrivacyLoc] = useState(t("public"));
+  const [privacyProf, setPrivacyProf] = useState(t("public"));
   const [privacyFriendList, setPrivacyFriendList] = useState(t("public"));
   const [privacyComment, setPrivacyComment] = useState(t("public"));
   const [privacyDM, setPrivacyDM] = useState(t("allow"));
@@ -619,10 +620,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       <div className="flex-1">
                         <input type="text" placeholder={t("profPlaceholder")} className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
                       </div>
-                      <div className="w-full sm:w-[150px] shrink-0 px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-[#2A2B2C] border border-transparent flex items-center justify-start gap-2 text-gray-700 dark:text-gray-300 text-sm font-semibold cursor-not-allowed">
-                        <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        Public
-                      </div>
+                      <CustomSelect className="w-full sm:w-[170px] shrink-0" options={[t("public"), t("friendsOnly")]} value={privacyProf} onChange={setPrivacyProf} getIcon={getPrivacyIcon} />
                     </div>
                     <div className="flex justify-end gap-2 pt-2 border-b border-gray-200 dark:border-gray-700 pb-4">
                       <button onClick={() => setIsEditingProfession(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
