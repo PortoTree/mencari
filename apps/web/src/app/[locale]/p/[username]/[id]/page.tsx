@@ -149,18 +149,27 @@ export default function ProfilePage({
                        <img src="/reputasi.png" alt="Reputasi" className="w-full h-full object-contain drop-shadow-md" />
                     </div>
                   </div>
-                  <div className="text-white">
-                    <p className="font-semibold text-[17px] leading-tight">Belum ada</p>
-                    <p className="font-semibold text-[17px] leading-tight">Reputasi</p>
+                  <div className="text-white flex flex-col justify-center">
+                    <p className="font-bold text-[18px] leading-none mb-1.5 tracking-wide">Point</p>
+                    <div className="flex items-center gap-1.5 mt-1">
+                      <p className="font-extrabold text-[22px] leading-none tracking-wide">1.238</p>
+                      <div
+                        className="w-6 h-6 bg-emerald-700 dark:bg-emerald-500 mb-0.5 shrink-0"
+                        style={{
+                          WebkitMask: 'url(/review.svg) center/contain no-repeat',
+                          mask: 'url(/review.svg) center/contain no-repeat',
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
 
                 <div className="space-y-3 mt-6">
                   <div className="flex gap-2">
                     <button className="flex-1 bg-gray-600 hover:bg-gray-500 text-white font-semibold py-1.5 rounded-full text-[13px] transition-colors">Check</button>
-                    <button className="flex-1 bg-orange-500 hover:bg-orange-400 text-white font-semibold py-1.5 rounded-full text-[13px] transition-colors">Laporkan!</button>
+                    <button className="flex-1 bg-gradient-to-b from-red-600 to-red-900 hover:from-red-500 hover:to-red-800 border-t border-red-500 text-white font-semibold py-1.5 rounded-full text-[13px] shadow-sm transition-colors">Laporkan!</button>
                   </div>
-                  <button className="w-full bg-gradient-to-r from-purple-500 to-emerald-400 hover:opacity-90 text-white font-bold py-2 rounded-full text-[15px] transition-all">
+                  <button className="w-full bg-gradient-to-r from-[#B066FE] to-[#10B981] hover:brightness-110 text-white font-bold py-2 rounded-full text-[15px] transition-all shadow-[0_6px_0_0_#0D9488,0_10px_20px_rgba(0,0,0,0.5)] active:shadow-[0_0px_0_0_#0D9488,0_0px_0px_rgba(0,0,0,0.5)] active:translate-y-[6px]">
                     + Reputasi
                   </button>
                 </div>
