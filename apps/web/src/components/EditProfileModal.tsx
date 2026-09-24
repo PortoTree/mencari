@@ -548,7 +548,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       <div className="flex-1">
                         <input type="text" placeholder={t("locationPlaceholder")} className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
                       </div>
-                      <CustomSelect className="w-full sm:w-[170px] shrink-0" options={[t("public"), t("friendsOnly"), t("private")]} value={privacyLoc} onChange={setPrivacyLoc} getIcon={getPrivacyIcon} />
+                      <CustomSelect className="w-full sm:w-[170px] shrink-0" options={[t("public"), t("friendsOnly")]} value={privacyLoc} onChange={setPrivacyLoc} getIcon={getPrivacyIcon} />
                     </div>
                     <div className="flex justify-end gap-2 pt-2 pb-4">
                       <button onClick={() => setIsEditingLocation(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
