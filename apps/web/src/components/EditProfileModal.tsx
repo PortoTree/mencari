@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import React, { useState, useEffect, useRef } from "react";
 
 function CustomSelect({ options, value, onChange, className, columns = 1, getIcon }: { options: string[], value: string, onChange: (val: string) => void, className?: string, columns?: number, getIcon?: (opt: string) => any }) {
@@ -90,7 +91,7 @@ interface EditProfileModalProps {
   currentUser: any;
 }
 
-function SkillInput({ title, options, selected, onChange }: { title: string, options: string[], selected: string[], onChange: (val: string[]) => void }) {
+function SkillInput({ title, options, selected, onChange, tPlaceholder }: { title: string, options: string[], selected: string[], onChange: (val: string[]) => void, tPlaceholder?: string }) {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [dropUp, setDropUp] = useState(false);
@@ -153,7 +154,7 @@ function SkillInput({ title, options, selected, onChange }: { title: string, opt
               e.preventDefault(); // Just prevent form submission
             }
           }}
-          placeholder={`Ketik untuk mencari atau tambah ${title.toLowerCase()}...`}
+          placeholder={tPlaceholder || `Ketik untuk mencari atau tambah ${title.toLowerCase()}...`}
           className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all"
         />
         {isOpen && (filtered.length > 0 || showCustomAdd) && (
@@ -183,7 +184,8 @@ function SkillInput({ title, options, selected, onChange }: { title: string, opt
 }
 
 export default function EditProfileModal({ isOpen, onClose, currentUser }: EditProfileModalProps) {
-  const [activeTab, setActiveTab] = useState("intro");
+  const t = useTranslations("editProfile");
+    const [activeTab, setActiveTab] = useState("intro");
 
   // Intro States
   const [isEditingBio, setIsEditingBio] = useState(false);
@@ -290,26 +292,26 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   };
 
   const TABS = [
-    { id: "intro", label: "Intro" },
+    { id: "intro", label: t("intro") },
     { id: "dasar", label: "Informasi Dasar" },
-    { id: "tampilan", label: "Tampilan" },
-    { id: "profesi", label: "Profesi / Pekerjaan" },
-    { id: "links", label: "Links" },
-    { id: "sosmed", label: "Social Media" },
-    { id: "skill", label: "Skill" },
-    { id: "hobby", label: "Hobby" },
-    { id: "minat", label: "Minat" },
-    { id: "privasi", label: "Pengaturan Privasi" }
+    { id: "tampilan", label: t("appearance") },
+    { id: "profesi", label: t("profession") },
+    { id: "links", label: t("links") },
+    { id: "sosmed", label: t("socialMedia") },
+    { id: "skill", label: t("skill") },
+    { id: "hobby", label: t("hobby") },
+    { id: "minat", label: t("interests") },
+    { id: "privasi", label: t("privacy") }
   ];
 
   const privacySettings = [
-    { label: "Tampilkan tanggal lahir", options: ["Public", "Hanya teman", "Private"], state: privacyBirth, setState: setPrivacyBirth },
-    { label: "Tampilkan lokasi", options: ["Public", "Hanya teman"], state: privacyLoc, setState: setPrivacyLoc },
-    { label: "Siapa yang bisa melihat daftar teman Anda?", options: ["Public", "Hanya teman"], state: privacyFriendList, setState: setPrivacyFriendList },
-    { label: "Siapa yang bisa mengomentari postingan Anda?", options: ["Public", "Hanya teman", "Matikan"], state: privacyComment, setState: setPrivacyComment },
-    { label: "Izinkan public mengirim pesan langsung?", options: ["Izinkan", "Jangan izinkan"], state: privacyDM, setState: setPrivacyDM },
-    { label: "Siapa yang bisa menandai (Tag/Mention) Anda?", options: ["Public", "Hanya teman"], state: privacyTag, setState: setPrivacyTag },
-    { label: "Tampilkan status online", options: ["Tampilkan", "Sembunyikan"], state: privacyOnline, setState: setPrivacyOnline },
+    { label: t("privacyDob"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyBirth, setState: setPrivacyBirth },
+    { label: t("privacyLoc"), options: [t("public"), t("friendsOnly")], state: privacyLoc, setState: setPrivacyLoc },
+    { label: t("privacyFriendList"), options: [t("public"), t("friendsOnly")], state: privacyFriendList, setState: setPrivacyFriendList },
+    { label: t("privacyComment"), options: [t("public"), t("friendsOnly"), t("turnOff")], state: privacyComment, setState: setPrivacyComment },
+    { label: t("privacyDM"), options: [t("allow"), t("disallow")], state: privacyDM, setState: setPrivacyDM },
+    { label: t("privacyTag"), options: [t("public"), t("friendsOnly")], state: privacyTag, setState: setPrivacyTag },
+    { label: t("privacyOnline"), options: [t("show"), t("hide")], state: privacyOnline, setState: setPrivacyOnline },
   ];
 
   return (
@@ -318,7 +320,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
         
         {/* Header - Reduced padding */}
         <div className="flex items-center justify-between px-6 py-2.5 border-b border-gray-200 dark:border-gray-700 shrink-0">
-          <h2 className="text-lg font-bold text-gray-900 dark:text-white">Edit Profil</h2>
+          <h2 className="text-lg font-bold text-gray-900 dark:text-white">{t("title")}</h2>
           <button 
             onClick={onClose}
             className="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-gray-600 dark:text-gray-300"
@@ -433,7 +435,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                         <input type="text" defaultValue={currentUser?.username || "Nama Akun"} className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Username</label>
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">{t("username")}</label>
                         <input type="text" defaultValue={currentUser?.username || "pampam"} disabled className="w-full px-4 py-2.5 rounded-xl bg-gray-200 dark:bg-[#2A2B2C] border border-transparent text-gray-500 outline-none cursor-not-allowed" />
                       </div>
                     </div>
@@ -450,7 +452,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                 )}
                 {!isEditingGender ? (
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Jenis Kelamin</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">{t("genderTitle")}</h3>
                     <button onClick={() => setIsEditingGender(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
                       <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
@@ -462,23 +464,23 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                   </div>
                 ) : (
                   <div className="space-y-4 animate-in fade-in duration-200">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Jenis Kelamin</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t("genderTitle")}</h3>
                     <div className="flex flex-col sm:flex-row gap-3">
                       <div className="flex-1">
                         <CustomSelect options={["Pria", "Wanita", "Lainnya"]} value={gender} onChange={setGender} />
                       </div>
-                      <CustomSelect className="w-full sm:w-[170px] shrink-0" options={["Public", "Hanya teman", "Private"]} value={privacyGender} onChange={setPrivacyGender} getIcon={getPrivacyIcon} />
+                      <CustomSelect className="w-full sm:w-[170px] shrink-0" options={[t("public"), t("friendsOnly"), t("private")]} value={privacyGender} onChange={setPrivacyGender} getIcon={getPrivacyIcon} />
                     </div>
                     <div className="flex justify-end gap-2 pt-2 border-b border-gray-200 dark:border-gray-700 pb-4">
-                      <button onClick={() => setIsEditingGender(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
-                      <button onClick={() => setIsEditingGender(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                      <button onClick={() => setIsEditingGender(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
+                      <button onClick={() => setIsEditingGender(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
                     </div>
                   </div>
                 )}
 
                 {!isEditingDOB ? (
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Tanggal Lahir</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">{t("dobTitle")}</h3>
                     <button onClick={() => setIsEditingDOB(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
                       <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
@@ -490,7 +492,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                   </div>
                 ) : (
                   <div className="space-y-4 animate-in fade-in duration-200">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Tanggal Lahir</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t("dobTitle")}</h3>
                     <div className="flex flex-col sm:flex-row gap-3">
                       <div className="flex-1">
                         <div className="flex gap-2 w-full">
@@ -517,18 +519,18 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                           />
                         </div>
                       </div>
-                      <CustomSelect className="w-full sm:w-[170px] shrink-0" options={["Public", "Hanya teman", "Private"]} value={privacyBirth} onChange={setPrivacyBirth} getIcon={getPrivacyIcon} />
+                      <CustomSelect className="w-full sm:w-[170px] shrink-0" options={[t("public"), t("friendsOnly"), t("private")]} value={privacyBirth} onChange={setPrivacyBirth} getIcon={getPrivacyIcon} />
                     </div>
                     <div className="flex justify-end gap-2 pt-2 border-b border-gray-200 dark:border-gray-700 pb-4">
-                      <button onClick={() => setIsEditingDOB(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
-                      <button onClick={() => setIsEditingDOB(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                      <button onClick={() => setIsEditingDOB(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
+                      <button onClick={() => setIsEditingDOB(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
                     </div>
                   </div>
                 )}
 
                 {!isEditingLocation ? (
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Lokasi</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">{t("locationTitle")}</h3>
                     <button onClick={() => setIsEditingLocation(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
                       <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
@@ -540,16 +542,16 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                   </div>
                 ) : (
                   <div className="space-y-4 animate-in fade-in duration-200">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Lokasi</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t("locationTitle")}</h3>
                     <div className="flex flex-col sm:flex-row gap-3">
                       <div className="flex-1">
                         <input type="text" placeholder="Misal: Malang, Jawa Timur" className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
                       </div>
-                      <CustomSelect className="w-full sm:w-[170px] shrink-0" options={["Public", "Hanya teman", "Private"]} value={privacyLoc} onChange={setPrivacyLoc} getIcon={getPrivacyIcon} />
+                      <CustomSelect className="w-full sm:w-[170px] shrink-0" options={[t("public"), t("friendsOnly"), t("private")]} value={privacyLoc} onChange={setPrivacyLoc} getIcon={getPrivacyIcon} />
                     </div>
                     <div className="flex justify-end gap-2 pt-2 pb-4">
-                      <button onClick={() => setIsEditingLocation(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
-                      <button onClick={() => setIsEditingLocation(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                      <button onClick={() => setIsEditingLocation(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
+                      <button onClick={() => setIsEditingLocation(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -601,20 +603,20 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                 {/* Profesi Saat Ini */}
                 {!isEditingProfession ? (
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Profesi saat ini</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">{t("profNow")}</h3>
                     <button onClick={() => setIsEditingProfession(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
                       <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                       </div>
-                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan profesi</span>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("addProf")}</span>
                     </button>
                   </div>
                 ) : (
                   <div className="space-y-4 animate-in fade-in duration-200">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Profesi saat ini</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t("profNow")}</h3>
                     <div className="flex flex-col sm:flex-row gap-3">
                       <div className="flex-1">
-                        <input type="text" placeholder="Misal: Web Developer, UI/UX Designer..." className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                        <input type="text" placeholder={t("profPlaceholder")} className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
                       </div>
                       <div className="w-full sm:w-[150px] shrink-0 px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-[#2A2B2C] border border-transparent flex items-center justify-start gap-2 text-gray-700 dark:text-gray-300 text-sm font-semibold cursor-not-allowed">
                         <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -622,8 +624,8 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       </div>
                     </div>
                     <div className="flex justify-end gap-2 pt-2 border-b border-gray-200 dark:border-gray-700 pb-4">
-                      <button onClick={() => setIsEditingProfession(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
-                      <button onClick={() => setIsEditingProfession(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                      <button onClick={() => setIsEditingProfession(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
+                      <button onClick={() => setIsEditingProfession(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -631,48 +633,48 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                 {/* Pengalaman Kerja */}
                 {!isEditingExperience ? (
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Pengalaman kerja</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">{t("exp")}</h3>
                     <button onClick={() => setIsEditingExperience(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
                       <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
                       </div>
-                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan pengalaman kerja</span>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("addExp")}</span>
                     </button>
                   </div>
                 ) : (
                   <div className="space-y-4 animate-in fade-in duration-200 pb-20">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Pengalaman kerja</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t("exp")}</h3>
                     
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Jabatan</label>
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">{t("expTitle")}</label>
                         <input type="text" placeholder="Misal: Senior Frontend Engineer" className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Nama Perusahaan</label>
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">{t("expCompany")}</label>
                         <input type="text" placeholder="Misal: PT Teknologi Cerdas" className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
                       </div>
                       
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Tahun Mulai</label>
+                          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">{t("expStart")}</label>
                           <input type="number" placeholder="2020" className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none" />
                         </div>
                         <div>
-                          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Tahun Akhir</label>
+                          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">{t("expEnd")}</label>
                           <input type="number" placeholder="2024" disabled={expCurrent} className={`w-full px-4 py-2.5 rounded-xl border outline-none transition-all ${expCurrent ? 'bg-gray-100 dark:bg-[#2A2B2C] border-transparent text-gray-400 cursor-not-allowed' : 'bg-transparent border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white'}`} />
                         </div>
                       </div>
                       
                       <label className="flex items-center gap-2.5 cursor-pointer pt-1">
                         <input type="checkbox" checked={expCurrent} onChange={(e) => setExpCurrent(e.target.checked)} className="w-4 h-4 rounded text-[#10B981] border-gray-300 focus:ring-[#10B981]" />
-                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Saya masih bekerja di sini</span>
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{t("expCurrent")}</span>
                       </label>
                     </div>
 
                     <div className="flex justify-end gap-2 pt-4">
-                      <button onClick={() => setIsEditingExperience(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
-                      <button onClick={() => setIsEditingExperience(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                      <button onClick={() => setIsEditingExperience(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
+                      <button onClick={() => setIsEditingExperience(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -684,17 +686,17 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
               <div className="space-y-6 max-w-xl animate-in fade-in duration-200">
                 {!isEditingLinks ? (
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Kolom Tautan Eksternal</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">{t("linkTitle")}</h3>
                     <button onClick={() => setIsEditingLinks(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
                       <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
                       </div>
-                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan tautan</span>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("addLink")}</span>
                     </button>
                   </div>
                 ) : (
                   <div className="space-y-4 animate-in fade-in duration-200">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Kolom Tautan Eksternal</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t("linkTitle")}</h3>
                     
                     <div className="space-y-3">
                       <div className="flex gap-3">
@@ -706,13 +708,13 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       
                       <button className="text-sm font-bold text-[#10B981] hover:text-emerald-600 flex items-center gap-1.5 px-1 py-1 transition-colors">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/></svg>
-                        Tambah Tautan
+                        {t("linkBtn")}
                       </button>
                     </div>
 
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
-                      <button onClick={() => setIsEditingLinks(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
-                      <button onClick={() => setIsEditingLinks(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                      <button onClick={() => setIsEditingLinks(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
+                      <button onClick={() => setIsEditingLinks(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -724,17 +726,17 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
               <div className="space-y-6 max-w-xl animate-in fade-in duration-200 pb-32">
                 {!isEditingSosmed ? (
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Tautan Sosial Media</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">{t("socialTitle")}</h3>
                     <button onClick={() => setIsEditingSosmed(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
                       <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
                       </div>
-                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan sosial media</span>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("addSocial")}</span>
                     </button>
                   </div>
                 ) : (
                   <div className="space-y-4 animate-in fade-in duration-200 relative z-10">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Tautan Sosial Media</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t("socialTitle")}</h3>
                     
                     <div className="space-y-3">
                       <div className="flex flex-col sm:flex-row gap-3">
@@ -773,13 +775,13 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
                       <button className="text-sm font-bold text-[#10B981] hover:text-emerald-600 flex items-center gap-1.5 px-1 py-1 transition-colors">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/></svg>
-                        Tambah Sosial Media
+                        {t("socialBtn")}
                       </button>
                     </div>
 
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
-                      <button onClick={() => setIsEditingSosmed(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
-                      <button onClick={() => setIsEditingSosmed(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                      <button onClick={() => setIsEditingSosmed(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
+                      <button onClick={() => setIsEditingSosmed(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -798,16 +800,16 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                       </div>
-                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan soft skill</span>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("addSoft")}</span>
                     </button>
                   </div>
                 ) : (
                   <div className="space-y-4 animate-in fade-in duration-200">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Soft Skill</h3>
-                    <SkillInput title="Soft Skill" options={SOFT_SKILLS} selected={selectedSoft} onChange={setSelectedSoft} />
+                    <SkillInput title="Soft Skill" tPlaceholder={t("searchOrAdd") + " soft skill..."} options={SOFT_SKILLS} selected={selectedSoft} onChange={setSelectedSoft} />
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
-                      <button onClick={() => setIsEditingSoftSkill(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
-                      <button onClick={() => setIsEditingSoftSkill(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                      <button onClick={() => setIsEditingSoftSkill(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
+                      <button onClick={() => setIsEditingSoftSkill(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -820,16 +822,16 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
                       </div>
-                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan hard skill</span>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("addHard")}</span>
                     </button>
                   </div>
                 ) : (
                   <div className="space-y-4 animate-in fade-in duration-200">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Hard Skill</h3>
-                    <SkillInput title="Hard Skill" options={HARD_SKILLS} selected={selectedHard} onChange={setSelectedHard} />
+                    <SkillInput title="Hard Skill" tPlaceholder={t("searchOrAdd") + " hard skill..."} options={HARD_SKILLS} selected={selectedHard} onChange={setSelectedHard} />
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
-                      <button onClick={() => setIsEditingHardSkill(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
-                      <button onClick={() => setIsEditingHardSkill(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                      <button onClick={() => setIsEditingHardSkill(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
+                      <button onClick={() => setIsEditingHardSkill(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -842,16 +844,16 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" /></svg>
                       </div>
-                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan software skill</span>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("addSoftware")}</span>
                     </button>
                   </div>
                 ) : (
                   <div className="space-y-4 animate-in fade-in duration-200">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Software Skill</h3>
-                    <SkillInput title="Software Skill" options={SOFTWARE_SKILLS} selected={selectedSoftware} onChange={setSelectedSoftware} />
+                    <SkillInput title="Software Skill" tPlaceholder={t("searchOrAdd") + " software skill..."} options={SOFTWARE_SKILLS} selected={selectedSoftware} onChange={setSelectedSoftware} />
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
-                      <button onClick={() => setIsEditingSoftwareSkill(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
-                      <button onClick={() => setIsEditingSoftwareSkill(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                      <button onClick={() => setIsEditingSoftwareSkill(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
+                      <button onClick={() => setIsEditingSoftwareSkill(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -869,17 +871,17 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                       </div>
-                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan hobby</span>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("addHobby")}</span>
                     </button>
                   </div>
                 ) : (
                   <div className="space-y-4 animate-in fade-in duration-200">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Hobby</h3>
-                    <SkillInput title="Hobby" options={HOBBIES} selected={selectedHobby} onChange={setSelectedHobby} />
+                    <SkillInput title="Hobby" tPlaceholder={t("searchOrAdd") + " hobby..."} options={HOBBIES} selected={selectedHobby} onChange={setSelectedHobby} />
                     
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
-                      <button onClick={() => setIsEditingHobby(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
-                      <button onClick={() => setIsEditingHobby(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                      <button onClick={() => setIsEditingHobby(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
+                      <button onClick={() => setIsEditingHobby(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -898,16 +900,16 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" /></svg>
                       </div>
-                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan Music</span>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("addInterest")} Music</span>
                     </button>
                   </div>
                 ) : (
                   <div className="space-y-4 animate-in fade-in duration-200">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Music</h3>
-                    <SkillInput title="Music" options={MUSIC_OPTIONS} selected={selectedMusic} onChange={setSelectedMusic} />
+                    <SkillInput title="Music" tPlaceholder={t("searchOrAdd") + " Music..."} options={MUSIC_OPTIONS} selected={selectedMusic} onChange={setSelectedMusic} />
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
-                      <button onClick={() => setIsEditingMusic(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
-                      <button onClick={() => setIsEditingMusic(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                      <button onClick={() => setIsEditingMusic(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
+                      <button onClick={() => setIsEditingMusic(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -920,16 +922,16 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                       </div>
-                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan TV programmes</span>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("addInterest")} TV programmes</span>
                     </button>
                   </div>
                 ) : (
                   <div className="space-y-4 animate-in fade-in duration-200">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">TV programmes</h3>
-                    <SkillInput title="TV programmes" options={TV_OPTIONS} selected={selectedTV} onChange={setSelectedTV} />
+                    <SkillInput title="TV programmes" tPlaceholder={t("searchOrAdd") + " TV programmes..."} options={TV_OPTIONS} selected={selectedTV} onChange={setSelectedTV} />
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
-                      <button onClick={() => setIsEditingTV(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
-                      <button onClick={() => setIsEditingTV(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                      <button onClick={() => setIsEditingTV(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
+                      <button onClick={() => setIsEditingTV(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -942,16 +944,16 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" /></svg>
                       </div>
-                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan Films</span>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("addInterest")} Films</span>
                     </button>
                   </div>
                 ) : (
                   <div className="space-y-4 animate-in fade-in duration-200">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Films</h3>
-                    <SkillInput title="Films" options={FILM_OPTIONS} selected={selectedFilm} onChange={setSelectedFilm} />
+                    <SkillInput title="Films" tPlaceholder={t("searchOrAdd") + " Films..."} options={FILM_OPTIONS} selected={selectedFilm} onChange={setSelectedFilm} />
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
-                      <button onClick={() => setIsEditingFilm(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
-                      <button onClick={() => setIsEditingFilm(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                      <button onClick={() => setIsEditingFilm(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
+                      <button onClick={() => setIsEditingFilm(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -964,16 +966,16 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                       </div>
-                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan Games</span>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("addInterest")} Games</span>
                     </button>
                   </div>
                 ) : (
                   <div className="space-y-4 animate-in fade-in duration-200">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Games</h3>
-                    <SkillInput title="Games" options={GAME_OPTIONS} selected={selectedGame} onChange={setSelectedGame} />
+                    <SkillInput title="Games" tPlaceholder={t("searchOrAdd") + " Games..."} options={GAME_OPTIONS} selected={selectedGame} onChange={setSelectedGame} />
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
-                      <button onClick={() => setIsEditingGame(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
-                      <button onClick={() => setIsEditingGame(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                      <button onClick={() => setIsEditingGame(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
+                      <button onClick={() => setIsEditingGame(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -986,16 +988,16 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                       </div>
-                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan Sports teams and athletes</span>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("addInterest")} Sports teams and athletes</span>
                     </button>
                   </div>
                 ) : (
                   <div className="space-y-4 animate-in fade-in duration-200">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Sports teams and athletes</h3>
-                    <SkillInput title="Sports teams and athletes" options={SPORT_OPTIONS} selected={selectedSport} onChange={setSelectedSport} />
+                    <SkillInput title="Sports teams and athletes" tPlaceholder={t("searchOrAdd") + " Sports teams..."} options={SPORT_OPTIONS} selected={selectedSport} onChange={setSelectedSport} />
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
-                      <button onClick={() => setIsEditingSport(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
-                      <button onClick={() => setIsEditingSport(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                      <button onClick={() => setIsEditingSport(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
+                      <button onClick={() => setIsEditingSport(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -1006,8 +1008,8 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
             {activeTab === "privasi" && (
               <div className="space-y-4 max-w-xl animate-in fade-in duration-200 pb-24">
                 <div className="mb-6">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white">Pengaturan Privasi</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Atur siapa saja yang bisa melihat dan berinteraksi dengan profil Anda.</p>
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white">{t("privacy")}</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t("privacyDesc")}</p>
                 </div>
                 {privacySettings.map((item, idx) => (
                   <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-gray-50 dark:bg-[#3A3B3C]/40 border border-gray-100 dark:border-gray-700/50 hover:border-[#10B981]/30 transition-colors">

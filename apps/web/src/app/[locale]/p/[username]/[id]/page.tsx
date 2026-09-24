@@ -11,13 +11,13 @@ export default function ProfilePage({
 }: {
   params: Promise<{ locale: string; username: string; id: string }>;
 }) {
-  const t = useTranslations();
+  const t = useTranslations("profile");
 
   const unwrappedParams = use(params);
   const username = unwrappedParams.username ? decodeURIComponent(unwrappedParams.username) : "pampam";
   const id = unwrappedParams.id || "123";
 
-  const [activeTab, setActiveTab] = useState("semua");
+  const [activeTab, setActiveTab] = useState("all");
   const [currentUser, setCurrentUser] = useState<any>({ username: "Guest", id: "1" });
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [themeLoaded, setThemeLoaded] = useState(false);
@@ -184,7 +184,7 @@ export default function ProfilePage({
                   <div className="relative">
                     {/* Reputasi Logo */}
                     <div className="w-[70px] h-[70px] shrink-0">
-                       <img src="/reputasi.png" alt="Reputasi" className="w-full h-full object-contain drop-shadow-md" />
+                       <img src="/reputasi.png" alt={t("reputation")} className="w-full h-full object-contain drop-shadow-md" />
                     </div>
                   </div>
                   <div className="text-white flex flex-col justify-center">
@@ -237,7 +237,7 @@ export default function ProfilePage({
         {/* Bottom Tabs Navigation */}
         <div className="mt-12 flex justify-center">
           <div className="bg-white dark:bg-black rounded-full shadow-lg px-2 py-1.5 flex items-center text-sm md:text-base font-bold text-gray-500 dark:text-gray-300">
-            {['semua', 'postingan', 'media', 'komunitas'].map((tab, idx) => (
+            {['all', 'posts', 'media', 'community'].map((tab, idx) => (
               <React.Fragment key={tab}>
                 <button
                   onClick={() => setActiveTab(tab)}
