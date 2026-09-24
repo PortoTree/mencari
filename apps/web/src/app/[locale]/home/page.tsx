@@ -618,7 +618,8 @@ export default function Beranda() {
         const payload = JSON.parse(atob(token.split(".")[1]));
         if (payload.username || payload.name) {
           setCurrentUser({
-            username: payload.username || payload.name || "User",
+            id: payload.sub || payload.id || payload._id || payload.userId || "1",
+              username: payload.username || payload.name || "User",
             displayName:
               payload.displayName || payload.username || payload.name || "User",
           });
@@ -1594,7 +1595,7 @@ export default function Beranda() {
 
                   {/* View Profile Badge */}
                   <div className="flex justify-center w-full mt-2">
-                    <button onClick={() => router.push(`/${locale}/p/${currentUser?.username || "user"}/123`)} className="w-[70%] py-1.5 px-3 bg-gray-100 dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold text-[13.5px] rounded-full transition-colors truncate">
+                    <button onClick={() => router.push(`/${locale}/p/${currentUser?.username || "user"}/${currentUser?.id || "1"}`)} className="w-[70%] py-1.5 px-3 bg-gray-100 dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold text-[13.5px] rounded-full transition-colors truncate">
                       {t("sidebar.viewProfile")}
                     </button>
                   </div>
@@ -3926,7 +3927,7 @@ export default function Beranda() {
                             ),
                           }}
                         >
-                          <button onClick={(e) => { e.stopPropagation(); router.push(`/${locale}/p/${chat.name}/123`); }} className="w-full text-left px-5 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
+                          <button onClick={(e) => { e.stopPropagation(); router.push(`/${locale}/p/${chat.name}/${chat.id || "1"}`); }} className="w-full text-left px-5 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] flex items-center gap-4 text-[15px] font-semibold text-black dark:text-[#E4E6EB] transition-colors">
                             <svg className="w-6 h-6 text-black dark:text-[#E4E6EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
@@ -4615,7 +4616,7 @@ export default function Beranda() {
                             {t("friend.alreadyFriend")}
                           </span>
                         </button>
-                        <button onClick={() => router.push(`/${locale}/p/${selectedProfile.name}/123`)} className="flex-1 bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center">
+                        <button onClick={() => router.push(`/${locale}/p/${selectedProfile.name}/${selectedProfile.id || "1"}`)} className="flex-1 bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center">
                           <span className="text-[14px]">
                             {t("profileSidebar.openProfile")}
                           </span>
@@ -4649,7 +4650,7 @@ export default function Beranda() {
                             {t("friend.accept")}
                           </span>
                         </button>
-                        <button onClick={() => router.push(`/${locale}/p/${selectedProfile.name}/123`)} className="flex-1 bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center">
+                        <button onClick={() => router.push(`/${locale}/p/${selectedProfile.name}/${selectedProfile.id || "1"}`)} className="flex-1 bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center">
                           <span className="text-[14px]">
                             {t("profileSidebar.openProfile")}
                           </span>
@@ -4696,7 +4697,7 @@ export default function Beranda() {
                             {t("profileSidebar.addFriend")}
                           </span>
                         </button>
-                        <button onClick={() => router.push(`/${locale}/p/${selectedProfile.name}/123`)} className="flex-1 bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center">
+                        <button onClick={() => router.push(`/${locale}/p/${selectedProfile.name}/${selectedProfile.id || "1"}`)} className="flex-1 bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center">
                           <span className="text-[14px]">
                             {t("profileSidebar.openProfile")}
                           </span>
@@ -5171,7 +5172,7 @@ export default function Beranda() {
                             ),
                           }}
                         >
-                          <button onClick={(e) => { e.stopPropagation(); router.push(`/${locale}/p/${friend.name}/123`); }} 
+                          <button onClick={(e) => { e.stopPropagation(); router.push(`/${locale}/p/${friend.name}/${friend.id || "1"}`); }} 
                             onClick={(e) => {
                               e.stopPropagation();
                               setActiveChatMenu(null);

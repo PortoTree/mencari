@@ -1,18 +1,19 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, use } from "react";
 import { useTranslations } from "next-intl";
 
 export default function ProfilePage({
   params,
 }: {
-  params: any;
+  params: Promise<{ locale: string; username: string; id: string }>;
 }) {
   const t = useTranslations();
   
-  const username = params.username ? decodeURIComponent(params.username) : "pampam";
-  const id = params.id || "123";
+  const unwrappedParams = use(params);
+  const username = unwrappedParams.username ? decodeURIComponent(unwrappedParams.username) : "pampam";
+  const id = unwrappedParams.id || "123";
 
   const [activeTab, setActiveTab] = useState("posts");
 
