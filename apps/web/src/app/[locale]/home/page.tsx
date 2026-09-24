@@ -241,6 +241,8 @@ export default function Beranda() {
   const [productSort, setProductSort] = useState("popular");
   const [isProductDetailOpen, setIsProductDetailOpen] = useState(false);
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
+  const [postPrivacy, setPostPrivacy] = useState("public");
+  const [isPrivacyDropdownOpen, setIsPrivacyDropdownOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<
     "home" | "mencari" | "friend" | "community" | "community" | "chat" | "product"
@@ -2176,7 +2178,7 @@ export default function Beranda() {
                     placeholder={t("feed.createPost")}
                     className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-[#E4E6EB] dark:hover:bg-[#4E4F50] transition-colors rounded-full px-4 py-2.5 focus:outline-none cursor-pointer text-gray-600 dark:text-[#B0B3B8] text-[17px]"
                     readOnly
-                    onClick={() => setIsCreatePostModalOpen(true)}
+                    onClick={() => { setIsCreatePostModalOpen(true); setPostPrivacy(activeTab === "friend" ? "friends" : "public"); }}
                   />
                 </div>
                 <div className="flex justify-between items-center pt-3 px-1">
@@ -2919,7 +2921,7 @@ export default function Beranda() {
                 <input
                   type="text"
                   placeholder={t("feed.createPost")}
-                    onClick={() => setIsCreatePostModalOpen(true)}
+                    onClick={() => { setIsCreatePostModalOpen(true); setPostPrivacy(activeTab === "friend" ? "friends" : "public"); }}
                   className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-[#E4E6EB] dark:hover:bg-[#4E4F50] transition-colors rounded-full px-4 py-2.5 focus:outline-none cursor-pointer text-gray-600 dark:text-[#B0B3B8] text-[17px]"
                   readOnly
                 />
@@ -6687,7 +6689,7 @@ export default function Beranda() {
                     {/* Header */}
                     <div className="flex items-center justify-center p-4 border-b border-gray-200 dark:border-[#3E4042] relative">
                       <h2 className="text-[20px] font-bold text-black dark:text-[#E4E6EB]">Create post</h2>
-                      <button onClick={() => setIsCreatePostModalOpen(false)} className="absolute right-4 w-9 h-9 bg-gray-200 dark:bg-[#3A3B3C] rounded-full flex items-center justify-center hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors text-gray-600 dark:text-[#B0B3B8]">
+                      <button onClick={() => { setIsCreatePostModalOpen(false); setIsPrivacyDropdownOpen(false); }} className="absolute right-4 w-9 h-9 bg-gray-200 dark:bg-[#3A3B3C] rounded-full flex items-center justify-center hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors text-gray-600 dark:text-[#B0B3B8]">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                       </button>
                     </div>
@@ -6698,13 +6700,31 @@ export default function Beranda() {
                       <div className="flex items-center gap-3 mb-4">
                         <img src="/default-avatar.svg" className="w-10 h-10 rounded-full object-cover border border-gray-200 dark:border-[#3E4042]" />
                         <div>
-                          <h3 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">Pam Faiz</h3>
+                          <h3 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{currentUser.username}</h3>
                           <div className="flex items-center gap-2 mt-0.5">
-                            <button className="flex items-center gap-1 bg-gray-200 dark:bg-[#3A3B3C] px-2 py-0.5 rounded-md text-[12px] font-semibold text-gray-700 dark:text-[#E4E6EB]">
-                              <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" /></svg>
-                              Friends
-                              <svg className="w-3.5 h-3.5 ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
-                            </button>
+                  <div className="relative">
+                    <button onClick={() => setIsPrivacyDropdownOpen(!isPrivacyDropdownOpen)} className="flex items-center gap-1 bg-gray-200 dark:bg-[#3A3B3C] px-2 py-0.5 rounded-md text-[12px] font-semibold text-gray-700 dark:text-[#E4E6EB]">
+                      {postPrivacy === "public" ? (
+                        <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clipRule="evenodd" /></svg>
+                      ) : (
+                        <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" /></svg>
+                      )}
+                      {postPrivacy === "public" ? "Public" : "Friends"}
+                      <svg className="w-3.5 h-3.5 ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+                    </button>
+                    {isPrivacyDropdownOpen && (
+                      <div className="absolute top-full left-0 mt-1 w-40 bg-white dark:bg-[#242526] rounded-lg shadow-xl border border-gray-200 dark:border-[#3E4042] py-2 z-50">
+                        <button onClick={() => { setPostPrivacy("public"); setIsPrivacyDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] text-left">
+                          <svg className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clipRule="evenodd" /></svg>
+                          <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">Public</span>
+                        </button>
+                        <button onClick={() => { setPostPrivacy("friends"); setIsPrivacyDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] text-left">
+                          <svg className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" /></svg>
+                          <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">Friends</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
 
 
 
@@ -6716,7 +6736,7 @@ export default function Beranda() {
 
                       {/* Textarea */}
                       <textarea 
-                        placeholder="What's on your mind, Pam?" 
+                        placeholder={`What's on your mind, ${currentUser.username}?`} 
                         className="w-full bg-transparent border-none outline-none text-[24px] text-black dark:text-[#E4E6EB] placeholder-gray-500 min-h-[150px] resize-none"
                       />
 
