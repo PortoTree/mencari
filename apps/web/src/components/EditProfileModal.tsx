@@ -90,6 +90,10 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [dobMonth, setDobMonth] = useState("Januari");
   const [dobYear, setDobYear] = useState("2000");
   const [isEditingLocation, setIsEditingLocation] = useState(false);
+  const [isEditingProfession, setIsEditingProfession] = useState(false);
+  const [isEditingExperience, setIsEditingExperience] = useState(false);
+  const [isEditingLinks, setIsEditingLinks] = useState(false);
+  const [expCurrent, setExpCurrent] = useState(false);
   const [bioText, setBioText] = useState("");
 
   // Form States (for custom selects)
@@ -477,26 +481,126 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
             {/* 4. PROFESI/PEKERJAAN */}
             {activeTab === "profesi" && (
-              <div className="space-y-4 max-w-xl animate-in fade-in duration-200">
-                <label className="block text-base font-bold text-gray-900 dark:text-white mb-2">Profesi / Pekerjaan</label>
-                <input type="text" placeholder="Misal: Web Developer, UI/UX Designer..." className="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus:border-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+              <div className="space-y-6 max-w-xl animate-in fade-in duration-200">
+                
+                {/* Profesi Saat Ini */}
+                {!isEditingProfession ? (
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Profesi saat ini</h3>
+                    <button onClick={() => setIsEditingProfession(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
+                      <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                      </div>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan profesi</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4 animate-in fade-in duration-200">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Profesi saat ini</h3>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <div className="flex-1">
+                        <input type="text" placeholder="Misal: Web Developer, UI/UX Designer..." className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                      </div>
+                      <div className="w-full sm:w-[150px] shrink-0 px-4 py-2.5 rounded-xl bg-gray-100 dark:bg-[#2A2B2C] border border-transparent flex items-center justify-start gap-2 text-gray-700 dark:text-gray-300 text-sm font-semibold cursor-not-allowed">
+                        <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Public
+                      </div>
+                    </div>
+                    <div className="flex justify-end gap-2 pt-2 border-b border-gray-200 dark:border-gray-700 pb-4">
+                      <button onClick={() => setIsEditingProfession(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
+                      <button onClick={() => setIsEditingProfession(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Pengalaman Kerja */}
+                {!isEditingExperience ? (
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Pengalaman kerja</h3>
+                    <button onClick={() => setIsEditingExperience(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
+                      <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                      </div>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan pengalaman kerja</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4 animate-in fade-in duration-200 pb-20">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Pengalaman kerja</h3>
+                    
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Jabatan</label>
+                        <input type="text" placeholder="Misal: Senior Frontend Engineer" className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Nama Perusahaan</label>
+                        <input type="text" placeholder="Misal: PT Teknologi Cerdas" className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Tahun Mulai</label>
+                          <input type="number" placeholder="2020" className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Tahun Akhir</label>
+                          <input type="number" placeholder="2024" disabled={expCurrent} className={`w-full px-4 py-2.5 rounded-xl border outline-none transition-all ${expCurrent ? 'bg-gray-100 dark:bg-[#2A2B2C] border-transparent text-gray-400 cursor-not-allowed' : 'bg-transparent border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white'}`} />
+                        </div>
+                      </div>
+                      
+                      <label className="flex items-center gap-2.5 cursor-pointer pt-1">
+                        <input type="checkbox" checked={expCurrent} onChange={(e) => setExpCurrent(e.target.checked)} className="w-4 h-4 rounded text-[#10B981] border-gray-300 focus:ring-[#10B981]" />
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Saya masih bekerja di sini</span>
+                      </label>
+                    </div>
+
+                    <div className="flex justify-end gap-2 pt-4">
+                      <button onClick={() => setIsEditingExperience(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
+                      <button onClick={() => setIsEditingExperience(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
             {/* 5. LINKS */}
             {activeTab === "links" && (
-              <div className="space-y-4 max-w-xl animate-in fade-in duration-200">
-                <label className="block text-base font-bold text-gray-900 dark:text-white mb-2">Kolom Tautan Eksternal</label>
-                <div className="flex gap-3">
-                  <input type="text" placeholder="https://website-kamu.com" className="flex-1 px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus:border-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
-                  <button className="p-3 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-colors border border-transparent hover:border-red-200 dark:hover:border-red-500/20 shrink-0">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                  </button>
-                </div>
-                <button className="text-sm font-bold text-[#10B981] hover:text-emerald-600 flex items-center gap-1.5 px-2 py-1">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/></svg>
-                  Tambah Tautan
-                </button>
+              <div className="space-y-6 max-w-xl animate-in fade-in duration-200">
+                {!isEditingLinks ? (
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Kolom Tautan Eksternal</h3>
+                    <button onClick={() => setIsEditingLinks(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
+                      <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+                      </div>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan tautan</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4 animate-in fade-in duration-200">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Kolom Tautan Eksternal</h3>
+                    
+                    <div className="space-y-3">
+                      <div className="flex gap-3">
+                        <input type="text" placeholder="https://website-kamu.com" className="flex-1 px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                        <button className="p-2.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-colors border border-transparent hover:border-red-200 dark:hover:border-red-500/20 shrink-0 flex items-center justify-center">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                        </button>
+                      </div>
+                      
+                      <button className="text-sm font-bold text-[#10B981] hover:text-emerald-600 flex items-center gap-1.5 px-1 py-1 transition-colors">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/></svg>
+                        Tambah Tautan
+                      </button>
+                    </div>
+
+                    <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <button onClick={() => setIsEditingLinks(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
+                      <button onClick={() => setIsEditingLinks(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
