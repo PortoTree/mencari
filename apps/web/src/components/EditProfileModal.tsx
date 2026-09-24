@@ -92,6 +92,7 @@ interface EditProfileModalProps {
 }
 
 function SkillInput({ title, options, selected, onChange, tPlaceholder }: { title: string, options: string[], selected: string[], onChange: (val: string[]) => void, tPlaceholder?: string }) {
+  const t = useTranslations("editProfile");
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [dropUp, setDropUp] = useState(false);
@@ -154,7 +155,7 @@ function SkillInput({ title, options, selected, onChange, tPlaceholder }: { titl
               e.preventDefault(); // Just prevent form submission
             }
           }}
-          placeholder={tPlaceholder || `Ketik untuk mencari atau tambah ${title.toLowerCase()}...`}
+          placeholder={tPlaceholder || `${t("searchOrAdd")} ${title.toLowerCase()}...`}
           className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all"
         />
         {isOpen && (filtered.length > 0 || showCustomAdd) && (
@@ -193,7 +194,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [isEditingGender, setIsEditingGender] = useState(false);
   const [isEditingDOB, setIsEditingDOB] = useState(false);
   const [dobDay, setDobDay] = useState("1");
-  const [dobMonth, setDobMonth] = useState("Januari");
+  const [dobMonth, setDobMonth] = useState(t("months.jan"));
   const [dobYear, setDobYear] = useState("2000");
   const [isEditingLocation, setIsEditingLocation] = useState(false);
   const [isEditingProfession, setIsEditingProfession] = useState(false);
@@ -222,7 +223,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [bioText, setBioText] = useState("");
 
   // Form States (for custom selects)
-  const [gender, setGender] = useState("Pilih...");
+  const [gender, setGender] = useState(t("selectPlaceholder"));
   const [socialPlatform, setSocialPlatform] = useState("Instagram");
   const [socialUsername, setSocialUsername] = useState("");
   
@@ -293,7 +294,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
   const TABS = [
     { id: "intro", label: t("intro") },
-    { id: "dasar", label: "Informasi Dasar" },
+    { id: "dasar", label: t("basicInfo") },
     { id: "tampilan", label: t("appearance") },
     { id: "profesi", label: t("profession") },
     { id: "links", label: t("links") },
@@ -365,24 +366,24 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                 {!isEditingBio ? (
                   <>
                     <div>
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Bio</h3>
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">{t("bioHeader")}</h3>
                       <button onClick={() => setIsEditingBio(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
                         <svg className="w-7 h-7 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"/></svg>
-                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">About you</span>
+                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("aboutYou")}</span>
                       </button>
                     </div>
 
                     <div>
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Pinned details</h3>
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">{t("pinnedDetails")}</h3>
                       <button className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
                         <svg className="w-7 h-7 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
-                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Pinned details</span>
+                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("pinnedDetails")}</span>
                       </button>
                     </div>
                   </>
                 ) : (
                   <div className="space-y-4 animate-in fade-in duration-200">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Bio</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t("bioHeader")}</h3>
                     
                     
                     <div>
@@ -391,7 +392,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                         value={bioText}
                         onChange={(e) => { if(e.target.value.length <= 121) setBioText(e.target.value) }}
                         rows={4} 
-                        placeholder="Introduce yourself" 
+                        placeholder={t("introduceYourself")} 
                         className="w-full px-4 py-3 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all resize-none"
                       ></textarea>
                       <div className="flex items-center justify-between mt-2 border-b border-gray-200 dark:border-gray-700 pb-4">
@@ -417,22 +418,22 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
               <div className="space-y-6 max-w-xl animate-in fade-in duration-200">
                 {!isEditingName ? (
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Identitas</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">{t("identity")}</h3>
                     <button onClick={() => setIsEditingName(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
                       <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors text-[18px]">Aa</div>
                       <div className="flex flex-col">
-                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{currentUser?.username || "Nama Akun"}</span>
+                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{currentUser?.username || t("accountName")}</span>
                         <span className="text-[13px] font-medium text-gray-500">@{currentUser?.username || "pampam"}</span>
                       </div>
                     </button>
                   </div>
                 ) : (
                   <div className="space-y-4 animate-in fade-in duration-200">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Identitas</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t("identity")}</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Nama Tampilan</label>
-                        <input type="text" defaultValue={currentUser?.username || "Nama Akun"} className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">{t("displayName")}</label>
+                        <input type="text" defaultValue={currentUser?.username || t("accountName")} className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
                       </div>
                       <div>
                         <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">{t("username")}</label>
@@ -458,7 +459,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{gender !== "Pilih..." ? gender : "Tambahkan jenis kelamin"}</span>
+                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{gender !== t("selectPlaceholder") ? gender : t("addGender")}</span>
                       </div>
                     </button>
                   </div>
@@ -467,7 +468,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t("genderTitle")}</h3>
                     <div className="flex flex-col sm:flex-row gap-3">
                       <div className="flex-1">
-                        <CustomSelect options={["Pria", "Wanita", "Lainnya"]} value={gender} onChange={setGender} />
+                        <CustomSelect options={[t("genderMale"), t("genderFemale"), t("genderOther")]} value={gender} onChange={setGender} />
                       </div>
                       <CustomSelect className="w-full sm:w-[170px] shrink-0" options={[t("public"), t("friendsOnly"), t("private")]} value={privacyGender} onChange={setPrivacyGender} getIcon={getPrivacyIcon} />
                     </div>
@@ -536,7 +537,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan lokasi</span>
+                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("addLocation")}</span>
                       </div>
                     </button>
                   </div>
@@ -648,11 +649,11 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">{t("expTitle")}</label>
-                        <input type="text" placeholder="Misal: Senior Frontend Engineer" className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                        <input type="text" placeholder={t("expTitlePlaceholder")} className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
                       </div>
                       <div>
                         <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">{t("expCompany")}</label>
-                        <input type="text" placeholder="Misal: PT Teknologi Cerdas" className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                        <input type="text" placeholder={t("expCompanyPlaceholder")} className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
                       </div>
                       
                       <div className="grid grid-cols-2 gap-4">

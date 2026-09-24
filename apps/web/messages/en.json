@@ -418,6 +418,31 @@
     "disallow": "Do not allow",
     "show": "Show",
     "hide": "Hide",
-    "locationPlaceholder": "e.g. Malang, East Java"
+    "locationPlaceholder": "e.g. Malang, East Java",
+    "bioHeader": "Bio",
+    "aboutYou": "About you",
+    "pinnedDetails": "Pinned details",
+    "introduceYourself": "Introduce yourself",
+    "addGender": "Add gender",
+    "selectPlaceholder": "Select...",
+    "genderOther": "Other",
+    "addLocation": "Add location",
+    "accountName": "Account Name",
+    "months": {
+      "jan": "January",
+      "feb": "February",
+      "mar": "March",
+      "apr": "April",
+      "may": "May",
+      "jun": "June",
+      "jul": "July",
+      "aug": "August",
+      "sep": "September",
+      "oct": "October",
+      "nov": "November",
+      "dec": "December"
+    },
+    "expTitlePlaceholder": "e.g. Senior Frontend Engineer",
+    "expCompanyPlaceholder": "e.g. Tech Solutions Inc."
   }
 }

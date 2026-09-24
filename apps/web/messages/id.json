@@ -418,6 +418,31 @@
     "disallow": "Jangan izinkan",
     "show": "Tampilkan",
     "hide": "Sembunyikan",
-    "locationPlaceholder": "Misal: Malang, Jawa Timur"
+    "locationPlaceholder": "Misal: Malang, Jawa Timur",
+    "bioHeader": "Bio",
+    "aboutYou": "Tentang Anda",
+    "pinnedDetails": "Info yang disematkan",
+    "introduceYourself": "Perkenalkan diri Anda",
+    "addGender": "Tambahkan jenis kelamin",
+    "selectPlaceholder": "Pilih...",
+    "genderOther": "Lainnya",
+    "addLocation": "Tambahkan lokasi",
+    "accountName": "Nama Akun",
+    "months": {
+      "jan": "Januari",
+      "feb": "Februari",
+      "mar": "Maret",
+      "apr": "April",
+      "may": "Mei",
+      "jun": "Juni",
+      "jul": "Juli",
+      "aug": "Agustus",
+      "sep": "September",
+      "oct": "Oktober",
+      "nov": "November",
+      "dec": "Desember"
+    },
+    "expTitlePlaceholder": "Misal: Senior Frontend Engineer",
+    "expCompanyPlaceholder": "Misal: PT Teknologi Cerdas"
   }
 }
