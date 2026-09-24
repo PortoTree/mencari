@@ -191,13 +191,11 @@ export default function ProfilePage({
                   <p className="font-bold text-[18px] leading-none mb-1.5 tracking-wide">{isOwnProfile ? t("yourPoints") : t("pointsLabel")}</p>
                   <div className="flex items-center gap-1.5 mt-1">
                     <p className="font-extrabold text-[22px] leading-none tracking-wide">1.238</p>
-                    <div
-                      className="w-6 h-6 bg-emerald-700 dark:bg-emerald-500 mb-0.5 shrink-0"
-                      style={{
-                        WebkitMask: 'url(/review.png) center/contain no-repeat',
-                        mask: 'url(/review.png) center/contain no-repeat',
-                      }}
-                    />
+                    <img
+                        src="/review.png"
+                        alt="Star"
+                        className="w-6 h-6 object-contain mb-0.5 shrink-0"
+                      />
                   </div>
                 </div>
               </div>
