@@ -471,21 +471,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                   </div>
                 </div>
 
-                <hr className="border-gray-200 dark:border-gray-700" />
-
-                <div>
-                  <label className="block text-base font-bold text-gray-900 dark:text-white mb-3">Pilihan Tema / Layout Profil</label>
-                  <div className="flex gap-4">
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input type="radio" name="theme" className="w-4 h-4 text-[#10B981] bg-gray-100 border-gray-300 focus:ring-[#10B981]" defaultChecked />
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Default (Classic)</span>
-                    </label>
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input type="radio" name="theme" className="w-4 h-4 text-[#10B981] bg-gray-100 border-gray-300 focus:ring-[#10B981]" />
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Modern Grid</span>
-                    </label>
-                  </div>
-                </div>
+                
               </div>
             )}
 
