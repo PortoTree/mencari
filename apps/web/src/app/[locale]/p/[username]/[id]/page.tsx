@@ -206,8 +206,8 @@ export default function ProfilePage({
                     {isOwnProfile ? "Cara kerja" : "Check"}
                   </button>
                   {isOwnProfile ? (
-                    <div className="flex-1 flex items-center justify-center border border-gray-600 rounded-full py-1.5">
-                      <span className="text-gray-400 font-medium text-[13px]">Belum aktif</span>
+                    <div className="flex-1 flex items-center justify-center border border-red-500/70 rounded-full py-1.5">
+                      <span className="text-red-500 font-medium text-[13px]">Belum aktif</span>
                     </div>
                   ) : (
                     <button className="flex-1 bg-gradient-to-b from-red-600 to-red-900 hover:from-red-500 hover:to-red-800 border-t border-red-500 text-white font-semibold py-1.5 rounded-full text-[13px] shadow-sm transition-colors">
