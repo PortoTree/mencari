@@ -49,14 +49,14 @@ function CustomSelect({ options, value, onChange, className, columns = 1, getIco
       </div>
       
       {isOpen && (
-        <div className={`absolute z-50 ${columns === 2 ? 'w-[280px]' : 'w-full'} bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-gray-600 rounded-xl shadow-xl overflow-hidden py-1.5 animate-in fade-in duration-150 ${dropUp ? "bottom-full mb-1.5 slide-in-from-bottom-2" : "top-full mt-1.5 slide-in-from-top-2"} ${columns === 2 ? "grid grid-cols-2 gap-1 px-1.5 py-2" : ""}`}>
+        <div className={`absolute z-50 ${columns > 1 ? (columns === 4 ? 'w-[340px]' : 'w-[320px]') : 'w-full'} bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-gray-600 rounded-xl shadow-xl py-1.5 animate-in fade-in duration-150 ${dropUp ? "bottom-full mb-1.5 slide-in-from-bottom-2" : "top-full mt-1.5 slide-in-from-top-2"} ${columns > 1 ? "grid gap-1 px-1.5 py-2 max-h-[250px] overflow-y-auto custom-scrollbar" : "overflow-hidden"} ${columns === 2 ? "grid-cols-2" : columns === 3 ? "grid-cols-3" : columns === 4 ? "grid-cols-4" : ""}`}>
           {options.map((opt, idx) => {
             const icon = getIcon ? getIcon(opt) : null;
             return (
             <div 
               key={idx}
               onClick={() => { onChange(opt); setIsOpen(false); }}
-              className={`${columns === 2 ? "px-3 py-2 rounded-lg" : "px-4 py-2.5"} text-sm font-semibold cursor-pointer transition-colors flex items-center ${columns === 2 ? "gap-2" : "justify-between"} ${value === opt ? "text-[#10B981] bg-[#10B981]/10" : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3A3B3C]"}`}
+              className={`${columns > 1 ? "px-2 py-2 rounded-lg justify-center text-center" : "px-4 py-2.5 justify-between"} text-sm font-semibold cursor-pointer transition-colors flex items-center ${columns === 2 ? "gap-2 justify-start text-left" : ""} ${value === opt ? "text-[#10B981] bg-[#10B981]/10" : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3A3B3C]"}`}
             >
               {icon && (typeof icon === "string" ? <img src={icon} alt={opt} className="w-5 h-5 object-contain shrink-0" /> : icon)}
               {!icon && getIcon && <div className="w-5 h-5 flex items-center justify-center bg-gray-200 dark:bg-gray-600 rounded-full shrink-0"><svg className="w-3 h-3 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg></div>}
@@ -86,6 +86,9 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingGender, setIsEditingGender] = useState(false);
   const [isEditingDOB, setIsEditingDOB] = useState(false);
+  const [dobDay, setDobDay] = useState("1");
+  const [dobMonth, setDobMonth] = useState("Januari");
+  const [dobYear, setDobYear] = useState("2000");
   const [isEditingLocation, setIsEditingLocation] = useState(false);
   const [bioText, setBioText] = useState("");
 
@@ -362,7 +365,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan tanggal lahir</span>
+                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{dobDay} {dobMonth} {dobYear}</span>
                       </div>
                     </button>
                   </div>
@@ -371,7 +374,29 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Tanggal Lahir</h3>
                     <div className="flex flex-col sm:flex-row gap-3">
                       <div className="flex-1">
-                        <input type="date" className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none cursor-pointer" />
+                        <div className="flex gap-2 w-full">
+                          <CustomSelect 
+                            className="flex-1" 
+                            columns={4}
+                            options={Array.from({length: 31}, (_, i) => String(i+1))} 
+                            value={dobDay} 
+                            onChange={setDobDay} 
+                          />
+                          <CustomSelect 
+                            className="flex-1" 
+                            columns={3}
+                            options={["Jan.", "Feb.", "Mar.", "Apr.", "Mei", "Jun.", "Jul.", "Agu.", "Sep.", "Okt.", "Nov.", "Des."]} 
+                            value={dobMonth} 
+                            onChange={setDobMonth} 
+                          />
+                          <CustomSelect 
+                            className="flex-1" 
+                            columns={4}
+                            options={Array.from({length: 100}, (_, i) => String(new Date().getFullYear() - i))} 
+                            value={dobYear} 
+                            onChange={setDobYear} 
+                          />
+                        </div>
                       </div>
                       <CustomSelect className="w-full sm:w-[170px] shrink-0" options={["Public", "Hanya teman", "Private"]} value={privacyBirth} onChange={setPrivacyBirth} getIcon={getPrivacyIcon} />
                     </div>
