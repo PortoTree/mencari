@@ -167,7 +167,7 @@ export default function ProfilePage({
             <div className="flex flex-col lg:flex-row gap-4 mt-2">
               
               {/* Bio Card */}
-              <div className="flex-1 bg-[#F3F2EF] dark:bg-[#18191A] rounded-[30px] min-h-[200px] flex items-center justify-center shadow-sm relative group overflow-hidden border border-[#D9D9D9] dark:border-[#3A3B3C]">
+              <div className="flex-1 bg-[#F3F2EF] dark:bg-[#18191A] rounded-[18px] min-h-[200px] flex items-center justify-center shadow-sm relative group overflow-hidden border border-[#D9D9D9] dark:border-[#3A3B3C]">
                   <div className="w-full h-full grid grid-cols-3 gap-[2px] bg-gray-300 dark:bg-[#18191A]">
                       {[1,2,3,4,5,6].map(i => (
                         <div key={i} className="bg-gradient-to-b from-white to-[#F3F2EF] dark:from-[#3A3B3C] dark:to-[#242526] w-full aspect-square flex items-center justify-center">
