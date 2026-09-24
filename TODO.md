@@ -224,3 +224,5 @@
 - Added check against `PendingUser` table for usernames held by pending verifications within the last 15 minutes.
 - Added strict fallback check during `verifyOtp` to prevent race conditions (cleans up pending user if username was taken in main table).
 - Added `console.log` debug outputs to track duplicate detection events.
+
+- (Frontend) Fix profile card height stretching in /p/ page layout by adding h-fit to sidebar (page.tsx)

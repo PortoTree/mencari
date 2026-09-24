@@ -88,7 +88,7 @@ export default function ProfilePage({
         <div className="flex flex-col md:flex-row gap-6 -mt-[80px] px-2 md:px-6 relative z-10">
           
           {/* Left Sidebar - Profile Card */}
-          <div className="w-full md:w-[320px] shrink-0 bg-gradient-to-b from-white to-[#D9D9D9] dark:from-[#3A3B3C] dark:to-[#18191A] rounded-[40px] p-8 shadow-xl flex flex-col items-center border border-white/20 dark:border-white/5">
+          <div className="w-full md:w-[320px] shrink-0 h-fit bg-gradient-to-b from-white to-[#D9D9D9] dark:from-[#3A3B3C] dark:to-[#18191A] rounded-[40px] p-8 shadow-xl flex flex-col items-center border border-white/20 dark:border-white/5">
             {/* Avatar */}
             <div className="relative mb-4">
               <div className="w-[120px] h-[120px] rounded-full border-[4px] border-white dark:border-[#3A3B3C] bg-white dark:bg-[#242526] flex items-center justify-center shadow-md overflow-hidden">
