@@ -83,6 +83,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
   // Intro States
   const [isEditingBio, setIsEditingBio] = useState(false);
+  const [isEditingName, setIsEditingName] = useState(false);
   const [bioText, setBioText] = useState("");
 
   // Form States (for custom selects)
@@ -279,16 +280,41 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
             {/* 2. INFORMASI DASAR */}
             {activeTab === "dasar" && (
               <div className="space-y-6 max-w-2xl animate-in fade-in duration-200">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {!isEditingName ? (
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Nama Tampilan</label>
-                    <input type="text" defaultValue={currentUser?.username || "Nama Akun"} className="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus:border-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Identitas</h3>
+                    <button onClick={() => setIsEditingName(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
+                      <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors text-[18px]">Aa</div>
+                      <div className="flex flex-col">
+                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{currentUser?.username || "Nama Akun"}</span>
+                        <span className="text-[13px] font-medium text-gray-500">@{currentUser?.username || "pampam"}</span>
+                      </div>
+                    </button>
                   </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Username</label>
-                    <input type="text" defaultValue={currentUser?.username || "pampam"} disabled className="w-full px-4 py-2.5 rounded-xl bg-gray-200 dark:bg-[#2A2B2C] border border-transparent text-gray-500 outline-none cursor-not-allowed" />
+                ) : (
+                  <div className="space-y-4 animate-in fade-in duration-200">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Identitas</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Nama Tampilan</label>
+                        <input type="text" defaultValue={currentUser?.username || "Nama Akun"} className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Username</label>
+                        <input type="text" defaultValue={currentUser?.username || "pampam"} disabled className="w-full px-4 py-2.5 rounded-xl bg-gray-200 dark:bg-[#2A2B2C] border border-transparent text-gray-500 outline-none cursor-not-allowed" />
+                      </div>
+                    </div>
+                    
+                    <div className="flex justify-end gap-2 pt-2 border-b border-gray-200 dark:border-gray-700 pb-4">
+                      <button onClick={() => setIsEditingName(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">
+                        Cancel
+                      </button>
+                      <button onClick={() => setIsEditingName(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">
+                        Save
+                      </button>
+                    </div>
                   </div>
-                </div>
+                )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Jenis Kelamin</label>
