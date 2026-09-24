@@ -213,3 +213,8 @@
 - (Frontend) Implemented Facebook-style Create Post modal dialog triggered by clicking the input in the home feed
 
 - (Frontend) Replaced icons in Create Post modal and feed inputs with Video, Calendar, and File icons.
+- (Frontend) Menghapus tombol font color "[Aa]" dan label AI dari modal postingan di `apps/web/src/app/[locale]/home/page.tsx`
+- (Frontend) Mengubah profil privasi label pada modal postingan menjadi dropdown dengan default yang menyesuaikan tab (`Public` / `Friends`) di `apps/web/src/app/[locale]/home/page.tsx`
+- (Frontend) Menambahkan fungsionalitas auto-close saat mengklik di luar area dropdown privasi dan menambahkan pengunci `overflow: hidden` global saat modal terbuka di `apps/web/src/app/[locale]/home/page.tsx`
+- (Frontend) Memperbaiki bug layout `sticky` header pada beranda dengan mengganti nav menjadi `fixed` dan menambahkan padding top di `apps/web/src/app/[locale]/home/page.tsx`
+- (Frontend) Menambahkan struktur dan layout dasar halaman profil pengguna di `apps/web/src/app/[locale]/p/[username]/[id]/page.tsx`
