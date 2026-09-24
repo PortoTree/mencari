@@ -351,15 +351,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
               ))}
             </div>
 
-            {/* Buttons */}
-            <div className="p-4 border-t border-gray-200 dark:border-gray-700 flex gap-2.5 shrink-0">
-              <button onClick={onClose} className="w-[40%] px-2 py-2.5 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">
-                Batal
-              </button>
-              <button onClick={onClose} className="w-[60%] px-2 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold transition-colors shadow-sm text-sm">
-                Simpan
-              </button>
-            </div>
+            
           </div>
 
           {/* Form Content (Kanan) */}
