@@ -194,8 +194,8 @@ export default function ProfilePage({
                     <div
                       className="w-6 h-6 bg-emerald-700 dark:bg-emerald-500 mb-0.5 shrink-0"
                       style={{
-                        WebkitMask: 'url(/review.svg) center/contain no-repeat',
-                        mask: 'url(/review.svg) center/contain no-repeat',
+                        WebkitMask: 'url(/review.png) center/contain no-repeat',
+                        mask: 'url(/review.png) center/contain no-repeat',
                       }}
                     />
                   </div>
