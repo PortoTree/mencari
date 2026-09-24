@@ -173,7 +173,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
   return (
     <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/60">
-      <div className="bg-white dark:bg-[#242526] w-full max-w-5xl rounded-2xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in duration-200">
+      <div className="bg-white dark:bg-[#242526] w-full max-w-5xl rounded-2xl shadow-2xl flex flex-col h-[85vh] min-h-[600px] max-h-[900px] overflow-hidden animate-in fade-in zoom-in duration-200">
         
         {/* Header - Reduced padding */}
         <div className="flex items-center justify-between px-6 py-2.5 border-b border-gray-200 dark:border-gray-700 shrink-0">
@@ -222,11 +222,11 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
           </div>
 
           {/* Form Content (Kanan) */}
-          <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar bg-white dark:bg-[#242526] min-h-[550px]">
+          <div className="flex-1 overflow-y-auto px-8 py-6 md:px-12 md:py-8 custom-scrollbar bg-white dark:bg-[#242526]">
             
             {/* 1. INTRO */}
             {activeTab === "intro" && (
-              <div className="space-y-6 max-w-2xl animate-in fade-in duration-200">
+              <div className="space-y-6 max-w-xl animate-in fade-in duration-200">
                 {!isEditingBio ? (
                   <>
                     <div>
@@ -279,7 +279,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
             {/* 2. INFORMASI DASAR */}
             {activeTab === "dasar" && (
-              <div className="space-y-6 max-w-2xl animate-in fade-in duration-200">
+              <div className="space-y-6 max-w-xl animate-in fade-in duration-200">
                 {!isEditingName ? (
                   <div>
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Identitas</h3>
@@ -334,7 +334,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
             {/* 3. TAMPILAN */}
             {activeTab === "tampilan" && (
-              <div className="space-y-8 max-w-2xl animate-in fade-in duration-200">
+              <div className="space-y-8 max-w-xl animate-in fade-in duration-200">
                 <div>
                   <label className="block text-base font-bold text-gray-900 dark:text-white mb-4">Avatar Profil</label>
                   <div className="flex items-center gap-6">
@@ -386,7 +386,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
             {/* 4. PROFESI/PEKERJAAN */}
             {activeTab === "profesi" && (
-              <div className="space-y-4 max-w-2xl animate-in fade-in duration-200">
+              <div className="space-y-4 max-w-xl animate-in fade-in duration-200">
                 <label className="block text-base font-bold text-gray-900 dark:text-white mb-2">Profesi / Pekerjaan</label>
                 <input type="text" placeholder="Misal: Web Developer, UI/UX Designer..." className="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus:border-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
               </div>
@@ -394,7 +394,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
             {/* 5. LINKS */}
             {activeTab === "links" && (
-              <div className="space-y-4 max-w-2xl animate-in fade-in duration-200">
+              <div className="space-y-4 max-w-xl animate-in fade-in duration-200">
                 <label className="block text-base font-bold text-gray-900 dark:text-white mb-2">Kolom Tautan Eksternal</label>
                 <div className="flex gap-3">
                   <input type="text" placeholder="https://website-kamu.com" className="flex-1 px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus:border-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
@@ -411,7 +411,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
             {/* 6. SOCIAL MEDIA */}
             {activeTab === "sosmed" && (
-              <div className="space-y-4 max-w-2xl animate-in fade-in duration-200 pb-32">
+              <div className="space-y-4 max-w-xl animate-in fade-in duration-200 pb-32">
                 <label className="block text-base font-bold text-gray-900 dark:text-white mb-2">Tautan Sosial Media</label>
                 <div className="flex flex-col sm:flex-row gap-3 relative z-10">
                   <CustomSelect 
@@ -447,7 +447,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
             {/* 7. SKILL */}
             {activeTab === "skill" && (
-              <div className="space-y-4 max-w-2xl animate-in fade-in duration-200">
+              <div className="space-y-4 max-w-xl animate-in fade-in duration-200">
                 <label className="block text-base font-bold text-gray-900 dark:text-white mb-2">Skill / Keahlian</label>
                 <div className="flex gap-3">
                   <input type="text" placeholder="Misal: React, Node.js, Public Speaking..." className="flex-1 px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus:border-[#10B981] text-gray-900 dark:text-white outline-none" />
@@ -458,7 +458,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
             {/* 8. HOBBY */}
             {activeTab === "hobby" && (
-              <div className="space-y-4 max-w-2xl animate-in fade-in duration-200">
+              <div className="space-y-4 max-w-xl animate-in fade-in duration-200">
                 <label className="block text-base font-bold text-gray-900 dark:text-white mb-2">Hobby</label>
                 <div className="flex gap-3">
                   <input type="text" placeholder="Misal: Berenang, Membaca, dll..." className="flex-1 px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus:border-[#10B981] text-gray-900 dark:text-white outline-none" />
@@ -469,7 +469,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
             {/* 9. MINAT */}
             {activeTab === "minat" && (
-              <div className="space-y-6 max-w-2xl animate-in fade-in duration-200 pb-20">
+              <div className="space-y-6 max-w-xl animate-in fade-in duration-200 pb-20">
                 <div className="mb-2">
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white">Kategori Minat</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Pilih kategori yang Anda minati untuk ditampilkan di profil.</p>
@@ -500,7 +500,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
             {/* 10. PRIVASI */}
             {activeTab === "privasi" && (
-              <div className="space-y-4 max-w-2xl animate-in fade-in duration-200 pb-24">
+              <div className="space-y-4 max-w-xl animate-in fade-in duration-200 pb-24">
                 <div className="mb-6">
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white">Pengaturan Privasi</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Atur siapa saja yang bisa melihat dan berinteraksi dengan profil Anda.</p>
