@@ -67,7 +67,7 @@ export default function ProfilePage({
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#EBEBEB] dark:bg-[#1E1E1E] text-black dark:text-[#E4E6EB] pb-20 pt-[56px] font-sans">
+    <main className="min-h-screen bg-[#F3F2EF] dark:bg-[#18191A] text-black dark:text-[#E4E6EB] pb-20 pt-[56px] font-sans">
       <Navbar activeTab={null} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} themeLoaded={themeLoaded} currentUser={currentUser} />
 
       <div className="max-w-[1100px] mx-auto px-4 md:px-8">
