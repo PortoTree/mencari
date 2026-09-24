@@ -236,3 +236,5 @@
 - (Frontend) Reduce border radius of photo grid from 30px to 18px (page.tsx)
 
 - (Frontend) Change 'Points' label to @username for public views (page.tsx)
+
+- (Frontend) Remove edit hover icon from the photo grid (page.tsx)
