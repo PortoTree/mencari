@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import React, { useState, useEffect, useRef } from "react";
 
-function CustomSelect({ options, value, onChange, className, columns = 1, getIcon }: { options: string[], value: string, onChange: (val: string) => void, className?: string, columns?: number, getIcon?: (opt: string) => any }) {
+function CustomSelect({ options, value, onChange, className, columns = 1, getIcon, hideLabelOnDisplay = false }: { options: string[], value: string, onChange: (val: string) => void, className?: string, columns?: number, getIcon?: (opt: string) => any, hideLabelOnDisplay?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const [dropUp, setDropUp] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -44,7 +44,7 @@ function CustomSelect({ options, value, onChange, className, columns = 1, getIco
                ? (typeof getIcon(value) === "string" ? <img src={getIcon(value)} alt={value} className="w-5 h-5 object-contain shrink-0" /> : getIcon(value))
                : <div className="w-5 h-5 flex items-center justify-center bg-gray-200 dark:bg-gray-600 rounded-full shrink-0"><svg className="w-3 h-3 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg></div>
            )}
-           <span className="text-sm font-semibold truncate">{value}</span>
+           {!hideLabelOnDisplay && <span className="text-sm font-semibold truncate">{value}</span>}
         </div>
         <svg className={`w-4 h-4 ml-2 shrink-0 text-gray-500 transition-transform duration-200 ${isOpen ? (dropUp ? "" : "rotate-180") : (dropUp ? "rotate-180" : "")}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"/></svg>
       </div>
@@ -232,6 +232,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [privacyBirth, setPrivacyBirth] = useState(t("public"));
   const [privacyLoc, setPrivacyLoc] = useState(t("public"));
   const [privacyProf, setPrivacyProf] = useState(t("public"));
+  const [privacySosmed, setPrivacySosmed] = useState(t("public"));
   const [privacyFriendList, setPrivacyFriendList] = useState(t("public"));
   const [privacyComment, setPrivacyComment] = useState(t("public"));
   const [privacyDM, setPrivacyDM] = useState(t("allow"));
@@ -740,37 +741,44 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     <div className="space-y-3">
                       <div className="flex flex-col sm:flex-row gap-3">
                         <CustomSelect 
-                          className="w-full sm:w-[160px] shrink-0" 
-                          options={["Instagram", "Whatsapp", "Facebook", "Tiktok", "Github", "Portotree", "Linkedin", "Youtube", "Telegram", "Twitter"]} 
-                          value={socialPlatform === "Lainnya" ? "Instagram" : socialPlatform} 
-                          onChange={setSocialPlatform}
-                          columns={2}
-                          getIcon={getSocialIcon}
-                        />
-                        <div className="flex-1 flex rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus-within:border-[#10B981] focus-within:ring-1 focus-within:ring-[#10B981] transition-all overflow-hidden">
-                          {getPrefix(socialPlatform) && (
-                            <span className="pl-3 pr-2 py-2.5 text-gray-500 dark:text-gray-400 text-sm font-medium flex items-center bg-gray-100 dark:bg-[#2A2B2C] border-r border-gray-300 dark:border-gray-600 shrink-0 max-w-[120px] overflow-hidden truncate">
-                              {getPrefix(socialPlatform)}
-                            </span>
-                          )}
-                          <input 
-                            type="text" 
-                            placeholder={socialPlatform === "Whatsapp" ? "Your number" : "username"} 
-                            value={socialUsername}
-                            onChange={(e) => {
-                              let val = e.target.value;
-                              if (socialPlatform === "Whatsapp") {
-                                val = val.replace(/\D/g, '');
-                              }
-                              setSocialUsername(val);
-                            }}
-                            className="flex-1 px-3 py-2.5 bg-transparent text-gray-900 dark:text-white outline-none text-sm w-full min-w-0" 
+                            className="w-[85px] shrink-0" 
+                            options={["Instagram", "Whatsapp", "Facebook", "Tiktok", "Github", "Portotree", "Linkedin", "Youtube", "Telegram", "Twitter"]} 
+                            value={socialPlatform === "Lainnya" ? "Instagram" : socialPlatform} 
+                            onChange={setSocialPlatform}
+                            columns={2}
+                            getIcon={getSocialIcon}
+                            hideLabelOnDisplay={true}
                           />
-                        </div>
-                        <button className="p-2.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-colors border border-transparent hover:border-red-200 dark:hover:border-red-500/20 shrink-0 flex items-center justify-center">
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                        </button>
-                      </div>
+                          <div className="flex-1 flex rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus-within:border-[#10B981] focus-within:ring-1 focus-within:ring-[#10B981] transition-all overflow-hidden">
+                            {getPrefix(socialPlatform) && (
+                              <span className="pl-3 pr-2 py-2.5 text-gray-500 dark:text-gray-400 text-sm font-medium flex items-center bg-gray-100 dark:bg-[#2A2B2C] border-r border-gray-300 dark:border-gray-600 shrink-0 max-w-[120px] overflow-hidden truncate">
+                                {getPrefix(socialPlatform)}
+                              </span>
+                            )}
+                            <input 
+                              type="text" 
+                              placeholder={socialPlatform === "Whatsapp" ? "Your number" : "username"} 
+                              value={socialUsername}
+                              onChange={(e) => {
+                                let val = e.target.value;
+                                if (socialPlatform === "Whatsapp") {
+                                  val = val.replace(/\D/g, '');
+                                }
+                                setSocialUsername(val);
+                              }}
+                              className="flex-1 px-3 py-2.5 bg-transparent text-gray-900 dark:text-white outline-none text-sm w-full min-w-0" 
+                            />
+                          </div>
+                          <CustomSelect 
+                            className="w-[145px] shrink-0" 
+                            options={[t("public"), t("friendsOnly")]} 
+                            value={privacySosmed} 
+                            onChange={setPrivacySosmed} 
+                            getIcon={getPrivacyIcon} 
+                          />
+                          <button className="p-2.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-colors border border-transparent hover:border-red-200 dark:hover:border-red-500/20 shrink-0 flex items-center justify-center">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                          </button></div>
 
                       <button className="text-sm font-bold text-[#10B981] hover:text-emerald-600 flex items-center gap-1.5 px-1 py-1 transition-colors">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/></svg>
