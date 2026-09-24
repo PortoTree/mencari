@@ -81,6 +81,10 @@ interface EditProfileModalProps {
 export default function EditProfileModal({ isOpen, onClose, currentUser }: EditProfileModalProps) {
   const [activeTab, setActiveTab] = useState("intro");
 
+  // Intro States
+  const [isEditingBio, setIsEditingBio] = useState(false);
+  const [bioText, setBioText] = useState("");
+
   // Form States (for custom selects)
   const [gender, setGender] = useState("Pilih...");
   const [socialPlatform, setSocialPlatform] = useState("Instagram");
@@ -221,23 +225,69 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
             
             {/* 1. INTRO */}
             {activeTab === "intro" && (
-              <div className="space-y-4 max-w-2xl animate-in fade-in duration-200">
-                <label className="block text-base font-bold text-gray-900 dark:text-white mb-2">Bio / Deskripsi</label>
-                <textarea rows={5} placeholder="Ceritakan tentang diri Anda..." className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all resize-none"></textarea>
-                <p className="text-xs text-gray-500">Tuliskan deskripsi singkat mengenai Anda agar orang lain lebih mengenal Anda.</p>
+              <div className="space-y-6 max-w-2xl animate-in fade-in duration-200">
+                {!isEditingBio ? (
+                  <>
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Bio</h3>
+                      <button onClick={() => setIsEditingBio(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
+                        <svg className="w-7 h-7 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"/></svg>
+                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">About you</span>
+                      </button>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Pinned details</h3>
+                      <button className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
+                        <svg className="w-7 h-7 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
+                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Pinned details</span>
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="space-y-4 animate-in fade-in duration-200">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Bio</h3>
+                    
+                    
+                    <div>
+                      <label className="block text-sm font-bold text-gray-900 dark:text-white mb-2">Edit Bio</label>
+                      <textarea 
+                        value={bioText}
+                        onChange={(e) => { if(e.target.value.length <= 121) setBioText(e.target.value) }}
+                        rows={4} 
+                        placeholder="Introduce yourself" 
+                        className="w-full px-4 py-3 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all resize-none"
+                      ></textarea>
+                      <div className="flex items-center justify-between mt-2 border-b border-gray-200 dark:border-gray-700 pb-4">
+                        <span className="text-xs font-medium text-gray-500">{bioText.length}/121</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex justify-end gap-2 pt-2">
+                      <button onClick={() => setIsEditingBio(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">
+                        Cancel
+                      </button>
+                      <button onClick={() => setIsEditingBio(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">
+                        Save
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
             {/* 2. INFORMASI DASAR */}
             {activeTab === "dasar" && (
               <div className="space-y-6 max-w-2xl animate-in fade-in duration-200">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Nama Tampilan</label>
-                  <input type="text" defaultValue={currentUser?.username || "Nama Akun"} className="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus:border-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Username</label>
-                  <input type="text" defaultValue={currentUser?.username || "pampam"} disabled className="w-full px-4 py-2.5 rounded-xl bg-gray-200 dark:bg-[#2A2B2C] border border-transparent text-gray-500 outline-none cursor-not-allowed" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Nama Tampilan</label>
+                    <input type="text" defaultValue={currentUser?.username || "Nama Akun"} className="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus:border-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Username</label>
+                    <input type="text" defaultValue={currentUser?.username || "pampam"} disabled className="w-full px-4 py-2.5 rounded-xl bg-gray-200 dark:bg-[#2A2B2C] border border-transparent text-gray-500 outline-none cursor-not-allowed" />
+                  </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
