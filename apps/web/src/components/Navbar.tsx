@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Lottie } from "lottie-react";
 // @ts-ignore
 import animationDataLight from "../../../../public/search-bar.json";
@@ -21,6 +21,16 @@ export default function Navbar({
   const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
+  const pathname = usePathname();
+
+  const handleTabNavigation = (tabName: string, routeName: string) => {
+    if (pathname.includes("/p/")) {
+      router.push(`/${locale}/${routeName}`);
+    } else {
+      setActiveTab(tabName);
+      window.history.pushState(null, "", `/${locale}/${routeName}`);
+    }
+  };
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isSearchNavOpen, setIsSearchNavOpen] = useState(false);
@@ -76,10 +86,7 @@ export default function Navbar({
         {/* Center: Tabs */}
         <div className="hidden md:flex items-center justify-center gap-2 absolute left-1/2 -translate-x-1/2 h-full">
           <div
-            onClick={() => {
-              setActiveTab("home");
-              window.history.pushState(null, "", `/${locale}/home`);
-            }}
+            onClick={() => handleTabNavigation("home", "home")}
             className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer ${activeTab === "home" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1 transition-colors"}`}
           >
             <div
@@ -94,10 +101,7 @@ export default function Navbar({
             </span>
           </div>
           <div
-            onClick={() => {
-              setActiveTab("product");
-              window.history.pushState(null, "", `/${locale}/product`);
-            }}
+            onClick={() => handleTabNavigation("product", "product")}
             className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "product" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
           >
             <div
@@ -112,10 +116,7 @@ export default function Navbar({
             </span>
           </div>
           <div
-            onClick={() => {
-              setActiveTab("chat");
-              window.history.pushState(null, "", `/${locale}/obrolan`);
-            }}
+            onClick={() => handleTabNavigation("chat", "obrolan")}
             className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "chat" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
           >
             <div
@@ -130,10 +131,7 @@ export default function Navbar({
             </span>
           </div>
           <div
-            onClick={() => {
-              setActiveTab("friend");
-              window.history.pushState(null, "", `/${locale}/friend`);
-            }}
+            onClick={() => handleTabNavigation("friend", "friend")}
             className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "friend" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
           >
             <div
@@ -148,10 +146,7 @@ export default function Navbar({
             </span>
           </div>
           <div
-            onClick={() => {
-              setActiveTab("community");
-              window.history.pushState(null, "", `/${locale}/community`);
-            }}
+            onClick={() => handleTabNavigation("community", "community")}
             className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "community" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
           >
             <div
@@ -197,11 +192,7 @@ export default function Navbar({
                   <div className="flex items-center gap-3">
                     <div className="relative group/visit">
                       <button
-                        onClick={() => {
-                          setActiveTab("mencari");
-                          setIsSearchNavOpen(false);
-                          window.history.pushState(null, "", `/${locale}/mencari`);
-                        }}
+                        onClick={() => { setIsSearchNavOpen(false); handleTabNavigation("mencari", "mencari"); }}
                         className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 dark:bg-[#3A3B3C] hover:bg-emerald-50 dark:hover:bg-[#203D2E] transition-colors shrink-0 border border-gray-200 dark:border-[#4E4F50]"
                       >
                         <img
