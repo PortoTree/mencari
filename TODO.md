@@ -234,3 +234,5 @@
 - (Frontend) Move tabs navigation outside of main content flex layout so profile card height aligns precisely with photo grid and reputasi card (page.tsx)
 
 - (Frontend) Reduce border radius of photo grid from 30px to 18px (page.tsx)
+
+- (Frontend) Change 'Points' label to @username for public views (page.tsx)

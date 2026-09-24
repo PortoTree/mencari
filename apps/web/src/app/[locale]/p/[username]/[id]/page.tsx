@@ -194,7 +194,7 @@ export default function ProfilePage({
                     </div>
                   </div>
                   <div className="text-white flex flex-col justify-center">
-                  <p className="font-bold text-[18px] leading-none mb-1.5 tracking-wide">{isOwnProfile ? t("yourPoints") : t("pointsLabel")}</p>
+                  <p className="font-bold text-[18px] leading-none mb-1.5 tracking-wide">{isOwnProfile ? t("yourPoints") : `@${username}`}</p>
                   <div className="flex items-center gap-1.5 mt-1">
                     <p className="font-extrabold text-[22px] leading-none tracking-wide">1.238</p>
                     <img
