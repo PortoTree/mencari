@@ -1,6 +1,65 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+
+function CustomSelect({ options, value, onChange, className }: { options: string[], value: string, onChange: (val: string) => void, className?: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [dropUp, setDropUp] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const toggleOpen = () => {
+    if (!isOpen && ref.current) {
+      const rect = ref.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      
+      if (spaceBelow < 250 && rect.top > spaceBelow) {
+        setDropUp(true);
+      } else {
+        setDropUp(false);
+      }
+    }
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <div ref={ref} className={`relative ${className || ""}`}>
+      <div 
+        onClick={toggleOpen}
+        className="flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 hover:border-[#10B981] dark:hover:border-[#10B981] cursor-pointer text-gray-900 dark:text-white transition-all shadow-sm"
+      >
+        <span className="text-sm font-semibold truncate">{value}</span>
+        <svg className={`w-4 h-4 ml-2 shrink-0 text-gray-500 transition-transform duration-200 ${isOpen ? (dropUp ? "" : "rotate-180") : (dropUp ? "rotate-180" : "")}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"/></svg>
+      </div>
+      
+      {isOpen && (
+        <div className={`absolute z-50 w-full bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-gray-600 rounded-xl shadow-xl overflow-hidden py-1.5 animate-in fade-in duration-150 ${dropUp ? "bottom-full mb-1.5 slide-in-from-bottom-2" : "top-full mt-1.5 slide-in-from-top-2"}`}>
+          {options.map((opt, idx) => (
+            <div 
+              key={idx}
+              onClick={() => { onChange(opt); setIsOpen(false); }}
+              className={`px-4 py-2.5 text-sm font-semibold cursor-pointer transition-colors flex items-center justify-between ${value === opt ? "text-[#10B981] bg-[#10B981]/5" : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3A3B3C]"}`}
+            >
+              {opt}
+              {value === opt && (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/></svg>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 interface EditProfileModalProps {
   isOpen: boolean;
@@ -10,6 +69,19 @@ interface EditProfileModalProps {
 
 export default function EditProfileModal({ isOpen, onClose, currentUser }: EditProfileModalProps) {
   const [activeTab, setActiveTab] = useState("dasar");
+
+  // Form States (for custom selects)
+  const [gender, setGender] = useState("Pilih...");
+  const [socialPlatform, setSocialPlatform] = useState("Instagram");
+  
+  // Privacy States
+  const [privacyBirth, setPrivacyBirth] = useState("Publik");
+  const [privacyLoc, setPrivacyLoc] = useState("Publik");
+  const [privacyFriendList, setPrivacyFriendList] = useState("Publik");
+  const [privacyComment, setPrivacyComment] = useState("Publik");
+  const [privacyDM, setPrivacyDM] = useState("Izinkan");
+  const [privacyTag, setPrivacyTag] = useState("Publik");
+  const [privacyOnline, setPrivacyOnline] = useState("Tampilkan");
 
   useEffect(() => {
     if (isOpen) {
@@ -26,6 +98,16 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   }, [isOpen]);
 
   if (!isOpen) return null;
+
+  const privacySettings = [
+    { label: "Tampilkan tanggal lahir", options: ["Publik", "Hanya Teman", "Privat"], state: privacyBirth, setState: setPrivacyBirth },
+    { label: "Tampilkan lokasi", options: ["Publik", "Hanya Teman"], state: privacyLoc, setState: setPrivacyLoc },
+    { label: "Siapa yang bisa melihat daftar teman Anda?", options: ["Publik", "Hanya Teman"], state: privacyFriendList, setState: setPrivacyFriendList },
+    { label: "Siapa yang bisa mengomentari postingan Anda?", options: ["Publik", "Hanya Teman", "Matikan"], state: privacyComment, setState: setPrivacyComment },
+    { label: "Izinkan public mengirim pesan langsung?", options: ["Izinkan", "Jangan izinkan"], state: privacyDM, setState: setPrivacyDM },
+    { label: "Siapa yang bisa menandai (Tag/Mention) Anda?", options: ["Publik", "Hanya Teman"], state: privacyTag, setState: setPrivacyTag },
+    { label: "Tampilkan status online", options: ["Tampilkan", "Sembunyikan"], state: privacyOnline, setState: setPrivacyOnline },
+  ];
 
   return (
     <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/60">
@@ -117,11 +199,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Jenis Kelamin</label>
-                    <select className="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus:border-[#10B981] text-gray-900 dark:text-white outline-none cursor-pointer">
-                      <option>Pilih...</option>
-                      <option>Pria</option>
-                      <option>Wanita</option>
-                    </select>
+                    <CustomSelect options={["Pria", "Wanita", "Lainnya"]} value={gender} onChange={setGender} />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Tanggal Lahir</label>
@@ -138,13 +216,14 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
             {/* TAB 2: SOSIAL & MINAT */}
             {activeTab === "sosial" && (
-              <div className="space-y-8 max-w-2xl">
+              <div className="space-y-8 max-w-2xl animate-in fade-in duration-200">
                 <div>
                   <label className="block text-base font-bold text-gray-900 dark:text-white mb-3">Profesi / Pekerjaan</label>
                   <input type="text" placeholder="Misal: Web Developer, UI/UX Designer..." className="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus:border-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
                 </div>
 
                 <hr className="border-gray-200 dark:border-gray-700" />
+
                 <div>
                   <label className="block text-base font-bold text-gray-900 dark:text-white mb-4">Minat & Hobi</label>
                   <div className="flex flex-wrap gap-2.5 mb-4">
@@ -168,13 +247,8 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                 <div>
                   <label className="block text-base font-bold text-gray-900 dark:text-white mb-4">Tautan Sosial Media</label>
                   <div className="space-y-4">
-                    <div className="flex flex-col sm:flex-row gap-3">
-                      <select className="w-full sm:w-[140px] px-3 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 text-sm font-semibold text-gray-900 dark:text-white outline-none cursor-pointer focus:border-[#10B981]">
-                        <option>Website</option>
-                        <option>Instagram</option>
-                        <option>TikTok</option>
-                        <option>YouTube</option>
-                      </select>
+                    <div className="flex flex-col sm:flex-row gap-3 relative z-10">
+                      <CustomSelect className="w-full sm:w-[150px]" options={["Website", "Instagram", "TikTok", "YouTube"]} value={socialPlatform} onChange={setSocialPlatform} />
                       <input type="text" placeholder="https://mencari.online" className="flex-1 px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus:border-[#10B981] text-gray-900 dark:text-white outline-none text-sm" />
                       <button className="p-3 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-colors border border-transparent hover:border-red-200 dark:hover:border-red-500/20">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
@@ -191,25 +265,15 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
             {/* TAB 3: PRIVASI */}
             {activeTab === "privasi" && (
-              <div className="space-y-3.5 max-w-2xl">
+              <div className="space-y-4 max-w-2xl animate-in fade-in duration-200 pb-20">
                 <div className="mb-6">
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white">Pengaturan Privasi</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Atur siapa saja yang bisa melihat dan berinteraksi dengan profil Anda.</p>
                 </div>
-                {[
-                  { label: "Tampilkan tanggal lahir", options: ["Publik", "Hanya Teman", "Privat"] },
-                  { label: "Tampilkan lokasi", options: ["Publik", "Hanya Teman"] },
-                  { label: "Siapa yang bisa melihat daftar teman Anda?", options: ["Publik", "Hanya Teman"] },
-                  { label: "Siapa yang bisa mengomentari postingan Anda?", options: ["Publik", "Hanya Teman", "Matikan"] },
-                  { label: "Izinkan public mengirim pesan langsung?", options: ["Izinkan", "Jangan izinkan"] },
-                  { label: "Siapa yang bisa menandai (Tag/Mention) Anda?", options: ["Publik", "Hanya Teman"] },
-                  { label: "Tampilkan status online", options: ["Tampilkan", "Sembunyikan"] },
-                ].map((item, idx) => (
+                {privacySettings.map((item, idx) => (
                   <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-gray-50 dark:bg-[#3A3B3C]/40 border border-gray-100 dark:border-gray-700/50 hover:border-[#10B981]/30 transition-colors">
                     <label className="text-sm font-semibold text-gray-700 dark:text-gray-200">{item.label}</label>
-                    <select className="px-3 py-2 rounded-xl bg-white dark:bg-[#242526] border border-gray-200 dark:border-gray-600 text-sm font-semibold text-gray-900 dark:text-white outline-none cursor-pointer focus:border-[#10B981] min-w-[140px]">
-                      {item.options.map((opt, i) => <option key={i}>{opt}</option>)}
-                    </select>
+                    <CustomSelect className="w-full sm:w-[160px]" options={item.options} value={item.state} onChange={item.setState} />
                   </div>
                 ))}
               </div>
