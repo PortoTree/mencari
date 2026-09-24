@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 
-function CustomSelect({ options, value, onChange, className }: { options: string[], value: string, onChange: (val: string) => void, className?: string }) {
+function CustomSelect({ options, value, onChange, className, columns = 1, getIcon }: { options: string[], value: string, onChange: (val: string) => void, className?: string, columns?: number, getIcon?: (opt: string) => string | null }) {
   const [isOpen, setIsOpen] = useState(false);
   const [dropUp, setDropUp] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -37,24 +37,35 @@ function CustomSelect({ options, value, onChange, className }: { options: string
         onClick={toggleOpen}
         className="flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 hover:border-[#10B981] dark:hover:border-[#10B981] cursor-pointer text-gray-900 dark:text-white transition-all shadow-sm"
       >
-        <span className="text-sm font-semibold truncate">{value}</span>
+        <div className="flex items-center gap-2 overflow-hidden">
+           {getIcon && (
+             getIcon(value) 
+               ? <img src={getIcon(value) || ''} alt={value} className="w-5 h-5 object-contain shrink-0" />
+               : <div className="w-5 h-5 flex items-center justify-center bg-gray-200 dark:bg-gray-600 rounded-full shrink-0"><svg className="w-3 h-3 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg></div>
+           )}
+           <span className="text-sm font-semibold truncate">{value}</span>
+        </div>
         <svg className={`w-4 h-4 ml-2 shrink-0 text-gray-500 transition-transform duration-200 ${isOpen ? (dropUp ? "" : "rotate-180") : (dropUp ? "rotate-180" : "")}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"/></svg>
       </div>
       
       {isOpen && (
-        <div className={`absolute z-50 w-full bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-gray-600 rounded-xl shadow-xl overflow-hidden py-1.5 animate-in fade-in duration-150 ${dropUp ? "bottom-full mb-1.5 slide-in-from-bottom-2" : "top-full mt-1.5 slide-in-from-top-2"}`}>
-          {options.map((opt, idx) => (
+        <div className={`absolute z-50 ${columns === 2 ? 'w-[280px]' : 'w-full'} bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-gray-600 rounded-xl shadow-xl overflow-hidden py-1.5 animate-in fade-in duration-150 ${dropUp ? "bottom-full mb-1.5 slide-in-from-bottom-2" : "top-full mt-1.5 slide-in-from-top-2"} ${columns === 2 ? "grid grid-cols-2 gap-1 px-1.5 py-2" : ""}`}>
+          {options.map((opt, idx) => {
+            const icon = getIcon ? getIcon(opt) : null;
+            return (
             <div 
               key={idx}
               onClick={() => { onChange(opt); setIsOpen(false); }}
-              className={`px-4 py-2.5 text-sm font-semibold cursor-pointer transition-colors flex items-center justify-between ${value === opt ? "text-[#10B981] bg-[#10B981]/5" : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3A3B3C]"}`}
+              className={`${columns === 2 ? "px-3 py-2 rounded-lg" : "px-4 py-2.5"} text-sm font-semibold cursor-pointer transition-colors flex items-center ${columns === 2 ? "gap-2" : "justify-between"} ${value === opt ? "text-[#10B981] bg-[#10B981]/10" : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3A3B3C]"}`}
             >
-              {opt}
-              {value === opt && (
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/></svg>
+              {icon && <img src={icon} alt={opt} className="w-5 h-5 object-contain shrink-0" />}
+              {!icon && getIcon && <div className="w-5 h-5 flex items-center justify-center bg-gray-200 dark:bg-gray-600 rounded-full shrink-0"><svg className="w-3 h-3 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg></div>}
+              <span className="flex-1 truncate">{opt}</span>
+              {value === opt && columns === 1 && (
+                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/></svg>
               )}
             </div>
-          ))}
+          )})}
         </div>
       )}
     </div>
@@ -82,6 +93,22 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [privacyDM, setPrivacyDM] = useState("Izinkan");
   const [privacyTag, setPrivacyTag] = useState("Publik");
   const [privacyOnline, setPrivacyOnline] = useState("Tampilkan");
+
+  const getSocialIcon = (platform: string) => {
+    switch (platform) {
+      case "Instagram": return "/sosmed/instagram.webp";
+      case "Whatsapp": return "/sosmed/whatsapp.webp";
+      case "Facebook": return "/sosmed/facebook.webp";
+      case "Tiktok": return "/sosmed/tiktok.webp";
+      case "Github": return "/sosmed/github.webp";
+      case "Portotree": return "/sosmed/portotree.webp";
+      case "Linkedin": return "/sosmed/linkedin.webp";
+      case "Youtube": return "/sosmed/youtube.webp";
+      case "Telegram": return "/sosmed/telegram.webp";
+      case "Twitter": return "/sosmed/twiter.webp";
+      default: return null;
+    }
+  };
 
   const getPrefix = (platform: string) => {
     switch (platform) {
@@ -266,10 +293,12 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                   <div className="space-y-4">
                     <div className="flex flex-col sm:flex-row gap-3 relative z-10">
                       <CustomSelect 
-                        className="w-full sm:w-[150px] shrink-0" 
+                        className="w-full sm:w-[160px] shrink-0" 
                         options={["Instagram", "Whatsapp", "Facebook", "Tiktok", "Github", "Portotree", "Linkedin", "Youtube", "Telegram", "Twitter", "Lainnya"]} 
                         value={socialPlatform} 
-                        onChange={setSocialPlatform} 
+                        onChange={setSocialPlatform}
+                        columns={2}
+                        getIcon={getSocialIcon}
                       />
                       
                       <div className="flex-1 flex rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus-within:border-[#10B981] transition-colors overflow-hidden">
