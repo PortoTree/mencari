@@ -218,3 +218,9 @@
 - (Frontend) Menambahkan fungsionalitas auto-close saat mengklik di luar area dropdown privasi dan menambahkan pengunci `overflow: hidden` global saat modal terbuka di `apps/web/src/app/[locale]/home/page.tsx`
 - (Frontend) Memperbaiki bug layout `sticky` header pada beranda dengan mengganti nav menjadi `fixed` dan menambahkan padding top di `apps/web/src/app/[locale]/home/page.tsx`
 - (Frontend) Menambahkan struktur dan layout dasar halaman profil pengguna di `apps/web/src/app/[locale]/p/[username]/[id]/page.tsx`
+
+### (Backend) Registration Anti-Duplicate
+- Added robust anti-duplicate username detection in `apps/api/src/auth/auth.service.ts` during registration.
+- Added check against `PendingUser` table for usernames held by pending verifications within the last 15 minutes.
+- Added strict fallback check during `verifyOtp` to prevent race conditions (cleans up pending user if username was taken in main table).
+- Added `console.log` debug outputs to track duplicate detection events.

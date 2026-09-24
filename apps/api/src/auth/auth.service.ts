@@ -128,6 +128,14 @@ export class AuthService {
     if (!pending) throw new BadRequestException('Email tidak ditemukan atau sudah diverifikasi');
     if (pending.otpCode !== data.code) throw new BadRequestException('Kode OTP salah');
 
+    // Pastikan username belum diambil di tabel User asli selama user ini di Karantina
+    const existingUser = await this.usersService.findOneByUsername(pending.username);
+    if (existingUser) {
+      console.log(`[VerifyOTP] Race condition prevented: Username ${pending.username} was already taken in main User table by someone else.`);
+      await this.prisma.pendingUser.delete({ where: { email: pending.email } });
+      throw new BadRequestException('Mohon maaf, username sudah keduluan diambil orang lain. Silakan daftar ulang dengan username berbeda.');
+    }
+
     // 2. Kalau OTP bener, baru kita masukin ke tabel User asli
     await this.usersService.create({
       username: pending.username,
