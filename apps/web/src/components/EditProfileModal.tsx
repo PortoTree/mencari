@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 
-function CustomSelect({ options, value, onChange, className, columns = 1, getIcon }: { options: string[], value: string, onChange: (val: string) => void, className?: string, columns?: number, getIcon?: (opt: string) => string | null }) {
+function CustomSelect({ options, value, onChange, className, columns = 1, getIcon }: { options: string[], value: string, onChange: (val: string) => void, className?: string, columns?: number, getIcon?: (opt: string) => any }) {
   const [isOpen, setIsOpen] = useState(false);
   const [dropUp, setDropUp] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -40,7 +40,7 @@ function CustomSelect({ options, value, onChange, className, columns = 1, getIco
         <div className="flex items-center gap-2 overflow-hidden">
            {getIcon && (
              getIcon(value) 
-               ? <img src={getIcon(value) || ''} alt={value} className="w-5 h-5 object-contain shrink-0" />
+               ? (typeof getIcon(value) === "string" ? <img src={getIcon(value)} alt={value} className="w-5 h-5 object-contain shrink-0" /> : getIcon(value))
                : <div className="w-5 h-5 flex items-center justify-center bg-gray-200 dark:bg-gray-600 rounded-full shrink-0"><svg className="w-3 h-3 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg></div>
            )}
            <span className="text-sm font-semibold truncate">{value}</span>
@@ -58,7 +58,7 @@ function CustomSelect({ options, value, onChange, className, columns = 1, getIco
               onClick={() => { onChange(opt); setIsOpen(false); }}
               className={`${columns === 2 ? "px-3 py-2 rounded-lg" : "px-4 py-2.5"} text-sm font-semibold cursor-pointer transition-colors flex items-center ${columns === 2 ? "gap-2" : "justify-between"} ${value === opt ? "text-[#10B981] bg-[#10B981]/10" : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3A3B3C]"}`}
             >
-              {icon && <img src={icon} alt={opt} className="w-5 h-5 object-contain shrink-0" />}
+              {icon && (typeof icon === "string" ? <img src={icon} alt={opt} className="w-5 h-5 object-contain shrink-0" /> : icon)}
               {!icon && getIcon && <div className="w-5 h-5 flex items-center justify-center bg-gray-200 dark:bg-gray-600 rounded-full shrink-0"><svg className="w-3 h-3 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg></div>}
               <span className="flex-1 truncate">{opt}</span>
               {value === opt && columns === 1 && (
@@ -84,6 +84,9 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   // Intro States
   const [isEditingBio, setIsEditingBio] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
+  const [isEditingGender, setIsEditingGender] = useState(false);
+  const [isEditingDOB, setIsEditingDOB] = useState(false);
+  const [isEditingLocation, setIsEditingLocation] = useState(false);
   const [bioText, setBioText] = useState("");
 
   // Form States (for custom selects)
@@ -91,12 +94,13 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [socialPlatform, setSocialPlatform] = useState("Instagram");
   
   // Privacy States
-  const [privacyBirth, setPrivacyBirth] = useState("Publik");
-  const [privacyLoc, setPrivacyLoc] = useState("Publik");
-  const [privacyFriendList, setPrivacyFriendList] = useState("Publik");
-  const [privacyComment, setPrivacyComment] = useState("Publik");
+  const [privacyGender, setPrivacyGender] = useState("Public");
+  const [privacyBirth, setPrivacyBirth] = useState("Public");
+  const [privacyLoc, setPrivacyLoc] = useState("Public");
+  const [privacyFriendList, setPrivacyFriendList] = useState("Public");
+  const [privacyComment, setPrivacyComment] = useState("Public");
   const [privacyDM, setPrivacyDM] = useState("Izinkan");
-  const [privacyTag, setPrivacyTag] = useState("Publik");
+  const [privacyTag, setPrivacyTag] = useState("Public");
   const [privacyOnline, setPrivacyOnline] = useState("Tampilkan");
 
   useEffect(() => {
@@ -114,6 +118,13 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   }, [isOpen]);
 
   if (!isOpen) return null;
+
+  const getPrivacyIcon = (val: string) => {
+    if (val === "Public") return <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>;
+    if (val === "Hanya teman") return <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>;
+    if (val === "Private") return <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>;
+    return null;
+  };
 
   const getSocialIcon = (platform: string) => {
     switch (platform) {
@@ -162,12 +173,12 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   ];
 
   const privacySettings = [
-    { label: "Tampilkan tanggal lahir", options: ["Publik", "Hanya Teman", "Privat"], state: privacyBirth, setState: setPrivacyBirth },
-    { label: "Tampilkan lokasi", options: ["Publik", "Hanya Teman"], state: privacyLoc, setState: setPrivacyLoc },
-    { label: "Siapa yang bisa melihat daftar teman Anda?", options: ["Publik", "Hanya Teman"], state: privacyFriendList, setState: setPrivacyFriendList },
-    { label: "Siapa yang bisa mengomentari postingan Anda?", options: ["Publik", "Hanya Teman", "Matikan"], state: privacyComment, setState: setPrivacyComment },
+    { label: "Tampilkan tanggal lahir", options: ["Public", "Hanya teman", "Private"], state: privacyBirth, setState: setPrivacyBirth },
+    { label: "Tampilkan lokasi", options: ["Public", "Hanya teman"], state: privacyLoc, setState: setPrivacyLoc },
+    { label: "Siapa yang bisa melihat daftar teman Anda?", options: ["Public", "Hanya teman"], state: privacyFriendList, setState: setPrivacyFriendList },
+    { label: "Siapa yang bisa mengomentari postingan Anda?", options: ["Public", "Hanya teman", "Matikan"], state: privacyComment, setState: setPrivacyComment },
     { label: "Izinkan public mengirim pesan langsung?", options: ["Izinkan", "Jangan izinkan"], state: privacyDM, setState: setPrivacyDM },
-    { label: "Siapa yang bisa menandai (Tag/Mention) Anda?", options: ["Publik", "Hanya Teman"], state: privacyTag, setState: setPrivacyTag },
+    { label: "Siapa yang bisa menandai (Tag/Mention) Anda?", options: ["Public", "Hanya teman"], state: privacyTag, setState: setPrivacyTag },
     { label: "Tampilkan status online", options: ["Tampilkan", "Sembunyikan"], state: privacyOnline, setState: setPrivacyOnline },
   ];
 
@@ -315,20 +326,89 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     </div>
                   </div>
                 )}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {!isEditingGender ? (
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Jenis Kelamin</label>
-                    <CustomSelect options={["Pria", "Wanita", "Lainnya"]} value={gender} onChange={setGender} />
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Jenis Kelamin</h3>
+                    <button onClick={() => setIsEditingGender(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
+                      <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{gender !== "Pilih..." ? gender : "Tambahkan jenis kelamin"}</span>
+                      </div>
+                    </button>
                   </div>
+                ) : (
+                  <div className="space-y-4 animate-in fade-in duration-200">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Jenis Kelamin</h3>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <div className="flex-1">
+                        <CustomSelect options={["Pria", "Wanita", "Lainnya"]} value={gender} onChange={setGender} />
+                      </div>
+                      <CustomSelect className="w-full sm:w-[170px] shrink-0" options={["Public", "Hanya teman", "Private"]} value={privacyGender} onChange={setPrivacyGender} getIcon={getPrivacyIcon} />
+                    </div>
+                    <div className="flex justify-end gap-2 pt-2 border-b border-gray-200 dark:border-gray-700 pb-4">
+                      <button onClick={() => setIsEditingGender(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
+                      <button onClick={() => setIsEditingGender(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                    </div>
+                  </div>
+                )}
+
+                {!isEditingDOB ? (
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Tanggal Lahir</label>
-                    <input type="date" className="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus:border-[#10B981] text-gray-900 dark:text-white outline-none cursor-pointer" />
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Tanggal Lahir</h3>
+                    <button onClick={() => setIsEditingDOB(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
+                      <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan tanggal lahir</span>
+                      </div>
+                    </button>
                   </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">Lokasi (Kota, Provinsi)</label>
-                  <input type="text" placeholder="Misal: Malang, Jawa Timur" className="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 focus:border-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
-                </div>
+                ) : (
+                  <div className="space-y-4 animate-in fade-in duration-200">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Tanggal Lahir</h3>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <div className="flex-1">
+                        <input type="date" className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none cursor-pointer" />
+                      </div>
+                      <CustomSelect className="w-full sm:w-[170px] shrink-0" options={["Public", "Hanya teman", "Private"]} value={privacyBirth} onChange={setPrivacyBirth} getIcon={getPrivacyIcon} />
+                    </div>
+                    <div className="flex justify-end gap-2 pt-2 border-b border-gray-200 dark:border-gray-700 pb-4">
+                      <button onClick={() => setIsEditingDOB(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
+                      <button onClick={() => setIsEditingDOB(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                    </div>
+                  </div>
+                )}
+
+                {!isEditingLocation ? (
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Lokasi</h3>
+                    <button onClick={() => setIsEditingLocation(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
+                      <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">Tambahkan lokasi</span>
+                      </div>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4 animate-in fade-in duration-200">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Lokasi</h3>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <div className="flex-1">
+                        <input type="text" placeholder="Misal: Malang, Jawa Timur" className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                      </div>
+                      <CustomSelect className="w-full sm:w-[170px] shrink-0" options={["Public", "Hanya teman", "Private"]} value={privacyLoc} onChange={setPrivacyLoc} getIcon={getPrivacyIcon} />
+                    </div>
+                    <div className="flex justify-end gap-2 pt-2 pb-4">
+                      <button onClick={() => setIsEditingLocation(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">Cancel</button>
+                      <button onClick={() => setIsEditingLocation(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">Save</button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
