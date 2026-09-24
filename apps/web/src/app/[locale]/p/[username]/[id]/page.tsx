@@ -3,6 +3,8 @@
 
 import React, { useState, use } from "react";
 import { useTranslations } from "next-intl";
+import Navbar from "@/components/Navbar";
+import { useEffect } from "react";
 
 export default function ProfilePage({
   params,
@@ -16,17 +18,33 @@ export default function ProfilePage({
   const id = unwrappedParams.id || "123";
 
   const [activeTab, setActiveTab] = useState("posts");
+  const [currentUser, setCurrentUser] = useState<any>({ username: "Guest", id: "1" });
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [themeLoaded, setThemeLoaded] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        if (payload.username || payload.name) {
+          setCurrentUser({
+            id: payload.sub || payload.id || payload._id || payload.userId || "1",
+            username: payload.username || payload.name || "User",
+            displayName: payload.displayName || payload.username || payload.name || "User",
+          });
+        }
+      } catch (e) {
+        console.error("Failed to parse token");
+      }
+    }
+    setThemeLoaded(true);
+  }, []);
 
   return (
     <main className="min-h-screen bg-[#F0F2F5] dark:bg-[#18191A] text-black dark:text-[#E4E6EB] pb-10 pt-[56px]">
       {/* Fake Navbar (Just to match layout) */}
-      <nav className="bg-white dark:bg-[#242526] shadow-sm fixed top-0 w-full z-[10100] h-[56px] px-4 flex items-center justify-between border-b border-gray-200 dark:border-[#3E4042]">
-        <div className="flex items-center gap-2">
-          <img src="/logo-horizontal.png" alt="Mencari" className="h-[40px] w-auto object-contain dark:hidden" />
-          <img src="/logo-horizontal-dark.png" alt="Mencari" className="h-[40px] w-auto object-contain hidden dark:block" />
-        </div>
-        <div className="font-semibold text-gray-500">Mencari / Profile</div>
-      </nav>
+      <Navbar activeTab={null} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} themeLoaded={themeLoaded} currentUser={currentUser} />
 
       {/* Header Container */}
       <div className="w-full bg-white dark:bg-[#242526] shadow-sm rounded-b-lg">

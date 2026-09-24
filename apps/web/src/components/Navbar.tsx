@@ -1,0 +1,637 @@
+
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
+import { useTranslations, useLocale } from "next-intl";
+import { useRouter } from "next/navigation";
+import { Lottie } from "lottie-react";
+// @ts-ignore
+import animationDataLight from "../../../../public/search-bar.json";
+// @ts-ignore
+import animationDataDark from "../../../../public/search-bar-putih.json";
+
+export default function Navbar({
+  activeTab = "home",
+  setActiveTab = () => {},
+  isDarkMode,
+  setIsDarkMode,
+  themeLoaded,
+  currentUser
+}: any) {
+  const t = useTranslations();
+  const locale = useLocale();
+  const router = useRouter();
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isSearchNavOpen, setIsSearchNavOpen] = useState(false);
+  const [isNotifPanelOpen, setIsNotifPanelOpen] = useState(false);
+  const [isNotifMenuOpen, setIsNotifMenuOpen] = useState(false);
+  const [isNotifFilterOpen, setIsNotifFilterOpen] = useState(false);
+  const [isLangOpen, setIsLangOpen] = useState(false);
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const searchNavRef = useRef<HTMLDivElement>(null);
+  const notifPanelRef = useRef<HTMLDivElement>(null);
+  const notifBtnRef = useRef<HTMLButtonElement>(null);
+  const langRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (searchNavRef.current && !searchNavRef.current.contains(event.target as Node)) {
+        setIsSearchNavOpen(false);
+      }
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+      if (notifPanelRef.current && !notifPanelRef.current.contains(event.target as Node)) {
+        setIsNotifPanelOpen(false);
+      }
+      if (langRef.current && !langRef.current.contains(event.target as Node)) {
+        setIsLangOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  return (
+          <nav className="bg-white dark:bg-[#242526] shadow-sm fixed top-0 w-full z-[10100] h-[56px] px-4 flex items-center justify-between border-b border-gray-200 dark:border-[#3E4042]">
+        {/* Left: Logo & Search */}
+        <div className="flex items-center gap-2">
+          {/* Logo - dark text for light mode, white text for dark mode */}
+          <img
+            src="/logo-horizontal.png"
+            alt="Mencari"
+            className="h-[40px] w-auto object-contain dark:hidden"
+          />
+          <img
+            src="/logo-horizontal2.png"
+            alt="Mencari"
+            className="h-[40px] w-auto object-contain hidden dark:block"
+          />
+        </div>
+
+        {/* Center: Tabs */}
+        <div className="hidden md:flex items-center justify-center gap-2 absolute left-1/2 -translate-x-1/2 h-full">
+          <div
+            onClick={() => {
+              setActiveTab("home");
+              window.history.pushState(null, "", `/${locale}/home`);
+            }}
+            className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer ${activeTab === "home" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1 transition-colors"}`}
+          >
+            <div
+              className="w-7 h-7 bg-current"
+              style={{
+                WebkitMask: `url(${activeTab === "home" ? "/navigasi/home-aktif.svg" : "/navigasi/home.svg"}) center/contain no-repeat`,
+                mask: `url(${activeTab === "home" ? "/navigasi/home-aktif.svg" : "/navigasi/home.svg"}) center/contain no-repeat`,
+              }}
+            />
+            <span className="text-[11px] font-semibold mt-0.5">
+              {t("tabs.home")}
+            </span>
+          </div>
+          <div
+            onClick={() => {
+              setActiveTab("product");
+              window.history.pushState(null, "", `/${locale}/product`);
+            }}
+            className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "product" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
+          >
+            <div
+              className="w-7 h-7 bg-current"
+              style={{
+                WebkitMask: `url(${activeTab === "product" ? "/navigasi/produk-aktif.svg" : "/navigasi/produk.svg"}) center/contain no-repeat`,
+                mask: `url(${activeTab === "product" ? "/navigasi/produk-aktif.svg" : "/navigasi/produk.svg"}) center/contain no-repeat`,
+              }}
+            />
+            <span className="text-[11px] font-semibold mt-0.5">
+              {t("tabs.product")}
+            </span>
+          </div>
+          <div
+            onClick={() => {
+              setActiveTab("chat");
+              window.history.pushState(null, "", `/${locale}/obrolan`);
+            }}
+            className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "chat" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
+          >
+            <div
+              className="w-7 h-7 bg-current"
+              style={{
+                WebkitMask: `url(${activeTab === "chat" ? "/navigasi/chat-aktif.svg" : "/navigasi/chat.svg"}) center/contain no-repeat`,
+                mask: `url(${activeTab === "chat" ? "/navigasi/chat-aktif.svg" : "/navigasi/chat.svg"}) center/contain no-repeat`,
+              }}
+            />
+            <span className="text-[11px] font-semibold mt-0.5">
+              {t("nav.chat")}
+            </span>
+          </div>
+          <div
+            onClick={() => {
+              setActiveTab("friend");
+              window.history.pushState(null, "", `/${locale}/friend`);
+            }}
+            className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "friend" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
+          >
+            <div
+              className="w-7 h-7 bg-current"
+              style={{
+                WebkitMask: `url(${activeTab === "friend" ? "/navigasi/teman-aktif.svg" : "/navigasi/teman.svg"}) center/contain no-repeat`,
+                mask: `url(${activeTab === "friend" ? "/navigasi/teman-aktif.svg" : "/navigasi/teman.svg"}) center/contain no-repeat`,
+              }}
+            />
+            <span className="text-[11px] font-semibold mt-0.5">
+              {t("tabs.friends")}
+            </span>
+          </div>
+          <div
+            onClick={() => {
+              setActiveTab("community");
+              window.history.pushState(null, "", `/${locale}/community`);
+            }}
+            className={`flex flex-col items-center justify-center w-[110px] h-full cursor-pointer transition-colors ${activeTab === "community" ? "border-b-[3px] border-emerald-500 text-emerald-500 dark:text-emerald-400 dark:border-emerald-400 my-0 h-full rounded-none" : "border-b-[3px] border-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-lg my-1"}`}
+          >
+            <div
+              className="w-7 h-7 bg-current"
+              style={{
+                WebkitMask: `url(${activeTab === "community" ? "/navigasi/komunitas-aktif.svg" : "/navigasi/komunitas.svg"}) center/contain no-repeat`,
+                mask: `url(${activeTab === "community" ? "/navigasi/komunitas-aktif.svg" : "/navigasi/komunitas.svg"}) center/contain no-repeat`,
+              }}
+            />
+            <span className="text-[11px] font-semibold mt-0.5">
+              {t("tabs.groups")}
+            </span>
+          </div>
+        </div>
+
+        {/* Right: Icons & Avatar */}
+        <div className="flex items-center gap-2 relative">
+          <div className="relative group" ref={searchNavRef}>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsSearchNavOpen(!isSearchNavOpen);
+              }}
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors overflow-hidden ${isSearchNavOpen || activeTab === "mencari" ? "bg-[#D8F0E2] dark:bg-[#203D2E] text-emerald-600 dark:text-emerald-400" : "bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#F3F2EF] dark:hover:bg-[#18191A] text-black dark:text-[#E4E6EB]"}`}
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
+            
+            {/* Tooltip */}
+            <div className="absolute top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/80 text-white text-[13px] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap z-[60]">
+              Mencari
+            </div>
+
+            {/* Search Dropdown */}
+            {isSearchNavOpen && (
+              <div
+                className="absolute top-[52px] right-0 w-[300px] sm:w-[360px] bg-white dark:bg-[#242526] rounded-xl shadow-[0_0_15px_rgba(0,0,0,0.2)] border border-gray-100 dark:border-[#3E4042] z-[10200]"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="p-3">
+                  <div className="flex items-center gap-3">
+                    <div className="relative group/visit">
+                      <button
+                        onClick={() => {
+                          setActiveTab("mencari");
+                          setIsSearchNavOpen(false);
+                          window.history.pushState(null, "", `/${locale}/mencari`);
+                        }}
+                        className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 dark:bg-[#3A3B3C] hover:bg-emerald-50 dark:hover:bg-[#203D2E] transition-colors shrink-0 border border-gray-200 dark:border-[#4E4F50]"
+                      >
+                        <img
+                          src="/icon-apk.png"
+                          alt="Mencari"
+                          className="w-7 h-7 object-contain group-hover/visit:scale-110 transition-transform"
+                        />
+                      </button>
+                      <div className="absolute top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/80 text-white text-[13px] rounded-lg opacity-0 group-hover/visit:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap z-[60]">
+                        {t("search.visit")}
+                      </div>
+                    </div>
+                    <div className="flex-1 flex items-center gap-2 bg-gray-100 dark:bg-[#3A3B3C] rounded-full px-4 py-2 border border-gray-200 dark:border-[#4E4F50] focus-within:border-emerald-500 transition-colors">
+                      <svg className="w-5 h-5 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                      <input
+                        type="text"
+                        placeholder="Pencarian..."
+                        className="w-full bg-transparent border-none outline-none text-[15px] text-black dark:text-[#E4E6EB] placeholder-gray-500 min-w-0"
+                        autoFocus
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            setActiveTab("mencari");
+                            setIsSearchNavOpen(false);
+                            window.history.pushState(null, "", `/${locale}/mencari`);
+                          }
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Dummy Recent Searches */}
+                  <div className="mt-4 px-1 pb-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="text-[15px] font-semibold text-black dark:text-[#E4E6EB]">
+                        {t("search.recent") || "Pencarian Terakhir"}
+                      </h4>
+                      <button className="text-[14px] text-emerald-600 dark:text-emerald-400 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] px-2 py-1 rounded-md transition-colors">
+                        {t("search.edit") || "Edit"}
+                      </button>
+                    </div>
+                    <div className="flex flex-col">
+                      {[
+                        "Villa murah di Bali",
+                        "Lowongan kerja Jakarta",
+                        "Jasa desain grafis",
+                      ].map((item, idx) => (
+                        <div key={idx} className="flex items-center gap-3 p-2 -mx-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-lg cursor-pointer group transition-colors">
+                          <div className="w-9 h-9 rounded-full bg-gray-200 dark:bg-[#4E4F50] flex items-center justify-center shrink-0">
+                            <svg className="w-5 h-5 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                          </div>
+                          <span className="flex-1 text-[15px] font-medium text-black dark:text-[#E4E6EB] truncate">
+                            {item}
+                          </span>
+                          <button className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-300 dark:hover:bg-[#4E4F50] text-gray-500 opacity-0 group-hover:opacity-100 transition-all" title="Hapus">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="relative group">
+            <button
+              ref={notifBtnRef}
+              onClick={() => setIsNotifPanelOpen(!isNotifPanelOpen)}
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors overflow-hidden ${isNotifPanelOpen ? "bg-[#D8F0E2] dark:bg-[#203D2E]" : "bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#F3F2EF] dark:hover:bg-[#18191A]"}`}
+            >
+              <img
+                src="/pemberitahuan.svg"
+                alt={t("nav.notifications")}
+                className="w-[26px] h-[26px] object-contain"
+              />
+            </button>
+            <div className="absolute top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/80 text-white text-[13px] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap z-[60]">
+              {t("nav.notifications")}
+            </div>
+          </div>
+
+          {/* Vertical Separator */}
+          <div className="w-[1px] h-6 bg-gray-300 dark:bg-[#3E4042] mx-1"></div>
+
+          {/* Language Switcher */}
+          <div className="relative group mx-1" ref={langRef}>
+            <button
+              onClick={() => setIsLangOpen(!isLangOpen)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8D9DB] dark:hover:bg-[#4E4F50] transition-colors text-black dark:text-[#E4E6EB] text-[13px] font-semibold"
+            >
+              {locale === "id" ? (
+                <svg
+                  className="w-5 h-5 rounded-[2px] shrink-0 shadow-[0_0_2px_rgba(0,0,0,0.2)]"
+                  viewBox="0 0 36 36"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path fill="#ED2939" d="M0 0h36v18H0z" />
+                  <path fill="#fff" d="M0 18h36v18H0z" />
+                </svg>
+              ) : (
+                <svg
+                  className="w-5 h-5 rounded-[2px] shrink-0 shadow-[0_0_2px_rgba(0,0,0,0.2)]"
+                  viewBox="0 0 36 36"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path fill="#0A3161" d="M0 0h36v36H0z" />
+                  <path
+                    fill="#B31942"
+                    d="M0 4.5h36v4.5H0zm0 9h36v4.5H0zm0 9h36v4.5H0zm0 9h36v4.5H0z"
+                  />
+                  <path
+                    fill="#fff"
+                    d="M0 9h36v4.5H0zm0 9h36v4.5H0zm0 9h36v4.5H0z"
+                  />
+                  <path fill="#0A3161" d="M0 0h18v18H0z" />
+                  <path
+                    fill="#fff"
+                    d="M3 3h2v2H3zm4 0h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2zM3 7h2v2H3zm4 0h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2zM3 11h2v2H3zm4 0h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"
+                  />
+                </svg>
+              )}
+              {locale === "id" ? "ID" : "EN"}
+            </button>
+
+            <div
+              className={`absolute top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/80 text-white text-[13px] rounded-lg opacity-0 ${!isLangOpen ? "group-hover:opacity-100" : ""} transition-opacity duration-150 pointer-events-none whitespace-nowrap z-[60]`}
+            >
+              {t("common.language")}
+            </div>
+
+            {isLangOpen && (
+              <div className="absolute top-12 right-0 w-[140px] bg-white dark:bg-[#242526] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.15)] border border-gray-200 dark:border-[#3E4042] p-2 z-[10200]">
+                <button
+                  onClick={() => {
+                    document.cookie = `NEXT_LOCALE=id; path=/; max-age=31536000; SameSite=Lax`;
+                    localStorage.setItem("NEXT_LOCALE", "id");
+                    const currentPath = window.location.pathname;
+                    const pathWithoutLocale = currentPath.replace(
+                      /^\/(id|en)/,
+                      "",
+                    );
+                    window.location.href =
+                      "/id" + (pathWithoutLocale || "/home");
+                  }}
+                  className={`w-full flex items-center gap-3 p-2 rounded-lg transition-colors ${locale === "id" ? "bg-[#E4E6EB] dark:bg-[#3A3B3C]" : "hover:bg-gray-200 dark:hover:bg-[#3A3B3C]"}`}
+                >
+                  <svg
+                    className="w-[18px] h-[18px] rounded-sm shrink-0 shadow-[0_0_2px_rgba(0,0,0,0.2)]"
+                    viewBox="0 0 36 36"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path fill="#ED2939" d="M0 0h36v18H0z" />
+                    <path fill="#fff" d="M0 18h36v18H0z" />
+                  </svg>
+                  <span className="font-semibold text-[14px] text-black dark:text-[#E4E6EB]">
+                    Indonesia
+                  </span>
+                </button>
+                <button
+                  onClick={() => {
+                    document.cookie = `NEXT_LOCALE=en; path=/; max-age=31536000; SameSite=Lax`;
+                    localStorage.setItem("NEXT_LOCALE", "en");
+                    const currentPath = window.location.pathname;
+                    const pathWithoutLocale = currentPath.replace(
+                      /^\/(id|en)/,
+                      "",
+                    );
+                    window.location.href =
+                      "/en" + (pathWithoutLocale || "/home");
+                  }}
+                  className={`w-full flex items-center gap-3 p-2 rounded-lg transition-colors mt-1 ${locale === "en" ? "bg-[#E4E6EB] dark:bg-[#3A3B3C]" : "hover:bg-gray-200 dark:hover:bg-[#3A3B3C]"}`}
+                >
+                  <svg
+                    className="w-[18px] h-[18px] rounded-sm shrink-0 shadow-[0_0_2px_rgba(0,0,0,0.2)]"
+                    viewBox="0 0 36 36"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path fill="#0A3161" d="M0 0h36v36H0z" />
+                    <path
+                      fill="#B31942"
+                      d="M0 4.5h36v4.5H0zm0 9h36v4.5H0zm0 9h36v4.5H0zm0 9h36v4.5H0z"
+                    />
+                    <path
+                      fill="#fff"
+                      d="M0 9h36v4.5H0zm0 9h36v4.5H0zm0 9h36v4.5H0z"
+                    />
+                    <path fill="#0A3161" d="M0 0h18v18H0z" />
+                    <path
+                      fill="#fff"
+                      d="M3 3h2v2H3zm4 0h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2zM3 7h2v2H3zm4 0h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2zM3 11h2v2H3zm4 0h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"
+                    />
+                  </svg>
+                  <span className="font-semibold text-[14px] text-black dark:text-[#E4E6EB]">
+                    English
+                  </span>
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* MENU ICON - NO CIRCLE */}
+          <div className="relative group flex items-center justify-center mr-2 ml-1">
+            <button className="flex items-center justify-center transition-transform hover:scale-105 active:scale-95">
+              <img
+                src="/menu.svg"
+                alt="Menu"
+                className="w-[34px] h-[34px] object-contain"
+              />
+            </button>
+            <div className="absolute top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/80 text-white text-[13px] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap z-[60]">
+              {t("nav.menu")}
+            </div>
+          </div>
+
+          <div className="relative ml-1" ref={dropdownRef}>
+            <div
+              className="relative cursor-pointer group"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            >
+              <button className="w-10 h-10 rounded-full hover:brightness-95 transition-all flex items-center justify-center overflow-hidden border border-emerald-600 dark:border-emerald-400 shrink-0">
+                <img
+                  src="/default-avatar.svg"
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+              </button>
+              {/* Arrow Down Badge */}
+              <div className="absolute -bottom-0.5 -right-0.5 w-[16px] h-[16px] bg-[#E4E6EB] dark:bg-[#3A3B3C] rounded-full flex items-center justify-center border-2 border-white dark:border-[#242526]">
+                <svg
+                  className="w-3 h-3 text-black dark:text-[#E4E6EB]"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <div className="absolute top-12 right-0 px-3 py-1.5 bg-black/80 text-white text-[13px] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap z-[60]">
+                Informasi
+              </div>
+            </div>
+
+            {/* Dropdown Profile Panel */}
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-3 w-[340px] bg-white dark:bg-[#242526] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.15)] border border-gray-200 dark:border-[#3E4042] p-4 z-[10200]">
+                <div className="bg-[#F2F2F2] dark:bg-[#3A3B3C] rounded-xl p-3 flex items-center gap-3 mb-2 hover:bg-[#E4E6EB] dark:hover:bg-[#4E4F50] cursor-pointer transition-colors shadow-sm border border-gray-100 dark:border-[#3E4042]">
+                  <div className="w-[40px] h-[40px] rounded-full flex items-center justify-center overflow-hidden shrink-0 border border-emerald-600 dark:border-emerald-400">
+                    <img
+                      src="/default-avatar.svg"
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-[16px] text-black dark:text-[#E4E6EB] leading-tight">
+                      {currentUser.username}
+                    </h3>
+                    <p className="text-[14px] text-gray-500 dark:text-[#B0B3B8]">
+                      {t("dropdown.viewAllProfiles")}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="w-full h-[1px] bg-gray-200 dark:bg-[#3A3B3C] my-3"></div>
+
+                <div className="space-y-2">
+                  <button className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors group/item">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-full bg-[#E4E6EB] dark:bg-[#3A3B3C] flex items-center justify-center shrink-0 overflow-hidden">
+                        <svg
+                          className="w-[20px] h-[20px] text-black dark:text-[#E4E6EB]"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                      <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
+                        {t("dropdown.settings")}
+                      </span>
+                    </div>
+                    <svg
+                      className="w-6 h-6 text-gray-500 dark:text-[#B0B3B8] group-hover/item:text-black dark:text-[#E4E6EB] transition-colors"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+
+                  <button className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors group/item">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-full bg-[#E4E6EB] dark:bg-[#3A3B3C] flex items-center justify-center shrink-0 overflow-hidden">
+                        <svg
+                          className="w-[20px] h-[20px] text-black dark:text-[#E4E6EB]"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                      <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
+                        {t("dropdown.help")}
+                      </span>
+                    </div>
+                    <svg
+                      className="w-6 h-6 text-gray-500 dark:text-[#B0B3B8] group-hover/item:text-black dark:text-[#E4E6EB] transition-colors"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+
+                  <button className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors">
+                    <div className="w-9 h-9 rounded-full bg-[#E4E6EB] dark:bg-[#3A3B3C] flex items-center justify-center shrink-0 overflow-hidden">
+                      <svg
+                        className="w-[20px] h-[20px] text-black dark:text-[#E4E6EB]"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                    <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
+                      {t("dropdown.report")}
+                    </span>
+                  </button>
+
+                  <button
+                    onClick={() => setIsDarkMode(!isDarkMode)}
+                    className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors"
+                  >
+                    <div className="w-9 h-9 rounded-full bg-[#E4E6EB] dark:bg-[#3A3B3C] flex items-center justify-center shrink-0 overflow-hidden">
+                      {isDarkMode ? (
+                        <svg
+                          className="w-[20px] h-[20px] text-black dark:text-[#E4E6EB]"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.5-1.591a.75.75 0 10-1.061 1.06l1.5-1.591zM12 18.75a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25a.75.75 0 01.75-.75zM6.166 18.894a.75.75 0 001.06 1.06l1.5-1.591a.75.75 0 10-1.06-1.061l-1.591 1.59zM4.5 12a.75.75 0 01-.75.75H1.5a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM6.166 5.106a.75.75 0 00-1.06 1.06l1.591 1.59a.75.75 0 101.06-1.061l-1.5-1.59z" />
+                        </svg>
+                      ) : (
+                        <svg
+                          className="w-[20px] h-[20px] text-black dark:text-[#E4E6EB]"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      )}
+                    </div>
+                    <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
+                      {isDarkMode
+                        ? t("dropdown.lightMode")
+                        : t("dropdown.darkMode")}
+                    </span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem("token");
+                      document.cookie =
+                        "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                      window.location.href = `/login`;
+                    }}
+                    className="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors"
+                  >
+                    <div className="w-9 h-9 rounded-full bg-[#E4E6EB] dark:bg-[#3A3B3C] flex items-center justify-center shrink-0 overflow-hidden">
+                      <svg
+                        className="w-5 h-5 text-black dark:text-[#E4E6EB] ml-1"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2.2}
+                          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                        />
+                      </svg>
+                    </div>
+                    <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
+                      {t("dropdown.logout")}
+                    </span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </nav>
+  );
+}
