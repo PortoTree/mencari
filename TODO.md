@@ -228,3 +228,7 @@
 - (Frontend) Fix profile card height stretching in /p/ page layout by adding h-fit to sidebar (page.tsx)
 
 - (Frontend) Replace Bio card text with a 3x2 image grid placeholder (page.tsx)
+
+- (Frontend) Remove h-fit from left sidebar so it stretches to match right column height (page.tsx)
+
+- (Frontend) Move tabs navigation outside of main content flex layout so profile card height aligns precisely with photo grid and reputasi card (page.tsx)

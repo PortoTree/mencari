@@ -88,7 +88,7 @@ export default function ProfilePage({
         <div className="flex flex-col md:flex-row gap-6 -mt-[80px] px-2 md:px-6 relative z-10">
           
           {/* Left Sidebar - Profile Card */}
-          <div className="w-full md:w-[320px] shrink-0 h-fit bg-gradient-to-b from-white to-[#D9D9D9] dark:from-[#3A3B3C] dark:to-[#18191A] rounded-[40px] p-8 shadow-xl flex flex-col items-center border border-white/20 dark:border-white/5">
+          <div className="w-full md:w-[320px] shrink-0 bg-gradient-to-b from-white to-[#D9D9D9] dark:from-[#3A3B3C] dark:to-[#18191A] rounded-[40px] p-8 shadow-xl flex flex-col items-center border border-white/20 dark:border-white/5">
             {/* Avatar */}
             <div className="relative mb-4">
               <div className="w-[120px] h-[120px] rounded-full border-[4px] border-white dark:border-[#3A3B3C] bg-white dark:bg-[#242526] flex items-center justify-center shadow-md overflow-hidden">
@@ -234,26 +234,29 @@ export default function ProfilePage({
               </div>
             </div>
 
-              {/* Bottom Tabs Navigation */}
-              <div className="mt-6 flex justify-center">
-                <div className="bg-white dark:bg-black rounded-full shadow-lg px-2 py-1.5 flex items-center text-sm md:text-base font-bold text-gray-500 dark:text-gray-300">
-                  {['all', 'posts', 'media', 'project'].map((tab, idx) => (
-                    <React.Fragment key={tab}>
-                      <button
-                        onClick={() => setActiveTab(tab)}
-                        className={`px-4 md:px-8 py-2 rounded-full capitalize transition-colors ${activeTab === tab ? "text-[#10B981]" : "hover:text-black dark:hover:text-white"}`}
-                      >
-                        {tab}
-                      </button>
-                      {idx < 3 && <div className="w-[2px] h-[20px] bg-gray-300 dark:bg-gray-700 mx-1"></div>}
-                    </React.Fragment>
-                  ))}
-                </div>
-              </div>
-
           </div>
+
         </div>
 
+          {/* Tabs Container */}
+          <div className="flex flex-col md:flex-row gap-6 px-2 md:px-6 mt-6">
+            <div className="hidden md:block w-full md:w-[320px] shrink-0"></div>
+            <div className="flex-1 flex justify-center">
+              <div className="bg-white dark:bg-black rounded-full shadow-lg px-2 py-1.5 flex items-center text-sm md:text-base font-bold text-gray-500 dark:text-gray-300">
+                {['all', 'posts', 'media', 'project'].map((tab, idx) => (
+                  <React.Fragment key={tab}>
+                    <button
+                      onClick={() => setActiveTab(tab)}
+                      className={`px-4 md:px-8 py-2 rounded-full capitalize transition-colors ${activeTab === tab ? "text-[#10B981]" : "hover:text-black dark:hover:text-white"}`}
+                    >
+                      {tab}
+                    </button>
+                    {idx < 3 && <div className="w-[2px] h-[20px] bg-gray-300 dark:bg-gray-700 mx-1"></div>}
+                  </React.Fragment>
+                ))}
+              </div>
+            </div>
+          </div>
       </div>
       <EditProfileModal 
         isOpen={isEditModalOpen} 
