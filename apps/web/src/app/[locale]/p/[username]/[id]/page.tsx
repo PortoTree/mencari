@@ -21,6 +21,8 @@ export default function ProfilePage({
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [themeLoaded, setThemeLoaded] = useState(false);
 
+  const isOwnProfile = currentUser && currentUser.id === id;
+
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "light") {
@@ -71,7 +73,7 @@ export default function ProfilePage({
         {/* Cover Photo */}
         <div className="w-full h-[280px] rounded-b-[40px] relative overflow-hidden bg-gray-200 dark:bg-gray-700 shadow-sm">
           <img src="/sampul-placeholder.png" alt="Cover" className="w-full h-full object-cover" />
-        </div>
+          </div>
 
         {/* Main Content Grid */}
         <div className="flex flex-col md:flex-row gap-6 -mt-[80px] px-2 md:px-6 relative z-10">
@@ -79,8 +81,17 @@ export default function ProfilePage({
           {/* Left Sidebar - Profile Card */}
           <div className="w-full md:w-[320px] shrink-0 bg-gradient-to-b from-white to-[#D9D9D9] dark:from-[#3A3B3C] dark:to-[#18191A] rounded-[40px] p-8 shadow-xl flex flex-col items-center border border-white/20 dark:border-white/5">
             {/* Avatar */}
-            <div className="w-[120px] h-[120px] rounded-full border-[4px] border-white dark:border-[#3A3B3C] bg-white dark:bg-[#242526] flex items-center justify-center shadow-md mb-4 overflow-hidden">
-              <img src="/default-avatar.svg" alt="Avatar" className="w-full h-full object-cover" />
+            <div className="relative mb-4">
+              <div className="w-[120px] h-[120px] rounded-full border-[4px] border-white dark:border-[#3A3B3C] bg-white dark:bg-[#242526] flex items-center justify-center shadow-md overflow-hidden">
+                <img src="/default-avatar.svg" alt="Avatar" className="w-full h-full object-cover" />
+              </div>
+              {isOwnProfile && (
+                <button className="absolute bottom-0 right-0 bg-gray-200 hover:bg-gray-300 dark:bg-[#4E4F50] dark:hover:bg-[#5E5F60] p-2 rounded-full border-[3px] border-white dark:border-[#3A3B3C] shadow-sm transition-colors text-black dark:text-white cursor-pointer z-10">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                  </svg>
+                </button>
+              )}
             </div>
             
             <h1 className="text-2xl font-bold text-black dark:text-white">{username === "pampam" ? "nama akun" : username}</h1>
@@ -118,17 +129,28 @@ export default function ProfilePage({
                 </div>
               </div>
               <div className="flex items-center gap-3 mt-4 sm:mt-0">
-                <button className="bg-[#10B981] hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-full text-sm shadow-sm transition-colors">
-                  + Tambah teman
-                </button>
-                <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full text-sm shadow-sm transition-colors">
-                  Kirim pesan
-                </button>
-                <button className="w-9 h-9 flex shrink-0 items-center justify-center bg-gray-200 hover:bg-gray-300 dark:bg-[#3A3B3C] dark:hover:bg-[#4E4F50] text-gray-700 dark:text-[#E4E6EB] rounded-full transition-colors shadow-sm cursor-pointer">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 12a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                </button>
+                {isOwnProfile ? (
+                  <button className="bg-gray-200 hover:bg-gray-300 dark:bg-[#4E4F50] dark:hover:bg-[#5E5F60] text-black dark:text-white font-bold py-2 px-5 rounded-full text-sm transition-colors shadow-sm flex items-center gap-2">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                    Edit Profil
+                  </button>
+                ) : (
+                  <>
+                    <button className="bg-[#10B981] hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-full text-sm shadow-sm transition-colors">
+                      + Tambah teman
+                    </button>
+                    <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full text-sm shadow-sm transition-colors">
+                      Kirim pesan
+                    </button>
+                    <button className="w-9 h-9 flex shrink-0 items-center justify-center bg-gray-200 hover:bg-gray-300 dark:bg-[#3A3B3C] dark:hover:bg-[#4E4F50] text-gray-700 dark:text-[#E4E6EB] rounded-full transition-colors shadow-sm cursor-pointer">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 12a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0z" />
+                      </svg>
+                    </button>
+                  </>
+                )}
               </div>
             </div>
 
@@ -136,8 +158,15 @@ export default function ProfilePage({
             <div className="flex flex-col lg:flex-row gap-4 mt-2">
               
               {/* Bio Card */}
-              <div className="flex-1 bg-white dark:bg-[#4E4F50] rounded-[30px] min-h-[200px] flex items-center justify-center shadow-sm">
+              <div className="flex-1 bg-white dark:bg-[#4E4F50] rounded-[30px] min-h-[200px] flex items-center justify-center shadow-sm relative group">
                 <p className="text-gray-400 font-semibold text-lg">Tidak ada bio</p>
+                {isOwnProfile && (
+                  <button className="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 dark:bg-[#3A3B3C] dark:hover:bg-[#242526] p-2.5 rounded-full transition-colors text-gray-600 dark:text-gray-300 opacity-0 group-hover:opacity-100 cursor-pointer">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                  </button>
+                )}
               </div>
 
               {/* Reputasi Card */}
