@@ -226,26 +226,25 @@ export default function ProfilePage({
                 </button>
               </div>
               </div>
-
             </div>
 
-          </div>
-        </div>
+              {/* Bottom Tabs Navigation */}
+              <div className="mt-6 flex justify-center">
+                <div className="bg-white dark:bg-black rounded-full shadow-lg px-2 py-1.5 flex items-center text-sm md:text-base font-bold text-gray-500 dark:text-gray-300">
+                  {['all', 'posts', 'media', 'project'].map((tab, idx) => (
+                    <React.Fragment key={tab}>
+                      <button
+                        onClick={() => setActiveTab(tab)}
+                        className={`px-4 md:px-8 py-2 rounded-full capitalize transition-colors ${activeTab === tab ? "text-[#10B981]" : "hover:text-black dark:hover:text-white"}`}
+                      >
+                        {tab}
+                      </button>
+                      {idx < 3 && <div className="w-[2px] h-[20px] bg-gray-300 dark:bg-gray-700 mx-1"></div>}
+                    </React.Fragment>
+                  ))}
+                </div>
+              </div>
 
-        {/* Bottom Tabs Navigation */}
-        <div className="mt-12 flex justify-center">
-          <div className="bg-white dark:bg-black rounded-full shadow-lg px-2 py-1.5 flex items-center text-sm md:text-base font-bold text-gray-500 dark:text-gray-300">
-            {['all', 'posts', 'media', 'community'].map((tab, idx) => (
-              <React.Fragment key={tab}>
-                <button
-                  onClick={() => setActiveTab(tab)}
-                  className={`px-4 md:px-8 py-2 rounded-full capitalize transition-colors ${activeTab === tab ? "text-[#10B981]" : "hover:text-black dark:hover:text-white"}`}
-                >
-                  {tab}
-                </button>
-                {idx < 3 && <div className="w-[2px] h-[20px] bg-gray-300 dark:bg-gray-700 mx-1"></div>}
-              </React.Fragment>
-            ))}
           </div>
         </div>
 
