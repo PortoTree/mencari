@@ -1513,7 +1513,7 @@ export default function Beranda() {
               <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] overflow-hidden">
                 <div className="h-20 bg-gray-200 dark:bg-[#3A3B3C] w-full relative">
                   {/* Profile image overlapping */}
-                  <div className="absolute -bottom-8 left-4 w-[72px] h-[72px] bg-white dark:bg-[#242526] rounded-xl p-1 shadow-sm">
+                  <div className="absolute -bottom-8 left-4 w-[72px] h-[72px] bg-white dark:bg-[#242526] rounded-full p-1 shadow-sm">
                     <div className="w-full h-full rounded-full flex items-center justify-center overflow-hidden">
                       <img
                         src="/default-avatar.svg"
