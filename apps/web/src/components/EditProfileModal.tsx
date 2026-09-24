@@ -71,18 +71,18 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
             </div>
 
             {/* Buttons */}
-            <div className="p-4 border-t border-gray-200 dark:border-gray-700 space-y-3 shrink-0">
-              <button onClick={onClose} className="w-full px-6 py-3 rounded-xl bg-[#10B981] hover:bg-emerald-600 text-white font-bold transition-colors shadow-sm">
-                Simpan Perubahan
-              </button>
-              <button onClick={onClose} className="w-full px-5 py-3 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+            <div className="p-4 border-t border-gray-200 dark:border-gray-700 flex gap-2.5 shrink-0">
+              <button onClick={onClose} className="w-[30%] px-2 py-3 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">
                 Batal
+              </button>
+              <button onClick={onClose} className="w-[70%] px-2 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold transition-colors shadow-sm text-sm">
+                Simpan
               </button>
             </div>
           </div>
 
           {/* Form Content (Kanan) */}
-          <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar bg-white dark:bg-[#242526]">
+          <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar bg-white dark:bg-[#242526] min-h-[550px]">
             
             {/* TAB 1: INFORMASI DASAR */}
             {activeTab === "dasar" && (
