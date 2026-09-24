@@ -167,7 +167,7 @@ export default function ProfilePage({
             <div className="flex flex-col lg:flex-row gap-4 mt-2">
               
               {/* Bio Card */}
-              <div className="flex-1 bg-white dark:bg-[#4E4F50] rounded-[30px] min-h-[200px] flex items-center justify-center shadow-sm relative group">
+              <div className="flex-1 bg-white dark:bg-black rounded-[30px] min-h-[200px] flex items-center justify-center shadow-sm relative group">
                 <p className="text-gray-400 font-semibold text-lg">{t("noBio")}</p>
                 {isOwnProfile && (
                   <button onClick={() => setIsEditModalOpen(true)} className="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 dark:bg-[#3A3B3C] dark:hover:bg-[#242526] p-2.5 rounded-full transition-colors text-gray-600 dark:text-gray-300 opacity-0 group-hover:opacity-100 cursor-pointer">
