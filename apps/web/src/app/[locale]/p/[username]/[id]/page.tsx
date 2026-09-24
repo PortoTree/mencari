@@ -22,6 +22,29 @@ export default function ProfilePage({
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [themeLoaded, setThemeLoaded] = useState(false);
 
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "light") {
+      setIsDarkMode(false);
+      document.documentElement.classList.remove("dark");
+    } else {
+      setIsDarkMode(true);
+      document.documentElement.classList.add("dark");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!themeLoaded) return;
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [isDarkMode, themeLoaded]);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
