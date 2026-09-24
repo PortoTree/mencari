@@ -108,13 +108,11 @@ export default function ProfilePage({
             {/* Top Row: Friends & Buttons */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-gray-300 dark:border-gray-700 pb-4">
               <div>
-                <p className="font-bold text-[15px] mb-2 text-black dark:text-white">1.200 Teman</p>
-                <div className="flex -space-x-2">
+                <p className="font-semibold text-[15px] mb-2 text-black dark:text-white hover:underline cursor-pointer w-max transition-all">1.200 Teman</p>
+                <div className="flex -space-x-2 group/friends cursor-pointer">
                   {[...Array(7)].map((_, i) => (
-                    <div key={i} className="w-8 h-8 rounded-full bg-[#10B981] border-2 border-[#EBEBEB] dark:border-[#1E1E1E] flex items-center justify-center">
-                      <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 12a4 4 0 100-8 4 4 0 000 8zm0-2a2 2 0 110-4 2 2 0 010 4zm7 10a1 1 0 01-2 0v-2a3 3 0 00-3-3H10a3 3 0 00-3 3v2a1 1 0 01-2 0v-2a5 5 0 015-5h6a5 5 0 015 5v2z" />
-                      </svg>
+                    <div key={i} className="w-8 h-8 rounded-full border-[2.5px] border-[#EBEBEB] dark:border-[#1E1E1E] overflow-hidden hover:-translate-y-1 hover:z-10 transition-transform relative bg-white dark:bg-[#242526]">
+                      <img src="/default-avatar.svg" alt="Friend" className="w-full h-full object-cover" />
                     </div>
                   ))}
                 </div>
@@ -125,6 +123,11 @@ export default function ProfilePage({
                 </button>
                 <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full text-sm shadow-sm transition-colors">
                   Kirim pesan
+                </button>
+                <button className="w-9 h-9 flex shrink-0 items-center justify-center bg-gray-200 hover:bg-gray-300 dark:bg-[#3A3B3C] dark:hover:bg-[#4E4F50] text-gray-700 dark:text-[#E4E6EB] rounded-full transition-colors shadow-sm cursor-pointer">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 12a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
                 </button>
               </div>
             </div>
