@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import React, { useState, useEffect, useRef } from "react";
 
-function CustomSelect({ options, value, onChange, className, columns = 1, getIcon, hideLabelOnDisplay = false }: { options: string[], value: string, onChange: (val: string) => void, className?: string, columns?: number, getIcon?: (opt: string) => any, hideLabelOnDisplay?: boolean }) {
+function CustomSelect({ options, value, onChange, className, columns = 1, getIcon, hideLabelOnDisplay = false, hideArrow = false }: { options: string[], value: string, onChange: (val: string) => void, className?: string, columns?: number, getIcon?: (opt: string) => any, hideLabelOnDisplay?: boolean, hideArrow?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const [dropUp, setDropUp] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -46,7 +46,7 @@ function CustomSelect({ options, value, onChange, className, columns = 1, getIco
            )}
            {!hideLabelOnDisplay && <span className="text-sm font-semibold truncate">{value}</span>}
         </div>
-        {!hideLabelOnDisplay && <svg className={`w-4 h-4 ml-2 shrink-0 text-gray-500 transition-transform duration-200 ${isOpen ? (dropUp ? "" : "rotate-180") : (dropUp ? "rotate-180" : "")}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"/></svg>}
+        {!hideArrow && <svg className={`w-4 h-4 ${hideLabelOnDisplay ? 'ml-1' : 'ml-2'} shrink-0 text-gray-500 transition-transform duration-200 ${isOpen ? (dropUp ? "" : "rotate-180") : (dropUp ? "rotate-180" : "")}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"/></svg>}
       </div>
       
       {isOpen && (
@@ -472,7 +472,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       <div className="flex-1">
                         <CustomSelect options={[t("genderMale"), t("genderFemale"), t("genderOther")]} value={gender} onChange={setGender} />
                       </div>
-                      <CustomSelect className="w-[85px] shrink-0" options={[t("public"), t("friendsOnly"), t("private")]} value={privacyGender} onChange={setPrivacyGender} getIcon={getPrivacyIcon} hideLabelOnDisplay={true} />
+                      <CustomSelect className="w-[52px] shrink-0" options={[t("public"), t("friendsOnly"), t("private")]} value={privacyGender} onChange={setPrivacyGender} getIcon={getPrivacyIcon} hideLabelOnDisplay={true} hideArrow={true} />
                     </div>
                     <div className="flex justify-end gap-2 pt-2 border-b border-gray-200 dark:border-gray-700 pb-4">
                       <button onClick={() => setIsEditingGender(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
@@ -522,7 +522,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                           />
                         </div>
                       </div>
-                      <CustomSelect className="w-[85px] shrink-0" options={[t("public"), t("friendsOnly"), t("private")]} value={privacyBirth} onChange={setPrivacyBirth} getIcon={getPrivacyIcon} hideLabelOnDisplay={true} />
+                      <CustomSelect className="w-[52px] shrink-0" options={[t("public"), t("friendsOnly"), t("private")]} value={privacyBirth} onChange={setPrivacyBirth} getIcon={getPrivacyIcon} hideLabelOnDisplay={true} hideArrow={true} />
                     </div>
                     <div className="flex justify-end gap-2 pt-2 border-b border-gray-200 dark:border-gray-700 pb-4">
                       <button onClick={() => setIsEditingDOB(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
@@ -550,7 +550,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       <div className="flex-1">
                         <input type="text" placeholder={t("locationPlaceholder")} className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
                       </div>
-                      <CustomSelect className="w-[85px] shrink-0" options={[t("public"), t("friendsOnly")]} value={privacyLoc} onChange={setPrivacyLoc} getIcon={getPrivacyIcon} hideLabelOnDisplay={true} />
+                      <CustomSelect className="w-[52px] shrink-0" options={[t("public"), t("friendsOnly")]} value={privacyLoc} onChange={setPrivacyLoc} getIcon={getPrivacyIcon} hideLabelOnDisplay={true} hideArrow={true} />
                     </div>
                     <div className="flex justify-end gap-2 pt-2 pb-4">
                       <button onClick={() => setIsEditingLocation(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
@@ -621,7 +621,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       <div className="flex-1">
                         <input type="text" placeholder={t("profPlaceholder")} className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
                       </div>
-                      <CustomSelect className="w-[85px] shrink-0" options={[t("public"), t("friendsOnly")]} value={privacyProf} onChange={setPrivacyProf} getIcon={getPrivacyIcon} hideLabelOnDisplay={true} />
+                      <CustomSelect className="w-[52px] shrink-0" options={[t("public"), t("friendsOnly")]} value={privacyProf} onChange={setPrivacyProf} getIcon={getPrivacyIcon} hideLabelOnDisplay={true} hideArrow={true} />
                     </div>
                     <div className="flex justify-end gap-2 pt-2 border-b border-gray-200 dark:border-gray-700 pb-4">
                       <button onClick={() => setIsEditingProfession(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
@@ -741,7 +741,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     <div className="space-y-3">
                       <div className="flex flex-col sm:flex-row gap-3">
                         <CustomSelect 
-                            className="w-[85px] shrink-0" 
+                            className="w-[68px] shrink-0" 
                             options={["Instagram", "Whatsapp", "Facebook", "Tiktok", "Github", "Portotree", "Linkedin", "Youtube", "Telegram", "Twitter"]} 
                             value={socialPlatform === "Lainnya" ? "Instagram" : socialPlatform} 
                             onChange={setSocialPlatform}
@@ -769,14 +769,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                               className="flex-1 px-3 py-2.5 bg-transparent text-gray-900 dark:text-white outline-none text-sm w-full min-w-0" 
                             />
                           </div>
-                          <CustomSelect 
-                            className="w-[85px] shrink-0" 
-                            options={[t("public"), t("friendsOnly")]} 
-                            value={privacySosmed} 
-                            onChange={setPrivacySosmed} 
-                            getIcon={getPrivacyIcon} 
-                            hideLabelOnDisplay={true} 
-                          />
+                          <CustomSelect className="w-[52px] shrink-0" options={[t("public"), t("friendsOnly")]} value={privacySosmed} onChange={setPrivacySosmed} getIcon={getPrivacyIcon} hideLabelOnDisplay={true} hideArrow={true} />
                           <button className="p-2.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-colors border border-transparent hover:border-red-200 dark:hover:border-red-500/20 shrink-0 flex items-center justify-center">
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                           </button></div>
