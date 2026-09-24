@@ -328,7 +328,18 @@
     "gender": "Gender",
     "all": "All",
     "media": "Media",
-    "community": "Community"
+    "community": "Community",
+    "friendsCount": "{count} Friends",
+    "sendMessage": "Send message",
+    "noBio": "No bio",
+    "yourPoints": "Your points",
+    "pointsLabel": "Points",
+    "howItWorks": "How it works",
+    "check": "Check",
+    "notActive": "Not active",
+    "report": "Report!",
+    "activate": "Activate",
+    "addReputation": "+ Reputation"
   },
   "editProfile": {
     "title": "Edit Profile",
@@ -361,12 +372,12 @@
     "locationTitle": "Location",
     "locationCity": "City of residence",
     "locationProvince": "Province",
-    "avatarTitle": "Profile Picture (Avatar)",
-    "avatarDesc": "Your profile picture will be public.",
-    "avatarBtn": "Change Profile Picture",
-    "coverTitle": "Cover Photo",
+    "avatarTitle": "Profile Avatar",
+    "avatarDesc": "Format .JPG, .PNG or .WEBP, max 2MB.",
+    "avatarBtn": "Change Photo",
+    "coverTitle": "Cover Image",
     "coverDesc": "Your cover photo appears at the top of your profile.",
-    "coverBtn": "Change Cover Photo",
+    "coverBtn": "Change Cover",
     "profNow": "Current profession",
     "addProf": "Add profession",
     "profPlaceholder": "e.g. Web Developer, UI/UX Designer...",
@@ -406,6 +417,7 @@
     "allow": "Allow",
     "disallow": "Do not allow",
     "show": "Show",
-    "hide": "Hide"
+    "hide": "Hide",
+    "locationPlaceholder": "e.g. Malang, East Java"
   }
 }

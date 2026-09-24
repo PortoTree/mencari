@@ -545,7 +545,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t("locationTitle")}</h3>
                     <div className="flex flex-col sm:flex-row gap-3">
                       <div className="flex-1">
-                        <input type="text" placeholder="Misal: Malang, Jawa Timur" className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                        <input type="text" placeholder={t("locationPlaceholder")} className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
                       </div>
                       <CustomSelect className="w-full sm:w-[170px] shrink-0" options={[t("public"), t("friendsOnly"), t("private")]} value={privacyLoc} onChange={setPrivacyLoc} getIcon={getPrivacyIcon} />
                     </div>
@@ -562,7 +562,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
             {activeTab === "tampilan" && (
               <div className="space-y-8 max-w-xl animate-in fade-in duration-200">
                 <div>
-                  <label className="block text-base font-bold text-gray-900 dark:text-white mb-4">Avatar Profil</label>
+                  <label className="block text-base font-bold text-gray-900 dark:text-white mb-4">{t("avatarTitle")}</label>
                   <div className="flex items-center gap-6">
                     <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-gray-100 dark:border-gray-700 relative group cursor-pointer shadow-sm shrink-0">
                       <img src="/default-avatar.svg" alt="Avatar" className="w-full h-full object-cover bg-white dark:bg-gray-800" />
@@ -571,8 +571,8 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       </div>
                     </div>
                     <div>
-                      <button className="px-4 py-2 rounded-xl bg-gray-100 dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-gray-600 text-sm font-semibold transition-colors">Ubah Foto</button>
-                      <p className="text-xs text-gray-500 mt-2">Format .JPG, .PNG atau .WEBP, max 2MB.</p>
+                      <button className="px-4 py-2 rounded-xl bg-gray-100 dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-gray-600 text-sm font-semibold transition-colors">{t("avatarBtn")}</button>
+                      <p className="text-xs text-gray-500 mt-2">{t("avatarDesc")}</p>
                     </div>
                   </div>
                 </div>
@@ -580,13 +580,13 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                 <hr className="border-gray-200 dark:border-gray-700" />
 
                 <div>
-                  <label className="block text-base font-bold text-gray-900 dark:text-white mb-4">Gambar Sampul</label>
+                  <label className="block text-base font-bold text-gray-900 dark:text-white mb-4">{t("coverTitle")}</label>
                   <div className="w-full h-[150px] rounded-2xl overflow-hidden relative group cursor-pointer border border-gray-200 dark:border-gray-700">
                     <img src="/sampul-placeholder.png" alt="Cover" className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-black/50 hidden group-hover:flex items-center justify-center transition-all">
                       <span className="text-white font-semibold flex items-center gap-2">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /></svg>
-                        Ubah Sampul
+                        {t("coverBtn")}
                       </span>
                     </div>
                   </div>

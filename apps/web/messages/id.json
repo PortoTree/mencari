@@ -328,7 +328,18 @@
     "gender": "Jenis Kelamin",
     "all": "Semua",
     "media": "Media",
-    "community": "Komunitas"
+    "community": "Komunitas",
+    "friendsCount": "{count} Teman",
+    "sendMessage": "Kirim pesan",
+    "noBio": "Tidak ada bio",
+    "yourPoints": "Point anda",
+    "pointsLabel": "Point",
+    "howItWorks": "Cara kerja",
+    "check": "Check",
+    "notActive": "Belum aktif",
+    "report": "Laporkan!",
+    "activate": "Aktifkan",
+    "addReputation": "+ Reputasi"
   },
   "editProfile": {
     "title": "Edit Profil",
@@ -361,12 +372,12 @@
     "locationTitle": "Lokasi",
     "locationCity": "Kota tempat tinggal",
     "locationProvince": "Provinsi",
-    "avatarTitle": "Foto Profil (Avatar)",
-    "avatarDesc": "Foto profil Anda akan bersifat publik.",
-    "avatarBtn": "Ubah Foto Profil",
-    "coverTitle": "Gambar Sampul (Cover)",
+    "avatarTitle": "Avatar Profil",
+    "avatarDesc": "Format .JPG, .PNG atau .WEBP, max 2MB.",
+    "avatarBtn": "Ubah Foto",
+    "coverTitle": "Gambar Sampul",
     "coverDesc": "Gambar sampul akan muncul di bagian atas profil Anda.",
-    "coverBtn": "Ubah Gambar Sampul",
+    "coverBtn": "Ubah Sampul",
     "profNow": "Profesi saat ini",
     "addProf": "Tambahkan profesi",
     "profPlaceholder": "Misal: Web Developer, UI/UX Designer...",
@@ -406,6 +417,7 @@
     "allow": "Izinkan",
     "disallow": "Jangan izinkan",
     "show": "Tampilkan",
-    "hide": "Sembunyikan"
+    "hide": "Sembunyikan",
+    "locationPlaceholder": "Misal: Malang, Jawa Timur"
   }
 }

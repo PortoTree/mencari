@@ -128,7 +128,7 @@ export default function ProfilePage({
             {/* Top Row: Friends & Buttons */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-gray-300 dark:border-gray-700 pb-4">
               <div>
-                <p className="font-semibold text-[15px] mb-2 text-black dark:text-white hover:underline cursor-pointer w-max transition-all">1.200 Teman</p>
+                <p className="font-semibold text-[15px] mb-2 text-black dark:text-white hover:underline cursor-pointer w-max transition-all">{t("friendsCount", { count: "1.200" })}</p>
                 <div className="flex -space-x-2 group/friends cursor-pointer">
                   {[...Array(7)].map((_, i) => (
                     <div key={i} className="w-8 h-8 rounded-full border-[2.5px] border-[#EBEBEB] dark:border-[#1E1E1E] overflow-hidden hover:-translate-y-1 hover:z-10 transition-transform relative bg-white dark:bg-[#242526]">
@@ -148,10 +148,10 @@ export default function ProfilePage({
                 ) : (
                   <>
                     <button className="bg-[#10B981] hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-full text-sm shadow-sm transition-colors">
-                      + Tambah teman
+                      {"+ " + t("addFriend")}
                     </button>
                     <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full text-sm shadow-sm transition-colors">
-                      Kirim pesan
+                      {t("sendMessage")}
                     </button>
                     <button className="w-9 h-9 flex shrink-0 items-center justify-center bg-gray-200 hover:bg-gray-300 dark:bg-[#3A3B3C] dark:hover:bg-[#4E4F50] text-gray-700 dark:text-[#E4E6EB] rounded-full transition-colors shadow-sm cursor-pointer">
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -168,7 +168,7 @@ export default function ProfilePage({
               
               {/* Bio Card */}
               <div className="flex-1 bg-white dark:bg-[#4E4F50] rounded-[30px] min-h-[200px] flex items-center justify-center shadow-sm relative group">
-                <p className="text-gray-400 font-semibold text-lg">Tidak ada bio</p>
+                <p className="text-gray-400 font-semibold text-lg">{t("noBio")}</p>
                 {isOwnProfile && (
                   <button onClick={() => setIsEditModalOpen(true)} className="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 dark:bg-[#3A3B3C] dark:hover:bg-[#242526] p-2.5 rounded-full transition-colors text-gray-600 dark:text-gray-300 opacity-0 group-hover:opacity-100 cursor-pointer">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -188,7 +188,7 @@ export default function ProfilePage({
                     </div>
                   </div>
                   <div className="text-white flex flex-col justify-center">
-                  <p className="font-bold text-[18px] leading-none mb-1.5 tracking-wide">{isOwnProfile ? "Point anda" : "Point"}</p>
+                  <p className="font-bold text-[18px] leading-none mb-1.5 tracking-wide">{isOwnProfile ? t("yourPoints") : t("pointsLabel")}</p>
                   <div className="flex items-center gap-1.5 mt-1">
                     <p className="font-extrabold text-[22px] leading-none tracking-wide">1.238</p>
                     <div
@@ -205,15 +205,15 @@ export default function ProfilePage({
               <div className="space-y-3 mt-6">
                 <div className="flex gap-2">
                   <button className="flex-1 bg-gray-600 hover:bg-gray-500 text-white font-semibold py-1.5 rounded-full text-[13px] transition-colors">
-                    {isOwnProfile ? "Cara kerja" : "Check"}
+                    {isOwnProfile ? t("howItWorks") : t("check")}
                   </button>
                   {isOwnProfile ? (
                     <div className="flex-1 flex items-center justify-center border border-red-500/70 rounded-full py-1.5">
-                      <span className="text-red-500 font-medium text-[13px]">Belum aktif</span>
+                      <span className="text-red-500 font-medium text-[13px]">{t("notActive")}</span>
                     </div>
                   ) : (
                     <button className="flex-1 bg-gradient-to-b from-red-600 to-red-900 hover:from-red-500 hover:to-red-800 border-t border-red-500 text-white font-semibold py-1.5 rounded-full text-[13px] shadow-sm transition-colors">
-                      Laporkan!
+                      {t("report")}
                     </button>
                   )}
                 </div>
@@ -224,7 +224,7 @@ export default function ProfilePage({
                       : "bg-gradient-to-r from-[#B066FE] to-[#10B981] hover:brightness-110 shadow-[0_6px_0_0_#0D9488,0_10px_20px_rgba(0,0,0,0.5)] active:shadow-[0_0px_0_0_#0D9488,0_0px_0px_rgba(0,0,0,0.5)] active:translate-y-[6px]"
                   }`}
                 >
-                  {isOwnProfile ? "Aktifkan" : "+ Reputasi"}
+                  {isOwnProfile ? t("activate") : t("addReputation")}
                 </button>
               </div>
               </div>
