@@ -26,6 +26,14 @@ export default function ProfilePage({
     const [activeAlbumIdx, setActiveAlbumIdx] = useState<number | null>(null);
     const [albumGridCols, setAlbumGridCols] = useState<number>(3);
     const carouselRef = React.useRef<HTMLDivElement>(null);
+    const albumCarouselRef = React.useRef<HTMLDivElement>(null);
+    
+    const scrollAlbumCarousel = (direction: 'left' | 'right') => {
+      if (albumCarouselRef.current) {
+        const scrollAmount = 300;
+        albumCarouselRef.current.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
+      }
+    };
     
     const scrollCarousel = (direction: 'left' | 'right') => {
       if (carouselRef.current) {
@@ -459,9 +467,20 @@ export default function ProfilePage({
                         </button>
                       </div>
                     )}
-                    <div className="grid grid-cols-4 gap-x-4 gap-y-5">
+                    <div className="relative group/album">
+                        {/* Left Arrow */}
+                        <button 
+                          onClick={() => scrollAlbumCarousel('left')}
+                          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center bg-white dark:bg-[#3A3B3C] rounded-full shadow-md border border-gray-200 dark:border-[#4E4F50] text-gray-600 dark:text-[#E4E6EB] hover:bg-gray-100 dark:hover:bg-[#4E4F50] transition-colors opacity-0 group-hover/album:opacity-100 disabled:opacity-0"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
+                        </button>
+                        
+                        {/* Carousel Container */}
+                        <div ref={albumCarouselRef} className="flex overflow-x-auto gap-4 sidebar-scrollbar snap-x snap-mandatory py-2 px-1">
+
                       {[...Array(8)].map((_, i) => (
-                        <div key={i} onClick={() => setActiveAlbumIdx(activeAlbumIdx === i ? null : i)} className={`flex flex-col gap-1.5 group cursor-pointer p-1 rounded-xl transition-colors ${activeAlbumIdx === i ? 'bg-gray-100 dark:bg-[#3A3B3C]' : 'hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50'}`}>
+                        <div key={i} onClick={() => setActiveAlbumIdx(activeAlbumIdx === i ? null : i)} className={`shrink-0 w-[140px] snap-start flex flex-col gap-1.5 group cursor-pointer p-1 rounded-xl transition-colors ${activeAlbumIdx === i ? 'bg-gray-100 dark:bg-[#3A3B3C]' : 'hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50'}`}>
                           <div className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden relative border border-gray-100 dark:border-[#3E4042]">
                             <img src="/sampul-placeholder.png" alt={`Media ${i}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
@@ -471,10 +490,20 @@ export default function ProfilePage({
                           </p>
                         </div>
                       ))}
+                    
+                        </div>
+                        
+                        {/* Right Arrow */}
+                        <button 
+                          onClick={() => scrollAlbumCarousel('right')}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center bg-white dark:bg-[#3A3B3C] rounded-full shadow-md border border-gray-200 dark:border-[#4E4F50] text-gray-600 dark:text-[#E4E6EB] hover:bg-gray-100 dark:hover:bg-[#4E4F50] transition-colors opacity-0 group-hover/album:opacity-100 disabled:opacity-0"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  
-                  {activeAlbumIdx !== null && (
+                    
+                    {activeAlbumIdx !== null && (
                     <div className="animate-in slide-in-from-top-2 fade-in duration-300 w-full mt-2">
                       <div className="flex items-center justify-between mb-4 px-1">
                          <h3 className="font-bold text-[17px] text-black dark:text-[#E4E6EB]">Isi Album: Foto Liburan {activeAlbumIdx + 1}</h3>

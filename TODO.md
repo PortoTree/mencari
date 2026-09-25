@@ -304,3 +304,5 @@
 - (Frontend) Make album viewer background transparent and add 1/3/5 grid layout toggles with SVG icons (page.tsx)
 
 - (Frontend) Swap inline SVG grid icons (3 and 5) with custom assets from public folder, mapped to currentColor (page.tsx)
+
+- (Frontend) Convert Media albums from 4x2 grid to horizontal carousel with snap scrolling and left/right navigation arrows (page.tsx)
