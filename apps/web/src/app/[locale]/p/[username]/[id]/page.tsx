@@ -225,7 +225,7 @@ export default function ProfilePage({
               
                 </div>
             {/* Right Content Area */}
-          <div className="flex-1 flex flex-col gap-4 md:mt-24">
+          <div className="flex-1 flex flex-col gap-4 md:mt-24 min-w-0">
             
             {/* Top Row: Friends & Buttons */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-gray-300 dark:border-gray-700 pb-4">
@@ -268,6 +268,82 @@ export default function ProfilePage({
                 )}
               </div>
             </div>
+
+              
+              {/* Suggestion Carousel */}
+              <div className="w-full mt-2 mb-2">
+                <div className="flex items-center justify-between mb-3 px-1">
+                  <h3 className="text-[15px] font-bold text-black dark:text-white">Disarankan untuk Anda</h3>
+                  <button className="text-[13px] font-bold text-[#10B981] hover:text-emerald-700 transition-colors">Lihat Semua</button>
+                </div>
+                
+                {/* Carousel Container */}
+                <div className="flex gap-4 overflow-x-auto pb-4 snap-x scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                  
+                  {/* Dummy Account 1 */}
+                  <div className="w-[140px] shrink-0 bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3A3B3C] rounded-[20px] p-4 flex flex-col items-center shadow-sm snap-start">
+                    <img src="/default-avatar.svg" alt="Avatar" className="w-[60px] h-[60px] rounded-full object-cover mb-2 border-2 border-gray-100 dark:border-[#3A3B3C]" />
+                    <p className="text-[14px] font-bold text-black dark:text-white text-center leading-tight truncate w-full">Budi Santoso</p>
+                    <p className="text-[12px] text-gray-500 dark:text-gray-400 mb-3 truncate w-full text-center">@budis</p>
+                    <button className="w-full bg-[#10B981] hover:bg-emerald-600 text-white text-[12px] font-bold py-1.5 rounded-full transition-colors shadow-sm">
+                      + Follow
+                    </button>
+                  </div>
+
+                  {/* Dummy Group 1 */}
+                  <div className="w-[140px] shrink-0 bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3A3B3C] rounded-[20px] p-4 flex flex-col items-center shadow-sm snap-start">
+                    <div className="w-[60px] h-[60px] rounded-[16px] bg-gradient-to-br from-blue-500 to-purple-600 mb-2 flex items-center justify-center text-white font-bold text-xl shadow-inner">
+                      NG
+                    </div>
+                    <p className="text-[14px] font-bold text-black dark:text-white text-center leading-tight truncate w-full">Next.js Indo</p>
+                    <p className="text-[12px] text-gray-500 dark:text-gray-400 mb-3 truncate w-full text-center">12K Member</p>
+                    <button className="w-full border border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white text-[12px] font-bold py-1.5 rounded-full transition-colors shadow-sm">
+                      Gabung
+                    </button>
+                  </div>
+
+                  {/* Dummy Account 2 */}
+                  <div className="w-[140px] shrink-0 bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3A3B3C] rounded-[20px] p-4 flex flex-col items-center shadow-sm snap-start">
+                    <img src="/default-avatar.svg" alt="Avatar" className="w-[60px] h-[60px] rounded-full object-cover mb-2 border-2 border-gray-100 dark:border-[#3A3B3C]" />
+                    <p className="text-[14px] font-bold text-black dark:text-white text-center leading-tight truncate w-full">Siti Aisyah</p>
+                    <p className="text-[12px] text-gray-500 dark:text-gray-400 mb-3 truncate w-full text-center">@siti_a</p>
+                    <button className="w-full bg-[#10B981] hover:bg-emerald-600 text-white text-[12px] font-bold py-1.5 rounded-full transition-colors shadow-sm">
+                      + Follow
+                    </button>
+                  </div>
+
+                  {/* Dummy Group 2 */}
+                  <div className="w-[140px] shrink-0 bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3A3B3C] rounded-[20px] p-4 flex flex-col items-center shadow-sm snap-start">
+                    <div className="w-[60px] h-[60px] rounded-[16px] bg-gradient-to-br from-orange-400 to-red-500 mb-2 flex items-center justify-center text-white font-bold text-xl shadow-inner">
+                      UI
+                    </div>
+                    <p className="text-[14px] font-bold text-black dark:text-white text-center leading-tight truncate w-full">UI/UX Design</p>
+                    <p className="text-[12px] text-gray-500 dark:text-gray-400 mb-3 truncate w-full text-center">8.5K Member</p>
+                    <button className="w-full border border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white text-[12px] font-bold py-1.5 rounded-full transition-colors shadow-sm">
+                      Gabung
+                    </button>
+                  </div>
+
+                  {/* Dummy Account 3 */}
+                  <div className="w-[140px] shrink-0 bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3A3B3C] rounded-[20px] p-4 flex flex-col items-center shadow-sm snap-start">
+                    <img src="/default-avatar.svg" alt="Avatar" className="w-[60px] h-[60px] rounded-full object-cover mb-2 border-2 border-gray-100 dark:border-[#3A3B3C]" />
+                    <p className="text-[14px] font-bold text-black dark:text-white text-center leading-tight truncate w-full">Ahmad Reza</p>
+                    <p className="text-[12px] text-gray-500 dark:text-gray-400 mb-3 truncate w-full text-center">@areza</p>
+                    <button className="w-full bg-[#10B981] hover:bg-emerald-600 text-white text-[12px] font-bold py-1.5 rounded-full transition-colors shadow-sm">
+                      + Follow
+                    </button>
+                  </div>
+
+                </div>
+                
+                {/* CSS to hide scrollbar but keep functionality */}
+                <style dangerouslySetInnerHTML={{__html: `
+                  .scrollbar-hide::-webkit-scrollbar {
+                      display: none;
+                  }
+                `}} />
+              </div>
+
 
               {/* Tabs Navigation */}
               <div className="flex justify-center mt-6 w-full">

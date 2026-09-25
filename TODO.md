@@ -270,3 +270,7 @@
 - (Frontend) Remove accidental literal '\n\n' text output near EditProfileModal (page.tsx)
 
 - (Frontend) Remove Photo Grid completely from the Left Sidebar (page.tsx)
+
+- (Frontend) Add horizontally scrollable 'Suggest' carousel for dummy groups and accounts above Tabs Navigation (page.tsx)
+
+- (Frontend) Fix Right Content Area layout overflowing max-width by adding min-w-0 (page.tsx)
