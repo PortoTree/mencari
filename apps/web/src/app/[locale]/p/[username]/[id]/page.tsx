@@ -126,7 +126,31 @@ export default function ProfilePage({
             </div>
             
             <h1 className="text-2xl font-bold text-black dark:text-white">{username === "pampam" ? "nama akun" : username}</h1>
-            <p className="text-[15px] text-gray-700 dark:text-gray-300 font-medium mb-8">@{username}</p>
+            <p className="text-[15px] text-gray-700 dark:text-gray-300 font-medium mb-3">@{username}</p>
+            {/* Social Media Icons */}
+            <div className="flex flex-wrap items-center justify-center gap-2.5 mb-8 px-4">
+              {[
+                { name: 'Instagram', file: 'instagram.webp' },
+                { name: 'Facebook', file: 'facebook.webp' },
+                { name: 'Github', file: 'github.webp' },
+                { name: 'Linkedin', file: 'linkedin.webp' },
+                { name: 'Telegram', file: 'telegram.webp' },
+                { name: 'Whatsapp', file: 'whatsapp.webp' },
+                { name: 'Tiktok', file: 'tiktok.webp' },
+                { name: 'Portotree', file: 'portotree.webp' },
+                { name: 'Youtube', file: 'youtube.webp' },
+                { name: 'Twitter', file: 'twiter.webp' }
+              ].map((social) => (
+                <a 
+                  key={social.name} 
+                  href="#" 
+                  className="w-9 h-9 rounded-full bg-gray-100 dark:bg-[#3A3B3C] flex items-center justify-center hover:bg-[#10B981]/20 transition-colors shadow-sm border border-gray-200 dark:border-[#4E4F50] shrink-0 hover:scale-105"
+                  title={social.name}
+                >
+                  <img src={`/sosmed/${social.file}`} alt={social.name} className="w-5 h-5 object-contain drop-shadow-sm" />
+                </a>
+              ))}
+            </div>
 
             
               {/* Profile Details List */}
@@ -399,7 +423,7 @@ export default function ProfilePage({
                     >
                       {tab}
                     </button>
-                    {idx < 3 && <div className="w-[2px] h-[20px] bg-gray-300 dark:bg-gray-700 mx-1"></div>}
+                    {idx < 2 && <div className="w-[2px] h-[20px] bg-gray-300 dark:bg-gray-700 mx-1"></div>}
                   </React.Fragment>
                 ))}
               </div>

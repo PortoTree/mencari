@@ -310,3 +310,11 @@
 - (Frontend) Set album carousel arrows to be always visible and push them to the absolute edges (-left-3, -right-3) (page.tsx)
 
 - (Frontend) Remove 'All' tab from Profile page navigation and set 'Posts' as default active tab (page.tsx)
+
+- (Frontend) Add social media icons row beneath username in Profile Card and remove redundant trailing separator line in Tabs Navigation (page.tsx)
+
+- (Frontend) Expand social media icons list to include Facebook, YouTube, WhatsApp, and TikTok with responsive flex-wrap layout (page.tsx)
+
+- (Frontend) Rebuild social media section to use local webp assets in a 2-column list layout with hover effects matching the provided design (page.tsx)
+
+- (Frontend) Revert social media icons back to the circular inline layout without text labels, keeping the new 10 webp icons (page.tsx)
