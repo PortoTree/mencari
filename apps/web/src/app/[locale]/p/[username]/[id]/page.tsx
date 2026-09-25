@@ -380,7 +380,7 @@ export default function ProfilePage({
               {/* Tabs Navigation */}
               <div className="flex justify-center -mt-4 w-full relative z-10">
 
-                <div className="bg-white dark:bg-black rounded-full shadow-lg px-2 py-1.5 flex items-center text-sm md:text-base font-bold text-gray-500 dark:text-gray-300">
+                <div className="bg-gradient-to-b from-white to-[#D9D9D9] dark:from-[#3A3B3C] dark:to-[#18191A] border border-white/20 dark:border-white/5 rounded-full shadow-lg px-2 py-1.5 flex items-center text-sm md:text-base font-bold text-gray-500 dark:text-gray-300">
                 {['all', 'posts', 'media', 'project'].map((tab, idx) => (
                   <React.Fragment key={tab}>
                     <button
@@ -397,6 +397,80 @@ export default function ProfilePage({
 
             
             </div>
+
+
+              {/* Tab Content Area */}
+              <div className="mt-2 flex flex-col gap-4">
+                {activeTab === 'all' || activeTab === 'posts' ? (
+                  <div className="bg-white dark:bg-[#242526] rounded-[20px] shadow-sm border border-gray-100 dark:border-[#3A3B3C] pt-4 pb-4 px-0">
+                    <div className="flex items-center justify-between pb-2 px-4 relative">
+                      <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
+                        <div className="w-[44px] h-[44px] rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-gray-200 dark:border-[#4E4F50]">
+                          <img src="/default-avatar.svg" alt="Profile" className="w-full h-full object-cover" />
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-black dark:text-[#E4E6EB] text-[15px] leading-tight hover:underline">
+                            {username}
+                          </h3>
+                          <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] mt-0.5">
+                            2 jam lalu
+                          </p>
+                        </div>
+                      </div>
+                      <button className="text-gray-400 hover:text-gray-600 transition-colors">
+                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 14a2 2 0 110-4 2 2 0 010 4zm-7 0a2 2 0 110-4 2 2 0 010 4zm14 0a2 2 0 110-4 2 2 0 010 4z" /></svg>
+                      </button>
+                    </div>
+                    <div className="px-4 pb-1 mt-1">
+                      <p className="text-[14px] text-black dark:text-[#E4E6EB] leading-relaxed">
+                        Halo semuanya! Ini adalah contoh dummy postingan untuk tab <span className="capitalize font-semibold">{activeTab}</span>. Desain komponen ini disamakan dengan model postingan yang ada di halaman utama. Jangan lupa ngopi hari ini ya! ☕🚀
+                      </p>
+                    </div>
+                  </div>
+                ) : null}
+
+                {activeTab === 'all' || activeTab === 'media' ? (
+                  <div className="bg-white dark:bg-[#242526] rounded-[20px] shadow-sm border border-gray-100 dark:border-[#3A3B3C] pt-4 pb-4 px-0">
+                    <div className="flex items-center justify-between pb-2 px-4 relative">
+                      <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
+                        <div className="w-[44px] h-[44px] rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-gray-200 dark:border-[#4E4F50]">
+                          <img src="/default-avatar.svg" alt="Profile" className="w-full h-full object-cover" />
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-black dark:text-[#E4E6EB] text-[15px] leading-tight hover:underline">
+                            {username}
+                          </h3>
+                          <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] mt-0.5">
+                            5 jam lalu
+                          </p>
+                        </div>
+                      </div>
+                      <button className="text-gray-400 hover:text-gray-600 transition-colors">
+                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 14a2 2 0 110-4 2 2 0 010 4zm-7 0a2 2 0 110-4 2 2 0 010 4zm14 0a2 2 0 110-4 2 2 0 010 4z" /></svg>
+                      </button>
+                    </div>
+                    <div className="px-4 pb-1 mt-1">
+                      <p className="text-[14px] text-black dark:text-[#E4E6EB] mb-3 leading-relaxed">
+                        Lagi ngerjain UI eksplorasi baru nih, nyoba-nyoba komposisi warna gelap. Gimana menurut kalian? ✨
+                      </p>
+                      <div className="w-full h-[280px] bg-gray-200 dark:bg-[#3A3B3C] rounded-[14px] overflow-hidden">
+                        <img src="/sampul-placeholder.png" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 cursor-pointer" alt="Media content" />
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+
+                {activeTab === 'project' ? (
+                  <div className="bg-white dark:bg-[#242526] rounded-[20px] shadow-sm border border-gray-100 dark:border-[#3A3B3C] p-8 text-center flex flex-col items-center justify-center min-h-[250px]">
+                     <div className="w-16 h-16 bg-gray-100 dark:bg-[#3A3B3C] rounded-full flex items-center justify-center mb-4">
+                       <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                     </div>
+                     <p className="text-gray-800 dark:text-[#E4E6EB] font-bold text-[16px] mb-1">Belum ada project</p>
+                     <p className="text-gray-500 dark:text-[#B0B3B8] text-[14px] max-w-[250px]">Saat ini {username} belum mempublikasikan project apapun.</p>
+                  </div>
+                ) : null}
+              </div>
+
 
               
           </div>
