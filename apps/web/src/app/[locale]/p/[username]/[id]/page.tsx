@@ -402,60 +402,59 @@ export default function ProfilePage({
               {/* Tab Content Area */}
               <div className="mt-2 flex flex-col gap-4">
                 {activeTab === 'all' || activeTab === 'posts' ? (
-                  <div className="bg-white dark:bg-[#242526] rounded-[20px] shadow-sm border border-gray-100 dark:border-[#3A3B3C] pt-4 pb-4 px-0">
+                  <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] pt-4 px-0">
                     <div className="flex items-center justify-between pb-2 px-4 relative">
                       <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
-                        <div className="w-[44px] h-[44px] rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-gray-200 dark:border-[#4E4F50]">
+                        <div className="w-[40px] h-[40px] rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-emerald-600 dark:border-emerald-400">
                           <img src="/default-avatar.svg" alt="Profile" className="w-full h-full object-cover" />
                         </div>
                         <div>
                           <h3 className="font-bold text-black dark:text-[#E4E6EB] text-[15px] leading-tight hover:underline">
                             {username}
                           </h3>
-                          <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] mt-0.5">
+                          <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8]">
                             2 jam lalu
                           </p>
                         </div>
                       </div>
-                      <button className="text-gray-400 hover:text-gray-600 transition-colors">
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 14a2 2 0 110-4 2 2 0 010 4zm-7 0a2 2 0 110-4 2 2 0 010 4zm14 0a2 2 0 110-4 2 2 0 010 4z" /></svg>
+                      <button className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-gray-500 dark:text-[#B0B3B8] transition-colors">
+                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" /></svg>
                       </button>
                     </div>
-                    <div className="px-4 pb-1 mt-1">
-                      <p className="text-[14px] text-black dark:text-[#E4E6EB] leading-relaxed">
-                        Halo semuanya! Ini adalah contoh dummy postingan untuk tab <span className="capitalize font-semibold">{activeTab}</span>. Desain komponen ini disamakan dengan model postingan yang ada di halaman utama. Jangan lupa ngopi hari ini ya! ☕🚀
-                      </p>
+                    <p className="text-black dark:text-[#E4E6EB] text-[15px] mb-4 px-4 leading-relaxed">
+                      Halo semuanya! Ini adalah contoh dummy postingan untuk tab <span className="capitalize font-semibold">{activeTab}</span>. Desain ini udah disesuaikan 100% dengan komponen postingan yang ada di halaman beranda. Jangan lupa ngopi hari ini ya! ☕🚀
+                    </p>
+                    <div className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] h-[300px] mb-2 flex items-center justify-center overflow-hidden">
+                      <img src="/sampul-placeholder.png" alt="Post media" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="px-4 pb-2">
+                      <div className="flex items-center gap-1 pt-2 border-t border-gray-100 dark:border-[#3E4042]">
+                        <button className="flex-1 flex items-center justify-center gap-2 py-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] transition-colors bg-transparent">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" /></svg>
+                          Suka
+                        </button>
+                        <button className="flex-1 flex items-center justify-center gap-2 py-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] transition-colors bg-transparent">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                          Komentar
+                        </button>
+                        <button className="flex-1 flex items-center justify-center gap-2 py-1.5 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] transition-colors bg-transparent">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
+                          Bagikan
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ) : null}
 
-                {activeTab === 'all' || activeTab === 'media' ? (
-                  <div className="bg-white dark:bg-[#242526] rounded-[20px] shadow-sm border border-gray-100 dark:border-[#3A3B3C] pt-4 pb-4 px-0">
-                    <div className="flex items-center justify-between pb-2 px-4 relative">
-                      <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
-                        <div className="w-[44px] h-[44px] rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-gray-200 dark:border-[#4E4F50]">
-                          <img src="/default-avatar.svg" alt="Profile" className="w-full h-full object-cover" />
+                {activeTab === 'media' ? (
+                  <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-4">
+                    <div className="grid grid-cols-4 gap-2">
+                      {[...Array(8)].map((_, i) => (
+                        <div key={i} className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden group relative cursor-pointer">
+                          <img src="/sampul-placeholder.png" alt={`Media ${i}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
                         </div>
-                        <div>
-                          <h3 className="font-bold text-black dark:text-[#E4E6EB] text-[15px] leading-tight hover:underline">
-                            {username}
-                          </h3>
-                          <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] mt-0.5">
-                            5 jam lalu
-                          </p>
-                        </div>
-                      </div>
-                      <button className="text-gray-400 hover:text-gray-600 transition-colors">
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 14a2 2 0 110-4 2 2 0 010 4zm-7 0a2 2 0 110-4 2 2 0 010 4zm14 0a2 2 0 110-4 2 2 0 010 4z" /></svg>
-                      </button>
-                    </div>
-                    <div className="px-4 pb-1 mt-1">
-                      <p className="text-[14px] text-black dark:text-[#E4E6EB] mb-3 leading-relaxed">
-                        Lagi ngerjain UI eksplorasi baru nih, nyoba-nyoba komposisi warna gelap. Gimana menurut kalian? ✨
-                      </p>
-                      <div className="w-full h-[280px] bg-gray-200 dark:bg-[#3A3B3C] rounded-[14px] overflow-hidden">
-                        <img src="/sampul-placeholder.png" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 cursor-pointer" alt="Media content" />
-                      </div>
+                      ))}
                     </div>
                   </div>
                 ) : null}

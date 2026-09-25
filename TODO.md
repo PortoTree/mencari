@@ -284,3 +284,5 @@
 - (Frontend) Match Tabs Navigation background gradient and border with Profile Card (page.tsx)
 
 - (Frontend) Implement dynamically rendered Dummy Posts and empty states for each tab (All, Posts, Media, Project) matching existing post layout model (page.tsx)
+
+- (Frontend) Update Dummy Post in profile tabs to accurately mirror /home post component with full action bar and create 4x2 media grid album (page.tsx)
