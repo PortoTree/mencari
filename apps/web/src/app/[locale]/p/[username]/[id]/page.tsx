@@ -419,8 +419,11 @@ export default function ProfilePage({
               </div>
 
 
+              {/* Divider */}
+              <div className="w-full border-t border-gray-300 dark:border-gray-700 mt-4"></div>
+
               {/* Tabs Navigation - Gradient Pill Style */}
-              <div className="flex justify-center mt-6 w-full relative z-10">
+              <div className="flex justify-center w-full relative z-10">
                 <ul className="flex gap-3 p-2">
                   {[
                     { id: 'posts', label: 'Post', gradientFrom: '#a955ff', gradientTo: '#ea51ff',
