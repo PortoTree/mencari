@@ -258,3 +258,7 @@
 - (Frontend) Update hardcoded profile expander button text to use translations (page.tsx, id.json, en.json)
 
 - (Frontend) Update friends section to display Teman, Pengikut, Diikuti stats instead of overlapping avatars (page.tsx)
+
+- (Frontend) Update 'addFriend' translation keys to 'Follow' across id.json and en.json
+
+- (Backend) Review database_profile_structure_updated.md for mutual follower logic
