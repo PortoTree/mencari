@@ -1,191 +1,89 @@
-"use client"
+"use client";
 
-import type React from "react"
+import React, { useState } from "react";
 
-interface ShinyButtonProps {
-  children: React.ReactNode
-  onClick?: () => void
-  className?: string
-  variant?: "green" | "cyan"
+interface PillInteractiveButtonProps {
+  children: React.ReactNode;
+  hoverText?: React.ReactNode;
+  onClick?: () => void;
+  className?: string;
+  variant?: "green" | "cyan" | "reputation" | "default";
 }
 
-export function ShinyButton({ children, onClick, className = "", variant = "cyan" }: ShinyButtonProps) {
-  const highlight = variant === "green" ? "#10B981" : "#ea51ff"
-  const highlightSubtle = variant === "green" ? "#6ee7b7" : "#ffffff"
-  const bg = variant === "green" ? "#064e3b" : "#a955ff"
-  const bgSubtle = variant === "green" ? "#065f46" : "#c77dff"
+export function ShinyButton({
+  children,
+  hoverText,
+  onClick,
+  className = "",
+  variant = "reputation",
+}: PillInteractiveButtonProps) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Variant configurations
+  const isGreen = variant === "green";
+
+  // Base / Idle styling (Before hover)
+  // Non-own profil ("reputation"): Gradient Ungu
+  let idleBg = "bg-gradient-to-r from-purple-900 via-indigo-900 to-purple-800 border-purple-400/30 text-purple-100 shadow-[0_0_15px_rgba(147,51,234,0.3)]";
+  let dotColor = "bg-white";
+
+  // Hover Overlay Capsule (Slide / Morph expansion dari kiri)
+  // Non-own profil: Gradient Hijau saat hover
+  let hoverOverlayBg = "bg-gradient-to-r from-emerald-400 via-green-400 to-teal-400 text-slate-950 shadow-[0_0_20px_rgba(16,185,129,0.5)]";
+
+  if (isGreen) {
+    idleBg = "bg-emerald-950/80 border-emerald-500/40 text-emerald-100 shadow-[0_0_15px_rgba(16,185,129,0.3)]";
+    dotColor = "bg-emerald-400";
+    hoverOverlayBg = "bg-gradient-to-r from-emerald-400 to-green-400 text-slate-950 shadow-[0_0_20px_rgba(16,185,129,0.5)]";
+  } else if (variant === "cyan") {
+    idleBg = "bg-slate-900 border-white/20 text-white shadow-[0_0_15px_rgba(255,255,255,0.2)]";
+    dotColor = "bg-white";
+    hoverOverlayBg = "bg-white text-black shadow-md";
+  }
+
+  const activeHoverText = hoverText !== undefined ? hoverText : children;
 
   return (
-    <>
-      <style>{`
-        @property --gradient-angle {
-          syntax: "<angle>";
-          initial-value: 0deg;
-          inherits: false;
-        }
-        @property --gradient-angle-offset {
-          syntax: "<angle>";
-          initial-value: 0deg;
-          inherits: false;
-        }
-        @property --gradient-percent {
-          syntax: "<percentage>";
-          initial-value: 5%;
-          inherits: false;
-        }
-        @property --gradient-shine {
-          syntax: "<color>";
-          initial-value: white;
-          inherits: false;
-        }
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`group relative flex items-center justify-center w-full h-[44px] rounded-full border transition-all duration-300 overflow-hidden cursor-pointer select-none active:scale-[0.98] ${idleBg} ${className}`}
+    >
+      {/* 1. Default Static Layout: [Dot] + Label */}
+      <div className="relative z-10 flex items-center justify-center gap-2 font-bold text-[14px] tracking-wide">
+        {/* White / Colored glowing dot */}
+        <span
+          className={`w-2 h-2 rounded-full transition-transform duration-300 ease-out shrink-0 ${dotColor} ${
+            isHovered ? "scale-0 opacity-0" : "scale-100 opacity-100"
+          }`}
+        />
+        <span className="transition-opacity duration-200">
+          {children}
+        </span>
+      </div>
 
-        .shiny-cta {
-          --animation: gradient-angle linear infinite;
-          --duration: 3s;
-          --shadow-size: 2px;
-          --transition: 800ms cubic-bezier(0.25, 1, 0.5, 1);
-          isolation: isolate;
-          position: relative;
-          overflow: hidden;
-          cursor: pointer;
-          outline-offset: 4px;
-          font-size: 0.9375rem;
-          line-height: 1.2;
-          font-weight: 700;
-          border: 1px solid transparent;
-          border-radius: 360px;
-          color: #ffffff;
-          background:
-            linear-gradient(var(--shiny-cta-bg), var(--shiny-cta-bg)) padding-box,
-            conic-gradient(
-              from calc(var(--gradient-angle) - var(--gradient-angle-offset)),
-              transparent,
-              var(--shiny-cta-highlight) var(--gradient-percent),
-              var(--gradient-shine) calc(var(--gradient-percent) * 2),
-              var(--shiny-cta-highlight) calc(var(--gradient-percent) * 3),
-              transparent calc(var(--gradient-percent) * 4)
-            ) border-box;
-          box-shadow: inset 0 0 0 1px var(--shiny-cta-bg-subtle);
-          transition: var(--transition);
-          transition-property: --gradient-angle-offset, --gradient-percent, --gradient-shine;
-        }
-
-        .shiny-cta::before,
-        .shiny-cta::after,
-        .shiny-cta span::before {
-          content: "";
-          pointer-events: none;
-          position: absolute;
-          inset-inline-start: 50%;
-          inset-block-start: 50%;
-          translate: -50% -50%;
-          z-index: -1;
-        }
-
-        .shiny-cta:active {
-          translate: 0 1px;
-        }
-
-        .shiny-cta::before {
-          --size: calc(100% - var(--shadow-size) * 3);
-          --position: 2px;
-          --space: calc(var(--position) * 2);
-          width: var(--size);
-          height: var(--size);
-          background: radial-gradient(
-            circle at var(--position) var(--position),
-            white calc(var(--position) / 4),
-            transparent 0
-          ) padding-box;
-          background-size: var(--space) var(--space);
-          background-repeat: space;
-          mask-image: conic-gradient(
-            from calc(var(--gradient-angle) + 45deg),
-            black,
-            transparent 10% 90%,
-            black
-          );
-          border-radius: inherit;
-          opacity: 0.4;
-          z-index: -1;
-        }
-
-        .shiny-cta::after {
-          --animation: shimmer linear infinite;
-          width: 100%;
-          aspect-ratio: 1;
-          background: linear-gradient(
-            -50deg,
-            transparent,
-            var(--shiny-cta-highlight),
-            transparent
-          );
-          mask-image: radial-gradient(circle at bottom, transparent 40%, black);
-          opacity: 0.6;
-        }
-
-        .shiny-cta span {
-          z-index: 1;
-        }
-
-        .shiny-cta span::before {
-          --size: calc(100% + 1rem);
-          width: var(--size);
-          height: var(--size);
-          box-shadow: inset 0 -1ex 2rem 4px var(--shiny-cta-highlight);
-          opacity: 0;
-          transition: opacity var(--transition);
-          animation: calc(var(--duration) * 1.5) breathe linear infinite;
-        }
-
-        .shiny-cta,
-        .shiny-cta::before,
-        .shiny-cta::after {
-          animation: var(--animation) var(--duration),
-            var(--animation) calc(var(--duration) / 0.4) reverse paused;
-          animation-composition: add;
-        }
-
-        .shiny-cta:is(:hover, :focus-visible) {
-          --gradient-percent: 20%;
-          --gradient-angle-offset: 95deg;
-          --gradient-shine: var(--shiny-cta-highlight-subtle);
-        }
-
-        .shiny-cta:is(:hover, :focus-visible),
-        .shiny-cta:is(:hover, :focus-visible)::before,
-        .shiny-cta:is(:hover, :focus-visible)::after {
-          animation-play-state: running;
-        }
-
-        .shiny-cta:is(:hover, :focus-visible) span::before {
-          opacity: 1;
-        }
-
-        @keyframes gradient-angle {
-          to { --gradient-angle: 360deg; }
-        }
-        @keyframes shimmer {
-          to { rotate: 360deg; }
-        }
-        @keyframes breathe {
-          from, to { scale: 1; }
-          50% { scale: 1.2; }
-        }
-      `}</style>
-
-      <button
-        className={`shiny-cta w-full py-2 ${className}`}
-        onClick={onClick}
+      {/* 2. Morphing & Sliding Pill dari titik kiri ke seluruh button */}
+      <div
         style={{
-          "--shiny-cta-bg": bg,
-          "--shiny-cta-bg-subtle": bgSubtle,
-          "--shiny-cta-highlight": highlight,
-          "--shiny-cta-highlight-subtle": highlightSubtle,
-        } as React.CSSProperties}
+          transition: "width 340ms cubic-bezier(0.34, 1.3, 0.64, 1), height 340ms cubic-bezier(0.34, 1.3, 0.64, 1), left 340ms cubic-bezier(0.34, 1.3, 0.64, 1), border-radius 340ms ease, opacity 200ms ease",
+        }}
+        className={`absolute top-1/2 -translate-y-1/2 pointer-events-none flex items-center justify-center overflow-hidden z-20 ${hoverOverlayBg} ${
+          isHovered
+            ? "left-0 w-full h-full rounded-full opacity-100"
+            : "left-6 w-2.5 h-2.5 rounded-full opacity-0"
+        }`}
       >
-        <span>{children}</span>
-      </button>
-    </>
-  )
+        <span
+          className={`font-bold text-[14px] tracking-wide whitespace-nowrap transition-all duration-200 ${
+            isHovered ? "opacity-100 scale-100 delay-100" : "opacity-0 scale-90"
+          }`}
+        >
+          {activeHoverText}
+        </span>
+      </div>
+    </button>
+  );
 }
+
+export default ShinyButton;

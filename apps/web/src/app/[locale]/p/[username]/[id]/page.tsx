@@ -261,8 +261,20 @@ export default function ProfilePage({
                     </button>
                   )}
                 </div>
-                <ShinyButton variant={isOwnProfile ? "green" : "cyan"}>
-                  {isOwnProfile ? t("activate") : "+ Reputasi"}
+                <ShinyButton
+                  variant={isOwnProfile ? "green" : "reputation"}
+                  hoverText={
+                    isOwnProfile ? undefined : (
+                      <span className="inline-flex items-center gap-1.5">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                        <span>Reputasi</span>
+                      </span>
+                    )
+                  }
+                >
+                  {isOwnProfile ? t("activate") : "Reputasi"}
                 </ShinyButton>
               </div>
               </div>
