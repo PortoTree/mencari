@@ -279,7 +279,7 @@ export default function ProfilePage({
 
               
               {/* Suggestion Carousel */}
-              <div className="w-full mt-2 mb-2">
+              <div className="w-full mt-2 mb-0">
                 <div className="flex items-center justify-between mb-3 px-1">
                   <h3 className="text-[15px] font-bold text-black dark:text-white">{t("suggestedForYou")}</h3>
                   <button className="text-[13px] font-bold text-[#10B981] hover:text-emerald-700 transition-colors">{t("seeAll")}</button>
@@ -378,7 +378,7 @@ export default function ProfilePage({
 
 
               {/* Tabs Navigation */}
-              <div className="flex justify-center mt-2 w-full">
+              <div className="flex justify-center -mt-4 w-full relative z-10">
 
                 <div className="bg-white dark:bg-black rounded-full shadow-lg px-2 py-1.5 flex items-center text-sm md:text-base font-bold text-gray-500 dark:text-gray-300">
                 {['all', 'posts', 'media', 'project'].map((tab, idx) => (

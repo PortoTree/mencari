@@ -278,3 +278,5 @@
 - (Frontend) Upgrade Suggestion Carousel: add left/right navigation arrows, increase card sizes, add profession/location for accounts, make group icons square, and use next-intl for all text (page.tsx, id.json, en.json)
 
 - (Frontend) Remove hover dependency for carousel arrows (always visible) and reduce margin above Tabs Navigation (page.tsx)
+
+- (Frontend) Raise Tabs Navigation position higher with negative margin to align horizontally with Reputasi Card (page.tsx)
