@@ -288,3 +288,9 @@
 - (Frontend) Update Dummy Post in profile tabs to accurately mirror /home post component with full action bar and create 4x2 media grid album (page.tsx)
 
 - (Frontend) Constrain Tab Content area width to max-w-[590px] mx-auto to precisely match the size of posts in /home (page.tsx)
+
+- (Frontend) Add text labels below each image in the Media tab 4x2 grid (page.tsx)
+
+- (Frontend) Adjust Media tab grid gaps (gap-x-4, gap-y-5) to slightly shrink images and increase vertical row spacing (page.tsx)
+
+- (Frontend) Add conditional '+ Tambah Gallery' button to Media tab that only appears when viewing own profile (page.tsx)
