@@ -222,16 +222,7 @@ export default function ProfilePage({
               </div>
               </div>
 
-              {/* Photo Grid */}
-              <div className="w-full bg-[#F3F2EF] dark:bg-[#18191A] rounded-[18px] aspect-[3/2] flex items-center justify-center shadow-sm relative group overflow-hidden border border-[#D9D9D9] dark:border-[#3A3B3C]">
-                  <div className="w-full h-full grid grid-cols-3 gap-[2px] bg-gray-300 dark:bg-[#18191A]">
-                      {[1,2,3,4,5,6].map(i => (
-                        <div key={i} className="bg-gradient-to-b from-white to-[#F3F2EF] dark:from-[#3A3B3C] dark:to-[#242526] w-full aspect-square flex items-center justify-center">
-                          <svg className="w-6 h-6 text-gray-300 dark:text-gray-500 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                        </div>
-                      ))}
-                    </div>
-              </div>
+              
                 </div>
             {/* Right Content Area */}
           <div className="flex-1 flex flex-col gap-4 md:mt-24">

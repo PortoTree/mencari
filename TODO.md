@@ -268,3 +268,5 @@
 - (Frontend) Fix giant circle bug by moving Tabs Navigation properly inside Right Content Area's flex-col (page.tsx)
 
 - (Frontend) Remove accidental literal '\n\n' text output near EditProfileModal (page.tsx)
+
+- (Frontend) Remove Photo Grid completely from the Left Sidebar (page.tsx)
