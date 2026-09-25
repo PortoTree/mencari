@@ -88,10 +88,10 @@ export default function ProfilePage({
         {/* Main Content Grid */}
         <div className="flex flex-col md:flex-row gap-6 -mt-[80px] px-2 md:px-6 relative z-10">
           
-          {/* Left Sidebar - Profile Card Wrapper */}
-            <div className="w-full md:w-[320px] shrink-0 relative flex flex-col">
+          {/* Left Sidebar */}
+            <div className="w-full md:w-[320px] shrink-0 flex flex-col gap-6 relative z-20">
               {/* Actual Profile Card */}
-              <div className={`w-full bg-gradient-to-b from-white to-[#D9D9D9] dark:from-[#3A3B3C] dark:to-[#18191A] rounded-[40px] px-8 pt-8 pb-5 shadow-xl flex flex-col justify-between border border-white/20 dark:border-white/5 transition-all duration-300 ${isProfileExpanded ? "md:absolute md:top-0 md:left-0 md:right-0 md:h-auto md:min-h-full md:z-50" : "md:absolute md:top-0 md:left-0 md:right-0 md:h-auto md:min-h-full md:z-10"}`}>
+              <div className="w-full bg-gradient-to-b from-white to-[#D9D9D9] dark:from-[#3A3B3C] dark:to-[#18191A] rounded-[40px] px-8 pt-8 pb-5 shadow-xl flex flex-col justify-between border border-white/20 dark:border-white/5 transition-all duration-300 h-auto">
               <div className="flex flex-col items-center w-full">
             {/* Avatar */}
             <div className="relative mb-4">
@@ -170,72 +170,11 @@ export default function ProfilePage({
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-            </div>
-          </div>
-
-              </div>
-            {/* Right Content Area */}
-          <div className="flex-1 flex flex-col gap-4 md:mt-24">
-            
-            {/* Top Row: Friends & Buttons */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-gray-300 dark:border-gray-700 pb-4">
-              <div className="flex items-center gap-6 sm:gap-10">
-                  <div className="flex flex-col items-center cursor-pointer group">
-                    <span className="text-[14px] font-medium text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">{t("friends")}</span>
-                    <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">1.210</span>
-                  </div>
-                  <div className="flex flex-col items-center cursor-pointer group">
-                    <span className="text-[14px] font-medium text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">{t("followers")}</span>
-                    <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">2.038</span>
-                  </div>
-                  <div className="flex flex-col items-center cursor-pointer group">
-                    <span className="text-[14px] font-medium text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">{t("following")}</span>
-                    <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">1.318</span>
-                  </div>
-                </div>
-              <div className="flex items-center gap-3 mt-4 sm:mt-0">
-                {isOwnProfile ? (
-                  <button onClick={() => setIsEditModalOpen(true)} className="bg-gray-200 hover:bg-gray-300 dark:bg-[#4E4F50] dark:hover:bg-[#5E5F60] text-black dark:text-white font-bold py-2 px-5 rounded-full text-sm transition-colors shadow-sm flex items-center gap-2">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                    </svg>
-                    {t("editProfile")}
-                  </button>
-                ) : (
-                  <>
-                    <button className="bg-[#10B981] hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-full text-sm shadow-sm transition-colors">
-                      {"+ " + t("addFriend")}
-                    </button>
-                    <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full text-sm shadow-sm transition-colors">
-                      {t("sendMessage")}
-                    </button>
-                    <button className="w-9 h-9 flex shrink-0 items-center justify-center bg-gray-200 hover:bg-gray-300 dark:bg-[#3A3B3C] dark:hover:bg-[#4E4F50] text-gray-700 dark:text-[#E4E6EB] rounded-full transition-colors shadow-sm cursor-pointer">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 12a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0z" />
-                      </svg>
-                    </button>
-                  </>
-                )}
               </div>
             </div>
-
-            {/* Middle Row: Bio & Reputasi */}
-            <div className="flex flex-col lg:flex-row gap-4 mt-2">
-              
-              {/* Bio Card */}
-              <div className="flex-1 bg-[#F3F2EF] dark:bg-[#18191A] rounded-[18px] min-h-[200px] flex items-center justify-center shadow-sm relative group overflow-hidden border border-[#D9D9D9] dark:border-[#3A3B3C]">
-                  <div className="w-full h-full grid grid-cols-3 gap-[2px] bg-gray-300 dark:bg-[#18191A]">
-                      {[1,2,3,4,5,6].map(i => (
-                        <div key={i} className="bg-gradient-to-b from-white to-[#F3F2EF] dark:from-[#3A3B3C] dark:to-[#242526] w-full aspect-square flex items-center justify-center">
-                          <svg className="w-6 h-6 text-gray-300 dark:text-gray-500 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                        </div>
-                      ))}
-                    </div>
-                  
-              </div>
 
               {/* Reputasi Card */}
-              <div className="w-full lg:w-[280px] shrink-0 bg-gradient-to-br from-blue-900 to-slate-900 border border-blue-800/30 rounded-[30px] p-5 flex flex-col justify-between shadow-lg">
+              <div className="w-full shrink-0 bg-gradient-to-br from-blue-900 to-slate-900 border border-blue-800/30 rounded-[30px] p-5 flex flex-col justify-between shadow-lg">
                 <div className="flex items-center gap-4">
                   <div className="relative">
                     {/* Reputasi Logo */}
@@ -282,17 +221,67 @@ export default function ProfilePage({
                 </button>
               </div>
               </div>
+
+              {/* Photo Grid */}
+              <div className="w-full bg-[#F3F2EF] dark:bg-[#18191A] rounded-[18px] aspect-[3/2] flex items-center justify-center shadow-sm relative group overflow-hidden border border-[#D9D9D9] dark:border-[#3A3B3C]">
+                  <div className="w-full h-full grid grid-cols-3 gap-[2px] bg-gray-300 dark:bg-[#18191A]">
+                      {[1,2,3,4,5,6].map(i => (
+                        <div key={i} className="bg-gradient-to-b from-white to-[#F3F2EF] dark:from-[#3A3B3C] dark:to-[#242526] w-full aspect-square flex items-center justify-center">
+                          <svg className="w-6 h-6 text-gray-300 dark:text-gray-500 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                        </div>
+                      ))}
+                    </div>
+              </div>
+                </div>
+            {/* Right Content Area */}
+          <div className="flex-1 flex flex-col gap-4 md:mt-24">
+            
+            {/* Top Row: Friends & Buttons */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-gray-300 dark:border-gray-700 pb-4">
+              <div className="flex items-center gap-6 sm:gap-10">
+                  <div className="flex flex-col items-center cursor-pointer group">
+                    <span className="text-[14px] font-medium text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">{t("friends")}</span>
+                    <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">1.210</span>
+                  </div>
+                  <div className="flex flex-col items-center cursor-pointer group">
+                    <span className="text-[14px] font-medium text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">{t("followers")}</span>
+                    <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">2.038</span>
+                  </div>
+                  <div className="flex flex-col items-center cursor-pointer group">
+                    <span className="text-[14px] font-medium text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">{t("following")}</span>
+                    <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">1.318</span>
+                  </div>
+                </div>
+              <div className="flex items-center gap-3 mt-4 sm:mt-0">
+                {isOwnProfile ? (
+                  <button onClick={() => setIsEditModalOpen(true)} className="bg-gray-200 hover:bg-gray-300 dark:bg-[#4E4F50] dark:hover:bg-[#5E5F60] text-black dark:text-white font-bold py-2 px-5 rounded-full text-sm transition-colors shadow-sm flex items-center gap-2">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                    {t("editProfile")}
+                  </button>
+                ) : (
+                  <>
+                    <button className="bg-[#10B981] hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-full text-sm shadow-sm transition-colors">
+                      {"+ " + t("addFriend")}
+                    </button>
+                    <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full text-sm shadow-sm transition-colors">
+                      {t("sendMessage")}
+                    </button>
+                    <button className="w-9 h-9 flex shrink-0 items-center justify-center bg-gray-200 hover:bg-gray-300 dark:bg-[#3A3B3C] dark:hover:bg-[#4E4F50] text-gray-700 dark:text-[#E4E6EB] rounded-full transition-colors shadow-sm cursor-pointer">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 12a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0z" />
+                      </svg>
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
 
-          </div>
+              {/* Tabs Navigation */}
+              <div className="flex justify-center mt-6 w-full">
 
-        </div>
-
-          {/* Tabs Container */}
-          <div className="flex flex-col md:flex-row gap-6 px-2 md:px-6 mt-6">
-            <div className="hidden md:block w-full md:w-[320px] shrink-0"></div>
-            <div className="flex-1 flex justify-center">
-              <div className="bg-white dark:bg-black rounded-full shadow-lg px-2 py-1.5 flex items-center text-sm md:text-base font-bold text-gray-500 dark:text-gray-300">
+                <div className="bg-white dark:bg-black rounded-full shadow-lg px-2 py-1.5 flex items-center text-sm md:text-base font-bold text-gray-500 dark:text-gray-300">
                 {['all', 'posts', 'media', 'project'].map((tab, idx) => (
                   <React.Fragment key={tab}>
                     <button
@@ -305,9 +294,16 @@ export default function ProfilePage({
                   </React.Fragment>
                 ))}
               </div>
+
+
+            
             </div>
+
+              
           </div>
       </div>
+      </div>
+
       <EditProfileModal 
         isOpen={isEditModalOpen} 
         onClose={() => setIsEditModalOpen(false)} 

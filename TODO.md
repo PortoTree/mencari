@@ -262,3 +262,9 @@
 - (Frontend) Update 'addFriend' translation keys to 'Follow' across id.json and en.json
 
 - (Backend) Review database_profile_structure_updated.md for mutual follower logic
+
+- (Frontend) Major layout refactor: move Reputasi and Foto Grid to Left Sidebar below Profile Card, move Tabs Navigation into Right Content Area (page.tsx)
+
+- (Frontend) Fix giant circle bug by moving Tabs Navigation properly inside Right Content Area's flex-col (page.tsx)
+
+- (Frontend) Remove accidental literal '\n\n' text output near EditProfileModal (page.tsx)
