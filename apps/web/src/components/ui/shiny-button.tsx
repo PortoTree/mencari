@@ -6,14 +6,14 @@ interface ShinyButtonProps {
   children: React.ReactNode
   onClick?: () => void
   className?: string
-  variant?: "green" | "purple"
+  variant?: "green" | "cyan"
 }
 
-export function ShinyButton({ children, onClick, className = "", variant = "purple" }: ShinyButtonProps) {
-  const highlight = variant === "green" ? "#10B981" : "#8b5cf6"
-  const highlightSubtle = variant === "green" ? "#6ee7b7" : "#a78bfa"
-  const bg = variant === "green" ? "#064e3b" : "#0f0f1a"
-  const bgSubtle = variant === "green" ? "#065f46" : "#1a1828"
+export function ShinyButton({ children, onClick, className = "", variant = "cyan" }: ShinyButtonProps) {
+  const highlight = variant === "green" ? "#10B981" : "#ea51ff"
+  const highlightSubtle = variant === "green" ? "#6ee7b7" : "#ffffff"
+  const bg = variant === "green" ? "#064e3b" : "#a955ff"
+  const bgSubtle = variant === "green" ? "#065f46" : "#c77dff"
 
   return (
     <>

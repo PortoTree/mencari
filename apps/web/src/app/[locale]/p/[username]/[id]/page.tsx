@@ -261,7 +261,7 @@ export default function ProfilePage({
                     </button>
                   )}
                 </div>
-                <ShinyButton variant={isOwnProfile ? "green" : "purple"}>
+                <ShinyButton variant={isOwnProfile ? "green" : "cyan"}>
                   {isOwnProfile ? t("activate") : "+ Reputasi"}
                 </ShinyButton>
               </div>
