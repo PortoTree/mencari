@@ -252,3 +252,7 @@
 - (Frontend) Fix missing closing div syntax error in page.tsx
 
 - (Frontend) Wrap Profile Card in relative container and make it absolute on desktop when expanding, so it overlaps empty space instead of pushing the Tabs Navigation down (page.tsx)
+
+- (Frontend) Fix Profile Card overflow issue by using min-h-full h-auto instead of bottom-0 so the card background always wraps its content (page.tsx)
+
+- (Frontend) Update hardcoded profile expander button text to use translations (page.tsx, id.json, en.json)

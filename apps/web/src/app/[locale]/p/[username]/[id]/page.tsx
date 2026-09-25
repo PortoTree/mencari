@@ -91,7 +91,7 @@ export default function ProfilePage({
           {/* Left Sidebar - Profile Card Wrapper */}
             <div className="w-full md:w-[320px] shrink-0 relative flex flex-col">
               {/* Actual Profile Card */}
-              <div className={`w-full bg-gradient-to-b from-white to-[#D9D9D9] dark:from-[#3A3B3C] dark:to-[#18191A] rounded-[40px] px-8 pt-8 pb-5 shadow-xl flex flex-col justify-between border border-white/20 dark:border-white/5 transition-all duration-300 ${isProfileExpanded ? "md:absolute md:top-0 md:left-0 md:right-0 md:h-auto md:min-h-full md:z-50" : "md:absolute md:top-0 md:left-0 md:right-0 md:bottom-0"}`}>
+              <div className={`w-full bg-gradient-to-b from-white to-[#D9D9D9] dark:from-[#3A3B3C] dark:to-[#18191A] rounded-[40px] px-8 pt-8 pb-5 shadow-xl flex flex-col justify-between border border-white/20 dark:border-white/5 transition-all duration-300 ${isProfileExpanded ? "md:absolute md:top-0 md:left-0 md:right-0 md:h-auto md:min-h-full md:z-50" : "md:absolute md:top-0 md:left-0 md:right-0 md:h-auto md:min-h-full md:z-10"}`}>
               <div className="flex flex-col items-center w-full">
             {/* Avatar */}
             <div className="relative mb-4">
@@ -162,7 +162,7 @@ export default function ProfilePage({
                 onClick={() => setIsProfileExpanded(!isProfileExpanded)}
                 className="w-full mt-6 flex items-center justify-center gap-2 text-[15px] font-bold text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors group cursor-pointer"
               >
-                {isProfileExpanded ? "Lebih sedikit" : "Lihat selengkapnya"}
+                {isProfileExpanded ? t("showLess") : t("showMore")}
                 <svg 
                   className={`w-4 h-4 transition-transform duration-300 ${isProfileExpanded ? "rotate-180" : "group-hover:translate-y-1"}`} 
                   fill="none" stroke="currentColor" viewBox="0 0 24 24"

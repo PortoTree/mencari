@@ -339,7 +339,9 @@
     "notActive": "Not active",
     "report": "Report!",
     "activate": "Activate",
-    "addReputation": "+ Reputation"
+    "addReputation": "+ Reputation",
+    "showMore": "View more",
+    "showLess": "Show less"
   },
   "editProfile": {
     "title": "Edit Profile",

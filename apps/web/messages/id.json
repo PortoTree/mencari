@@ -339,7 +339,9 @@
     "notActive": "Belum aktif",
     "report": "Laporkan!",
     "activate": "Aktifkan",
-    "addReputation": "+ Reputasi"
+    "addReputation": "+ Reputasi",
+    "showMore": "Lihat selengkapnya",
+    "showLess": "Lebih sedikit"
   },
   "editProfile": {
     "title": "Edit Profil",
