@@ -24,6 +24,7 @@ export default function ProfilePage({
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isProfileExpanded, setIsProfileExpanded] = useState(false);
     const [activeAlbumIdx, setActiveAlbumIdx] = useState<number | null>(null);
+    const [albumGridCols, setAlbumGridCols] = useState<number>(3);
     const carouselRef = React.useRef<HTMLDivElement>(null);
     
     const scrollCarousel = (direction: 'left' | 'right') => {
@@ -474,14 +475,39 @@ export default function ProfilePage({
                   </div>
                   
                   {activeAlbumIdx !== null && (
-                    <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-4 animate-in slide-in-from-top-2 fade-in duration-300">
-                      <div className="flex items-center justify-between mb-4">
-                         <h3 className="font-bold text-[16px] text-black dark:text-[#E4E6EB]">Isi Album: Foto Liburan {activeAlbumIdx + 1}</h3>
-                         <button onClick={() => setActiveAlbumIdx(null)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-                         </button>
+                    <div className="animate-in slide-in-from-top-2 fade-in duration-300 w-full mt-2">
+                      <div className="flex items-center justify-between mb-4 px-1">
+                         <h3 className="font-bold text-[17px] text-black dark:text-[#E4E6EB]">Isi Album: Foto Liburan {activeAlbumIdx + 1}</h3>
+                         
+                         <div className="flex items-center gap-4">
+                           {/* Grid toggles */}
+                           <div className="flex items-center bg-gray-200/60 dark:bg-[#242526] rounded-lg p-1 border border-gray-300/50 dark:border-[#3E4042]">
+                              {[1, 3, 5].map((cols) => (
+                                 <button 
+                                    key={cols} 
+                                    onClick={() => setAlbumGridCols(cols)} 
+                                    className={`w-8 h-7 flex items-center justify-center rounded-md text-[13px] font-bold transition-all ${albumGridCols === cols ? 'bg-white dark:bg-[#4E4F50] text-black dark:text-white shadow-sm' : 'text-gray-500 dark:text-[#B0B3B8] hover:text-black dark:hover:text-white'}`}
+                                 >
+                                   {cols === 1 ? (
+                                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2" /></svg>
+                                   ) : cols === 3 ? (
+                                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg>
+                                   ) : (
+                                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><rect x="2" y="2" width="5" height="5" rx="1" /><rect x="9.5" y="2" width="5" height="5" rx="1" /><rect x="17" y="2" width="5" height="5" rx="1" /><rect x="2" y="9.5" width="5" height="5" rx="1" /><rect x="9.5" y="9.5" width="5" height="5" rx="1" /><rect x="17" y="9.5" width="5" height="5" rx="1" /><rect x="2" y="17" width="5" height="5" rx="1" /><rect x="9.5" y="17" width="5" height="5" rx="1" /><rect x="17" y="17" width="5" height="5" rx="1" /></svg>
+                                   )}
+                                 </button>
+                              ))}
+                           </div>
+                           
+                           {/* Close button */}
+                           <button onClick={() => setActiveAlbumIdx(null)} className="w-8 h-8 rounded-full bg-gray-200 dark:bg-[#3A3B3C] flex items-center justify-center text-gray-500 hover:text-black dark:hover:text-white transition-colors shadow-sm">
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
+                           </button>
+                         </div>
                       </div>
-                      <div className="grid grid-cols-3 gap-2">
+                      <div 
+                         className={`grid gap-2 transition-all duration-300 ${albumGridCols === 1 ? 'grid-cols-1' : albumGridCols === 3 ? 'grid-cols-3' : 'grid-cols-5'}`}
+                      >
                         {[...Array(10)].map((_, idx) => (
                            <div key={idx} className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden group relative cursor-pointer">
                               <img src="/sampul-placeholder.png" alt={`Album item ${idx}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />

@@ -300,3 +300,5 @@
 - (Frontend) Change 'Tambah Gallery' button style to outlined (transparent bg, emerald border, hover fill) (page.tsx)
 
 - (Frontend) Implement click-to-open interaction for Media albums, displaying a separate 3-column grid of 10 dummy photos beneath the albums wrapper (page.tsx)
+
+- (Frontend) Make album viewer background transparent and add 1/3/5 grid layout toggles with SVG icons (page.tsx)
