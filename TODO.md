@@ -308,3 +308,5 @@
 - (Frontend) Convert Media albums from 4x2 grid to horizontal carousel with snap scrolling and left/right navigation arrows (page.tsx)
 
 - (Frontend) Set album carousel arrows to be always visible and push them to the absolute edges (-left-3, -right-3) (page.tsx)
+
+- (Frontend) Remove 'All' tab from Profile page navigation and set 'Posts' as default active tab (page.tsx)

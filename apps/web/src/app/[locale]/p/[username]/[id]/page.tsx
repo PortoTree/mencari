@@ -17,7 +17,7 @@ export default function ProfilePage({
   const username = unwrappedParams.username ? decodeURIComponent(unwrappedParams.username) : "pampam";
   const id = unwrappedParams.id || "123";
 
-  const [activeTab, setActiveTab] = useState("all");
+  const [activeTab, setActiveTab] = useState("posts");
   const [currentUser, setCurrentUser] = useState<any>({ username: "Guest", id: "1" });
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [themeLoaded, setThemeLoaded] = useState(false);
@@ -391,7 +391,7 @@ export default function ProfilePage({
               <div className="flex justify-center -mt-4 w-full relative z-10">
 
                 <div className="bg-gradient-to-b from-white to-[#D9D9D9] dark:from-[#3A3B3C] dark:to-[#18191A] border border-white/20 dark:border-white/5 rounded-full shadow-lg px-2 py-1.5 flex items-center text-sm md:text-base font-bold text-gray-500 dark:text-gray-300">
-                {['all', 'posts', 'media', 'project'].map((tab, idx) => (
+                {['posts', 'media', 'project'].map((tab, idx) => (
                   <React.Fragment key={tab}>
                     <button
                       onClick={() => setActiveTab(tab)}
@@ -411,7 +411,7 @@ export default function ProfilePage({
 
               {/* Tab Content Area */}
               <div className="mt-2 flex flex-col gap-4 max-w-[590px] w-full mx-auto">
-                {activeTab === 'all' || activeTab === 'posts' ? (
+                {activeTab === 'posts' ? (
                   <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] pt-4 px-0">
                     <div className="flex items-center justify-between pb-2 px-4 relative">
                       <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
