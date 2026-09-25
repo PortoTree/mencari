@@ -341,7 +341,9 @@
     "activate": "Activate",
     "addReputation": "+ Reputation",
     "showMore": "View more",
-    "showLess": "Show less"
+    "showLess": "Show less",
+    "followers": "Followers",
+    "following": "Following"
   },
   "editProfile": {
     "title": "Edit Profile",

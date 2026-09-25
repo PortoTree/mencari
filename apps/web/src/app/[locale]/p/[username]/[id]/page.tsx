@@ -179,16 +179,20 @@ export default function ProfilePage({
             
             {/* Top Row: Friends & Buttons */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-gray-300 dark:border-gray-700 pb-4">
-              <div>
-                <p className="font-semibold text-[15px] mb-2 text-black dark:text-white hover:underline cursor-pointer w-max transition-all">{t("friendsCount", { count: "1.200" })}</p>
-                <div className="flex -space-x-2 group/friends cursor-pointer">
-                  {[...Array(7)].map((_, i) => (
-                    <div key={i} className="w-8 h-8 rounded-full border-[2.5px] border-[#EBEBEB] dark:border-[#1E1E1E] overflow-hidden hover:-translate-y-1 hover:z-10 transition-transform relative bg-white dark:bg-[#242526]">
-                      <img src="/default-avatar.svg" alt="Friend" className="w-full h-full object-cover" />
-                    </div>
-                  ))}
+              <div className="flex items-center gap-6 sm:gap-10">
+                  <div className="flex flex-col items-center cursor-pointer group">
+                    <span className="text-[14px] font-medium text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">{t("friends")}</span>
+                    <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">1.210</span>
+                  </div>
+                  <div className="flex flex-col items-center cursor-pointer group">
+                    <span className="text-[14px] font-medium text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">{t("followers")}</span>
+                    <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">2.038</span>
+                  </div>
+                  <div className="flex flex-col items-center cursor-pointer group">
+                    <span className="text-[14px] font-medium text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">{t("following")}</span>
+                    <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">1.318</span>
+                  </div>
                 </div>
-              </div>
               <div className="flex items-center gap-3 mt-4 sm:mt-0">
                 {isOwnProfile ? (
                   <button onClick={() => setIsEditModalOpen(true)} className="bg-gray-200 hover:bg-gray-300 dark:bg-[#4E4F50] dark:hover:bg-[#5E5F60] text-black dark:text-white font-bold py-2 px-5 rounded-full text-sm transition-colors shadow-sm flex items-center gap-2">

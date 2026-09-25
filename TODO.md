@@ -256,3 +256,5 @@
 - (Frontend) Fix Profile Card overflow issue by using min-h-full h-auto instead of bottom-0 so the card background always wraps its content (page.tsx)
 
 - (Frontend) Update hardcoded profile expander button text to use translations (page.tsx, id.json, en.json)
+
+- (Frontend) Update friends section to display Teman, Pengikut, Diikuti stats instead of overlapping avatars (page.tsx)

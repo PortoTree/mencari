@@ -341,7 +341,9 @@
     "activate": "Aktifkan",
     "addReputation": "+ Reputasi",
     "showMore": "Lihat selengkapnya",
-    "showLess": "Lebih sedikit"
+    "showLess": "Lebih sedikit",
+    "followers": "Pengikut",
+    "following": "Diikuti"
   },
   "editProfile": {
     "title": "Edit Profil",
