@@ -298,3 +298,5 @@
 - (Frontend) Remove redundant text plus sign from 'Tambah Gallery' button in Media tab (page.tsx)
 
 - (Frontend) Change 'Tambah Gallery' button style to outlined (transparent bg, emerald border, hover fill) (page.tsx)
+
+- (Frontend) Implement click-to-open interaction for Media albums, displaying a separate 3-column grid of 10 dummy photos beneath the albums wrapper (page.tsx)

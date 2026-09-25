@@ -23,6 +23,7 @@ export default function ProfilePage({
   const [themeLoaded, setThemeLoaded] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isProfileExpanded, setIsProfileExpanded] = useState(false);
+    const [activeAlbumIdx, setActiveAlbumIdx] = useState<number | null>(null);
     const carouselRef = React.useRef<HTMLDivElement>(null);
     
     const scrollCarousel = (direction: 'left' | 'right') => {
@@ -447,6 +448,7 @@ export default function ProfilePage({
                 ) : null}
 
                 {activeTab === 'media' ? (
+                  <>
                   <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-4">
                     {isOwnProfile && (
                       <div className="flex justify-end mb-4">
@@ -458,7 +460,7 @@ export default function ProfilePage({
                     )}
                     <div className="grid grid-cols-4 gap-x-4 gap-y-5">
                       {[...Array(8)].map((_, i) => (
-                        <div key={i} className="flex flex-col gap-1.5 group cursor-pointer">
+                        <div key={i} onClick={() => setActiveAlbumIdx(activeAlbumIdx === i ? null : i)} className={`flex flex-col gap-1.5 group cursor-pointer p-1 rounded-xl transition-colors ${activeAlbumIdx === i ? 'bg-gray-100 dark:bg-[#3A3B3C]' : 'hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50'}`}>
                           <div className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden relative border border-gray-100 dark:border-[#3E4042]">
                             <img src="/sampul-placeholder.png" alt={`Media ${i}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
@@ -470,6 +472,25 @@ export default function ProfilePage({
                       ))}
                     </div>
                   </div>
+                  
+                  {activeAlbumIdx !== null && (
+                    <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-4 animate-in slide-in-from-top-2 fade-in duration-300">
+                      <div className="flex items-center justify-between mb-4">
+                         <h3 className="font-bold text-[16px] text-black dark:text-[#E4E6EB]">Isi Album: Foto Liburan {activeAlbumIdx + 1}</h3>
+                         <button onClick={() => setActiveAlbumIdx(null)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                         </button>
+                      </div>
+                      <div className="grid grid-cols-3 gap-2">
+                        {[...Array(10)].map((_, idx) => (
+                           <div key={idx} className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden group relative cursor-pointer">
+                              <img src="/sampul-placeholder.png" alt={`Album item ${idx}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                           </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  </>
                 ) : null}
 
                 {activeTab === 'project' ? (
