@@ -5,6 +5,7 @@ import React, { useState, useEffect, use } from "react";
 import { useTranslations } from "next-intl";
 import Navbar from "@/components/Navbar";
 import EditProfileModal from "@/components/EditProfileModal";
+import { ShinyButton } from "@/components/ui/shiny-button";
 
 export default function ProfilePage({
   params,
@@ -260,15 +261,9 @@ export default function ProfilePage({
                     </button>
                   )}
                 </div>
-                <button 
-                  className={`w-full text-white font-bold py-2 rounded-full text-[15px] transition-all ${
-                    isOwnProfile 
-                      ? "bg-gradient-to-r from-emerald-600 to-emerald-900 hover:brightness-110 shadow-[0_6px_0_0_#064e3b,0_10px_20px_rgba(0,0,0,0.5)] active:shadow-[0_0px_0_0_#064e3b,0_0px_0px_rgba(0,0,0,0.5)] active:translate-y-[6px]" 
-                      : "bg-gradient-to-r from-[#B066FE] to-[#10B981] hover:brightness-110 shadow-[0_6px_0_0_#0D9488,0_10px_20px_rgba(0,0,0,0.5)] active:shadow-[0_0px_0_0_#0D9488,0_0px_0px_rgba(0,0,0,0.5)] active:translate-y-[6px]"
-                  }`}
-                >
-                  {isOwnProfile ? t("activate") : t("addReputation")}
-                </button>
+                <ShinyButton variant={isOwnProfile ? "green" : "purple"}>
+                  {isOwnProfile ? t("activate") : "+ Reputasi"}
+                </ShinyButton>
               </div>
               </div>
 

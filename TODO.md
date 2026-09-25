@@ -322,3 +322,5 @@
 - (Frontend) Add custom responsive tooltips to all social media icons displaying '[icon] [Platform] @username' with the username bolded and smooth hover animations (page.tsx)
 
 - (Frontend) Replace flat text tab navigation with animated gradient pill menu (Post/Media/Project) - icon circle that expands to label on hover, stays expanded when active (page.tsx)
+
+- (Frontend) Create ShinyButton component at components/ui/shiny-button.tsx with green/purple variant; integrate into Reputation card replacing the old static gradient button (page.tsx)
