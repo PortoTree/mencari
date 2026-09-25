@@ -238,3 +238,17 @@
 - (Frontend) Change 'Points' label to @username for public views (page.tsx)
 
 - (Frontend) Remove edit hover icon from the photo grid (page.tsx)
+
+- (Frontend) Add 'Lihat selengkapnya' expand/collapse feature to profile details (page.tsx)
+
+- (Frontend) Set expand profile button to stick to the bottom of the profile card (page.tsx)
+
+- (Frontend) Refactor Profile Card layout to use justify-between to force the expand button to the very bottom (page.tsx)
+
+- (Frontend) Fix expand button not sticking to bottom by using absolute positioning (page.tsx)
+
+- (Frontend) Rebuild Profile expander list, move expand button out of list, and reduce bottom padding of Profile Card to make button stick to the bottom correctly (page.tsx)
+
+- (Frontend) Fix missing closing div syntax error in page.tsx
+
+- (Frontend) Wrap Profile Card in relative container and make it absolute on desktop when expanding, so it overlaps empty space instead of pushing the Tabs Navigation down (page.tsx)

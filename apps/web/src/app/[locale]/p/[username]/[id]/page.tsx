@@ -22,6 +22,7 @@ export default function ProfilePage({
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [themeLoaded, setThemeLoaded] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isProfileExpanded, setIsProfileExpanded] = useState(false);
 
   const isOwnProfile = currentUser && currentUser.id === id;
 
@@ -87,8 +88,11 @@ export default function ProfilePage({
         {/* Main Content Grid */}
         <div className="flex flex-col md:flex-row gap-6 -mt-[80px] px-2 md:px-6 relative z-10">
           
-          {/* Left Sidebar - Profile Card */}
-          <div className="w-full md:w-[320px] shrink-0 bg-gradient-to-b from-white to-[#D9D9D9] dark:from-[#3A3B3C] dark:to-[#18191A] rounded-[40px] p-8 shadow-xl flex flex-col items-center border border-white/20 dark:border-white/5">
+          {/* Left Sidebar - Profile Card Wrapper */}
+            <div className="w-full md:w-[320px] shrink-0 relative flex flex-col">
+              {/* Actual Profile Card */}
+              <div className={`w-full bg-gradient-to-b from-white to-[#D9D9D9] dark:from-[#3A3B3C] dark:to-[#18191A] rounded-[40px] px-8 pt-8 pb-5 shadow-xl flex flex-col justify-between border border-white/20 dark:border-white/5 transition-all duration-300 ${isProfileExpanded ? "md:absolute md:top-0 md:left-0 md:right-0 md:h-auto md:min-h-full md:z-50" : "md:absolute md:top-0 md:left-0 md:right-0 md:bottom-0"}`}>
+              <div className="flex flex-col items-center w-full">
             {/* Avatar */}
             <div className="relative mb-4">
               <div className="w-[120px] h-[120px] rounded-full border-[4px] border-white dark:border-[#3A3B3C] bg-white dark:bg-[#242526] flex items-center justify-center shadow-md overflow-hidden">
@@ -106,23 +110,71 @@ export default function ProfilePage({
             <h1 className="text-2xl font-bold text-black dark:text-white">{username === "pampam" ? "nama akun" : username}</h1>
             <p className="text-[15px] text-gray-700 dark:text-gray-300 font-medium mb-8">@{username}</p>
 
-            <div className="w-full space-y-4">
-              <div className="flex items-center gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                Malang, Jawa timur
+            
+              {/* Profile Details List */}
+              <div className="w-full">
+                <div className="flex flex-col gap-4">
+                  
+                  {/* 1. Bio (Always visible) */}
+                  <div className="flex items-start gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
+                    <svg className="w-5 h-5 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <span className="leading-relaxed">Seorang web developer yang suka ngoding dan minum kopi. Belajar setiap hari untuk jadi lebih baik! 🚀</span>
+                  </div>
+
+                  {/* 2. Lokasi (Always visible) */}
+                  <div className="flex items-center gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
+                    <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    Malang, Jawa Timur
+                  </div>
+
+                  {/* Expandable Section */}
+                  <div className={`flex flex-col gap-4 overflow-hidden transition-all duration-300 ease-in-out ${isProfileExpanded ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"}`}>
+                    
+                    {/* 3. Link web */}
+                    <div className="flex items-center gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
+                      <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
+                      <span className="underline cursor-pointer hover:text-blue-500 transition-colors">mencari.online</span>
+                    </div>
+
+                    {/* 4. Profesi/pekerjaan */}
+                    <div className="flex items-center gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
+                      <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                      Web Development
+                    </div>
+
+                    {/* 5. Gender */}
+                    <div className="flex items-center gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
+                      <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                      Laki-laki
+                    </div>
+
+                    {/* 6. Tanggal lahir */}
+                    <div className="flex items-center gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
+                      <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                      1 Januari 2000
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
-                <span className="underline">mencari.online</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                Web Development
-              </div>
+              
+              {/* Expand / Collapse Button */}
+              <button 
+                onClick={() => setIsProfileExpanded(!isProfileExpanded)}
+                className="w-full mt-6 flex items-center justify-center gap-2 text-[15px] font-bold text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors group cursor-pointer"
+              >
+                {isProfileExpanded ? "Lebih sedikit" : "Lihat selengkapnya"}
+                <svg 
+                  className={`w-4 h-4 transition-transform duration-300 ${isProfileExpanded ? "rotate-180" : "group-hover:translate-y-1"}`} 
+                  fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
             </div>
           </div>
 
-          {/* Right Content Area */}
+              </div>
+            {/* Right Content Area */}
           <div className="flex-1 flex flex-col gap-4 md:mt-24">
             
             {/* Top Row: Friends & Buttons */}
