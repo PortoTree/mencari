@@ -289,7 +289,7 @@ export default function ProfilePage({
                   {/* Left Arrow */}
                   <button 
                     onClick={() => scrollCarousel('left')} 
-                    className="absolute -left-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 rounded-full flex items-center justify-center shadow-md z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute -left-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 rounded-full flex items-center justify-center shadow-md z-10 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                   >
                     <svg className="w-4 h-4 text-gray-700 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
                   </button>
@@ -361,7 +361,7 @@ export default function ProfilePage({
                   {/* Right Arrow */}
                   <button 
                     onClick={() => scrollCarousel('right')} 
-                    className="absolute -right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 rounded-full flex items-center justify-center shadow-md z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute -right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 rounded-full flex items-center justify-center shadow-md z-10 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                   >
                     <svg className="w-4 h-4 text-gray-700 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
                   </button>
@@ -378,7 +378,7 @@ export default function ProfilePage({
 
 
               {/* Tabs Navigation */}
-              <div className="flex justify-center mt-6 w-full">
+              <div className="flex justify-center mt-2 w-full">
 
                 <div className="bg-white dark:bg-black rounded-full shadow-lg px-2 py-1.5 flex items-center text-sm md:text-base font-bold text-gray-500 dark:text-gray-300">
                 {['all', 'posts', 'media', 'project'].map((tab, idx) => (
