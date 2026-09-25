@@ -450,9 +450,9 @@ export default function ProfilePage({
                   <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-4">
                     {isOwnProfile && (
                       <div className="flex justify-end mb-4">
-                        <button className="flex items-center gap-1.5 bg-[#10B981] hover:bg-emerald-600 text-white px-3 py-1.5 rounded-lg font-bold text-[13px] transition-colors shadow-sm">
+                        <button className="flex items-center gap-1.5 border-[2px] border-[#10B981] bg-transparent text-[#10B981] hover:bg-[#10B981] hover:text-white px-3 py-1 rounded-lg font-bold text-[13px] transition-colors shadow-sm">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
-                          + Tambah Gallery
+                          Tambah Gallery
                         </button>
                       </div>
                     )}

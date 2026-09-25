@@ -294,3 +294,7 @@
 - (Frontend) Adjust Media tab grid gaps (gap-x-4, gap-y-5) to slightly shrink images and increase vertical row spacing (page.tsx)
 
 - (Frontend) Add conditional '+ Tambah Gallery' button to Media tab that only appears when viewing own profile (page.tsx)
+
+- (Frontend) Remove redundant text plus sign from 'Tambah Gallery' button in Media tab (page.tsx)
+
+- (Frontend) Change 'Tambah Gallery' button style to outlined (transparent bg, emerald border, hover fill) (page.tsx)
