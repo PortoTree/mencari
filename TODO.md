@@ -318,3 +318,5 @@
 - (Frontend) Rebuild social media section to use local webp assets in a 2-column list layout with hover effects matching the provided design (page.tsx)
 
 - (Frontend) Revert social media icons back to the circular inline layout without text labels, keeping the new 10 webp icons (page.tsx)
+
+- (Frontend) Add custom responsive tooltips to all social media icons displaying '[icon] [Platform] @username' with the username bolded and smooth hover animations (page.tsx)

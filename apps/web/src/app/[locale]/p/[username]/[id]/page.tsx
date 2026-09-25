@@ -130,24 +130,32 @@ export default function ProfilePage({
             {/* Social Media Icons */}
             <div className="flex flex-wrap items-center justify-center gap-2.5 mb-8 px-4">
               {[
-                { name: 'Instagram', file: 'instagram.webp' },
-                { name: 'Facebook', file: 'facebook.webp' },
-                { name: 'Github', file: 'github.webp' },
-                { name: 'Linkedin', file: 'linkedin.webp' },
-                { name: 'Telegram', file: 'telegram.webp' },
-                { name: 'Whatsapp', file: 'whatsapp.webp' },
-                { name: 'Tiktok', file: 'tiktok.webp' },
-                { name: 'Portotree', file: 'portotree.webp' },
-                { name: 'Youtube', file: 'youtube.webp' },
-                { name: 'Twitter', file: 'twiter.webp' }
+                { name: 'Instagram', file: 'instagram.webp', handle: 'naufal.faiz' },
+                { name: 'Facebook', file: 'facebook.webp', handle: 'Naufal Faiz' },
+                { name: 'Github', file: 'github.webp', handle: 'naufal-faiz' },
+                { name: 'Linkedin', file: 'linkedin.webp', handle: 'naufal-faiz' },
+                { name: 'Telegram', file: 'telegram.webp', handle: 'naufal_faiz' },
+                { name: 'Whatsapp', file: 'whatsapp.webp', handle: '+62 812 3456 7890' },
+                { name: 'Tiktok', file: 'tiktok.webp', handle: '@naufal.faiz' },
+                { name: 'Portotree', file: 'portotree.webp', handle: 'naufal-faiz' },
+                { name: 'Youtube', file: 'youtube.webp', handle: '@NaufalFaiz' },
+                { name: 'Twitter', file: 'twiter.webp', handle: '@naufal_faiz' }
               ].map((social) => (
                 <a 
                   key={social.name} 
                   href="#" 
-                  className="w-9 h-9 rounded-full bg-gray-100 dark:bg-[#3A3B3C] flex items-center justify-center hover:bg-[#10B981]/20 transition-colors shadow-sm border border-gray-200 dark:border-[#4E4F50] shrink-0 hover:scale-105"
-                  title={social.name}
+                  className="w-9 h-9 rounded-full bg-gray-100 dark:bg-[#3A3B3C] flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-colors shadow-sm border border-gray-200 dark:border-[#4E4F50] shrink-0 group relative z-10"
                 >
-                  <img src={`/sosmed/${social.file}`} alt={social.name} className="w-5 h-5 object-contain drop-shadow-sm" />
+                  <img src={`/sosmed/${social.file}`} alt={social.name} className="w-5 h-5 object-contain drop-shadow-sm group-hover:scale-110 transition-transform" />
+                  
+                  {/* Tooltip */}
+                  <div className="absolute -top-11 left-1/2 -translate-x-1/2 bg-[#1C1E21] dark:bg-white text-[#E4E6EB] dark:text-black px-2.5 py-1.5 rounded-lg text-[12px] whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all flex items-center gap-1.5 shadow-xl z-50 pointer-events-none">
+                    <img src={`/sosmed/${social.file}`} alt={social.name} className="w-3.5 h-3.5 object-contain shrink-0" />
+                    <span>{social.name}</span>
+                    <span className="font-bold">{social.handle}</span>
+                    {/* Tooltip arrow */}
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#1C1E21] dark:bg-white rotate-45"></div>
+                  </div>
                 </a>
               ))}
             </div>
