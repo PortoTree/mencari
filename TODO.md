@@ -286,3 +286,5 @@
 - (Frontend) Implement dynamically rendered Dummy Posts and empty states for each tab (All, Posts, Media, Project) matching existing post layout model (page.tsx)
 
 - (Frontend) Update Dummy Post in profile tabs to accurately mirror /home post component with full action bar and create 4x2 media grid album (page.tsx)
+
+- (Frontend) Constrain Tab Content area width to max-w-[590px] mx-auto to precisely match the size of posts in /home (page.tsx)

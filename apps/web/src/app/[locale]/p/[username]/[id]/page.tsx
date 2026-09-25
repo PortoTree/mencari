@@ -400,7 +400,7 @@ export default function ProfilePage({
 
 
               {/* Tab Content Area */}
-              <div className="mt-2 flex flex-col gap-4">
+              <div className="mt-2 flex flex-col gap-4 max-w-[590px] w-full mx-auto">
                 {activeTab === 'all' || activeTab === 'posts' ? (
                   <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] pt-4 px-0">
                     <div className="flex items-center justify-between pb-2 px-4 relative">
