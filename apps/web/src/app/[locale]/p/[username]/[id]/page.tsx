@@ -471,7 +471,7 @@ export default function ProfilePage({
                         {/* Left Arrow */}
                         <button 
                           onClick={() => scrollAlbumCarousel('left')}
-                          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center bg-white dark:bg-[#3A3B3C] rounded-full shadow-md border border-gray-200 dark:border-[#4E4F50] text-gray-600 dark:text-[#E4E6EB] hover:bg-gray-100 dark:hover:bg-[#4E4F50] transition-colors opacity-0 group-hover/album:opacity-100 disabled:opacity-0"
+                          className="absolute -left-3 top-1/2 -translate-y-[80%] z-10 w-8 h-8 flex items-center justify-center bg-white dark:bg-[#3A3B3C] rounded-full shadow-md border border-gray-200 dark:border-[#4E4F50] text-gray-600 dark:text-[#E4E6EB] hover:bg-gray-100 dark:hover:bg-[#4E4F50] transition-colors"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
                         </button>
@@ -496,7 +496,7 @@ export default function ProfilePage({
                         {/* Right Arrow */}
                         <button 
                           onClick={() => scrollAlbumCarousel('right')}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center bg-white dark:bg-[#3A3B3C] rounded-full shadow-md border border-gray-200 dark:border-[#4E4F50] text-gray-600 dark:text-[#E4E6EB] hover:bg-gray-100 dark:hover:bg-[#4E4F50] transition-colors opacity-0 group-hover/album:opacity-100 disabled:opacity-0"
+                          className="absolute -right-3 top-1/2 -translate-y-[80%] z-10 w-8 h-8 flex items-center justify-center bg-white dark:bg-[#3A3B3C] rounded-full shadow-md border border-gray-200 dark:border-[#4E4F50] text-gray-600 dark:text-[#E4E6EB] hover:bg-gray-100 dark:hover:bg-[#4E4F50] transition-colors"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
                         </button>

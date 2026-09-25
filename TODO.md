@@ -306,3 +306,5 @@
 - (Frontend) Swap inline SVG grid icons (3 and 5) with custom assets from public folder, mapped to currentColor (page.tsx)
 
 - (Frontend) Convert Media albums from 4x2 grid to horizontal carousel with snap scrolling and left/right navigation arrows (page.tsx)
+
+- (Frontend) Set album carousel arrows to be always visible and push them to the absolute edges (-left-3, -right-3) (page.tsx)
