@@ -320,3 +320,5 @@
 - (Frontend) Revert social media icons back to the circular inline layout without text labels, keeping the new 10 webp icons (page.tsx)
 
 - (Frontend) Add custom responsive tooltips to all social media icons displaying '[icon] [Platform] @username' with the username bolded and smooth hover animations (page.tsx)
+
+- (Frontend) Replace flat text tab navigation with animated gradient pill menu (Post/Media/Project) - icon circle that expands to label on hover, stays expanded when active (page.tsx)

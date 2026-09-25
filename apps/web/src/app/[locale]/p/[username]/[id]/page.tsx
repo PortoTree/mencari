@@ -419,26 +419,45 @@ export default function ProfilePage({
               </div>
 
 
-              {/* Tabs Navigation */}
-              <div className="flex justify-center -mt-4 w-full relative z-10">
-
-                <div className="bg-gradient-to-b from-white to-[#D9D9D9] dark:from-[#3A3B3C] dark:to-[#18191A] border border-white/20 dark:border-white/5 rounded-full shadow-lg px-2 py-1.5 flex items-center text-sm md:text-base font-bold text-gray-500 dark:text-gray-300">
-                {['posts', 'media', 'project'].map((tab, idx) => (
-                  <React.Fragment key={tab}>
-                    <button
-                      onClick={() => setActiveTab(tab)}
-                      className={`px-4 md:px-8 py-2 rounded-full capitalize transition-colors ${activeTab === tab ? "text-[#10B981]" : "hover:text-black dark:hover:text-white"}`}
+              {/* Tabs Navigation - Gradient Pill Style */}
+              <div className="flex justify-center mt-6 w-full relative z-10">
+                <ul className="flex gap-3 p-2">
+                  {[
+                    { id: 'posts', label: 'Post', gradientFrom: '#a955ff', gradientTo: '#ea51ff',
+                      icon: <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    },
+                    { id: 'media', label: 'Media', gradientFrom: '#56CCF2', gradientTo: '#2F80ED',
+                      icon: <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    },
+                    { id: 'project', label: 'Project', gradientFrom: '#FF9966', gradientTo: '#FF5E62',
+                      icon: <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                    }
+                  ].map(({ id, label, icon, gradientFrom, gradientTo }) => (
+                    <li
+                      key={id}
+                      onClick={() => setActiveTab(id)}
+                      style={{ '--gradient-from': gradientFrom, '--gradient-to': gradientTo } as React.CSSProperties}
+                      className={`relative h-[52px] bg-white dark:bg-[#3A3B3C] shadow-lg dark:shadow-black/40 rounded-full flex items-center justify-center transition-all duration-500 cursor-pointer overflow-hidden ${activeTab === id ? 'w-[140px] shadow-none' : 'w-[52px] group hover:w-[140px]'}`}
                     >
-                      {tab}
-                    </button>
-                    {idx < 2 && <div className="w-[2px] h-[20px] bg-gray-300 dark:bg-gray-700 mx-1"></div>}
-                  </React.Fragment>
-                ))}
+                      {/* Gradient background */}
+                      <span className={`absolute inset-0 rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] transition-opacity duration-500 ${activeTab === id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}></span>
+                      {/* Blur glow */}
+                      <span className={`absolute top-[10px] inset-x-0 h-full rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] blur-[15px] -z-10 transition-opacity duration-500 ${activeTab === id ? 'opacity-50' : 'opacity-0 group-hover:opacity-50'}`}></span>
+                      {/* Icon */}
+                      <span className={`relative z-10 text-gray-500 dark:text-gray-300 transition-all duration-300 ${activeTab === id ? 'scale-0 w-0 overflow-hidden' : 'scale-100 group-hover:scale-0 group-hover:w-0 group-hover:overflow-hidden'}`}>
+                        {icon}
+                      </span>
+                      {/* Label */}
+                      <span className={`absolute text-white uppercase tracking-wide text-sm font-bold transition-all duration-300 ${activeTab === id ? 'scale-100 opacity-100' : 'scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100'}`} style={{ transitionDelay: activeTab === id ? '0ms' : '100ms' }}>
+                        {label}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
               </div>
 
 
             
-            </div>
 
 
               {/* Tab Content Area */}
