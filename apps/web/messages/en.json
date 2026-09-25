@@ -343,7 +343,16 @@
     "showMore": "View more",
     "showLess": "Show less",
     "followers": "Followers",
-    "following": "Following"
+    "following": "Following",
+    "suggestedForYou": "Suggested for you",
+    "seeAll": "See All",
+    "members": "Members",
+    "join": "Join",
+    "dummyProf1": "Web Developer",
+    "dummyProf2": "UI/UX Designer",
+    "dummyProf3": "Content Creator",
+    "dummyGroup1": "Developer Community",
+    "dummyGroup2": "Design Community"
   },
   "editProfile": {
     "title": "Edit Profile",

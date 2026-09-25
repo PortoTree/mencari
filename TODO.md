@@ -274,3 +274,5 @@
 - (Frontend) Add horizontally scrollable 'Suggest' carousel for dummy groups and accounts above Tabs Navigation (page.tsx)
 
 - (Frontend) Fix Right Content Area layout overflowing max-width by adding min-w-0 (page.tsx)
+
+- (Frontend) Upgrade Suggestion Carousel: add left/right navigation arrows, increase card sizes, add profession/location for accounts, make group icons square, and use next-intl for all text (page.tsx, id.json, en.json)

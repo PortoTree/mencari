@@ -343,7 +343,16 @@
     "showMore": "Lihat selengkapnya",
     "showLess": "Lebih sedikit",
     "followers": "Pengikut",
-    "following": "Diikuti"
+    "following": "Diikuti",
+    "suggestedForYou": "Disarankan untuk Anda",
+    "seeAll": "Lihat Semua",
+    "members": "Member",
+    "join": "Gabung",
+    "dummyProf1": "Web Developer",
+    "dummyProf2": "Desainer UI/UX",
+    "dummyProf3": "Konten Kreator",
+    "dummyGroup1": "Komunitas Developer",
+    "dummyGroup2": "Komunitas Desain"
   },
   "editProfile": {
     "title": "Edit Profil",
