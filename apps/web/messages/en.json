@@ -356,17 +356,18 @@
     "dummyGroup2": "Design Community",
     "reportAccount": "Report Account",
     "blockAccount": "Block Account",
-    "managedGroups": "Managed Groups",
-    "joinedGroups": "Joined Groups",
+    "managedGroups": "Managed Communities",
+    "joinedGroups": "Joined Communities",
     "visit": "Visit",
     "developerCommunity": "Developer Community",
-    "viewGroup": "View Group",
-    "joinGroup": "Join Group",
+    "viewGroup": "View Community",
+    "joinGroup": "Join Community",
     "skills": "Skills & Expertise",
     "hobbies": "Hobbies",
     "interests": "Interests",
     "viewDetails": "View Details",
-    "profileDetails": "Profile Details"
+    "profileDetails": "Profile Details",
+    "activity": "Account Activity"
   },
   "editProfile": {
     "title": "Edit Profile",

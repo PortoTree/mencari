@@ -367,12 +367,16 @@ export default function ProfilePage({
                           <div className="fixed inset-0 z-40" onClick={() => setIsProfileOptionsOpen(false)} />
                           <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-[#242526] rounded-xl shadow-lg border border-gray-100 dark:border-white/10 overflow-hidden z-50">
                             <button className="w-full px-4 py-3 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] flex items-center gap-3 transition-colors">
-                              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                              {t("reportAccount") || "Laporkan akun"}
+                              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                              {t("activity")}
                             </button>
-                            <button className="w-full px-4 py-3 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/10 flex items-center gap-3 transition-colors border-t border-gray-100 dark:border-white/5">
+                            <button className="w-full px-4 py-3 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] flex items-center gap-3 transition-colors border-t border-gray-100 dark:border-white/5">
+                              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                              {t("reportAccount")}
+                            </button>
+                            <button className="w-full px-4 py-3 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/10 flex items-center gap-3 transition-colors">
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
-                              {t("blockAccount") || "Block"}
+                              {t("blockAccount")}
                             </button>
                           </div>
                         </>
@@ -453,7 +457,7 @@ export default function ProfilePage({
                   </div>
                 </div>
 
-                {/* 2. Grup yang diikuti */}
+                {/* 2. Komunitas yang diikuti */}
                 <div className="w-full mt-2">
                   <div className="flex items-center justify-between mb-3 px-1">
                     <h3 className="text-[15px] font-bold text-black dark:text-white flex items-center gap-2">
@@ -463,49 +467,39 @@ export default function ProfilePage({
                     <button className="text-[13px] font-bold text-[#10B981] hover:text-emerald-700 transition-colors">{t("seeAll") || "Lihat Semua"}</button>
                   </div>
                   
-                  <div className="relative group">
-                    <button 
-                      onClick={() => scrollCarousel('left')} 
-                      className="absolute -left-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 rounded-full flex items-center justify-center shadow-md z-10 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                    >
-                      <svg className="w-4 h-4 text-gray-700 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
-                    </button>
-
-                    <div ref={carouselRef} className="flex overflow-x-auto gap-4 pb-4 sidebar-scrollbar snap-x px-1 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                      {[
-                        { name: 'Next.js Masters', members: '45k', color: 'from-gray-800 to-black dark:from-gray-200 dark:to-gray-400', textColor: 'text-white dark:text-gray-900', initial: 'NM' },
-                        { name: 'Tailwind CSS', members: '92k', color: 'from-teal-400 to-emerald-500', textColor: 'text-white', initial: 'TW' },
-                        { name: 'Framer Motion', members: '18k', color: 'from-fuchsia-500 to-pink-500', textColor: 'text-white', initial: 'FM' },
-                        { name: 'React Native', members: '32k', color: 'from-blue-500 to-blue-600', textColor: 'text-white', initial: 'RN' }
-                      ].map((group, idx) => (
-                        <div key={idx} className="w-[170px] shrink-0 bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3A3B3C] rounded-[24px] p-5 flex flex-col items-center shadow-sm snap-start">
-                          <div className={`w-[80px] h-[80px] rounded-xl bg-gradient-to-br ${group.color} ${group.textColor} flex items-center justify-center font-black text-3xl mb-3 shadow-inner group-hover:scale-105 transition-transform`}>
+                  <div className="flex flex-col gap-2">
+                    {[
+                      { name: 'Next.js Masters', members: '45k', color: 'from-gray-800 to-black dark:from-gray-200 dark:to-gray-400', initial: 'NM' },
+                      { name: 'Tailwind CSS', members: '92k', color: 'from-teal-400 to-emerald-500', initial: 'TW' },
+                      { name: 'Framer Motion', members: '18k', color: 'from-fuchsia-500 to-pink-500', initial: 'FM' },
+                      { name: 'React Native', members: '32k', color: 'from-blue-500 to-blue-600', initial: 'RN' }
+                    ].map((group, idx) => (
+                      <div key={idx} className="flex items-center justify-between p-3 rounded-2xl bg-white/40 dark:bg-[#242526]/40 border border-gray-100 dark:border-white/5 hover:bg-white dark:hover:bg-[#2A2B2C] hover:shadow-sm transition-all cursor-pointer group">
+                        <div className="flex items-center gap-3">
+                          <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${group.color} flex items-center justify-center text-white font-bold shadow-sm group-hover:scale-105 transition-transform`}>
                             {group.initial}
                           </div>
-                          <p className="text-[15px] font-bold text-black dark:text-white text-center leading-tight truncate w-full">{group.name}</p>
-                          <p className="text-[13px] text-gray-500 dark:text-gray-400 mb-1 truncate w-full text-center">{group.members} Member</p>
-                          <p className="text-[12px] text-gray-400 dark:text-gray-500 mb-4 truncate w-full text-center">{t("developerCommunity")}</p>
-                          <button className="w-full border-2 border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white text-[13px] font-bold py-[7px] rounded-full transition-colors shadow-sm mt-auto">
-                            {t("visit")}
-                          </button>
+                          <div>
+                            <p className="text-[14px] font-bold text-gray-900 dark:text-white leading-tight">{group.name}</p>
+                            <p className="text-[12px] text-gray-500 dark:text-gray-400 mt-0.5">{group.members} Member</p>
+                          </div>
                         </div>
-                      ))}
-                    </div>
-
-                    <button 
-                      onClick={() => scrollCarousel('right')} 
-                      className="absolute -right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 rounded-full flex items-center justify-center shadow-md z-10 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                    >
-                      <svg className="w-4 h-4 text-gray-700 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
-                    </button>
+                        
+                        <div className="flex items-center gap-2">
+                          <div className="relative group/btn flex items-center justify-center">
+                            <button className="w-8 h-8 rounded-full bg-white dark:bg-[#3A3B3C] border border-gray-200 dark:border-transparent hover:border-gray-300 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white flex items-center justify-center transition-all shadow-sm">
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                            </button>
+                            <div className="absolute -top-8 bg-[#1C1E21] dark:bg-white text-[#E4E6EB] dark:text-black text-[11px] font-bold px-2 py-1 rounded shadow-lg opacity-0 invisible group-hover/btn:opacity-100 group-hover/btn:visible transition-all whitespace-nowrap z-50">
+                              {t("visit")}
+                              <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#1C1E21] dark:bg-white rotate-45"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-
-                <style dangerouslySetInnerHTML={{__html: `
-                  .scrollbar-hide::-webkit-scrollbar {
-                      display: none;
-                  }
-                `}} />
               </div>
 
               {/* Divider */}

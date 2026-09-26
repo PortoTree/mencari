@@ -4147,7 +4147,7 @@ export default function Beranda() {
             </div>
 
             {/* ── Joined Groups ─────────────────────────────────────────── */}
-            <div className="px-4 pt-4 pb-3 border-b border-gray-100 dark:border-white/5">
+            <div className="px-4 pt-4 pb-24">
               <div className="flex items-center justify-between mb-3">
                 <h4 className="font-bold text-[13px] uppercase tracking-wider text-gray-400 dark:text-[#666]">
                   {t("profileSidebar.joinedGroups")}
@@ -4179,73 +4179,6 @@ export default function Beranda() {
               </div>
             </div>
 
-            {/* ── Account Activity ─────────────────────────────────────── */}
-            <div className="px-4 pt-4 pb-3 border-b border-gray-100 dark:border-white/5">
-              <div className="flex items-center justify-between mb-3">
-                <h4 className="font-bold text-[13px] uppercase tracking-wider text-gray-400 dark:text-[#666]">
-                  {t("profileSidebar.activity")}
-                </h4>
-                <a href="#" className="text-[12px] text-emerald-600 dark:text-emerald-400 hover:underline font-medium">
-                  {t("profile.seeAll") || "Lihat Semua"}
-                </a>
-              </div>
-              <div className="space-y-2">
-                {[
-                  { icon: "edit", text: `Membuat postingan di grup Web Dev Indonesia`, time: "2 jam lalu" },
-                  { icon: "group", text: `Bergabung dengan grup UI/UX Enthusiast`, time: "Kemarin" },
-                ].map((act, i) => (
-                  <div key={i} className="flex items-start gap-2.5 p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-white/[0.04] transition-colors">
-                    <div className="w-7 h-7 rounded-full bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center shrink-0 mt-0.5">
-                      {act.icon === "edit" ? (
-                        <svg className="w-3.5 h-3.5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
-                      ) : (
-                        <svg className="w-3.5 h-3.5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                      )}
-                    </div>
-                    <div>
-                      <p className="text-[12px] font-semibold text-gray-800 dark:text-[#E4E6EB] leading-snug">{act.text}</p>
-                      <p className="text-[11px] text-gray-400 dark:text-[#888] mt-0.5">{act.time}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ── Recent Posts ──────────────────────────────────────────── */}
-            <div className="px-4 pt-4 pb-20">
-              <div className="flex items-center justify-between mb-3">
-                <h4 className="font-bold text-[13px] uppercase tracking-wider text-gray-400 dark:text-[#666]">
-                  {t("profileSidebar.recentPosts")}
-                </h4>
-              </div>
-              <div className="space-y-2">
-                {[
-                  {
-                    text: "Wah seru banget hari ini nyobain bikin Sidebar UI! Semangat terus buat semua teman-teman developer 🔥🚀",
-                    time: "2 jam lalu",
-                  },
-                  {
-                    text: "Ada yang punya rekomendasi tutorial framework JS yang lagi ngetrend? Kasih saran dong! 🤔",
-                    time: "Kemarin",
-                  },
-                ].map((post, i) => (
-                  <div key={i} className="p-3 rounded-xl border border-gray-100 dark:border-white/[0.06] bg-gray-50/50 dark:bg-white/[0.02] hover:bg-gray-100/70 dark:hover:bg-white/[0.05] transition-colors cursor-pointer">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-6 h-6 rounded-full overflow-hidden shrink-0">
-                        <img src={selectedProfile.avatar} alt="" className="w-full h-full object-cover" />
-                      </div>
-                      <div>
-                        <span className="font-semibold text-[12px] text-gray-900 dark:text-white">{selectedProfile.name}</span>
-                        <span className="text-[11px] text-gray-400 dark:text-[#666] ml-1.5">{post.time}</span>
-                      </div>
-                    </div>
-                    <p className="text-[13px] text-gray-700 dark:text-[#C0C0C0] line-clamp-2 leading-relaxed">
-                      {post.text}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
           </>
         )}
       </div>
