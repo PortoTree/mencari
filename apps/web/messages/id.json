@@ -361,13 +361,15 @@
     "visit": "Kunjungi",
     "developerCommunity": "Komunitas Developer",
     "viewGroup": "Lihat komunitas",
-    "joinGroup": "Gabung komunitas",
+    "joinGroup": "Gabung",
     "skills": "Keahlian & Skill",
     "hobbies": "Hobby",
     "interests": "Ketertarikan",
     "viewDetails": "Lihat Detail",
     "profileDetails": "Detail Profil",
-    "activity": "Aktifitas akun"
+    "activity": "Aktifitas akun",
+    "reportCommunity": "Laporkan komunitas",
+    "joinOnly": "Gabung"
   },
   "editProfile": {
     "title": "Edit Profil",

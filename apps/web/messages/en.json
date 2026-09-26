@@ -361,13 +361,15 @@
     "visit": "Visit",
     "developerCommunity": "Developer Community",
     "viewGroup": "View Community",
-    "joinGroup": "Join Community",
+    "joinGroup": "Join",
     "skills": "Skills & Expertise",
     "hobbies": "Hobbies",
     "interests": "Interests",
     "viewDetails": "View Details",
     "profileDetails": "Profile Details",
-    "activity": "Account Activity"
+    "activity": "Account Activity",
+    "reportCommunity": "Report community",
+    "joinOnly": "Join"
   },
   "editProfile": {
     "title": "Edit Profile",
