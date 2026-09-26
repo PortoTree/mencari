@@ -355,7 +355,13 @@
     "dummyGroup1": "Developer Community",
     "dummyGroup2": "Design Community",
     "reportAccount": "Report Account",
-    "blockAccount": "Block Account"
+    "blockAccount": "Block Account",
+    "managedGroups": "Managed Groups",
+    "joinedGroups": "Joined Groups",
+    "visit": "Visit",
+    "developerCommunity": "Developer Community",
+    "viewGroup": "View Group",
+    "joinGroup": "Join Group"
   },
   "editProfile": {
     "title": "Edit Profile",

@@ -355,7 +355,13 @@
     "dummyGroup1": "Komunitas Developer",
     "dummyGroup2": "Komunitas Desain",
     "reportAccount": "Laporkan akun",
-    "blockAccount": "Block"
+    "blockAccount": "Block",
+    "managedGroups": "Grup yang Dikelola",
+    "joinedGroups": "Grup yang Diikuti",
+    "visit": "Kunjungi",
+    "developerCommunity": "Komunitas Developer",
+    "viewGroup": "Lihat grup",
+    "joinGroup": "Gabung grup"
   },
   "editProfile": {
     "title": "Edit Profil",

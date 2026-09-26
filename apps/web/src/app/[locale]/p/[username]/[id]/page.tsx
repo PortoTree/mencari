@@ -363,13 +363,13 @@ export default function ProfilePage({
                   <div className="flex items-center justify-between mb-3 px-1">
                     <h3 className="text-[15px] font-bold text-black dark:text-white flex items-center gap-2">
                       <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                      Grup yang Dikelola
+                      {t("managedGroups")}
                     </h3>
                     <button className="text-[13px] font-bold text-[#10B981] hover:text-emerald-700 transition-colors">{t("seeAll") || "Lihat Semua"}</button>
                   </div>
                   <div className="flex flex-col gap-2">
                     {[
-                      { name: 'Developer Indo', members: '12.5k', role: 'Admin', color: 'from-blue-500 to-cyan-400', initial: 'DI' },
+                      { name: 'Developer Indo', members: '12.5k', role: 'Owner', color: 'from-blue-500 to-cyan-400', initial: 'DI' },
                       { name: 'UI/UX Enthusiast', members: '8.2k', role: 'Admin', color: 'from-purple-500 to-pink-500', initial: 'UX' }
                     ].map((group, idx) => (
                       <div key={idx} className="flex items-center justify-between p-3 rounded-2xl bg-white/40 dark:bg-[#242526]/40 border border-gray-100 dark:border-white/5 hover:bg-white dark:hover:bg-[#2A2B2C] hover:shadow-sm transition-all cursor-pointer group">
@@ -378,11 +378,47 @@ export default function ProfilePage({
                             {group.initial}
                           </div>
                           <div>
-                            <p className="text-[14px] font-bold text-gray-900 dark:text-white leading-tight">{group.name}</p>
+                            <div className="flex items-center gap-2">
+                              <p className="text-[14px] font-bold text-gray-900 dark:text-white leading-tight">{group.name}</p>
+                              {group.role === 'Owner' ? (
+                                <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-gradient-to-r from-orange-400 to-amber-500 text-white shadow-sm">
+                                  <img src="/owner.svg" alt="Owner" className="w-3 h-3 invert dark:invert-0" style={{ filter: "brightness(0) invert(1)" }} />
+                                  <span className="text-[10px] font-bold uppercase">{group.role}</span>
+                                </div>
+                              ) : (
+                                <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-gradient-to-r from-emerald-400 to-teal-500 text-white shadow-sm">
+                                  <img src="/admin.svg" alt="Admin" className="w-3 h-3 invert dark:invert-0" style={{ filter: "brightness(0) invert(1)" }} />
+                                  <span className="text-[10px] font-bold uppercase">{group.role}</span>
+                                </div>
+                              )}
+                            </div>
                             <p className="text-[12px] text-gray-500 dark:text-gray-400 mt-0.5">{group.members} Member</p>
                           </div>
                         </div>
-                        <span className="text-[11px] font-bold px-2.5 py-1 bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-lg">{group.role}</span>
+                        
+                        <div className="flex items-center gap-2">
+                          {/* View Group Button */}
+                          <div className="relative group/btn flex items-center justify-center">
+                            <button className="w-8 h-8 rounded-full bg-white dark:bg-[#3A3B3C] border border-gray-200 dark:border-transparent hover:border-gray-300 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white flex items-center justify-center transition-all shadow-sm">
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                            </button>
+                            <div className="absolute -top-8 bg-[#1C1E21] dark:bg-white text-[#E4E6EB] dark:text-black text-[11px] font-bold px-2 py-1 rounded shadow-lg opacity-0 invisible group-hover/btn:opacity-100 group-hover/btn:visible transition-all whitespace-nowrap z-50">
+                              {t("viewGroup")}
+                              <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#1C1E21] dark:bg-white rotate-45"></div>
+                            </div>
+                          </div>
+
+                          {/* Join Group Button */}
+                          <div className="relative group/btn flex items-center justify-center">
+                            <button className="w-8 h-8 rounded-full bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-100 dark:border-transparent hover:border-emerald-200 dark:hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 flex items-center justify-center transition-all shadow-sm">
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
+                            </button>
+                            <div className="absolute -top-8 bg-[#1C1E21] dark:bg-white text-[#E4E6EB] dark:text-black text-[11px] font-bold px-2 py-1 rounded shadow-lg opacity-0 invisible group-hover/btn:opacity-100 group-hover/btn:visible transition-all whitespace-nowrap z-50">
+                              {t("joinGroup")}
+                              <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#1C1E21] dark:bg-white rotate-45"></div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -393,7 +429,7 @@ export default function ProfilePage({
                   <div className="flex items-center justify-between mb-3 px-1">
                     <h3 className="text-[15px] font-bold text-black dark:text-white flex items-center gap-2">
                       <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
-                      Grup yang Diikuti
+                      {t("joinedGroups")}
                     </h3>
                     <button className="text-[13px] font-bold text-[#10B981] hover:text-emerald-700 transition-colors">{t("seeAll") || "Lihat Semua"}</button>
                   </div>
@@ -419,9 +455,9 @@ export default function ProfilePage({
                           </div>
                           <p className="text-[15px] font-bold text-black dark:text-white text-center leading-tight truncate w-full">{group.name}</p>
                           <p className="text-[13px] text-gray-500 dark:text-gray-400 mb-1 truncate w-full text-center">{group.members} Member</p>
-                          <p className="text-[12px] text-gray-400 dark:text-gray-500 mb-4 truncate w-full text-center">Komunitas Developer</p>
+                          <p className="text-[12px] text-gray-400 dark:text-gray-500 mb-4 truncate w-full text-center">{t("developerCommunity")}</p>
                           <button className="w-full border-2 border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white text-[13px] font-bold py-[7px] rounded-full transition-colors shadow-sm mt-auto">
-                            Kunjungi
+                            {t("visit")}
                           </button>
                         </div>
                       ))}
