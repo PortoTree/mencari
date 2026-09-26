@@ -244,6 +244,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [privacyJoinedGroups, setPrivacyJoinedGroups] = useState(t("public"));
   const [privacyFollowers, setPrivacyFollowers] = useState(t("public"));
   const [privacyFollowing, setPrivacyFollowing] = useState(t("public"));
+  const [privacyActivity, setPrivacyActivity] = useState(t("public"));
   const [privacyExternalLink, setPrivacyExternalLink] = useState(t("public"));
 
   useEffect(() => {
@@ -324,14 +325,15 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
     { label: t("privacyDob"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyBirth, setState: setPrivacyBirth },
     { label: t("privacyLoc"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyLoc, setState: setPrivacyLoc },
     { label: t("privacyFriendList"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyFriendList, setState: setPrivacyFriendList },
+    { label: t("privacyFollowers"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyFollowers, setState: setPrivacyFollowers },
+    { label: t("privacyFollowing"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyFollowing, setState: setPrivacyFollowing },
     { label: t("privacyComment"), options: [t("public"), t("friendsOnly"), t("turnOff")], state: privacyComment, setState: setPrivacyComment },
     { label: t("privacyDM"), options: [t("allow"), t("disallow")], state: privacyDM, setState: setPrivacyDM },
     { label: t("privacyTag"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyTag, setState: setPrivacyTag },
     { label: t("privacyOnline"), options: [t("public"), t("friendsOnly"), t("turnOff")], state: privacyOnline, setState: setPrivacyOnline },
+    { label: t("privacyActivity"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyActivity, setState: setPrivacyActivity },
     { label: t("privacyOwnedGroups"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyOwnedGroups, setState: setPrivacyOwnedGroups },
     { label: t("privacyJoinedGroups"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyJoinedGroups, setState: setPrivacyJoinedGroups },
-    { label: t("privacyFollowers"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyFollowers, setState: setPrivacyFollowers },
-    { label: t("privacyFollowing"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyFollowing, setState: setPrivacyFollowing },
   ];
 
   return (
@@ -567,7 +569,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       <div className="flex-1">
                         <input type="text" placeholder={t("locationPlaceholder")} className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
                       </div>
-                      <CustomSelect className="w-[52px] shrink-0" options={[t("public"), t("friendsOnly")]} value={privacyLoc} onChange={setPrivacyLoc} getIcon={getPrivacyIcon} hideLabelOnDisplay={true} hideArrow={true} />
+                      <CustomSelect className="w-[52px] shrink-0" options={[t("public"), t("friendsOnly"), t("private")]} value={privacyLoc} onChange={setPrivacyLoc} getIcon={getPrivacyIcon} hideLabelOnDisplay={true} hideArrow={true} />
                     </div>
                     <div className="flex justify-end gap-2 pt-2 pb-4">
                       <button onClick={() => setIsEditingLocation(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
@@ -638,7 +640,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       <div className="flex-1">
                         <input type="text" placeholder={t("profPlaceholder")} className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
                       </div>
-                      <CustomSelect className="w-[52px] shrink-0" options={[t("public"), t("friendsOnly")]} value={privacyProf} onChange={setPrivacyProf} getIcon={getPrivacyIcon} hideLabelOnDisplay={true} hideArrow={true} />
+                      <CustomSelect className="w-[52px] shrink-0" options={[t("public"), t("friendsOnly"), t("private")]} value={privacyProf} onChange={setPrivacyProf} getIcon={getPrivacyIcon} hideLabelOnDisplay={true} hideArrow={true} />
                     </div>
                     <div className="flex justify-end gap-2 pt-2 border-b border-gray-200 dark:border-gray-700 pb-4">
                       <button onClick={() => setIsEditingProfession(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
@@ -689,9 +691,12 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       </label>
                     </div>
 
-                    <div className="flex justify-end gap-2 pt-4">
-                      <button onClick={() => setIsEditingExperience(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
-                      <button onClick={() => setIsEditingExperience(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
+                    <div className="flex items-center justify-between pt-4">
+                      <CustomSelect className="w-[140px]" options={[t("public"), t("friendsOnly"), t("private")]} value={privacyProf} onChange={setPrivacyProf} getIcon={getPrivacyIcon} />
+                      <div className="flex gap-2">
+                        <button onClick={() => setIsEditingExperience(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
+                        <button onClick={() => setIsEditingExperience(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -742,9 +747,12 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       </label>
                     </div>
 
-                    <div className="flex justify-end gap-2 pt-4">
-                      <button onClick={() => setIsEditingEducation(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
-                      <button onClick={() => setIsEditingEducation(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
+                    <div className="flex items-center justify-between pt-4">
+                      <CustomSelect className="w-[140px]" options={[t("public"), t("friendsOnly"), t("private")]} value={privacyProf} onChange={setPrivacyProf} getIcon={getPrivacyIcon} />
+                      <div className="flex gap-2">
+                        <button onClick={() => setIsEditingEducation(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
+                        <button onClick={() => setIsEditingEducation(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
+                      </div>
                     </div>
                   </div>
                 )}
