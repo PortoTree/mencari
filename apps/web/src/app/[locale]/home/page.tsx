@@ -3960,437 +3960,308 @@ export default function Beranda() {
         <div className="fixed inset-0 z-[9998] lg:hidden bg-black/50" onClick={() => setIsProductDetailOpen(false)} />
       )}
 
-      {/* Profile Right Sidebar */}
+      {/* Profile Right Sidebar — REDESIGNED */}
       <div
-        className={`hidden lg:block fixed right-0 top-[56px] w-[340px] xl:w-[380px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pb-32 transition-transform duration-300 ease-in-out transform ${isProfileSidebarOpen ? "translate-x-0" : "translate-x-full"} z-40 sidebar-scrollbar bg-white dark:bg-[#242526] border-l border-gray-200 dark:border-[#3E4042]`}
+        className={`hidden lg:block fixed right-0 top-[56px] w-[340px] xl:w-[380px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto sidebar-scrollbar transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] transform ${isProfileSidebarOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"} z-40 bg-white dark:bg-[#1C1C1E] border-l border-gray-200/60 dark:border-white/5`}
       >
         {selectedProfile && (
-            <>
-              {/* Sticky Close Button */}
-              <div className="sticky top-0 z-50 w-full h-0">
-                <button
-                  onClick={() => setIsProfileSidebarOpen(false)}
-                  className="absolute top-3 right-3 w-8 h-8 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center transition-colors shadow-sm"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
+          <>
+            {/* ── Cover + Avatar ───────────────────────────────────────── */}
+            <div className="relative">
+              {/* Cover photo */}
+              <div className="h-[130px] w-full overflow-hidden relative">
+                <img
+                  src="/default-cover.jpg"
+                  alt="Cover"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                    if (e.currentTarget.parentElement)
+                      e.currentTarget.parentElement.style.background =
+                        "linear-gradient(135deg,#059669 0%,#0d9488 50%,#0891b2 100%)";
+                  }}
+                />
+                {/* gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
               </div>
 
-              {/* Header (Cover Photo & Avatar) */}
-              <div className="relative">
+              {/* Close button */}
+              <button
+                onClick={() => setIsProfileSidebarOpen(false)}
+                className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-sm text-white flex items-center justify-center transition-all hover:scale-110 z-10"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
 
-                {/* Cover Photo */}
-                <div className="h-[110px] w-full bg-gray-300 dark:bg-[#3A3B3C]">
-                  <img
-                    src="/default-cover.jpg"
-                    alt="Cover"
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.style.display = "none";
-                      e.currentTarget.parentElement?.classList.add(
-                        "bg-gradient-to-r",
-                        "from-emerald-500",
-                        "to-teal-600",
-                      );
-                    }}
-                  />
-                </div>
-
-                {/* Avatar */}
-                <div className="absolute -bottom-8 left-4 w-[80px] h-[80px] rounded-full border-4 border-white dark:border-[#242526] bg-white dark:bg-[#242526] overflow-hidden shadow-sm">
-                  <img
-                    src={selectedProfile.avatar}
-                    alt="Profile"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+              {/* Avatar */}
+              <div className="absolute -bottom-10 left-4 w-[76px] h-[76px] rounded-full ring-4 ring-white dark:ring-[#1C1C1E] overflow-hidden shadow-lg">
+                <img
+                  src={selectedProfile.avatar}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
               </div>
+            </div>
 
-              {/* Profile Info */}
-              <div className="pt-10 px-4 pb-4 border-b border-gray-100 dark:border-[#3E4042]">
-                <h3 className="font-bold text-[18px] text-black dark:text-[#E4E6EB] leading-tight">
-                  {selectedProfile.name}
-                </h3>
-                <p className="text-[13px] text-gray-500 dark:text-[#B0B3B8] mb-3">
-                  {selectedProfile.role}
-                </p>
-
-                {/* Bio */}
-                <p className="text-[14px] text-black dark:text-[#E4E6EB] mb-4">
-                  Ini adalah bio singkat dari {selectedProfile.name}. Selalu
-                  semangat ngoding dan belajar hal baru setiap hari! 🚀
-                </p>
-
-                {/* Friends Count */}
-                <div className="flex items-center gap-1.5 text-[14px] text-gray-500 dark:text-[#B0B3B8] mb-4 hover:underline cursor-pointer w-max">
-                  <span className="font-bold text-black dark:text-[#E4E6EB]">
-                    1.2K
-                  </span>
-                  <span>{t("profileSidebar.friends")}</span>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex flex-col gap-2">
-                  {selectedProfile.relation === "friend" ? (
-                    // Sudah berteman: Teman + Buka Profil + Kirim Pesan
-                    <>
-                      <div className="flex items-center gap-2">
-                        <button className="flex-[1.5] bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center">
-                          <span className="text-[14px]">
-                            {t("friend.alreadyFriend")}
-                          </span>
-                        </button>
-                        <button onClick={() => router.push(`/${locale}/p/${selectedProfile.name}/${selectedProfile.id || "1"}`)} className="flex-1 bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center">
-                          <span className="text-[14px]">
-                            {t("profileSidebar.openProfile")}
-                          </span>
-                        </button>
-                      </div>
-                      <button className="w-full bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center gap-1.5">
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                          />
-                        </svg>
-                        <span className="text-[14px]">
-                          {t("profileSidebar.message")}
-                        </span>
-                      </button>
-                    </>
-                  ) : selectedProfile.relation === "request" ? (
-                    // Permintaan teman masuk: Terima + Buka Profil
-                    <>
-                      <div className="flex items-center gap-2">
-                        <button className="flex-[1.5] bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center shadow-sm">
-                          <span className="text-[14px]">
-                            {t("friend.accept")}
-                          </span>
-                        </button>
-                        <button onClick={() => router.push(`/${locale}/p/${selectedProfile.name}/${selectedProfile.id || "1"}`)} className="flex-1 bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center">
-                          <span className="text-[14px]">
-                            {t("profileSidebar.openProfile")}
-                          </span>
-                        </button>
-                      </div>
-                      <button className="w-full bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center gap-1">
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                          />
-                        </svg>
-                        <span className="text-[14px]">
-                          {t("profileSidebar.message")}
-                        </span>
-                      </button>
-                    </>
-                  ) : (
-                    // Default (stranger): Add Friend + Open Profile + Send Message
-                    <>
-                      <div className="flex items-center gap-2">
-                        <button className="flex-[1.5] bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center gap-1 shadow-sm">
-                          <svg
-                            className="w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
-                            />
-                          </svg>
-                          <span className="text-[14px]">
-                            {t("profileSidebar.addFriend")}
-                          </span>
-                        </button>
-                        <button onClick={() => router.push(`/${locale}/p/${selectedProfile.name}/${selectedProfile.id || "1"}`)} className="flex-1 bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center">
-                          <span className="text-[14px]">
-                            {t("profileSidebar.openProfile")}
-                          </span>
-                        </button>
-                      </div>
-                      <button className="w-full bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#D8DADF] dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold py-1.5 px-3 rounded-lg transition-colors flex items-center justify-center gap-1">
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                          />
-                        </svg>
-                        <span className="text-[14px]">
-                          {t("profileSidebar.message")}
-                        </span>
-                      </button>
-                    </>
-                  )}
-                </div>
-              </div>
-
-              {/* Account Details / Lists */}
-              <div className="p-4 border-b border-gray-100 dark:border-[#3E4042]">
-                {/* Aktivitas Akun */}
-                <div className="mb-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-bold text-[15px] text-black dark:text-[#E4E6EB]">
-                      {t("profileSidebar.activity")}
-                    </h4>
-                    <a
-                      href="#"
-                      className="text-[13px] text-emerald-600 dark:text-emerald-400 hover:underline"
-                    >
-                      Lihat Semua
-                    </a>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-full bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center shrink-0 mt-0.5">
-                        <svg
-                          className="w-4 h-4 text-emerald-600 dark:text-emerald-400"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                          />
-                        </svg>
-                      </div>
-                      <div>
-                        <p className="text-[13px] text-black dark:text-[#E4E6EB]">
-                          Membuat postingan di grup{" "}
-                          <span className="font-semibold">
-                            Web Dev Indonesia
-                          </span>
-                        </p>
-                        <p className="text-[11px] text-gray-500 dark:text-[#B0B3B8] mt-0.5">
-                          2 jam lalu
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center shrink-0 mt-0.5">
-                        <svg
-                          className="w-4 h-4 text-blue-600 dark:text-blue-400"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
-                          />
-                        </svg>
-                      </div>
-                      <div>
-                        <p className="text-[13px] text-black dark:text-[#E4E6EB]">
-                          Bergabung dengan grup{" "}
-                          <span className="font-semibold">
-                            UI/UX Enthusiast
-                          </span>
-                        </p>
-                        <p className="text-[11px] text-gray-500 dark:text-[#B0B3B8] mt-0.5">
-                          Kemarin
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Pemilik Grup */}
-                <div className="mb-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-bold text-[15px] text-black dark:text-[#E4E6EB]">
-                      {t("profileSidebar.ownedGroups")}
-                    </h4>
-                    <a
-                      href="#"
-                      className="text-[13px] text-emerald-600 dark:text-emerald-400 hover:underline"
-                    >
-                      Lihat Semua
-                    </a>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-gray-200 dark:bg-[#3A3B3C] shrink-0 overflow-hidden">
-                        <img
-                          src="/default-cover.jpg"
-                          alt="Group"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-[14px] text-black dark:text-[#E4E6EB] leading-tight hover:underline cursor-pointer">
-                          Web Dev Indonesia
-                        </p>
-                        <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] mt-0.5">
-                          15.2K Member
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-gray-200 dark:bg-[#3A3B3C] shrink-0 overflow-hidden">
-                        <img
-                          src="/default-cover.jpg"
-                          alt="Group"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-[14px] text-black dark:text-[#E4E6EB] leading-tight hover:underline cursor-pointer">
-                          Freelance Programmer ID
-                        </p>
-                        <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] mt-0.5">
-                          8.1K Member
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Grup yang diikuti */}
+            {/* ── Name / Role / Bio / Stats ────────────────────────────── */}
+            <div className="pt-12 px-4 pb-4">
+              {/* Name + badge */}
+              <div className="flex items-start justify-between gap-2">
                 <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-bold text-[15px] text-black dark:text-[#E4E6EB]">
-                      {t("profileSidebar.joinedGroups")}
-                    </h4>
-                    <a
-                      href="#"
-                      className="text-[13px] text-emerald-600 dark:text-emerald-400 hover:underline"
-                    >
-                      Lihat Semua
-                    </a>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-gray-200 dark:bg-[#3A3B3C] shrink-0 overflow-hidden">
-                        <img
-                          src="/default-cover.jpg"
-                          alt="Group"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-[14px] text-black dark:text-[#E4E6EB] leading-tight hover:underline cursor-pointer">
-                          Next.js Indonesia
-                        </p>
-                        <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] mt-0.5">
-                          30.5K Member
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-gray-200 dark:bg-[#3A3B3C] shrink-0 overflow-hidden">
-                        <img
-                          src="/default-cover.jpg"
-                          alt="Group"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-[14px] text-black dark:text-[#E4E6EB] leading-tight hover:underline cursor-pointer">
-                          Tailwind CSS Community
-                        </p>
-                        <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] mt-0.5">
-                          25.3K Member
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Recent Posts */}
-              <div className="p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <h4 className="font-bold text-[15px] text-black dark:text-[#E4E6EB]">
-                    {t("profileSidebar.recentPosts")}
-                  </h4>
-                </div>
-
-                {/* Dummy Post 1 */}
-                <div className="mb-3 bg-white dark:bg-[#242526] p-3 rounded-xl border border-gray-200 dark:border-[#4E4F50] shadow-sm">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-7 h-7 rounded-full overflow-hidden shrink-0 border border-gray-100 dark:border-[#3A3B3C]">
-                      <img
-                        src={selectedProfile.avatar}
-                        alt=""
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="font-semibold text-[13px] text-black dark:text-[#E4E6EB] leading-none">
-                        {selectedProfile.name}
-                      </span>
-                      <span className="text-[11px] text-gray-500 dark:text-[#B0B3B8] mt-0.5">
-                        2 jam lalu
-                      </span>
-                    </div>
-                  </div>
-                  <p className="text-[13px] text-black dark:text-[#E4E6EB] line-clamp-3">
-                    Wah seru banget hari ini nyobain bikin Sidebar UI! Semangat
-                    terus buat semua teman-teman developer 🔥🚀
+                  <h3 className="font-bold text-[17px] text-gray-900 dark:text-white leading-tight">
+                    {selectedProfile.name}
+                  </h3>
+                  <p className="text-[12px] text-emerald-600 dark:text-emerald-400 font-medium mt-0.5 flex items-center gap-1">
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1 1 1 0 010 2 1 1 0 01-1-1zm-3 0a1 1 0 110 2H6a1 1 0 010-2h1z" clipRule="evenodd" />
+                    </svg>
+                    {selectedProfile.role}
                   </p>
                 </div>
+                {/* Online indicator */}
+                <span className="flex items-center gap-1 text-[11px] text-emerald-500 font-semibold bg-emerald-50 dark:bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-500/20 shrink-0 mt-0.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse inline-block" />
+                  Online
+                </span>
+              </div>
 
-                {/* Dummy Post 2 */}
-                <div className="bg-white dark:bg-[#242526] p-3 rounded-xl border border-gray-200 dark:border-[#4E4F50] shadow-sm">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-7 h-7 rounded-full overflow-hidden shrink-0 border border-gray-100 dark:border-[#3A3B3C]">
-                      <img
-                        src={selectedProfile.avatar}
-                        alt=""
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="font-semibold text-[13px] text-black dark:text-[#E4E6EB] leading-none">
-                        {selectedProfile.name}
-                      </span>
-                      <span className="text-[11px] text-gray-500 dark:text-[#B0B3B8] mt-0.5">
-                        Kemarin
-                      </span>
-                    </div>
+              {/* Bio */}
+              <p className="text-[13px] text-gray-600 dark:text-[#A8A8A8] mt-3 leading-relaxed">
+                Ini adalah bio singkat dari {selectedProfile.name}. Selalu semangat ngoding dan belajar hal baru setiap hari! 🚀
+              </p>
+
+              {/* Stats row */}
+              <div className="mt-4 grid grid-cols-3 gap-2">
+                {[
+                  { label: t("profileSidebar.friends"), value: "1.2K" },
+                  { label: t("profile.followers") || "Pengikut", value: "4.8K" },
+                  { label: "Postingan", value: "238" },
+                ].map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="flex flex-col items-center justify-center bg-gray-50 dark:bg-white/[0.04] rounded-xl py-2 px-1 hover:bg-gray-100 dark:hover:bg-white/[0.07] transition-colors cursor-pointer border border-transparent hover:border-gray-200 dark:hover:border-white/10"
+                  >
+                    <span className="font-bold text-[15px] text-gray-900 dark:text-white">{stat.value}</span>
+                    <span className="text-[11px] text-gray-500 dark:text-[#888] mt-0.5 text-center">{stat.label}</span>
                   </div>
-                  <p className="text-[13px] text-black dark:text-[#E4E6EB] line-clamp-3">
-                    Ada yang punya rekomendasi tutorial framework JS yang lagi
-                    ngetrend? Kasih saran dong! 🤔
-                  </p>
+                ))}
+              </div>
+            </div>
+
+            {/* ── Action Buttons ───────────────────────────────────────── */}
+            <div className="px-4 pb-4 flex flex-col gap-2 border-b border-gray-100 dark:border-white/5">
+              {selectedProfile.relation === "friend" ? (
+                <>
+                  <div className="flex gap-2">
+                    <button className="flex-1 flex items-center justify-center gap-1.5 bg-gray-100 dark:bg-white/[0.07] hover:bg-gray-200 dark:hover:bg-white/[0.12] text-gray-800 dark:text-white font-semibold py-2 rounded-xl text-[13px] transition-all">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                      {t("friend.alreadyFriend")}
+                    </button>
+                    <button onClick={() => router.push(`/${locale}/p/${selectedProfile.name}/${selectedProfile.id || "1"}`)} className="flex-1 flex items-center justify-center gap-1.5 bg-gray-100 dark:bg-white/[0.07] hover:bg-gray-200 dark:hover:bg-white/[0.12] text-gray-800 dark:text-white font-semibold py-2 rounded-xl text-[13px] transition-all">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                      {t("profileSidebar.openProfile")}
+                    </button>
+                  </div>
+                  <button className="w-full flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2.5 rounded-xl text-[13px] transition-all shadow-sm shadow-emerald-500/20 active:scale-[0.98]">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                    {t("profileSidebar.message")}
+                  </button>
+                </>
+              ) : selectedProfile.relation === "request" ? (
+                <>
+                  <div className="flex gap-2">
+                    <button className="flex-[1.5] flex items-center justify-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2.5 rounded-xl text-[13px] transition-all shadow-sm shadow-emerald-500/20 active:scale-[0.98]">
+                      {t("friend.accept")}
+                    </button>
+                    <button onClick={() => router.push(`/${locale}/p/${selectedProfile.name}/${selectedProfile.id || "1"}`)} className="flex-1 flex items-center justify-center bg-gray-100 dark:bg-white/[0.07] hover:bg-gray-200 dark:hover:bg-white/[0.12] text-gray-800 dark:text-white font-semibold py-2.5 rounded-xl text-[13px] transition-all">
+                      {t("profileSidebar.openProfile")}
+                    </button>
+                  </div>
+                  <button className="w-full flex items-center justify-center gap-2 bg-gray-100 dark:bg-white/[0.07] hover:bg-gray-200 dark:hover:bg-white/[0.12] text-gray-800 dark:text-white font-semibold py-2.5 rounded-xl text-[13px] transition-all">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                    {t("profileSidebar.message")}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <div className="flex gap-2">
+                    <button className="flex-[1.5] flex items-center justify-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2.5 rounded-xl text-[13px] transition-all shadow-sm shadow-emerald-500/20 active:scale-[0.98]">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>
+                      {t("profileSidebar.addFriend")}
+                    </button>
+                    <button onClick={() => router.push(`/${locale}/p/${selectedProfile.name}/${selectedProfile.id || "1"}`)} className="flex-1 flex items-center justify-center bg-gray-100 dark:bg-white/[0.07] hover:bg-gray-200 dark:hover:bg-white/[0.12] text-gray-800 dark:text-white font-semibold py-2.5 rounded-xl text-[13px] transition-all">
+                      {t("profileSidebar.openProfile")}
+                    </button>
+                  </div>
+                  <button className="w-full flex items-center justify-center gap-2 bg-gray-100 dark:bg-white/[0.07] hover:bg-gray-200 dark:hover:bg-white/[0.12] text-gray-800 dark:text-white font-semibold py-2.5 rounded-xl text-[13px] transition-all">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                    {t("profileSidebar.message")}
+                  </button>
+                </>
+              )}
+            </div>
+
+            {/* ── Activity Timeline ─────────────────────────────────────── */}
+            <div className="px-4 pt-4 pb-3 border-b border-gray-100 dark:border-white/5">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="font-bold text-[13px] uppercase tracking-wider text-gray-400 dark:text-[#666]">
+                  {t("profileSidebar.activity")}
+                </h4>
+                <a href="#" className="text-[12px] text-emerald-600 dark:text-emerald-400 hover:underline font-medium">
+                  {t("profile.seeAll") || "Lihat Semua"}
+                </a>
+              </div>
+              <div className="relative pl-5">
+                {/* vertical line */}
+                <div className="absolute left-[7px] top-2 bottom-2 w-px bg-gray-200 dark:bg-white/10" />
+                <div className="space-y-4">
+                  {[
+                    {
+                      icon: (
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                      ),
+                      color: "text-emerald-500 bg-emerald-50 dark:bg-emerald-500/10",
+                      text: "Membuat postingan di grup",
+                      highlight: "Web Dev Indonesia",
+                      time: "2 jam lalu",
+                    },
+                    {
+                      icon: (
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>
+                      ),
+                      color: "text-blue-500 bg-blue-50 dark:bg-blue-500/10",
+                      text: "Bergabung dengan grup",
+                      highlight: "UI/UX Enthusiast",
+                      time: "Kemarin",
+                    },
+                  ].map((act, i) => (
+                    <div key={i} className="flex items-start gap-3 relative">
+                      {/* dot */}
+                      <div className={`absolute -left-5 top-0.5 w-[14px] h-[14px] rounded-full flex items-center justify-center shrink-0 ${act.color}`}>
+                        {act.icon}
+                      </div>
+                      <div>
+                        <p className="text-[13px] text-gray-700 dark:text-[#D1D1D1] leading-snug">
+                          {act.text}{" "}
+                          <span className="font-semibold text-gray-900 dark:text-white">{act.highlight}</span>
+                        </p>
+                        <p className="text-[11px] text-gray-400 dark:text-[#666] mt-0.5">{act.time}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </>
-          )}
+            </div>
+
+            {/* ── Owned Groups ─────────────────────────────────────────── */}
+            <div className="px-4 pt-4 pb-3 border-b border-gray-100 dark:border-white/5">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="font-bold text-[13px] uppercase tracking-wider text-gray-400 dark:text-[#666]">
+                  {t("profileSidebar.ownedGroups")}
+                </h4>
+                <a href="#" className="text-[12px] text-emerald-600 dark:text-emerald-400 hover:underline font-medium">
+                  {t("profile.seeAll") || "Lihat Semua"}
+                </a>
+              </div>
+              <div className="space-y-2">
+                {[
+                  { name: "Web Dev Indonesia", members: "15.2K" },
+                  { name: "Freelance Programmer ID", members: "8.1K" },
+                ].map((group) => (
+                  <div key={group.name} className="flex items-center gap-3 p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-white/[0.04] cursor-pointer transition-colors group">
+                    <div className="w-10 h-10 rounded-xl bg-gray-200 dark:bg-[#2A2A2C] shrink-0 overflow-hidden">
+                      <img src="/default-cover.jpg" alt={group.name} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-[13px] text-gray-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors truncate">
+                        {group.name}
+                      </p>
+                      <p className="text-[11px] text-gray-400 dark:text-[#666] mt-0.5">
+                        {group.members} {t("profile.members") || "Member"}
+                      </p>
+                    </div>
+                    <svg className="w-4 h-4 text-gray-400 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ── Joined Groups ─────────────────────────────────────────── */}
+            <div className="px-4 pt-4 pb-3 border-b border-gray-100 dark:border-white/5">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="font-bold text-[13px] uppercase tracking-wider text-gray-400 dark:text-[#666]">
+                  {t("profileSidebar.joinedGroups")}
+                </h4>
+                <a href="#" className="text-[12px] text-emerald-600 dark:text-emerald-400 hover:underline font-medium">
+                  {t("profile.seeAll") || "Lihat Semua"}
+                </a>
+              </div>
+              <div className="space-y-2">
+                {[
+                  { name: "Next.js Indonesia", members: "30.5K" },
+                  { name: "Tailwind CSS Community", members: "25.3K" },
+                ].map((group) => (
+                  <div key={group.name} className="flex items-center gap-3 p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-white/[0.04] cursor-pointer transition-colors group">
+                    <div className="w-10 h-10 rounded-xl bg-gray-200 dark:bg-[#2A2A2C] shrink-0 overflow-hidden">
+                      <img src="/default-cover.jpg" alt={group.name} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-[13px] text-gray-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors truncate">
+                        {group.name}
+                      </p>
+                      <p className="text-[11px] text-gray-400 dark:text-[#666] mt-0.5">
+                        {group.members} {t("profile.members") || "Member"}
+                      </p>
+                    </div>
+                    <svg className="w-4 h-4 text-gray-400 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ── Recent Posts ──────────────────────────────────────────── */}
+            <div className="px-4 pt-4 pb-20">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="font-bold text-[13px] uppercase tracking-wider text-gray-400 dark:text-[#666]">
+                  {t("profileSidebar.recentPosts")}
+                </h4>
+              </div>
+              <div className="space-y-2">
+                {[
+                  {
+                    text: "Wah seru banget hari ini nyobain bikin Sidebar UI! Semangat terus buat semua teman-teman developer 🔥🚀",
+                    time: "2 jam lalu",
+                  },
+                  {
+                    text: "Ada yang punya rekomendasi tutorial framework JS yang lagi ngetrend? Kasih saran dong! 🤔",
+                    time: "Kemarin",
+                  },
+                ].map((post, i) => (
+                  <div key={i} className="p-3 rounded-xl border border-gray-100 dark:border-white/[0.06] bg-gray-50/50 dark:bg-white/[0.02] hover:bg-gray-100/70 dark:hover:bg-white/[0.05] transition-colors cursor-pointer">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-6 h-6 rounded-full overflow-hidden shrink-0">
+                        <img src={selectedProfile.avatar} alt="" className="w-full h-full object-cover" />
+                      </div>
+                      <div>
+                        <span className="font-semibold text-[12px] text-gray-900 dark:text-white">{selectedProfile.name}</span>
+                        <span className="text-[11px] text-gray-400 dark:text-[#666] ml-1.5">{post.time}</span>
+                      </div>
+                    </div>
+                    <p className="text-[13px] text-gray-700 dark:text-[#C0C0C0] line-clamp-2 leading-relaxed">
+                      {post.text}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
       </div>
+
+
+      {/* Add Shortcut Modal */}
 
       {/* Add Shortcut Modal */}
       {isShortcutModalOpen && (
