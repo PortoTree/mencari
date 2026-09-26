@@ -52,7 +52,8 @@ relasi sosial, konten, dan media dalam satu tabel.
 
   `bio`                   TEXT / NULL             Deskripsi singkat
                                                   pengguna.
-
+  `type`                  ENUM                    Tipe profile, misalnya
+                                                  `personal`, `business`.
   `avatar_url`            TEXT / NULL             URL foto profile.
 
   `cover_url`             TEXT / NULL             URL foto cover.
