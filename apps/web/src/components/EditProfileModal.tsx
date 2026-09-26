@@ -239,7 +239,12 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [privacyComment, setPrivacyComment] = useState(t("public"));
   const [privacyDM, setPrivacyDM] = useState(t("allow"));
   const [privacyTag, setPrivacyTag] = useState(t("public"));
-  const [privacyOnline, setPrivacyOnline] = useState(t("show"));
+  const [privacyOnline, setPrivacyOnline] = useState(t("public"));
+  const [privacyOwnedGroups, setPrivacyOwnedGroups] = useState(t("public"));
+  const [privacyJoinedGroups, setPrivacyJoinedGroups] = useState(t("public"));
+  const [privacyFollowers, setPrivacyFollowers] = useState(t("public"));
+  const [privacyFollowing, setPrivacyFollowing] = useState(t("public"));
+  const [privacyExternalLink, setPrivacyExternalLink] = useState(t("public"));
 
   useEffect(() => {
     if (isOpen) {
@@ -317,12 +322,16 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
   const privacySettings = [
     { label: t("privacyDob"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyBirth, setState: setPrivacyBirth },
-    { label: t("privacyLoc"), options: [t("public"), t("friendsOnly")], state: privacyLoc, setState: setPrivacyLoc },
-    { label: t("privacyFriendList"), options: [t("public"), t("friendsOnly")], state: privacyFriendList, setState: setPrivacyFriendList },
+    { label: t("privacyLoc"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyLoc, setState: setPrivacyLoc },
+    { label: t("privacyFriendList"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyFriendList, setState: setPrivacyFriendList },
     { label: t("privacyComment"), options: [t("public"), t("friendsOnly"), t("turnOff")], state: privacyComment, setState: setPrivacyComment },
     { label: t("privacyDM"), options: [t("allow"), t("disallow")], state: privacyDM, setState: setPrivacyDM },
-    { label: t("privacyTag"), options: [t("public"), t("friendsOnly")], state: privacyTag, setState: setPrivacyTag },
-    { label: t("privacyOnline"), options: [t("show"), t("hide")], state: privacyOnline, setState: setPrivacyOnline },
+    { label: t("privacyTag"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyTag, setState: setPrivacyTag },
+    { label: t("privacyOnline"), options: [t("public"), t("friendsOnly"), t("turnOff")], state: privacyOnline, setState: setPrivacyOnline },
+    { label: t("privacyOwnedGroups"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyOwnedGroups, setState: setPrivacyOwnedGroups },
+    { label: t("privacyJoinedGroups"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyJoinedGroups, setState: setPrivacyJoinedGroups },
+    { label: t("privacyFollowers"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyFollowers, setState: setPrivacyFollowers },
+    { label: t("privacyFollowing"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyFollowing, setState: setPrivacyFollowing },
   ];
 
   return (
@@ -762,6 +771,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     <div className="space-y-3">
                       <div className="flex gap-3">
                         <input type="text" placeholder="https://website-kamu.com" className="flex-1 px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                        <CustomSelect className="w-[52px] shrink-0" options={[t("public"), t("friendsOnly"), t("private")]} value={privacyExternalLink} onChange={setPrivacyExternalLink} getIcon={getPrivacyIcon} hideLabelOnDisplay={true} hideArrow={true} />
                         <button className="p-2.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-colors border border-transparent hover:border-red-200 dark:hover:border-red-500/20 shrink-0 flex items-center justify-center">
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                         </button>
@@ -830,7 +840,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                               className="flex-1 px-3 py-2.5 bg-transparent text-gray-900 dark:text-white outline-none text-sm w-full min-w-0" 
                             />
                           </div>
-                          <CustomSelect className="w-[52px] shrink-0" options={[t("public"), t("friendsOnly")]} value={privacySosmed} onChange={setPrivacySosmed} getIcon={getPrivacyIcon} hideLabelOnDisplay={true} hideArrow={true} />
+                          <CustomSelect className="w-[52px] shrink-0" options={[t("public"), t("friendsOnly"), t("private")]} value={privacySosmed} onChange={setPrivacySosmed} getIcon={getPrivacyIcon} hideLabelOnDisplay={true} hideArrow={true} />
                           <button className="p-2.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-colors border border-transparent hover:border-red-200 dark:hover:border-red-500/20 shrink-0 flex items-center justify-center">
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                           </button></div>

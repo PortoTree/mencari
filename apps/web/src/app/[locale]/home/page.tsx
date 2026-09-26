@@ -4053,107 +4053,38 @@ export default function Beranda() {
             {/* ── Action Buttons ───────────────────────────────────────── */}
             <div className="px-4 pb-4 flex flex-col gap-2 border-b border-gray-100 dark:border-white/5">
               {selectedProfile.relation === "friend" ? (
-                <>
-                  <div className="flex gap-2">
-                    <button className="flex-1 flex items-center justify-center gap-1.5 bg-gray-100 dark:bg-white/[0.07] hover:bg-gray-200 dark:hover:bg-white/[0.12] text-gray-800 dark:text-white font-semibold py-2 rounded-xl text-[13px] transition-all">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                      {t("friend.alreadyFriend")}
-                    </button>
-                    <button onClick={() => router.push(`/${locale}/p/${selectedProfile.name}/${selectedProfile.id || "1"}`)} className="flex-1 flex items-center justify-center gap-1.5 bg-gray-100 dark:bg-white/[0.07] hover:bg-gray-200 dark:hover:bg-white/[0.12] text-gray-800 dark:text-white font-semibold py-2 rounded-xl text-[13px] transition-all">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                      {t("profileSidebar.openProfile")}
-                    </button>
-                  </div>
-                  <button className="w-full flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2.5 rounded-xl text-[13px] transition-all shadow-sm shadow-emerald-500/20 active:scale-[0.98]">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
-                    {t("profileSidebar.message")}
+                <div className="flex gap-2">
+                  <button className="flex-1 flex items-center justify-center gap-1.5 bg-gray-100 dark:bg-white/[0.07] hover:bg-gray-200 dark:hover:bg-white/[0.12] text-gray-800 dark:text-white font-semibold py-2 rounded-xl text-[13px] transition-all">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    {t("friend.alreadyFriend")}
                   </button>
-                </>
+                  <button onClick={() => router.push(`/${locale}/p/${selectedProfile.name}/${selectedProfile.id || "1"}`)} className="flex-1 flex items-center justify-center gap-1.5 bg-gray-100 dark:bg-white/[0.07] hover:bg-gray-200 dark:hover:bg-white/[0.12] text-gray-800 dark:text-white font-semibold py-2 rounded-xl text-[13px] transition-all">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                    {t("profileSidebar.openProfile")}
+                  </button>
+                </div>
               ) : selectedProfile.relation === "request" ? (
-                <>
-                  <div className="flex gap-2">
-                    <button className="flex-[1.5] flex items-center justify-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2.5 rounded-xl text-[13px] transition-all shadow-sm shadow-emerald-500/20 active:scale-[0.98]">
-                      {t("friend.accept")}
-                    </button>
-                    <button onClick={() => router.push(`/${locale}/p/${selectedProfile.name}/${selectedProfile.id || "1"}`)} className="flex-1 flex items-center justify-center bg-gray-100 dark:bg-white/[0.07] hover:bg-gray-200 dark:hover:bg-white/[0.12] text-gray-800 dark:text-white font-semibold py-2.5 rounded-xl text-[13px] transition-all">
-                      {t("profileSidebar.openProfile")}
-                    </button>
-                  </div>
-                  <button className="w-full flex items-center justify-center gap-2 bg-gray-100 dark:bg-white/[0.07] hover:bg-gray-200 dark:hover:bg-white/[0.12] text-gray-800 dark:text-white font-semibold py-2.5 rounded-xl text-[13px] transition-all">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
-                    {t("profileSidebar.message")}
+                <div className="flex gap-2">
+                  <button className="flex-[1.5] flex items-center justify-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2.5 rounded-xl text-[13px] transition-all shadow-sm shadow-emerald-500/20 active:scale-[0.98]">
+                    {t("friend.accept")}
                   </button>
-                </>
+                  <button onClick={() => router.push(`/${locale}/p/${selectedProfile.name}/${selectedProfile.id || "1"}`)} className="flex-1 flex items-center justify-center bg-gray-100 dark:bg-white/[0.07] hover:bg-gray-200 dark:hover:bg-white/[0.12] text-gray-800 dark:text-white font-semibold py-2.5 rounded-xl text-[13px] transition-all">
+                    {t("profileSidebar.openProfile")}
+                  </button>
+                </div>
               ) : (
-                <>
-                  <div className="flex gap-2">
-                    <button className="flex-[1.5] flex items-center justify-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2.5 rounded-xl text-[13px] transition-all shadow-sm shadow-emerald-500/20 active:scale-[0.98]">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>
-                      {t("profileSidebar.addFriend")}
-                    </button>
-                    <button onClick={() => router.push(`/${locale}/p/${selectedProfile.name}/${selectedProfile.id || "1"}`)} className="flex-1 flex items-center justify-center bg-gray-100 dark:bg-white/[0.07] hover:bg-gray-200 dark:hover:bg-white/[0.12] text-gray-800 dark:text-white font-semibold py-2.5 rounded-xl text-[13px] transition-all">
-                      {t("profileSidebar.openProfile")}
-                    </button>
-                  </div>
-                  <button className="w-full flex items-center justify-center gap-2 bg-gray-100 dark:bg-white/[0.07] hover:bg-gray-200 dark:hover:bg-white/[0.12] text-gray-800 dark:text-white font-semibold py-2.5 rounded-xl text-[13px] transition-all">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
-                    {t("profileSidebar.message")}
+                <div className="flex gap-2">
+                  <button className="flex-[1.5] flex items-center justify-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2.5 rounded-xl text-[13px] transition-all shadow-sm shadow-emerald-500/20 active:scale-[0.98]">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>
+                    {t("profileSidebar.addFriend")}
                   </button>
-                </>
+                  <button onClick={() => router.push(`/${locale}/p/${selectedProfile.name}/${selectedProfile.id || "1"}`)} className="flex-1 flex items-center justify-center bg-gray-100 dark:bg-white/[0.07] hover:bg-gray-200 dark:hover:bg-white/[0.12] text-gray-800 dark:text-white font-semibold py-2.5 rounded-xl text-[13px] transition-all">
+                    {t("profileSidebar.openProfile")}
+                  </button>
+                </div>
               )}
             </div>
 
-            {/* ── Activity Timeline ─────────────────────────────────────── */}
-            <div className="px-4 pt-4 pb-3 border-b border-gray-100 dark:border-white/5">
-              <div className="flex items-center justify-between mb-3">
-                <h4 className="font-bold text-[13px] uppercase tracking-wider text-gray-400 dark:text-[#666]">
-                  {t("profileSidebar.activity")}
-                </h4>
-                <a href="#" className="text-[12px] text-emerald-600 dark:text-emerald-400 hover:underline font-medium">
-                  {t("profile.seeAll") || "Lihat Semua"}
-                </a>
-              </div>
-              <div className="relative pl-5">
-                {/* vertical line */}
-                <div className="absolute left-[7px] top-2 bottom-2 w-px bg-gray-200 dark:bg-white/10" />
-                <div className="space-y-4">
-                  {[
-                    {
-                      icon: (
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
-                      ),
-                      color: "text-emerald-500 bg-emerald-50 dark:bg-emerald-500/10",
-                      text: "Membuat postingan di grup",
-                      highlight: "Web Dev Indonesia",
-                      time: "2 jam lalu",
-                    },
-                    {
-                      icon: (
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>
-                      ),
-                      color: "text-blue-500 bg-blue-50 dark:bg-blue-500/10",
-                      text: "Bergabung dengan grup",
-                      highlight: "UI/UX Enthusiast",
-                      time: "Kemarin",
-                    },
-                  ].map((act, i) => (
-                    <div key={i} className="flex items-start gap-3 relative">
-                      {/* dot */}
-                      <div className={`absolute -left-5 top-0.5 w-[14px] h-[14px] rounded-full flex items-center justify-center shrink-0 ${act.color}`}>
-                        {act.icon}
-                      </div>
-                      <div>
-                        <p className="text-[13px] text-gray-700 dark:text-[#D1D1D1] leading-snug">
-                          {act.text}{" "}
-                          <span className="font-semibold text-gray-900 dark:text-white">{act.highlight}</span>
-                        </p>
-                        <p className="text-[11px] text-gray-400 dark:text-[#666] mt-0.5">{act.time}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
 
             {/* ── Owned Groups ─────────────────────────────────────────── */}
             <div className="px-4 pt-4 pb-3 border-b border-gray-100 dark:border-white/5">
