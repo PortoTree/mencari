@@ -24,6 +24,7 @@ export default function ProfilePage({
   const [themeLoaded, setThemeLoaded] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isProfileExpanded, setIsProfileExpanded] = useState(false);
+  const [isProfileOptionsOpen, setIsProfileOptionsOpen] = useState(false);
     const [activeAlbumIdx, setActiveAlbumIdx] = useState<number | null>(null);
     const [albumGridCols, setAlbumGridCols] = useState<number>(3);
     const carouselRef = React.useRef<HTMLDivElement>(null);
@@ -324,11 +325,30 @@ export default function ProfilePage({
                     <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full text-sm shadow-sm transition-colors">
                       {t("sendMessage")}
                     </button>
-                    <button className="w-9 h-9 flex shrink-0 items-center justify-center bg-gray-200 hover:bg-gray-300 dark:bg-[#3A3B3C] dark:hover:bg-[#4E4F50] text-gray-700 dark:text-[#E4E6EB] rounded-full transition-colors shadow-sm cursor-pointer">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 12a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0z" />
-                      </svg>
-                    </button>
+                    <div className="relative">
+                      <button 
+                        onClick={() => setIsProfileOptionsOpen(!isProfileOptionsOpen)}
+                        className="w-9 h-9 flex shrink-0 items-center justify-center bg-gray-200 hover:bg-gray-300 dark:bg-[#3A3B3C] dark:hover:bg-[#4E4F50] text-gray-700 dark:text-[#E4E6EB] rounded-full transition-colors shadow-sm cursor-pointer">
+                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 12a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                      </button>
+                      {isProfileOptionsOpen && (
+                        <>
+                          <div className="fixed inset-0 z-40" onClick={() => setIsProfileOptionsOpen(false)} />
+                          <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-[#242526] rounded-xl shadow-lg border border-gray-100 dark:border-white/10 overflow-hidden z-50">
+                            <button className="w-full px-4 py-3 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] flex items-center gap-3 transition-colors">
+                              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                              {t("reportAccount") || "Laporkan akun"}
+                            </button>
+                            <button className="w-full px-4 py-3 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/10 flex items-center gap-3 transition-colors border-t border-gray-100 dark:border-white/5">
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
+                              {t("blockAccount") || "Block"}
+                            </button>
+                          </div>
+                        </>
+                      )}
+                    </div>
                   </>
                 )}
               </div>
@@ -549,7 +569,7 @@ export default function ProfilePage({
                         <div ref={albumCarouselRef} className="flex overflow-x-auto gap-4 sidebar-scrollbar snap-x snap-mandatory py-2 px-1">
 
                       {[...Array(8)].map((_, i) => (
-                        <div key={i} onClick={() => setActiveAlbumIdx(activeAlbumIdx === i ? null : i)} className={`shrink-0 w-[140px] snap-start flex flex-col gap-1.5 group cursor-pointer p-1 rounded-xl transition-colors ${activeAlbumIdx === i ? 'bg-gray-100 dark:bg-[#3A3B3C]' : 'hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50'}`}>
+                        <div key={i} onClick={() => setActiveAlbumIdx(activeAlbumIdx === i ? null : i)} className={`shrink-0 w-[140px] snap-start flex flex-col gap-1.5 group cursor-pointer p-1 rounded-xl transition-colors ${activeAlbumIdx === i ? 'bg-gray-100 dark:bg-[#3A3B3C]' : 'hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50'}`}>
                           <div className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden relative border border-gray-100 dark:border-[#3E4042]">
                             <img src="/sampul-placeholder.png" alt={`Media ${i}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>

@@ -353,7 +353,9 @@
     "dummyProf2": "Desainer UI/UX",
     "dummyProf3": "Konten Kreator",
     "dummyGroup1": "Komunitas Developer",
-    "dummyGroup2": "Komunitas Desain"
+    "dummyGroup2": "Komunitas Desain",
+    "reportAccount": "Laporkan akun",
+    "blockAccount": "Block"
   },
   "editProfile": {
     "title": "Edit Profil",

@@ -351,6 +351,7 @@ export default function Beranda() {
   const [activeMessageDropdown, setActiveMessageDropdown] = useState<number | null>(null);
   const messageDropdownRef = useRef<HTMLDivElement>(null);
   const [isProfileSidebarOpen, setIsProfileSidebarOpen] = useState(false);
+  const [isProfileSidebarOptionsOpen, setIsProfileSidebarOptionsOpen] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState<any>(null);
   const postMenuRef = useRef<HTMLDivElement>(null);
   const langRef = useRef<HTMLDivElement>(null);
@@ -1358,7 +1359,7 @@ export default function Beranda() {
                     <div className="relative">
                       <button 
                         onClick={() => setIsProductSortOpen(!isProductSortOpen)}
-                        className="flex items-center justify-center w-[42px] h-[42px] bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3E4042] rounded-full text-gray-600 dark:text-[#B0B3B8] hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors shadow-sm"
+                        className="flex items-center justify-center w-[42px] h-[42px] bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3E4042] rounded-full text-gray-600 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors shadow-sm"
                       >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" /></svg>
                       </button>
@@ -3435,7 +3436,7 @@ export default function Beranda() {
         {!isFloatingChatInfoOpen ? (
           <>
           {/* Header */}
-          <div className="h-[60px] bg-white dark:bg-[#242526] border-b border-gray-200 dark:border-[#3E4042] flex items-center justify-between px-4 shadow-sm shrink-0 rounded-t-xl hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors cursor-pointer" onClick={() => setIsFloatingChatInfoOpen(true)}>
+          <div className="h-[60px] bg-white dark:bg-[#242526] border-b border-gray-200 dark:border-[#3E4042] flex items-center justify-between px-4 shadow-sm shrink-0 rounded-t-xl hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors cursor-pointer" onClick={() => setIsFloatingChatInfoOpen(true)}>
             <div className="flex items-center gap-2 min-w-0">
               <div className="relative w-10 h-10 shrink-0">
                 <img
@@ -3759,13 +3760,13 @@ export default function Beranda() {
                       <svg className="w-5 h-5 text-gray-500 group-hover:text-black dark:group-hover:text-[#E4E6EB] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                     </button>
                     <div className="flex flex-col gap-2 pb-4">
-                       <a href="#" className="flex items-center gap-3 p-2 -mx-2 text-[14px] text-[#2D88FF] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 rounded-lg group/link transition-colors">
+                       <a href="#" className="flex items-center gap-3 p-2 -mx-2 text-[14px] text-[#2D88FF] hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50 rounded-lg group/link transition-colors">
                          <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center shrink-0">
                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
                          </div>
                          <span className="truncate group-hover/link:underline">https://dribbble.com/shots/popular</span>
                        </a>
-                       <a href="#" className="flex items-center gap-3 p-2 -mx-2 text-[14px] text-[#2D88FF] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 rounded-lg group/link transition-colors">
+                       <a href="#" className="flex items-center gap-3 p-2 -mx-2 text-[14px] text-[#2D88FF] hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50 rounded-lg group/link transition-colors">
                          <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center shrink-0">
                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
                          </div>
@@ -3810,7 +3811,7 @@ export default function Beranda() {
                       <svg className="w-5 h-5 text-gray-500 group-hover:text-black dark:group-hover:text-[#E4E6EB] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                     </button>
                     <div className="flex flex-col gap-1 pb-4">
-                      <div className="flex items-center gap-3 cursor-pointer group/file p-2 -mx-2 hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 rounded-lg transition-colors">
+                      <div className="flex items-center gap-3 cursor-pointer group/file p-2 -mx-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50 rounded-lg transition-colors">
                         <div className="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-500/10 border border-red-100 dark:border-red-500/20 flex items-center justify-center shrink-0">
                            <span className="text-[11px] font-bold text-red-600 dark:text-red-400">PDF</span>
                         </div>
@@ -3819,7 +3820,7 @@ export default function Beranda() {
                           <p className="text-[12px] text-gray-500">2.4 MB • 12 Ags</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-3 cursor-pointer group/file p-2 -mx-2 hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 rounded-lg transition-colors">
+                      <div className="flex items-center gap-3 cursor-pointer group/file p-2 -mx-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50 rounded-lg transition-colors">
                         <div className="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20 flex items-center justify-center shrink-0">
                            <span className="text-[11px] font-bold text-blue-600 dark:text-blue-400">DOC</span>
                         </div>
@@ -3966,7 +3967,32 @@ export default function Beranda() {
       >
         {selectedProfile && (
           <>
-            <div className="sticky top-3 z-50 flex justify-end px-3 w-full" style={{ height: 0, pointerEvents: 'none' }}>
+            <div className="sticky top-3 z-50 flex justify-end px-3 w-full gap-2" style={{ height: 0, pointerEvents: 'none' }}>
+              <div className="relative pointer-events-auto">
+                <button
+                  onClick={() => setIsProfileSidebarOptionsOpen(!isProfileSidebarOptionsOpen)}
+                  className="w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-sm text-white flex items-center justify-center transition-all hover:scale-110 shadow-md"
+                >
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 12a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </button>
+                {isProfileSidebarOptionsOpen && (
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setIsProfileSidebarOptionsOpen(false)} />
+                    <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-[#242526] rounded-xl shadow-lg border border-gray-100 dark:border-white/10 overflow-hidden z-50">
+                      <button className="w-full px-4 py-3 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] flex items-center gap-3 transition-colors">
+                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                        {t("profile.reportAccount") || "Laporkan akun"}
+                      </button>
+                      <button className="w-full px-4 py-3 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/10 flex items-center gap-3 transition-colors border-t border-gray-100 dark:border-white/5">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
+                        {t("profile.blockAccount") || "Block"}
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
               <button
                 onClick={() => setIsProfileSidebarOpen(false)}
                 className="w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-sm text-white flex items-center justify-center transition-all hover:scale-110 pointer-events-auto shadow-md"
@@ -4560,7 +4586,7 @@ export default function Beranda() {
                     </div>
 
                     {/* Permissions */}
-                    <div className="p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 transition-colors">
+                    <div className="p-4 flex items-center justify-between cursor-pointer hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50 transition-colors">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
@@ -4678,13 +4704,13 @@ export default function Beranda() {
                         <svg className="w-6 h-6 text-gray-500 group-hover:text-black dark:group-hover:text-[#E4E6EB] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                       </button>
                       <div className="flex flex-col gap-3 pb-6 px-4">
-                         <a href="#" className="flex items-center gap-3 p-3 text-[15px] text-[#2D88FF] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 rounded-xl group/link transition-colors">
+                         <a href="#" className="flex items-center gap-3 p-3 text-[15px] text-[#2D88FF] hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50 rounded-xl group/link transition-colors">
                            <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center shrink-0">
                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
                            </div>
                            <span className="truncate group-hover/link:underline">https://dribbble.com/shots/popular</span>
                          </a>
-                         <a href="#" className="flex items-center gap-3 p-3 text-[15px] text-[#2D88FF] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 rounded-xl group/link transition-colors">
+                         <a href="#" className="flex items-center gap-3 p-3 text-[15px] text-[#2D88FF] hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50 rounded-xl group/link transition-colors">
                            <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center shrink-0">
                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
                            </div>
@@ -4729,7 +4755,7 @@ export default function Beranda() {
                         <svg className="w-6 h-6 text-gray-500 group-hover:text-black dark:group-hover:text-[#E4E6EB] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                       </button>
                       <div className="flex flex-col gap-2 pb-6 px-4">
-                        <div className="flex items-center gap-4 cursor-pointer group/file p-3 hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 rounded-xl transition-colors">
+                        <div className="flex items-center gap-4 cursor-pointer group/file p-3 hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50 rounded-xl transition-colors">
                           <div className="w-12 h-12 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-100 dark:border-red-500/20 flex items-center justify-center shrink-0">
                              <span className="text-[12px] font-bold text-red-600 dark:text-red-400">PDF</span>
                           </div>
@@ -4738,7 +4764,7 @@ export default function Beranda() {
                             <p className="text-[13px] text-gray-500 mt-0.5">2.4 MB • 12 Ags</p>
                           </div>
                         </div>
-                        <div className="flex items-center gap-4 cursor-pointer group/file p-3 hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 rounded-xl transition-colors">
+                        <div className="flex items-center gap-4 cursor-pointer group/file p-3 hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50 rounded-xl transition-colors">
                           <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20 flex items-center justify-center shrink-0">
                              <span className="text-[12px] font-bold text-blue-600 dark:text-blue-400">DOC</span>
                           </div>
@@ -5459,13 +5485,13 @@ export default function Beranda() {
                       <svg className="w-5 h-5 text-gray-500 group-hover:text-black dark:group-hover:text-[#E4E6EB] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                     </button>
                     <div className="flex flex-col gap-2 pb-4">
-                       <a href="#" className="flex items-center gap-3 p-2 -mx-2 text-[14px] text-[#2D88FF] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 rounded-lg group/link transition-colors">
+                       <a href="#" className="flex items-center gap-3 p-2 -mx-2 text-[14px] text-[#2D88FF] hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50 rounded-lg group/link transition-colors">
                          <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center shrink-0">
                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
                          </div>
                          <span className="truncate group-hover/link:underline">https://dribbble.com/shots/popular</span>
                        </a>
-                       <a href="#" className="flex items-center gap-3 p-2 -mx-2 text-[14px] text-[#2D88FF] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 rounded-lg group/link transition-colors">
+                       <a href="#" className="flex items-center gap-3 p-2 -mx-2 text-[14px] text-[#2D88FF] hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50 rounded-lg group/link transition-colors">
                          <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center shrink-0">
                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
                          </div>
@@ -5510,7 +5536,7 @@ export default function Beranda() {
                       <svg className="w-5 h-5 text-gray-500 group-hover:text-black dark:group-hover:text-[#E4E6EB] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                     </button>
                     <div className="flex flex-col gap-1 pb-4">
-                      <div className="flex items-center gap-3 cursor-pointer group/file p-2 -mx-2 hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 rounded-lg transition-colors">
+                      <div className="flex items-center gap-3 cursor-pointer group/file p-2 -mx-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50 rounded-lg transition-colors">
                         <div className="w-10 h-10 rounded-lg bg-red-50 dark:bg-red-500/10 border border-red-100 dark:border-red-500/20 flex items-center justify-center shrink-0">
                            <span className="text-[11px] font-bold text-red-600 dark:text-red-400">PDF</span>
                         </div>
@@ -5519,7 +5545,7 @@ export default function Beranda() {
                           <p className="text-[12px] text-gray-500">2.4 MB • 12 Ags</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-3 cursor-pointer group/file p-2 -mx-2 hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 rounded-lg transition-colors">
+                      <div className="flex items-center gap-3 cursor-pointer group/file p-2 -mx-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50 rounded-lg transition-colors">
                         <div className="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20 flex items-center justify-center shrink-0">
                            <span className="text-[11px] font-bold text-blue-600 dark:text-blue-400">DOC</span>
                         </div>
@@ -5801,11 +5827,11 @@ export default function Beranda() {
                     </button>
                     {isPrivacyDropdownOpen && (
                       <div className="absolute top-full left-0 mt-1 w-40 bg-white dark:bg-[#242526] rounded-lg shadow-xl border border-gray-200 dark:border-[#3E4042] py-2 z-50">
-                        <button onClick={() => { setPostPrivacy("public"); setIsPrivacyDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] text-left">
+                        <button onClick={() => { setPostPrivacy("public"); setIsPrivacyDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left">
                           <svg className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clipRule="evenodd" /></svg>
                           <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">Public</span>
                         </button>
-                        <button onClick={() => { setPostPrivacy("friends"); setIsPrivacyDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] text-left">
+                        <button onClick={() => { setPostPrivacy("friends"); setIsPrivacyDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left">
                           <svg className="w-5 h-5 text-gray-500 dark:text-[#B0B3B8]" fill="currentColor" viewBox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" /></svg>
                           <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">Friends</span>
                         </button>
@@ -5841,16 +5867,16 @@ export default function Beranda() {
                       <div className="flex items-center justify-between border border-gray-300 dark:border-[#4E4F50] rounded-xl p-3 mb-4 shadow-sm">
                         <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">Add to your post</span>
                         <div className="flex items-center gap-1">
-                          <button className="p-1.5 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
+                          <button className="p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
                             <svg className="w-6 h-6 text-[#45BD62]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" /></svg>
                           </button>
-                          <button className="p-1.5 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
+                          <button className="p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
                             <svg className="w-6 h-6 text-[#1877F2]" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm12.553 1.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" /></svg>
                           </button>
-                          <button className="p-1.5 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
+                          <button className="p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
                             <svg className="w-6 h-6 text-[#F97316]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" /></svg>
                           </button>
-                          <button className="p-1.5 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
+                          <button className="p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
                             <svg className="w-6 h-6 text-[#F5C33B]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" /></svg>
                           </button>
                         </div>

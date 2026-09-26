@@ -353,7 +353,9 @@
     "dummyProf2": "UI/UX Designer",
     "dummyProf3": "Content Creator",
     "dummyGroup1": "Developer Community",
-    "dummyGroup2": "Design Community"
+    "dummyGroup2": "Design Community",
+    "reportAccount": "Report Account",
+    "blockAccount": "Block Account"
   },
   "editProfile": {
     "title": "Edit Profile",
