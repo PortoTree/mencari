@@ -355,104 +355,93 @@ export default function ProfilePage({
             </div>
 
               
-              {/* Suggestion Carousel */}
-              <div className="w-full mt-2 mb-0">
-                <div className="flex items-center justify-between mb-3 px-1">
-                  <h3 className="text-[15px] font-bold text-black dark:text-white">{t("suggestedForYou")}</h3>
-                  <button className="text-[13px] font-bold text-[#10B981] hover:text-emerald-700 transition-colors">{t("seeAll")}</button>
-                </div>
+              {/* Groups Section */}
+              <div className="w-full mt-4 mb-2 flex flex-col gap-6">
                 
-                <div className="relative group">
-                  {/* Left Arrow */}
-                  <button 
-                    onClick={() => scrollCarousel('left')} 
-                    className="absolute -left-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 rounded-full flex items-center justify-center shadow-md z-10 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                  >
-                    <svg className="w-4 h-4 text-gray-700 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
-                  </button>
-
-                  {/* Carousel Container */}
-                  <div ref={carouselRef} className="flex gap-4 overflow-x-auto pb-4 snap-x scrollbar-hide px-1" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                    
-                    {/* Dummy Account 1 */}
-                    <div className="w-[170px] shrink-0 bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3A3B3C] rounded-[24px] p-5 flex flex-col items-center shadow-sm snap-start">
-                      <img src="/default-avatar.svg" alt="Avatar" className="w-[80px] h-[80px] rounded-full object-cover mb-3 border-[3px] border-gray-100 dark:border-[#3A3B3C]" />
-                      <p className="text-[15px] font-bold text-black dark:text-white text-center leading-tight truncate w-full">Budi Santoso</p>
-                      <p className="text-[13px] text-gray-500 dark:text-gray-400 mb-1 truncate w-full text-center">@budis</p>
-                      <p className="text-[12px] text-gray-400 dark:text-gray-500 mb-4 truncate w-full text-center">{t("dummyProf1")}</p>
-                      <button className="w-full bg-[#10B981] hover:bg-emerald-600 text-white text-[13px] font-bold py-2 rounded-full transition-colors shadow-sm mt-auto">
-                        + {t("addFriend")}
-                      </button>
-                    </div>
-
-                    {/* Dummy Group 1 */}
-                    <div className="w-[170px] shrink-0 bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3A3B3C] rounded-[24px] p-5 flex flex-col items-center shadow-sm snap-start">
-                      <div className="w-[80px] h-[80px] rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 mb-3 flex items-center justify-center text-white font-bold text-2xl shadow-inner">
-                        NG
-                      </div>
-                      <p className="text-[15px] font-bold text-black dark:text-white text-center leading-tight truncate w-full">Next.js Indo</p>
-                      <p className="text-[13px] text-gray-500 dark:text-gray-400 mb-1 truncate w-full text-center">12K {t("members")}</p>
-                      <p className="text-[12px] text-gray-400 dark:text-gray-500 mb-4 truncate w-full text-center">{t("dummyGroup1")}</p>
-                      <button className="w-full border-2 border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white text-[13px] font-bold py-[7px] rounded-full transition-colors shadow-sm mt-auto">
-                        {t("join")}
-                      </button>
-                    </div>
-
-                    {/* Dummy Account 2 */}
-                    <div className="w-[170px] shrink-0 bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3A3B3C] rounded-[24px] p-5 flex flex-col items-center shadow-sm snap-start">
-                      <img src="/default-avatar.svg" alt="Avatar" className="w-[80px] h-[80px] rounded-full object-cover mb-3 border-[3px] border-gray-100 dark:border-[#3A3B3C]" />
-                      <p className="text-[15px] font-bold text-black dark:text-white text-center leading-tight truncate w-full">Siti Aisyah</p>
-                      <p className="text-[13px] text-gray-500 dark:text-gray-400 mb-1 truncate w-full text-center">@siti_a</p>
-                      <p className="text-[12px] text-gray-400 dark:text-gray-500 mb-4 truncate w-full text-center">{t("dummyProf2")}</p>
-                      <button className="w-full bg-[#10B981] hover:bg-emerald-600 text-white text-[13px] font-bold py-2 rounded-full transition-colors shadow-sm mt-auto">
-                        + {t("addFriend")}
-                      </button>
-                    </div>
-
-                    {/* Dummy Group 2 */}
-                    <div className="w-[170px] shrink-0 bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3A3B3C] rounded-[24px] p-5 flex flex-col items-center shadow-sm snap-start">
-                      <div className="w-[80px] h-[80px] rounded-xl bg-gradient-to-br from-orange-400 to-red-500 mb-3 flex items-center justify-center text-white font-bold text-2xl shadow-inner">
-                        UI
-                      </div>
-                      <p className="text-[15px] font-bold text-black dark:text-white text-center leading-tight truncate w-full">UI/UX Design</p>
-                      <p className="text-[13px] text-gray-500 dark:text-gray-400 mb-1 truncate w-full text-center">8.5K {t("members")}</p>
-                      <p className="text-[12px] text-gray-400 dark:text-gray-500 mb-4 truncate w-full text-center">{t("dummyGroup2")}</p>
-                      <button className="w-full border-2 border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white text-[13px] font-bold py-[7px] rounded-full transition-colors shadow-sm mt-auto">
-                        {t("join")}
-                      </button>
-                    </div>
-
-                    {/* Dummy Account 3 */}
-                    <div className="w-[170px] shrink-0 bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3A3B3C] rounded-[24px] p-5 flex flex-col items-center shadow-sm snap-start">
-                      <img src="/default-avatar.svg" alt="Avatar" className="w-[80px] h-[80px] rounded-full object-cover mb-3 border-[3px] border-gray-100 dark:border-[#3A3B3C]" />
-                      <p className="text-[15px] font-bold text-black dark:text-white text-center leading-tight truncate w-full">Ahmad Reza</p>
-                      <p className="text-[13px] text-gray-500 dark:text-gray-400 mb-1 truncate w-full text-center">@areza</p>
-                      <p className="text-[12px] text-gray-400 dark:text-gray-500 mb-4 truncate w-full text-center">{t("dummyProf3")}</p>
-                      <button className="w-full bg-[#10B981] hover:bg-emerald-600 text-white text-[13px] font-bold py-2 rounded-full transition-colors shadow-sm mt-auto">
-                        + {t("addFriend")}
-                      </button>
-                    </div>
-
+                {/* 1. Grup yang kamu buat */}
+                <div>
+                  <div className="flex items-center justify-between mb-3 px-1">
+                    <h3 className="text-[15px] font-bold text-black dark:text-white flex items-center gap-2">
+                      <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                      Grup yang Dikelola
+                    </h3>
+                    <button className="text-[13px] font-bold text-[#10B981] hover:text-emerald-700 transition-colors">{t("seeAll") || "Lihat Semua"}</button>
                   </div>
-
-                  {/* Right Arrow */}
-                  <button 
-                    onClick={() => scrollCarousel('right')} 
-                    className="absolute -right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 rounded-full flex items-center justify-center shadow-md z-10 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                  >
-                    <svg className="w-4 h-4 text-gray-700 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
-                  </button>
-
+                  <div className="flex flex-col gap-2">
+                    {[
+                      { name: 'Developer Indo', members: '12.5k', role: 'Admin', color: 'from-blue-500 to-cyan-400', initial: 'DI' },
+                      { name: 'UI/UX Enthusiast', members: '8.2k', role: 'Admin', color: 'from-purple-500 to-pink-500', initial: 'UX' }
+                    ].map((group, idx) => (
+                      <div key={idx} className="flex items-center justify-between p-3 rounded-2xl bg-white/40 dark:bg-[#242526]/40 border border-gray-100 dark:border-white/5 hover:bg-white dark:hover:bg-[#2A2B2C] hover:shadow-sm transition-all cursor-pointer group">
+                        <div className="flex items-center gap-3">
+                          <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${group.color} flex items-center justify-center text-white font-bold shadow-sm group-hover:scale-105 transition-transform`}>
+                            {group.initial}
+                          </div>
+                          <div>
+                            <p className="text-[14px] font-bold text-gray-900 dark:text-white leading-tight">{group.name}</p>
+                            <p className="text-[12px] text-gray-500 dark:text-gray-400 mt-0.5">{group.members} Member</p>
+                          </div>
+                        </div>
+                        <span className="text-[11px] font-bold px-2.5 py-1 bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-lg">{group.role}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                
-                {/* CSS to hide scrollbar but keep functionality */}
+
+                {/* 2. Grup yang diikuti */}
+                <div className="w-full mt-2">
+                  <div className="flex items-center justify-between mb-3 px-1">
+                    <h3 className="text-[15px] font-bold text-black dark:text-white flex items-center gap-2">
+                      <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
+                      Grup yang Diikuti
+                    </h3>
+                    <button className="text-[13px] font-bold text-[#10B981] hover:text-emerald-700 transition-colors">{t("seeAll") || "Lihat Semua"}</button>
+                  </div>
+                  
+                  <div className="relative group">
+                    <button 
+                      onClick={() => scrollCarousel('left')} 
+                      className="absolute -left-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 rounded-full flex items-center justify-center shadow-md z-10 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                    >
+                      <svg className="w-4 h-4 text-gray-700 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
+                    </button>
+
+                    <div ref={carouselRef} className="flex overflow-x-auto gap-4 pb-4 sidebar-scrollbar snap-x px-1 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                      {[
+                        { name: 'Next.js Masters', members: '45k', color: 'from-gray-800 to-black dark:from-gray-200 dark:to-gray-400', textColor: 'text-white dark:text-gray-900', initial: 'NM' },
+                        { name: 'Tailwind CSS', members: '92k', color: 'from-teal-400 to-emerald-500', textColor: 'text-white', initial: 'TW' },
+                        { name: 'Framer Motion', members: '18k', color: 'from-fuchsia-500 to-pink-500', textColor: 'text-white', initial: 'FM' },
+                        { name: 'React Native', members: '32k', color: 'from-blue-500 to-blue-600', textColor: 'text-white', initial: 'RN' }
+                      ].map((group, idx) => (
+                        <div key={idx} className="w-[170px] shrink-0 bg-white dark:bg-[#242526] border border-gray-200 dark:border-[#3A3B3C] rounded-[24px] p-5 flex flex-col items-center shadow-sm snap-start">
+                          <div className={`w-[80px] h-[80px] rounded-xl bg-gradient-to-br ${group.color} ${group.textColor} flex items-center justify-center font-black text-3xl mb-3 shadow-inner group-hover:scale-105 transition-transform`}>
+                            {group.initial}
+                          </div>
+                          <p className="text-[15px] font-bold text-black dark:text-white text-center leading-tight truncate w-full">{group.name}</p>
+                          <p className="text-[13px] text-gray-500 dark:text-gray-400 mb-1 truncate w-full text-center">{group.members} Member</p>
+                          <p className="text-[12px] text-gray-400 dark:text-gray-500 mb-4 truncate w-full text-center">Komunitas Developer</p>
+                          <button className="w-full border-2 border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white text-[13px] font-bold py-[7px] rounded-full transition-colors shadow-sm mt-auto">
+                            Kunjungi
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+
+                    <button 
+                      onClick={() => scrollCarousel('right')} 
+                      className="absolute -right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white dark:bg-[#3A3B3C] border border-gray-200 dark:border-gray-600 rounded-full flex items-center justify-center shadow-md z-10 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                    >
+                      <svg className="w-4 h-4 text-gray-700 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                    </button>
+                  </div>
+                </div>
+
                 <style dangerouslySetInnerHTML={{__html: `
                   .scrollbar-hide::-webkit-scrollbar {
                       display: none;
                   }
                 `}} />
               </div>
-
 
               {/* Divider */}
               <div className="w-full border-t border-gray-300 dark:border-gray-700 mt-4"></div>
