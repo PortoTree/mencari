@@ -88,6 +88,20 @@ export default function ProfilePage({
     setThemeLoaded(true);
   }, []);
 
+  useEffect(() => {
+    if (isDetailModalOpen) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    }
+    return () => { 
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, [isDetailModalOpen]);
+
   return (
     <main className="min-h-screen bg-[#F3F2EF] dark:bg-[#18191A] text-black dark:text-[#E4E6EB] pb-20 pt-[56px] font-sans">
       <Navbar activeTab={null} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} themeLoaded={themeLoaded} currentUser={currentUser} />
@@ -735,7 +749,7 @@ export default function ProfilePage({
       
       {/* Detail Modal */}
       {isDetailModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setIsDetailModalOpen(false)}>
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/60 animate-in fade-in duration-200" onClick={() => setIsDetailModalOpen(false)}>
           <div 
             className="w-full max-w-xl bg-white dark:bg-[#242526] rounded-[28px] shadow-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-200"
             onClick={e => e.stopPropagation()}
