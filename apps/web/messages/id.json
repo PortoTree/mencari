@@ -361,7 +361,12 @@
     "visit": "Kunjungi",
     "developerCommunity": "Komunitas Developer",
     "viewGroup": "Lihat grup",
-    "joinGroup": "Gabung grup"
+    "joinGroup": "Gabung grup",
+    "skills": "Keahlian & Skill",
+    "hobbies": "Hobby",
+    "interests": "Ketertarikan",
+    "viewDetails": "Lihat Detail",
+    "profileDetails": "Detail Profil"
   },
   "editProfile": {
     "title": "Edit Profil",

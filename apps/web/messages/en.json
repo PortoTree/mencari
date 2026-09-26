@@ -361,7 +361,12 @@
     "visit": "Visit",
     "developerCommunity": "Developer Community",
     "viewGroup": "View Group",
-    "joinGroup": "Join Group"
+    "joinGroup": "Join Group",
+    "skills": "Skills & Expertise",
+    "hobbies": "Hobbies",
+    "interests": "Interests",
+    "viewDetails": "View Details",
+    "profileDetails": "Profile Details"
   },
   "editProfile": {
     "title": "Edit Profile",

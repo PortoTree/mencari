@@ -23,6 +23,7 @@ export default function ProfilePage({
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [themeLoaded, setThemeLoaded] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isProfileExpanded, setIsProfileExpanded] = useState(false);
   const [isProfileOptionsOpen, setIsProfileOptionsOpen] = useState(false);
     const [activeAlbumIdx, setActiveAlbumIdx] = useState<number | null>(null);
@@ -288,8 +289,22 @@ export default function ProfilePage({
               </div>
               </div>
 
-              
+              {/* View Details Button */}
+              <button 
+                onClick={() => setIsDetailModalOpen(true)}
+                className="w-full mt-4 bg-white dark:bg-[#242526] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 border border-gray-200 dark:border-[#3A3B3C] rounded-[24px] p-4 shadow-sm flex items-center justify-between transition-colors group"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center text-emerald-500">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  </div>
+                  <span className="font-bold text-gray-800 dark:text-gray-200 text-[14px]">{t("viewDetails")}</span>
                 </div>
+                <svg className="w-5 h-5 text-gray-400 group-hover:text-emerald-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+              </button>
+
+              </div>
+
             {/* Right Content Area */}
           <div className="flex-1 flex flex-col gap-4 md:mt-24 min-w-0">
             
@@ -716,6 +731,114 @@ export default function ProfilePage({
           </div>
       </div>
       </div>
+
+      
+      {/* Detail Modal */}
+      {isDetailModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setIsDetailModalOpen(false)}>
+          <div 
+            className="w-full max-w-xl bg-white dark:bg-[#242526] rounded-[28px] shadow-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-200"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between p-5 border-b border-gray-100 dark:border-white/5 shrink-0">
+              <h2 className="text-[18px] font-bold text-gray-900 dark:text-white">{t("profileDetails")}</h2>
+              <button 
+                onClick={() => setIsDetailModalOpen(false)}
+                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-[#3A3B3C] text-gray-500 transition-colors"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            
+            <div className="p-6 overflow-y-auto custom-scrollbar flex flex-col gap-8">
+              
+              {/* Skills */}
+              <div>
+                <h3 className="text-[16px] font-bold text-gray-900 dark:text-gray-100 mb-4">{t("skills")}</h3>
+                <div className="flex flex-col gap-5">
+                  
+                  <div>
+                    <div className="flex items-center gap-2 mb-2.5">
+                      <svg className="w-4.5 h-4.5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                      <span className="text-[14px] font-bold text-gray-700 dark:text-gray-300">Hard Skill</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {['React.js', 'Next.js', 'Node.js', 'TypeScript', 'GraphQL'].map((skill, i) => (
+                        <span key={i} className="px-3 py-1.5 bg-gray-50 dark:bg-[#3A3B3C]/40 text-gray-700 dark:text-gray-300 rounded-lg text-[13px] font-semibold border border-gray-200 dark:border-white/5 cursor-default">{skill}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center gap-2 mb-2.5">
+                      <svg className="w-4.5 h-4.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" /></svg>
+                      <span className="text-[14px] font-bold text-gray-700 dark:text-gray-300">Soft Skill</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {['Problem Solving', 'Leadership', 'Communication', 'Teamwork'].map((skill, i) => (
+                        <span key={i} className="px-3 py-1.5 bg-gray-50 dark:bg-[#3A3B3C]/40 text-gray-700 dark:text-gray-300 rounded-lg text-[13px] font-semibold border border-gray-200 dark:border-white/5 cursor-default">{skill}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center gap-2 mb-2.5">
+                      <svg className="w-4.5 h-4.5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" /></svg>
+                      <span className="text-[14px] font-bold text-gray-700 dark:text-gray-300">Software Skill</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {['VS Code', 'Figma', 'Postman', 'Docker', 'Git'].map((skill, i) => (
+                        <span key={i} className="px-3 py-1.5 bg-gray-50 dark:bg-[#3A3B3C]/40 text-gray-700 dark:text-gray-300 rounded-lg text-[13px] font-semibold border border-gray-200 dark:border-white/5 cursor-default">{skill}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              {/* Hobbies */}
+              <div>
+                <h3 className="text-[16px] font-bold text-gray-900 dark:text-gray-100 mb-4">{t("hobbies")}</h3>
+                <div className="flex flex-col gap-2.5">
+                  {[
+                    { name: 'Sepak bola', icon: 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064', color: 'text-green-500' },
+                    { name: 'Gaming', icon: 'M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z', color: 'text-purple-500' },
+                    { name: 'Membaca', icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253', color: 'text-blue-500' }
+                  ].map((hobby, i) => (
+                    <div key={i} className="flex items-center gap-3 p-3.5 bg-gray-50/50 dark:bg-[#3A3B3C]/20 border border-gray-100 dark:border-white/5 rounded-2xl cursor-default">
+                      <svg className={`w-5 h-5 ${hobby.color}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={hobby.icon} /></svg>
+                      <span className="text-[14px] font-semibold text-gray-800 dark:text-gray-200">{hobby.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Ketertarikan */}
+              <div>
+                <h3 className="text-[16px] font-bold text-gray-900 dark:text-gray-100 mb-4">{t("interests")}</h3>
+                <div className="flex flex-col gap-2.5">
+                  {[
+                    { type: 'Music', value: 'Linkin Park, Avenged Sevenfold, dan Bruno Mars', icon: 'M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3', color: 'text-pink-500' },
+                    { type: 'TV Shows', value: 'Game of Thrones, Breaking Bad, Stranger Things', icon: 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', color: 'text-indigo-500' },
+                    { type: 'Films', value: 'Interstellar, The Matrix, Inception, Avengers', icon: 'M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z', color: 'text-red-500' },
+                    { type: 'Games', value: 'Valorant, Dota 2, Cyberpunk 2077, Elden Ring', icon: 'M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z', color: 'text-amber-500' },
+                    { type: 'Sports', value: 'Manchester United, Real Madrid, Valentino Rossi', icon: 'M13 10V3L4 14h7v7l9-11h-7z', color: 'text-teal-500' }
+                  ].map((interest, i) => (
+                    <div key={i} className="flex items-start gap-3.5 p-3.5 bg-gray-50/50 dark:bg-[#3A3B3C]/20 border border-gray-100 dark:border-white/5 rounded-2xl cursor-default">
+                      <svg className={`w-5 h-5 mt-0.5 shrink-0 ${interest.color}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={interest.icon} /></svg>
+                      <div className="flex flex-col">
+                        <span className="text-[12px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">{interest.type}</span>
+                        <span className="text-[14px] font-medium text-gray-800 dark:text-gray-200 mt-0.5 leading-snug">{interest.value}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      )}
 
       <EditProfileModal 
         isOpen={isEditModalOpen} 
