@@ -220,6 +220,8 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [isEditingSport, setIsEditingSport] = useState(false);
   const [selectedSport, setSelectedSport] = useState<string[]>([]);
   const [expCurrent, setExpCurrent] = useState(false);
+  const [isEditingEducation, setIsEditingEducation] = useState(false);
+  const [eduCurrent, setEduCurrent] = useState(false);
   const [bioText, setBioText] = useState("");
 
   // Form States (for custom selects)
@@ -304,6 +306,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
     { id: "dasar", label: t("basicInfo") },
     { id: "tampilan", label: t("appearance") },
     { id: "profesi", label: t("profession") },
+    { id: "pendidikan", label: t("education") },
     { id: "links", label: t("links") },
     { id: "sosmed", label: t("socialMedia") },
     { id: "skill", label: t("skill") },
@@ -680,6 +683,59 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     <div className="flex justify-end gap-2 pt-4">
                       <button onClick={() => setIsEditingExperience(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
                       <button onClick={() => setIsEditingExperience(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* PENDIDIKAN */}
+            {activeTab === "pendidikan" && (
+              <div className="space-y-6 max-w-xl animate-in fade-in duration-200">
+                {!isEditingEducation ? (
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">{t("eduNow")}</h3>
+                    <button onClick={() => setIsEditingEducation(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
+                      <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 14l9-5-9-5-9 5 9 5z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" /></svg>
+                      </div>
+                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("addEdu")}</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4 animate-in fade-in duration-200 pb-20">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t("eduNow")}</h3>
+                    
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">{t("eduSchool")}</label>
+                        <input type="text" placeholder={t("eduSchoolPlaceholder")} className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">{t("eduDegree")}</label>
+                        <input type="text" placeholder={t("eduDegreePlaceholder")} className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">{t("eduStart")}</label>
+                          <input type="number" placeholder="2020" className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">{t("eduEnd")}</label>
+                          <input type="number" placeholder="2024" disabled={eduCurrent} className={`w-full px-4 py-2.5 rounded-xl border outline-none transition-all ${eduCurrent ? 'bg-gray-100 dark:bg-[#2A2B2C] border-transparent text-gray-400 cursor-not-allowed' : 'bg-transparent border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white'}`} />
+                        </div>
+                      </div>
+                      
+                      <label className="flex items-center gap-2.5 cursor-pointer pt-1">
+                        <input type="checkbox" checked={eduCurrent} onChange={(e) => setEduCurrent(e.target.checked)} className="w-4 h-4 rounded text-[#10B981] border-gray-300 focus:ring-[#10B981]" />
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{t("eduCurrent")}</span>
+                      </label>
+                    </div>
+
+                    <div className="flex justify-end gap-2 pt-4">
+                      <button onClick={() => setIsEditingEducation(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
+                      <button onClick={() => setIsEditingEducation(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
                     </div>
                   </div>
                 )}
