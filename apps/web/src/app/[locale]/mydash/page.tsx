@@ -34,6 +34,12 @@ export default function MyDashPage() {
           
           {/* Top Nav Items */}
           <div className="flex lg:flex-col items-center gap-4">
+            {/* Toko */}
+            <button className="flex flex-col items-center justify-center gap-1.5 w-14 h-14 bg-transparent text-gray-500 dark:text-[#B0B3B8] rounded-xl transition-colors hover:bg-gray-200 dark:hover:bg-[#3A3B3C]">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+              <span className="text-[9px] font-bold">Toko</span>
+            </button>
+
             {/* Produk */}
             <button className="flex flex-col items-center justify-center gap-1.5 w-14 h-14 bg-[#f3f4f6] dark:bg-[#3A3B3C] text-emerald-500 rounded-xl shadow-sm transition-colors hover:bg-emerald-50 dark:hover:bg-[#2A2B2C]">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
@@ -68,23 +74,6 @@ export default function MyDashPage() {
           {/* Left Column (Dashboard Controls) */}
           <div className="w-full lg:w-[500px] xl:w-[560px] shrink-0 h-full overflow-y-auto sidebar-scrollbar px-4 pb-10">
 
-          {/* URL Box */}
-          <div className="bg-white dark:bg-[#242526] p-3 rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] flex flex-col sm:flex-row items-center gap-3 mb-8">
-            <div className="flex-1 bg-gray-100 dark:bg-[#3A3B3C] rounded-lg px-3 py-2 text-sm text-gray-700 dark:text-[#E4E6EB] w-full">
-              <span className="text-gray-400">My Lynkid: </span>
-              https://lynk.id/mencari_produk
-            </div>
-            <div className="flex gap-2 w-full sm:w-auto">
-              <button className="flex items-center gap-1.5 px-4 py-2 border border-emerald-500 text-emerald-500 rounded-lg text-sm font-semibold hover:bg-emerald-50 transition-colors">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6.632l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
-                Share
-              </button>
-              <button className="flex items-center gap-1.5 px-4 py-2 bg-emerald-500 text-white rounded-lg text-sm font-semibold hover:bg-emerald-600 transition-colors">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                Customize URL
-              </button>
-            </div>
-          </div>
 
           {/* Your Pages */}
           <div className="flex flex-col mb-8">
