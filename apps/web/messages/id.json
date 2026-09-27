@@ -553,6 +553,9 @@
     "home": "Beranda",
     "add_new_block": "Add new display",
     "block_list": "Produk display list",
-    "link_toko": "Link toko"
+    "link_toko": "Link toko",
+    "start_creating_now": "Mulai buat sekarang!",
+    "layout": "Layout",
+    "add_collection": "Add koleksi"
   }
 }

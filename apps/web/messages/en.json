@@ -553,6 +553,9 @@
     "home": "Home",
     "add_new_block": "Add new display",
     "block_list": "Product display list",
-    "link_toko": "Store Link"
+    "link_toko": "Store Link",
+    "start_creating_now": "Start creating now!",
+    "layout": "Layout",
+    "add_collection": "Add Collection"
   }
 }
