@@ -26,25 +26,40 @@ export default function MyDashPage() {
 
   return (
     <>
-      {/* Custom Empty Header */}
-      <header className="fixed top-0 left-0 right-0 h-[56px] bg-white dark:bg-[#242526] border-b border-gray-200 dark:border-[#3E4042] z-50 flex items-center px-4"></header>
-
-      <div className="h-screen overflow-hidden bg-[#f3f4f6] dark:bg-[#18191A] pt-[56px]">
+      <div className="h-screen overflow-hidden bg-[#f3f4f6] dark:bg-[#18191A]">
       <div className="w-full flex flex-col lg:flex-row h-full">
         
         {/* Icon Sidebar */}
-        <div className="w-full lg:w-[72px] shrink-0 flex lg:flex-col items-center gap-4 px-4 lg:px-0 py-4 bg-white dark:bg-[#242526] border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-[#3E4042]">
-          {/* Produk */}
-          <button className="flex flex-col items-center justify-center gap-1.5 w-14 h-14 bg-[#f3f4f6] dark:bg-[#3A3B3C] text-emerald-500 rounded-xl shadow-sm transition-colors hover:bg-emerald-50 dark:hover:bg-[#2A2B2C]">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
-            <span className="text-[9px] font-bold">Produk</span>
-          </button>
+        <div className="w-full lg:w-[72px] shrink-0 h-full flex lg:flex-col items-center justify-between px-4 lg:px-0 py-6 bg-white dark:bg-[#242526] border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-[#3E4042]">
+          
+          {/* Top Nav Items */}
+          <div className="flex lg:flex-col items-center gap-4">
+            {/* Produk */}
+            <button className="flex flex-col items-center justify-center gap-1.5 w-14 h-14 bg-[#f3f4f6] dark:bg-[#3A3B3C] text-emerald-500 rounded-xl shadow-sm transition-colors hover:bg-emerald-50 dark:hover:bg-[#2A2B2C]">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+              <span className="text-[9px] font-bold">Produk</span>
+            </button>
 
-          {/* Tampilan */}
-          <button className="flex flex-col items-center justify-center gap-1.5 w-14 h-14 bg-transparent text-gray-500 dark:text-[#B0B3B8] rounded-xl transition-colors hover:bg-gray-200 dark:hover:bg-[#3A3B3C] relative">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" /></svg>
-            <span className="text-[9px] font-bold">Tampilan</span>
-            <span className="absolute -top-1 -right-1 bg-[#FF5A5F] text-white text-[8px] font-bold px-1 py-0.5 rounded-full">NEW</span>
+            {/* Tampilan */}
+            <button className="flex flex-col items-center justify-center gap-1.5 w-14 h-14 bg-transparent text-gray-500 dark:text-[#B0B3B8] rounded-xl transition-colors hover:bg-gray-200 dark:hover:bg-[#3A3B3C] relative">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" /></svg>
+              <span className="text-[9px] font-bold">Tampilan</span>
+              <span className="absolute -top-1 -right-1 bg-[#FF5A5F] text-white text-[8px] font-bold px-1 py-0.5 rounded-full">NEW</span>
+            </button>
+
+            {/* Divider */}
+            <div className="hidden lg:block w-8 h-px bg-gray-200 dark:bg-[#3E4042]"></div>
+
+            {/* Market */}
+            <button className="flex flex-col items-center justify-center gap-1.5 w-14 h-14 bg-transparent text-gray-500 dark:text-[#B0B3B8] rounded-xl transition-colors hover:bg-gray-200 dark:hover:bg-[#3A3B3C]">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
+              <span className="text-[9px] font-bold">Market</span>
+            </button>
+          </div>
+
+          {/* Bottom Settings Icon */}
+          <button className="flex items-center justify-center w-10 h-10 text-gray-400 hover:text-gray-600 dark:hover:text-[#E4E6EB] transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-[#3A3B3C]">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
           </button>
         </div>
 
@@ -74,36 +89,36 @@ export default function MyDashPage() {
           {/* Your Pages */}
           <div className="flex flex-col mb-8">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-bold text-gray-500 dark:text-[#B0B3B8]">Your Pages</h2>
+              <h2 className="text-[17px] font-bold text-gray-800 dark:text-[#E4E6EB]">Your Pages</h2>
               <div className="flex items-center gap-3">
-                <button className="flex items-center gap-1 px-3 py-1.5 border border-emerald-500 text-emerald-500 rounded-lg text-sm font-semibold hover:bg-emerald-50 transition-colors">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                <button className="flex items-center gap-1.5 px-3 py-1.5 border border-emerald-500/50 text-emerald-600 dark:text-emerald-500 rounded-lg text-[13px] font-bold hover:bg-emerald-50 dark:hover:bg-[#2A2B2C] transition-colors">
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
                   Page
                 </button>
-                <button className="text-gray-500 hover:text-gray-700 dark:hover:text-[#E4E6EB] transition-colors">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                <button className="text-gray-400 hover:text-gray-600 dark:hover:text-[#E4E6EB] transition-colors">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                 </button>
               </div>
             </div>
-            <button className="self-start px-6 py-2 bg-emerald-500 text-white font-bold rounded-full text-sm hover:bg-emerald-600 transition-colors shadow-sm">
+            <button className="self-start px-5 py-1.5 bg-emerald-500 text-white font-bold rounded-full text-[13px] hover:bg-emerald-600 transition-colors shadow-sm">
               Home
             </button>
           </div>
 
           {/* Add new block */}
-          <div className="flex gap-2 mb-6">
-            <button className="flex-1 py-3 bg-emerald-500 text-white font-bold rounded-lg text-[15px] hover:bg-emerald-600 transition-colors flex justify-center items-center gap-2 shadow-sm">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
+          <div className="flex gap-2 mb-8">
+            <button className="flex-1 py-2.5 bg-emerald-500 text-white font-bold rounded-xl text-[14px] hover:bg-emerald-600 transition-colors flex justify-center items-center gap-2 shadow-sm">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
               Add new block
             </button>
-            <button className="px-4 py-3 border border-emerald-500 text-emerald-500 rounded-lg hover:bg-emerald-50 transition-colors shadow-sm">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+            <button className="w-11 shrink-0 flex items-center justify-center bg-transparent border border-gray-400 dark:border-[#4E4F50] text-gray-400 dark:text-[#B0B3B8] rounded-xl hover:bg-gray-100 dark:hover:bg-[#3A3B3C] transition-colors shadow-sm">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
             </button>
           </div>
 
           {/* Block List */}
           <div className="mb-3">
-            <h2 className="text-[15px] font-bold text-gray-400 dark:text-[#B0B3B8] mb-3">Block List</h2>
+            <h2 className="text-[14px] font-bold text-gray-800 dark:text-[#E4E6EB] mb-3">Block List</h2>
             <div className="space-y-3">
               {[
                 { title: "TERMURAH! Panduan Belajar Excel dari Nol sampai Jago (FREE UPDATE RATUSAN LATIHAN SOAL + JOIN KOMUNITAS EXCEL)" },
@@ -111,18 +126,18 @@ export default function MyDashPage() {
                 { title: "JOB SEEKER ULTIMATE KIT" },
                 { title: "Starter Kit Karir — 4 Template Siap Pakai untuk Fresh Grad & Job Seeker" }
               ].map((item, idx) => (
-                <div key={idx} className="bg-white dark:bg-[#242526] p-4 rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] flex items-center gap-4">
+                <div key={idx} className="bg-transparent p-4 rounded-xl shadow-sm border border-gray-200 dark:border-[#3E4042] flex items-center gap-4 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors cursor-pointer group">
                   <div className="cursor-grab text-gray-300 dark:text-[#4E4F50] hover:text-gray-500">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
                   </div>
-                  <div className="w-10 h-10 shrink-0 bg-orange-100 rounded-lg flex items-center justify-center overflow-hidden">
+                  <div className="w-10 h-10 shrink-0 bg-gray-100 dark:bg-[#E4E6EB] rounded-lg flex items-center justify-center overflow-hidden">
                     <img src="/produk-placeholder.png" alt="Icon" className="w-full h-full object-cover opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                   </div>
-                  <div className="flex-1 text-[14px] text-gray-700 dark:text-[#E4E6EB] font-medium leading-snug">
+                  <div className="flex-1 text-[13px] text-gray-700 dark:text-[#E4E6EB] font-medium leading-snug pr-4">
                     {item.title}
                   </div>
                   <button className="text-gray-400 hover:text-gray-600 dark:hover:text-[#E4E6EB]">
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
                   </button>
                 </div>
               ))}
