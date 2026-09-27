@@ -150,6 +150,7 @@ function PhonePreviewMockup({ collections }: { collections: any[] }) {
 }
 
 function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMoveSubItemUp, onMoveSubItemDown, onChangeCategory, onDeleteCategory }: { item: any, onMoveUp?: () => void, onMoveDown?: () => void, isFirst?: boolean, isLast?: boolean, onMoveSubItemUp?: (idx: number) => void, onMoveSubItemDown?: (idx: number) => void, onChangeCategory?: (newCategory: string) => void, onDeleteCategory?: () => void }) {
+  const t = useTranslations();
   const [isOpen, setIsOpen] = useState(true);
   const [isMovePopupOpen, setIsMovePopupOpen] = useState(false);
   const [openMovePopupSubIdx, setOpenMovePopupSubIdx] = useState<number | null>(null);
@@ -286,7 +287,7 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
                 >
                   <span className="flex items-center gap-2">
                     <svg className="w-3.5 h-3.5 text-gray-500 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
-                    Ubah Kategori
+                    {t("mydash.ubah_kategori")}
                   </span>
                   <svg className={`w-3 h-3 text-gray-400 transition-transform duration-150 ${isChangeCategoryOpen ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
                 </button>
@@ -298,7 +299,7 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
                         <input
                           ref={searchInputRef}
                           type="text"
-                          placeholder="Cari kategori..."
+                          placeholder={t("mydash.cari_kategori")}
                           value={categorySearch}
                           onChange={(e) => setCategorySearch(e.target.value)}
                           onClick={(e) => e.stopPropagation()}
@@ -314,7 +315,7 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
                     </div>
                     <div className="overflow-y-auto" style={{maxHeight: '180px'}}>
                       {PRODUCT_CATEGORIES.filter(cat => cat.toLowerCase().includes(categorySearch.toLowerCase())).length === 0 ? (
-                        <div className="px-4 py-3 text-[12px] text-gray-400 dark:text-[#8B8D90] text-center">Tidak ada hasil</div>
+                        <div className="px-4 py-3 text-[12px] text-gray-400 dark:text-[#8B8D90] text-center">{t("mydash.tidak_ada_hasil")}</div>
                       ) : (
                         PRODUCT_CATEGORIES.filter(cat => cat.toLowerCase().includes(categorySearch.toLowerCase())).map((cat) => (
                           <button
@@ -342,7 +343,7 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
                 >
                   <span className="flex items-center gap-2">
                     <img src="/move.svg" alt="Move" className="w-3.5 h-3.5 opacity-50 dark:invert" />
-                    Pindah Koleksi
+                    {t("mydash.pindah_koleksi")}
                   </span>
                 </button>
                 <div className="border-t border-gray-100 dark:border-[#3E4042]" />
@@ -351,7 +352,7 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
                   onClick={(e) => { e.stopPropagation(); onDeleteCategory?.(); setIsSettingPopupOpen(false); setPopupPos(null); }}
                 >
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                  Hapus Kategori
+                  {t("mydash.hapus_kategori")}
                 </button>
               </div>,
               document.body
@@ -405,6 +406,7 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
 }
 
 function BuilderCollectionItem({ collection, index, updateTitle, deleteCollection, moveCollection, moveItem, moveSubItem, changeCategoryTitle, deleteCategoryItem, isFirst, isLast }: { collection: any, index: number, updateTitle: (idx: number, title: string) => void, deleteCollection: (idx: number) => void, moveCollection: (idx: number, dir: 'up'|'down') => void, moveItem: (colIdx: number, itemIdx: number, dir: 'up'|'down') => void, moveSubItem: (colIdx: number, itemIdx: number, subIdx: number, dir: 'up'|'down') => void, changeCategoryTitle: (colIdx: number, itemIdx: number, newTitle: string) => void, deleteCategoryItem: (colIdx: number, itemIdx: number) => void, isFirst: boolean, isLast: boolean }) {
+  const t = useTranslations();
   const [isOpen, setIsOpen] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [isMovePopupOpen, setIsMovePopupOpen] = useState(false);
@@ -502,7 +504,7 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
           </button>
           {collection.items.length > 0 && (
             <button className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 border border-emerald-500/40 px-2 py-1 rounded-md hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition-colors" onClick={(e) => e.stopPropagation()}>
-              + Tambah
+              + {t("mydash.tambah")}
             </button>
           )}
           <div className="text-gray-400 dark:text-[#8B8D90] transition-transform duration-200" style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>
@@ -559,11 +561,11 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
             <div className="flex items-center gap-2 mt-2 ml-6">
               <button className="flex items-center gap-1.5 text-[11px] font-bold text-gray-500 hover:text-emerald-600 dark:text-[#B0B3B8] dark:hover:text-emerald-400 bg-white hover:bg-emerald-50 dark:bg-[#2A2B2C] dark:hover:bg-emerald-900/30 px-3 py-1.5 rounded-lg transition-colors border border-gray-200 dark:border-[#4E4F50] shadow-sm">
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" /></svg>
-                Add kategori
+                {t("mydash.add_category")}
               </button>
               <button className="flex items-center gap-1.5 text-[11px] font-bold text-gray-500 hover:text-emerald-600 dark:text-[#B0B3B8] dark:hover:text-emerald-400 bg-white hover:bg-emerald-50 dark:bg-[#2A2B2C] dark:hover:bg-emerald-900/30 px-3 py-1.5 rounded-lg transition-colors border border-gray-200 dark:border-[#4E4F50] shadow-sm">
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" /></svg>
-                Add produk
+                {t("mydash.add_product")}
               </button>
             </div>
           )}
@@ -592,7 +594,7 @@ export default function MyDashPage() {
       {
         id: `c-${Date.now()}`,
         type: "collection",
-        title: "Nama Koleksi",
+        title: t("mydash.nama_koleksi"),
         items: [],
         isNew: true
       }

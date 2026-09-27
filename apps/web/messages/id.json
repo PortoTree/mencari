@@ -543,6 +543,13 @@
     "add_collection": "Add koleksi",
     "add_display": "Add Display",
     "add_product": "Add Produk",
-    "add_category": "Add Kategori"
+    "add_category": "Add Kategori",
+    "ubah_kategori": "Ubah Kategori",
+    "cari_kategori": "Cari kategori...",
+    "tidak_ada_hasil": "Tidak ada hasil",
+    "pindah_koleksi": "Pindah Koleksi",
+    "hapus_kategori": "Hapus Kategori",
+    "tambah": "Tambah",
+    "nama_koleksi": "Nama Koleksi"
   }
 }
