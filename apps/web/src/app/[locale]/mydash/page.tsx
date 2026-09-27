@@ -196,7 +196,7 @@ function BuilderCategoryItem({ item }: { item: any }) {
   );
 }
 
-function BuilderCollectionItem({ collection, index, updateTitle }: { collection: any, index: number, updateTitle: (idx: number, title: string) => void }) {
+function BuilderCollectionItem({ collection, index, updateTitle, deleteCollection }: { collection: any, index: number, updateTitle: (idx: number, title: string) => void, deleteCollection: (idx: number) => void }) {
   const [isOpen, setIsOpen] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -265,6 +265,13 @@ function BuilderCollectionItem({ collection, index, updateTitle }: { collection:
           )}
         </div>
         <div className="flex items-center gap-2 shrink-0">
+          <button 
+            onClick={(e) => { e.stopPropagation(); deleteCollection(index); }}
+            className="text-gray-400 hover:text-red-500 dark:text-[#8B8D90] dark:hover:text-red-400 transition-colors p-1"
+            title="Hapus Koleksi"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+          </button>
           {collection.items.length > 0 && (
             <button className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 border border-emerald-500/40 px-2 py-1 rounded-md hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition-colors" onClick={(e) => e.stopPropagation()}>
               + Tambah
@@ -356,6 +363,14 @@ export default function MyDashPage() {
       if (updated[index].isNew) {
         updated[index].isNew = false;
       }
+      return updated;
+    });
+  };
+
+  const deleteCollection = (index: number) => {
+    setCollections(prev => {
+      const updated = [...prev];
+      updated.splice(index, 1);
       return updated;
     });
   };
@@ -566,6 +581,7 @@ export default function MyDashPage() {
                         index={colIdx}
                         collection={collection} 
                         updateTitle={updateCollectionTitle}
+                        deleteCollection={deleteCollection}
                       />
                     ))}
                   </div>
