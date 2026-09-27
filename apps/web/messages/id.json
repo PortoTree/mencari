@@ -542,6 +542,7 @@
     "layout": "Layout",
     "add_collection": "Add koleksi",
     "add_display": "Add Display",
-    "add_product": "Add Produk"
+    "add_product": "Add Produk",
+    "add_category": "Add Kategori"
   }
 }

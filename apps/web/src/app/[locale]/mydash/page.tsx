@@ -3,6 +3,108 @@ import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import Navbar from "@/components/Navbar";
 
+const dummyCollections = [
+  {
+    type: "collection",
+    title: "Koleksi Ebook & Buku Digital",
+    items: [
+      { type: "product", title: "THE ULTIMATE BOOK FOR JOB SEEKER" },
+      { type: "product", title: "JOB SEEKER ULTIMATE KIT" }
+    ]
+  },
+  {
+    type: "collection",
+    title: "Koleksi Software & Tools",
+    items: [
+      {
+        type: "category",
+        title: "Template & Resource",
+        icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>,
+        items: [
+          { type: "product", title: "Starter Kit Karir — 4 Template Siap Pakai" },
+          { type: "product", title: "Template PPT Pitch Deck Pro" }
+        ]
+      }
+    ]
+  },
+  {
+    type: "collection",
+    title: "Webinar & Kursus",
+    items: [
+      { type: "product", title: "Masterclass CV & Interview" },
+      { type: "product", title: "Panduan Lengkap LinkedIn" }
+    ]
+  },
+  {
+    type: "collection",
+    title: "Jasa Konsultasi",
+    items: [
+      { type: "product", title: "Review CV & Portofolio 1on1" }
+    ]
+  }
+];
+
+function PreviewCollection({ collection }: { collection: any }) {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className="mb-4">
+      <button 
+        onClick={() => setIsOpen(!isOpen)} 
+        className="w-full flex items-center justify-between bg-white dark:bg-[#3A3B3C] p-3.5 rounded-2xl shadow-sm border border-gray-100 dark:border-[#4E4F50] transition-colors"
+      >
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-emerald-100 dark:bg-[#242526] text-emerald-600 dark:text-gray-300 rounded-lg flex items-center justify-center shrink-0">
+             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+          </div>
+          <span className="font-bold text-[13px] text-gray-800 dark:text-[#E4E6EB] text-left leading-tight">{collection.title}</span>
+        </div>
+        <svg className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
+      </button>
+      
+      <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "max-h-[1000px] opacity-100 mt-3" : "max-h-0 opacity-0"}`}>
+        <div className="space-y-3 pl-3 border-l-[3px] border-gray-200 dark:border-[#4E4F50] ml-4 mb-2">
+          {collection.items.map((item: any, idx: number) => {
+            if (item.type === "product") {
+              return (
+                <div key={idx} className="bg-white dark:bg-[#3A3B3C] p-3 rounded-xl flex items-center gap-3 shadow-sm border border-gray-100 dark:border-[#4E4F50]">
+                  <div className="w-10 h-10 bg-gray-100 dark:bg-[#242526] rounded-lg overflow-hidden shrink-0">
+                    <img src="/produk-placeholder.png" alt="icon" className="w-full h-full object-cover opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                  </div>
+                  <div className="text-[12px] font-bold text-gray-800 dark:text-[#E4E6EB] leading-snug">
+                    {item.title}
+                  </div>
+                </div>
+              );
+            } else if (item.type === "category") {
+              return (
+                <div key={idx} className="mb-2 mt-4">
+                  <div className="flex items-center gap-1.5 text-gray-500 dark:text-[#B0B3B8] mb-3">
+                    {item.icon}
+                    <h4 className="text-[10px] font-bold uppercase tracking-wider">{item.title}</h4>
+                  </div>
+                  <div className="space-y-3">
+                    {item.items.map((sub: any, sIdx: number) => (
+                      <div key={sIdx} className="bg-white dark:bg-[#3A3B3C] p-3 rounded-xl flex items-center gap-3 shadow-sm border border-gray-100 dark:border-[#4E4F50]">
+                        <div className="w-10 h-10 bg-gray-100 dark:bg-[#242526] rounded-lg overflow-hidden shrink-0">
+                          <img src="/produk-placeholder.png" alt="icon" className="w-full h-full object-cover opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                        </div>
+                        <div className="text-[12px] font-bold text-gray-800 dark:text-[#E4E6EB] leading-snug">
+                          {sub.title}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            }
+            return null;
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function MyDashPage() {
   const t = useTranslations();
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -78,11 +180,10 @@ export default function MyDashPage() {
             {/* Tampilan */}
             <button 
               onClick={() => handleTabChange("tampilan")}
-              className={`flex flex-col items-center justify-center gap-1.5 w-14 h-14 rounded-xl transition-colors relative ${activeTab === 'tampilan' ? 'bg-[#f3f4f6] dark:bg-[#3A3B3C] text-emerald-500 shadow-sm' : 'bg-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C]'}`}
+              className={`flex flex-col items-center justify-center gap-1.5 w-14 h-14 rounded-xl transition-colors ${activeTab === 'tampilan' ? 'bg-[#f3f4f6] dark:bg-[#3A3B3C] text-emerald-500 shadow-sm' : 'bg-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C]'}`}
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>
               <span className="text-[9px] font-bold">{t("mydash.tampilan")}</span>
-              <span className="absolute -top-1 -right-1 bg-[#FF5A5F] text-white text-[8px] font-bold px-1 py-0.5 rounded-full">NEW</span>
             </button>
 
             {/* Settings Icon */}
@@ -134,14 +235,18 @@ export default function MyDashPage() {
                   <div className="flex flex-col gap-3">
                     <h3 className="font-bold text-gray-700 dark:text-[#E4E6EB] text-[14px]">{t("mydash.start_creating_now")}</h3>
                     <div className="flex flex-col gap-2">
-                      <div className="flex gap-2">
-                        <button className="bg-white dark:bg-[#242526] border border-gray-300 dark:border-[#4E4F50] text-gray-600 dark:text-[#B0B3B8] rounded-md px-3 py-1.5 flex items-center gap-1.5 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors text-[13px] font-medium shadow-sm shrink-0">
-                          <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                          Add produk
-                        </button>
+                      <div className="flex gap-2 overflow-x-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                         <button className="bg-white dark:bg-[#242526] border border-gray-300 dark:border-[#4E4F50] text-gray-600 dark:text-[#B0B3B8] rounded-md px-3 py-1.5 flex items-center gap-1.5 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors text-[13px] font-medium shadow-sm shrink-0">
                           <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
-                          Add koleksi
+                          {t("mydash.add_collection")}
+                        </button>
+                        <button className="bg-white dark:bg-[#242526] border border-gray-300 dark:border-[#4E4F50] text-gray-600 dark:text-[#B0B3B8] rounded-md px-3 py-1.5 flex items-center gap-1.5 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors text-[13px] font-medium shadow-sm shrink-0">
+                          <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                          {t("mydash.add_category")}
+                        </button>
+                        <button className="bg-white dark:bg-[#242526] border border-gray-300 dark:border-[#4E4F50] text-gray-600 dark:text-[#B0B3B8] rounded-md px-3 py-1.5 flex items-center gap-1.5 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors text-[13px] font-medium shadow-sm shrink-0">
+                          <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                          {t("mydash.add_product")}
                         </button>
                       </div>
                     </div>
@@ -195,11 +300,11 @@ export default function MyDashPage() {
                 <div className="flex gap-2 mb-6 overflow-x-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                   <button className="flex-1 py-2.5 px-3 bg-emerald-500 text-white font-bold rounded-xl text-[13px] hover:bg-emerald-600 transition-colors flex justify-center items-center gap-1.5 shadow-sm whitespace-nowrap">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
-                    {t("mydash.add_display")}
+                    {t("mydash.add_collection")}
                   </button>
                   <button className="flex-1 py-2.5 px-3 bg-emerald-500 text-white font-bold rounded-xl text-[13px] hover:bg-emerald-600 transition-colors flex justify-center items-center gap-1.5 shadow-sm whitespace-nowrap">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
-                    {t("mydash.add_collection")}
+                    {t("mydash.add_display")}
                   </button>
                   <button className="flex-1 py-2.5 px-3 bg-emerald-500 text-white font-bold rounded-xl text-[13px] hover:bg-emerald-600 transition-colors flex justify-center items-center gap-1.5 shadow-sm whitespace-nowrap">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
@@ -212,31 +317,7 @@ export default function MyDashPage() {
                 {/* Block List */}
                 <div className="mb-3">
                   <div className="space-y-6">
-                    {[
-                      {
-                        type: "collection",
-                        title: "Koleksi Ebook & Buku Digital",
-                        items: [
-                          { type: "product", title: "THE ULTIMATE BOOK FOR JOB SEEKER" },
-                          { type: "product", title: "JOB SEEKER ULTIMATE KIT" }
-                        ]
-                      },
-                      {
-                        type: "collection",
-                        title: "Koleksi Software & Tools",
-                        items: [
-                          {
-                            type: "category",
-                            title: "Template & Resource",
-                            icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>,
-                            items: [
-                              { type: "product", title: "Starter Kit Karir — 4 Template Siap Pakai" },
-                              { type: "product", title: "Template PPT Pitch Deck Pro" }
-                            ]
-                          }
-                        ]
-                      }
-                    ].map((collection, colIdx) => (
+                    {dummyCollections.map((collection, colIdx) => (
                       <div key={colIdx} className="mb-6">
                         {/* Collection Header */}
                         <div className="flex items-center justify-between mb-3 px-1">
@@ -344,7 +425,7 @@ export default function MyDashPage() {
             <div className="w-[320px] h-[640px] mx-auto bg-white dark:bg-[#18191A] rounded-[40px] border-[8px] border-gray-800 dark:border-gray-900 shadow-xl overflow-hidden relative">
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-gray-800 dark:bg-gray-900 rounded-b-3xl z-10"></div>
               
-              <div className="w-full h-full bg-[#f3f4f6] dark:bg-[#242526] p-4 pt-10 overflow-y-auto sidebar-scrollbar">
+              <div className="w-full h-full bg-[#f3f4f6] dark:bg-[#242526] p-4 pt-10 overflow-y-auto hide-scrollbar">
                 {/* Preview Content */}
                 <div className="flex flex-col items-center mb-6">
                   <div className="w-20 h-20 bg-gray-200 dark:bg-[#3A3B3C] rounded-full mb-3 flex items-center justify-center overflow-hidden border-2 border-white dark:border-[#18191A]">
@@ -354,43 +435,9 @@ export default function MyDashPage() {
                   <p className="text-sm text-gray-500 mt-1">Mencari Produk</p>
                 </div>
 
-                <div className="space-y-5">
-                  {[
-                    { 
-                      category: "Ebook & Buku Digital",
-                      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-3.5 h-3.5"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>,
-                      items: [
-                        "THE ULTIMATE BOOK FOR...",
-                        "JOB SEEKER ULTIMATE KIT"
-                      ]
-                    },
-                    {
-                      category: "Software & Tools",
-                      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-3.5 h-3.5"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>,
-                      items: [
-                        "Starter Kit Karir — 4...",
-                        "Template PPT Pitch Deck Pro"
-                      ]
-                    }
-                  ].map((cat, catIdx) => (
-                    <div key={catIdx}>
-                      <div className="flex items-center gap-1 mb-2 px-1 text-gray-500 dark:text-[#B0B3B8]">
-                        {cat.icon}
-                        <h3 className="text-[11px] font-bold uppercase tracking-wider">{cat.category}</h3>
-                      </div>
-                      <div className="space-y-3">
-                        {cat.items.map((title, i) => (
-                          <div key={i} className="w-full bg-white dark:bg-[#3A3B3C] p-3 rounded-xl shadow-sm flex items-center gap-3">
-                            <div className="w-10 h-10 shrink-0 bg-orange-100 rounded-lg flex items-center justify-center overflow-hidden">
-                              <img src="/produk-placeholder.png" alt="Icon" className="w-full h-full object-cover opacity-80" />
-                            </div>
-                            <span className="text-[12px] font-semibold text-gray-800 dark:text-[#E4E6EB] leading-tight flex-1">
-                              {title}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                <div className="space-y-0">
+                  {dummyCollections.map((col, idx) => (
+                    <PreviewCollection key={idx} collection={col} />
                   ))}
                 </div>
               </div>

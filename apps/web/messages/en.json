@@ -542,6 +542,7 @@
     "layout": "Layout",
     "add_collection": "Add Collection",
     "add_display": "Add Display",
-    "add_product": "Add Product"
+    "add_product": "Add Product",
+    "add_category": "Add Category"
   }
 }
