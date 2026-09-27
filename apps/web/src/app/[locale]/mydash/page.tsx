@@ -579,7 +579,7 @@ export default function MyDashPage() {
   const [themeLoaded, setThemeLoaded] = useState(false);
   const [currentUser] = useState({ id: "1", name: "User", username: "user" });
   const [activeTab, setActiveTab] = useState<"store" | "produk" | "tampilan" | "settings">("store");
-  const [collections, setCollections] = useState(initialCollections);
+  const [collections, setCollections] = useState<any[]>(initialCollections);
 
   const handleTabChange = (tab: "store" | "produk" | "tampilan" | "settings") => {
     setActiveTab(tab);
