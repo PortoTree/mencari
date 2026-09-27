@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import Navbar from "@/components/Navbar";
 
@@ -196,15 +196,34 @@ function BuilderCategoryItem({ item }: { item: any }) {
   );
 }
 
-function BuilderCollectionItem({ collection }: { collection: any }) {
+function BuilderCollectionItem({ collection, index, updateTitle }: { collection: any, index: number, updateTitle: (idx: number, title: string) => void }) {
   const [isOpen, setIsOpen] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (collection.isNew) {
+      containerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setIsEditing(true);
+    }
+  }, [collection.isNew]);
+
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+      if (collection.isNew) {
+        inputRef.current.select();
+      }
+    }
+  }, [isEditing, collection.isNew]);
 
   return (
-    <div className="mb-6">
+    <div className="mb-6" ref={containerRef}>
       {/* Collection Header */}
       <div className="flex items-center justify-between mb-3 px-1 cursor-pointer select-none group/col" onClick={() => setIsOpen(!isOpen)}>
-        <div className="flex items-center gap-2">
-          <div className="relative group/tooltip flex items-center" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center gap-2 flex-1 min-w-0 pr-3">
+          <div className="relative group/tooltip flex items-center shrink-0" onClick={(e) => e.stopPropagation()}>
             <button className="text-gray-400 hover:text-gray-600 dark:text-[#8B8D90] dark:hover:text-[#E4E6EB] transition-colors cursor-grab">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
             </button>
@@ -213,12 +232,39 @@ function BuilderCollectionItem({ collection }: { collection: any }) {
               <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-[4px] border-transparent border-t-gray-800 dark:border-t-gray-700"></div>
             </div>
           </div>
-          <div className="w-7 h-7 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 rounded-lg flex items-center justify-center">
+          <div className="w-7 h-7 shrink-0 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 rounded-lg flex items-center justify-center">
              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
           </div>
-          <h3 className="text-[14px] font-bold text-gray-800 dark:text-[#E4E6EB]">{collection.title}</h3>
+          {isEditing ? (
+            <input 
+              ref={inputRef}
+              type="text" 
+              value={collection.title} 
+              onChange={(e) => updateTitle(index, e.target.value)}
+              onClick={(e) => e.stopPropagation()}
+              onBlur={() => setIsEditing(false)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') setIsEditing(false);
+              }}
+              className="text-[14px] font-bold text-gray-800 dark:text-[#E4E6EB] bg-white dark:bg-[#2A2B2C] outline-none p-1 -ml-1 border border-emerald-500/50 rounded-md shadow-sm w-full" 
+            />
+          ) : (
+            <div 
+              className="flex items-center gap-1.5 group/title cursor-text min-w-0" 
+              onClick={(e) => { e.stopPropagation(); setIsEditing(true); }}
+            >
+              <h3 
+                className="text-[14px] font-bold text-gray-800 dark:text-[#E4E6EB] truncate group-hover/title:text-gray-500 dark:group-hover/title:text-[#B0B3B8] transition-colors"
+              >
+                {collection.title}
+              </h3>
+              <div className="text-gray-400 opacity-0 group-hover/title:opacity-100 transition-opacity shrink-0">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+              </div>
+            </div>
+          )}
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           {collection.items.length > 0 && (
             <button className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 border border-emerald-500/40 px-2 py-1 rounded-md hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition-colors" onClick={(e) => e.stopPropagation()}>
               + Tambah
@@ -297,9 +343,21 @@ export default function MyDashPage() {
       {
         type: "collection",
         title: "Nama Koleksi",
-        items: []
+        items: [],
+        isNew: true
       }
     ]);
+  };
+
+  const updateCollectionTitle = (index: number, newTitle: string) => {
+    setCollections(prev => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], title: newTitle };
+      if (updated[index].isNew) {
+        updated[index].isNew = false;
+      }
+      return updated;
+    });
   };
 
   useEffect(() => {
@@ -503,7 +561,12 @@ export default function MyDashPage() {
                 <div className="mb-3">
                   <div className="space-y-6">
                     {collections.map((collection, colIdx) => (
-                      <BuilderCollectionItem key={colIdx} collection={collection} />
+                      <BuilderCollectionItem 
+                        key={colIdx} 
+                        index={colIdx}
+                        collection={collection} 
+                        updateTitle={updateCollectionTitle}
+                      />
                     ))}
                   </div>
                 </div>
