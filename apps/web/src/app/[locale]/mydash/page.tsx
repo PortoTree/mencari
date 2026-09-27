@@ -44,61 +44,99 @@ const dummyCollections = [
   }
 ];
 
-function PreviewCollection({ collection }: { collection: any }) {
-  const [isOpen, setIsOpen] = useState(false);
+function PhonePreviewMockup() {
+  const [activeCollection, setActiveCollection] = useState<any>(null);
+
   return (
-    <div className="mb-4">
-      <button 
-        onClick={() => setIsOpen(!isOpen)} 
-        className="w-full flex items-center justify-between bg-white dark:bg-[#3A3B3C] p-3.5 rounded-2xl shadow-sm border border-gray-100 dark:border-[#4E4F50] transition-colors"
-      >
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-emerald-100 dark:bg-[#242526] text-emerald-600 dark:text-gray-300 rounded-lg flex items-center justify-center shrink-0">
-             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
-          </div>
-          <span className="font-bold text-[13px] text-gray-800 dark:text-[#E4E6EB] text-left leading-tight">{collection.title}</span>
-        </div>
-        <svg className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
-      </button>
+    <div className="w-[320px] h-[640px] mx-auto bg-white dark:bg-[#18191A] rounded-[40px] border-[8px] border-gray-800 dark:border-gray-900 shadow-xl overflow-hidden relative flex flex-col">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-gray-800 dark:bg-gray-900 rounded-b-3xl z-20"></div>
       
-      <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "max-h-[1000px] opacity-100 mt-3" : "max-h-0 opacity-0"}`}>
-        <div className="space-y-3 pl-3 border-l-[3px] border-gray-200 dark:border-[#4E4F50] ml-4 mb-2">
-          {collection.items.map((item: any, idx: number) => {
-            if (item.type === "product") {
-              return (
-                <div key={idx} className="bg-white dark:bg-[#3A3B3C] p-3 rounded-xl flex items-center gap-3 shadow-sm border border-gray-100 dark:border-[#4E4F50]">
-                  <div className="w-10 h-10 bg-gray-100 dark:bg-[#242526] rounded-lg overflow-hidden shrink-0">
-                    <img src="/produk-placeholder.png" alt="icon" className="w-full h-full object-cover opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+      {/* Container for sliding views */}
+      <div className="relative w-full h-full flex overflow-hidden hide-scrollbar bg-[#f3f4f6] dark:bg-[#242526]">
+        {/* Main View */}
+        <div 
+          className={`absolute top-0 left-0 w-full h-full p-4 pt-10 overflow-y-auto hide-scrollbar transition-transform duration-300 ease-in-out ${activeCollection ? '-translate-x-full' : 'translate-x-0'}`}
+        >
+          <div className="flex flex-col items-center mb-6">
+            <div className="w-20 h-20 bg-gray-200 dark:bg-[#3A3B3C] rounded-full mb-3 flex items-center justify-center overflow-hidden border-2 border-white dark:border-[#18191A]">
+              <img src="/produk-placeholder.png" alt="Profile" className="w-full h-full object-cover" />
+            </div>
+            <h3 className="font-bold text-black dark:text-white">Toko Digital Kreatif</h3>
+            <p className="text-sm text-gray-500 mt-1">Mencari Produk</p>
+          </div>
+
+          <div className="space-y-3">
+            {dummyCollections.map((col, idx) => (
+              <button 
+                key={idx}
+                onClick={() => setActiveCollection(col)}
+                className="w-full flex items-center justify-between bg-white dark:bg-[#3A3B3C] p-3.5 rounded-2xl shadow-sm border border-gray-100 dark:border-[#4E4F50] transition-colors group"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-emerald-100 dark:bg-[#242526] text-emerald-600 dark:text-gray-300 rounded-lg flex items-center justify-center shrink-0">
+                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
                   </div>
-                  <div className="text-[12px] font-bold text-gray-800 dark:text-[#E4E6EB] leading-snug">
-                    {item.title}
-                  </div>
+                  <span className="font-bold text-[13px] text-gray-800 dark:text-[#E4E6EB] text-left leading-tight">{col.title}</span>
                 </div>
-              );
-            } else if (item.type === "category") {
-              return (
-                <div key={idx} className="mb-2 mt-4">
-                  <div className="flex items-center gap-1.5 text-gray-500 dark:text-[#B0B3B8] mb-3">
-                    {item.icon}
-                    <h4 className="text-[10px] font-bold uppercase tracking-wider">{item.title}</h4>
-                  </div>
-                  <div className="space-y-3">
-                    {item.items.map((sub: any, sIdx: number) => (
-                      <div key={sIdx} className="bg-white dark:bg-[#3A3B3C] p-3 rounded-xl flex items-center gap-3 shadow-sm border border-gray-100 dark:border-[#4E4F50]">
-                        <div className="w-10 h-10 bg-gray-100 dark:bg-[#242526] rounded-lg overflow-hidden shrink-0">
-                          <img src="/produk-placeholder.png" alt="icon" className="w-full h-full object-cover opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
-                        </div>
-                        <div className="text-[12px] font-bold text-gray-800 dark:text-[#E4E6EB] leading-snug">
-                          {sub.title}
-                        </div>
+                <div className="w-6 h-6 rounded-full bg-gray-50 dark:bg-[#242526] flex items-center justify-center group-hover:bg-gray-100 dark:group-hover:bg-[#4E4F50] transition-colors">
+                  <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Collection Detail View */}
+        <div 
+          className={`absolute top-0 left-0 w-full h-full bg-[#f3f4f6] dark:bg-[#242526] flex flex-col transition-transform duration-300 ease-in-out z-10 ${activeCollection ? 'translate-x-0' : 'translate-x-full'}`}
+        >
+          <div className="p-4 pt-10 pb-4 bg-white dark:bg-[#18191A] border-b border-gray-200 dark:border-[#3E4042] flex items-center gap-3 shrink-0 shadow-sm z-10">
+            <button onClick={() => setActiveCollection(null)} className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-[#3A3B3C] text-gray-600 dark:text-[#E4E6EB] hover:bg-gray-200 dark:hover:bg-[#4E4F50] transition-colors shrink-0">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" /></svg>
+            </button>
+            <h3 className="font-bold text-[14px] text-gray-800 dark:text-[#E4E6EB] truncate flex-1 leading-tight">{activeCollection?.title}</h3>
+          </div>
+          
+          <div className="flex-1 overflow-y-auto hide-scrollbar p-4">
+            <div className="space-y-3">
+              {activeCollection?.items.map((item: any, idx: number) => {
+                if (item.type === "product") {
+                  return (
+                    <div key={idx} className="bg-white dark:bg-[#3A3B3C] p-3 rounded-xl flex items-center gap-3 shadow-sm border border-gray-100 dark:border-[#4E4F50]">
+                      <div className="w-12 h-12 bg-gray-100 dark:bg-[#242526] rounded-lg overflow-hidden shrink-0">
+                        <img src="/produk-placeholder.png" alt="icon" className="w-full h-full object-cover opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                       </div>
-                    ))}
-                  </div>
-                </div>
-              );
-            }
-            return null;
-          })}
+                      <div className="text-[13px] font-bold text-gray-800 dark:text-[#E4E6EB] leading-snug">
+                        {item.title}
+                      </div>
+                    </div>
+                  );
+                } else if (item.type === "category") {
+                  return (
+                    <div key={idx} className="mb-2 mt-5">
+                      <div className="flex items-center gap-1.5 text-gray-500 dark:text-[#B0B3B8] mb-3 px-1">
+                        {item.icon}
+                        <h4 className="text-[11px] font-bold uppercase tracking-wider">{item.title}</h4>
+                      </div>
+                      <div className="space-y-3">
+                        {item.items.map((sub: any, sIdx: number) => (
+                          <div key={sIdx} className="bg-white dark:bg-[#3A3B3C] p-3 rounded-xl flex items-center gap-3 shadow-sm border border-gray-100 dark:border-[#4E4F50]">
+                            <div className="w-12 h-12 bg-gray-100 dark:bg-[#242526] rounded-lg overflow-hidden shrink-0">
+                              <img src="/produk-placeholder.png" alt="icon" className="w-full h-full object-cover opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                            </div>
+                            <div className="text-[13px] font-bold text-gray-800 dark:text-[#E4E6EB] leading-snug">
+                              {sub.title}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                }
+                return null;
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -422,26 +460,8 @@ export default function MyDashPage() {
         <div className="flex-1 h-full overflow-hidden flex justify-center pt-4 lg:pt-0">
           <div className="w-full h-full flex justify-center items-start lg:items-center">
             {/* Phone Preview Mockup */}
-            <div className="w-[320px] h-[640px] mx-auto bg-white dark:bg-[#18191A] rounded-[40px] border-[8px] border-gray-800 dark:border-gray-900 shadow-xl overflow-hidden relative">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-gray-800 dark:bg-gray-900 rounded-b-3xl z-10"></div>
-              
-              <div className="w-full h-full bg-[#f3f4f6] dark:bg-[#242526] p-4 pt-10 overflow-y-auto hide-scrollbar">
-                {/* Preview Content */}
-                <div className="flex flex-col items-center mb-6">
-                  <div className="w-20 h-20 bg-gray-200 dark:bg-[#3A3B3C] rounded-full mb-3 flex items-center justify-center overflow-hidden border-2 border-white dark:border-[#18191A]">
-                    <img src="/produk-placeholder.png" alt="Profile" className="w-full h-full object-cover" />
-                  </div>
-                  <h3 className="font-bold text-black dark:text-white">Toko Digital Kreatif</h3>
-                  <p className="text-sm text-gray-500 mt-1">Mencari Produk</p>
-                </div>
-
-                <div className="space-y-0">
-                  {dummyCollections.map((col, idx) => (
-                    <PreviewCollection key={idx} collection={col} />
-                  ))}
-                </div>
-              </div>
-            </div>
+            {/* Phone Preview Mockup */}
+            <PhonePreviewMockup />
           </div>
         </div>
 
