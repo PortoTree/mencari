@@ -541,5 +541,17 @@
       "membership": "Membership & Subscription",
       "bundle": "Bundle & Resource Pack"
     }
+  },
+  "mydash": {
+    "toko": "Store",
+    "produk": "Product",
+    "tampilan": "Appearance",
+    "market": "Market",
+    "settings": "Settings",
+    "your_pages": "Your Pages",
+    "page": "Page",
+    "home": "Home",
+    "add_new_block": "Add new block",
+    "block_list": "Block List"
   }
 }

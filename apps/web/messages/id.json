@@ -541,5 +541,17 @@
       "membership": "Membership & Subscription",
       "bundle": "Bundle & Resource Pack"
     }
+  },
+  "mydash": {
+    "toko": "Toko",
+    "produk": "Produk",
+    "tampilan": "Tampilan",
+    "market": "Market",
+    "settings": "Pengaturan",
+    "your_pages": "Halaman Anda",
+    "page": "Halaman",
+    "home": "Beranda",
+    "add_new_block": "Tambah blok baru",
+    "block_list": "Daftar Blok"
   }
 }
