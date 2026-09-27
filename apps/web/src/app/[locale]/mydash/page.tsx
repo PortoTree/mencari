@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { flushSync } from "react-dom";
+import { flushSync, createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import Navbar from "@/components/Navbar";
 
@@ -149,10 +149,41 @@ function PhonePreviewMockup({ collections }: { collections: any[] }) {
   );
 }
 
-function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMoveSubItemUp, onMoveSubItemDown }: { item: any, onMoveUp?: () => void, onMoveDown?: () => void, isFirst?: boolean, isLast?: boolean, onMoveSubItemUp?: (idx: number) => void, onMoveSubItemDown?: (idx: number) => void }) {
+function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMoveSubItemUp, onMoveSubItemDown, onChangeCategory, onDeleteCategory }: { item: any, onMoveUp?: () => void, onMoveDown?: () => void, isFirst?: boolean, isLast?: boolean, onMoveSubItemUp?: (idx: number) => void, onMoveSubItemDown?: (idx: number) => void, onChangeCategory?: (newCategory: string) => void, onDeleteCategory?: () => void }) {
   const [isOpen, setIsOpen] = useState(true);
   const [isMovePopupOpen, setIsMovePopupOpen] = useState(false);
   const [openMovePopupSubIdx, setOpenMovePopupSubIdx] = useState<number | null>(null);
+  const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
+  const [isChangeCategoryOpen, setIsChangeCategoryOpen] = useState(false);
+  const [categorySearch, setCategorySearch] = useState('');
+  const [popupPos, setPopupPos] = useState<{top: number, right: number} | null>(null);
+  const settingRef = useRef<HTMLDivElement>(null);
+  const settingBtnRef = useRef<HTMLButtonElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const openSettingPopup = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isSettingPopupOpen) {
+      setIsSettingPopupOpen(false);
+      setPopupPos(null);
+      return;
+    }
+    if (settingBtnRef.current) {
+      const rect = settingBtnRef.current.getBoundingClientRect();
+      setPopupPos({ top: rect.bottom + 6, right: window.innerWidth - rect.right });
+    }
+    setIsSettingPopupOpen(true);
+    setIsChangeCategoryOpen(false);
+    setCategorySearch('');
+  };
+
+  const PRODUCT_CATEGORIES = [
+    "AI & Prompt", "Design & Graphics", "Documents & Templates", "Ebook & Digital Books",
+    "Courses & Education", "Software & Tools", "Business & Finance", "Social Media",
+    "Photo & Video", "Audio & Music", "Gaming", "Website & Development",
+    "Career & Professional", "Printables", "3D & Assets", "Font & Typography",
+    "Marketing", "Lifestyle", "Membership & Subscription", "Bundle & Resource Pack"
+  ];
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -160,6 +191,11 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
       if (!target.closest('.move-popup-container')) {
         setIsMovePopupOpen(false);
         setOpenMovePopupSubIdx(null);
+      }
+      if (settingBtnRef.current && !settingBtnRef.current.closest('[data-setting-popup]') && !target.closest('[data-setting-popup]') && !settingBtnRef.current.contains(target)) {
+        setIsSettingPopupOpen(false);
+        setIsChangeCategoryOpen(false);
+        setPopupPos(null);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -189,14 +225,87 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
           <h4 className="text-[12px] font-bold uppercase tracking-wider">{item.title}</h4>
         </div>
         <div className="flex items-center gap-2">
-          <div className="relative group/tooltip flex items-center" onClick={(e) => e.stopPropagation()}>
-            <button className="text-gray-400 hover:text-gray-600 dark:text-[#8B8D90] dark:hover:text-[#E4E6EB] transition-colors">
+          <div className="relative flex items-center" ref={settingRef} onClick={(e) => e.stopPropagation()}>
+            <button
+              ref={settingBtnRef}
+              onClick={openSettingPopup}
+              className="text-gray-400 hover:text-gray-600 dark:text-[#8B8D90] dark:hover:text-[#E4E6EB] transition-colors"
+            >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><circle cx="12" cy="12" r="3" strokeWidth={2} /></svg>
             </button>
-            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2 py-1 bg-gray-800 dark:bg-gray-700 text-white text-[10px] whitespace-nowrap rounded opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-100 z-10 pointer-events-none">
-              Setting
-              <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-[4px] border-transparent border-t-gray-800 dark:border-t-gray-700"></div>
-            </div>
+            {isSettingPopupOpen && popupPos && createPortal(
+              <div
+                data-setting-popup
+                className="fixed bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-xl min-w-[220px]"
+                style={{ top: popupPos.top, right: popupPos.right, zIndex: 99999, boxShadow: '0 8px 32px rgba(0,0,0,0.22)' }}
+                onMouseDown={(e) => e.stopPropagation()}
+              >
+                {/* Ubah Kategori */}
+                <button
+                  className="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-[13px] text-gray-700 dark:text-[#E4E6EB] hover:bg-gray-100 dark:hover:bg-[#3A3B3C] transition-colors rounded-t-xl"
+                  onClick={(e) => { e.stopPropagation(); setIsChangeCategoryOpen(v => !v); if (!isChangeCategoryOpen) { setTimeout(() => searchInputRef.current?.focus(), 50); setCategorySearch(''); } }}
+                >
+                  <span className="flex items-center gap-2">
+                    <svg className="w-3.5 h-3.5 text-gray-500 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" /></svg>
+                    Ubah Kategori
+                  </span>
+                  <svg className={`w-3 h-3 text-gray-400 transition-transform duration-150 ${isChangeCategoryOpen ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                </button>
+                {isChangeCategoryOpen && (
+                  <div className="border-t border-gray-100 dark:border-[#3E4042]">
+                    <div className="px-2 py-1.5">
+                      <div className="flex items-center gap-1.5 bg-gray-100 dark:bg-[#3A3B3C] rounded-lg px-2 py-1.5">
+                        <svg className="w-3 h-3 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0" /></svg>
+                        <input
+                          ref={searchInputRef}
+                          type="text"
+                          placeholder="Cari kategori..."
+                          value={categorySearch}
+                          onChange={(e) => setCategorySearch(e.target.value)}
+                          onClick={(e) => e.stopPropagation()}
+                          onMouseDown={(e) => e.stopPropagation()}
+                          className="flex-1 bg-transparent text-[12px] text-gray-700 dark:text-[#E4E6EB] placeholder-gray-400 dark:placeholder-[#8B8D90] outline-none min-w-0"
+                        />
+                        {categorySearch && (
+                          <button onClick={(e) => { e.stopPropagation(); setCategorySearch(''); searchInputRef.current?.focus(); }} className="text-gray-400 hover:text-gray-600 dark:hover:text-[#E4E6EB]">
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                    <div className="overflow-y-auto" style={{maxHeight: '180px'}}>
+                      {PRODUCT_CATEGORIES.filter(cat => cat.toLowerCase().includes(categorySearch.toLowerCase())).length === 0 ? (
+                        <div className="px-4 py-3 text-[12px] text-gray-400 dark:text-[#8B8D90] text-center">Tidak ada hasil</div>
+                      ) : (
+                        PRODUCT_CATEGORIES.filter(cat => cat.toLowerCase().includes(categorySearch.toLowerCase())).map((cat) => (
+                          <button
+                            key={cat}
+                            className={`w-full text-left px-4 py-2 text-[12.5px] transition-colors hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-2 ${
+                              item.title === cat
+                                ? 'text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-50 dark:bg-emerald-900/20'
+                                : 'text-gray-600 dark:text-[#B0B3B8]'
+                            }`}
+                            onClick={(e) => { e.stopPropagation(); onChangeCategory?.(cat); setIsSettingPopupOpen(false); setIsChangeCategoryOpen(false); setCategorySearch(''); setPopupPos(null); }}
+                          >
+                            {item.title === cat && <svg className="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+                            <span className={item.title === cat ? '' : 'pl-5'}>{cat}</span>
+                          </button>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                )}
+                <div className="border-t border-gray-100 dark:border-[#3E4042]" />
+                <button
+                  className="w-full flex items-center gap-2 px-3 py-2.5 text-[13px] text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors rounded-b-xl"
+                  onClick={(e) => { e.stopPropagation(); onDeleteCategory?.(); setIsSettingPopupOpen(false); setPopupPos(null); }}
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                  Hapus Kategori
+                </button>
+              </div>,
+              document.body
+            )}
           </div>
           <button className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 border border-emerald-500/40 px-1.5 py-1 rounded-md hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition-colors" onClick={(e) => e.stopPropagation()}>
             + Produk
@@ -245,7 +354,7 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
   );
 }
 
-function BuilderCollectionItem({ collection, index, updateTitle, deleteCollection, moveCollection, moveItem, moveSubItem, isFirst, isLast }: { collection: any, index: number, updateTitle: (idx: number, title: string) => void, deleteCollection: (idx: number) => void, moveCollection: (idx: number, dir: 'up'|'down') => void, moveItem: (colIdx: number, itemIdx: number, dir: 'up'|'down') => void, moveSubItem: (colIdx: number, itemIdx: number, subIdx: number, dir: 'up'|'down') => void, isFirst: boolean, isLast: boolean }) {
+function BuilderCollectionItem({ collection, index, updateTitle, deleteCollection, moveCollection, moveItem, moveSubItem, changeCategoryTitle, deleteCategoryItem, isFirst, isLast }: { collection: any, index: number, updateTitle: (idx: number, title: string) => void, deleteCollection: (idx: number) => void, moveCollection: (idx: number, dir: 'up'|'down') => void, moveItem: (colIdx: number, itemIdx: number, dir: 'up'|'down') => void, moveSubItem: (colIdx: number, itemIdx: number, subIdx: number, dir: 'up'|'down') => void, changeCategoryTitle: (colIdx: number, itemIdx: number, newTitle: string) => void, deleteCategoryItem: (colIdx: number, itemIdx: number) => void, isFirst: boolean, isLast: boolean }) {
   const [isOpen, setIsOpen] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [isMovePopupOpen, setIsMovePopupOpen] = useState(false);
@@ -389,7 +498,7 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
                   </div>
                 );
               } else if (item.type === "category") {
-                return <BuilderCategoryItem key={itemIdx} item={item} onMoveUp={() => moveItem(index, itemIdx, 'up')} onMoveDown={() => moveItem(index, itemIdx, 'down')} onMoveSubItemUp={(subIdx) => moveSubItem(index, itemIdx, subIdx, 'up')} onMoveSubItemDown={(subIdx) => moveSubItem(index, itemIdx, subIdx, 'down')} isFirst={itemIdx === 0} isLast={itemIdx === collection.items.length - 1} />;
+                return <BuilderCategoryItem key={itemIdx} item={item} onMoveUp={() => moveItem(index, itemIdx, 'up')} onMoveDown={() => moveItem(index, itemIdx, 'down')} onMoveSubItemUp={(subIdx) => moveSubItem(index, itemIdx, subIdx, 'up')} onMoveSubItemDown={(subIdx) => moveSubItem(index, itemIdx, subIdx, 'down')} onChangeCategory={(newCat) => changeCategoryTitle(index, itemIdx, newCat)} onDeleteCategory={() => deleteCategoryItem(index, itemIdx)} isFirst={itemIdx === 0} isLast={itemIdx === collection.items.length - 1} />;
               }
               return null;
             })}
@@ -478,6 +587,26 @@ export default function MyDashPage() {
     } else {
       update();
     }
+  };
+
+  const changeCategoryTitle = (colIdx: number, itemIdx: number, newTitle: string) => {
+    setCollections(prev => {
+      const updated = [...prev];
+      const items = [...updated[colIdx].items];
+      items[itemIdx] = { ...items[itemIdx], title: newTitle };
+      updated[colIdx] = { ...updated[colIdx], items };
+      return updated;
+    });
+  };
+
+  const deleteCategoryItem = (colIdx: number, itemIdx: number) => {
+    setCollections(prev => {
+      const updated = [...prev];
+      const items = [...updated[colIdx].items];
+      items.splice(itemIdx, 1);
+      updated[colIdx] = { ...updated[colIdx], items };
+      return updated;
+    });
   };
 
   const moveSubItem = (colIdx: number, itemIdx: number, subItemIdx: number, direction: 'up' | 'down') => {
@@ -738,6 +867,8 @@ export default function MyDashPage() {
                         moveCollection={moveCollection}
                         moveItem={moveItem}
                         moveSubItem={moveSubItem}
+                        changeCategoryTitle={changeCategoryTitle}
+                        deleteCategoryItem={deleteCategoryItem}
                         isFirst={colIdx === 0}
                         isLast={colIdx === collections.length - 1}
                       />
