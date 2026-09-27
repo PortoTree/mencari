@@ -90,7 +90,7 @@ export default function MyDashPage() {
           </div>
 
           {/* Add new block */}
-          <div className="flex gap-2 mb-8">
+          <div className="flex gap-2 mb-6">
             <button className="flex-1 py-2.5 bg-emerald-500 text-white font-bold rounded-xl text-[14px] hover:bg-emerald-600 transition-colors flex justify-center items-center gap-2 shadow-sm">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
               {t("mydash.add_new_block")}
@@ -100,9 +100,10 @@ export default function MyDashPage() {
             </button>
           </div>
 
+          <div className="w-full h-px bg-gray-200 dark:bg-[#3E4042] mb-6"></div>
+
           {/* Block List */}
           <div className="mb-3">
-            <h2 className="text-[14px] font-bold text-gray-800 dark:text-[#E4E6EB] mb-4">{t("mydash.block_list")}</h2>
             <div className="space-y-6">
               {[
                 { 
@@ -128,9 +129,20 @@ export default function MyDashPage() {
                       {cat.icon}
                       <h3 className="text-[12px] font-bold uppercase tracking-wider">{cat.category}</h3>
                     </div>
-                    <button className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 border border-emerald-500/40 px-2 py-1 rounded-md hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition-colors">
-                      + Produk
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <div className="relative group/tooltip flex items-center">
+                        <button className="text-gray-400 hover:text-gray-600 dark:text-[#8B8D90] dark:hover:text-[#E4E6EB] transition-colors">
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+                        </button>
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2 py-1 bg-gray-800 dark:bg-gray-700 text-white text-[10px] whitespace-nowrap rounded opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-100 z-10 pointer-events-none">
+                          Edit kategori
+                          <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-[4px] border-transparent border-t-gray-800 dark:border-t-gray-700"></div>
+                        </div>
+                      </div>
+                      <button className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 border border-emerald-500/40 px-2 py-1 rounded-md hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition-colors">
+                        + Produk
+                      </button>
+                    </div>
                   </div>
                   <div className="space-y-3">
                     {cat.items.map((item, idx) => (
