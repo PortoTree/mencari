@@ -4,35 +4,6 @@ import { flushSync, createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import Navbar from "@/components/Navbar";
 
-function useScrollLock(isLocked: boolean) {
-  useEffect(() => {
-    const sidebar = document.getElementById('mydash-sidebar');
-    if (isLocked) {
-      if (sidebar) {
-        const scrollbarWidth = sidebar.offsetWidth - sidebar.clientWidth;
-        sidebar.style.overflow = 'hidden';
-        if (scrollbarWidth > 0) {
-          sidebar.style.paddingRight = `calc(1.5rem + ${scrollbarWidth}px)`;
-        }
-      }
-      document.body.style.overflow = 'hidden';
-    } else {
-      if (sidebar) {
-        sidebar.style.overflow = '';
-        sidebar.style.paddingRight = '';
-      }
-      document.body.style.overflow = '';
-    }
-    return () => {
-      if (sidebar) {
-        sidebar.style.overflow = '';
-        sidebar.style.paddingRight = '';
-      }
-      document.body.style.overflow = '';
-    };
-  }, [isLocked]);
-}
-
 const initialCollections = [
   {
     id: "c1",
@@ -217,8 +188,6 @@ function BuilderProductItem({ item, onMoveUp, onMoveDown, onEdit, onMoveCategory
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  useScrollLock(isSettingPopupOpen);
-
   return (
     <div className="bg-transparent p-3.5 rounded-xl shadow-sm border border-gray-200 dark:border-[#3E4042] flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors group" style={{ viewTransitionName: item.id ? `item-${item.id}` : undefined }}>
       <div className="flex-1 flex items-center gap-3 cursor-pointer group/itemclick min-w-0">
@@ -360,7 +329,32 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  useScrollLock(isSettingPopupOpen);
+  useEffect(() => {
+    const sidebar = document.getElementById('mydash-sidebar');
+    if (isChangeCategoryOpen) {
+      if (sidebar) {
+        const scrollbarWidth = sidebar.offsetWidth - sidebar.clientWidth;
+        sidebar.style.overflow = 'hidden';
+        if (scrollbarWidth > 0) {
+          sidebar.style.paddingRight = `calc(1.5rem + ${scrollbarWidth}px)`;
+        }
+      }
+      document.body.style.overflow = 'hidden';
+    } else {
+      if (sidebar) {
+        sidebar.style.overflow = '';
+        sidebar.style.paddingRight = '';
+      }
+      document.body.style.overflow = '';
+    }
+    return () => {
+      if (sidebar) {
+        sidebar.style.overflow = '';
+        sidebar.style.paddingRight = '';
+      }
+      document.body.style.overflow = '';
+    };
+  }, [isChangeCategoryOpen]);
 
   return (
     <div className="ml-2 mb-3 mt-4" style={{ viewTransitionName: item.id ? `item-${item.id}` : undefined }}>
@@ -594,8 +588,6 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  useScrollLock(isSettingPopupOpen);
 
   return (
     <div className="mb-6" ref={containerRef} style={{ viewTransitionName: collection.id ? `col-${collection.id}` : undefined }}>

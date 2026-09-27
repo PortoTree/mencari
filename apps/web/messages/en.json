@@ -550,6 +550,12 @@
     "pindah_koleksi": "Move Collection",
     "hapus_kategori": "Delete Category",
     "tambah": "Add",
-    "nama_koleksi": "Name Collection"
+    "nama_koleksi": "Name Collection",
+    "hapus_koleksi": "Delete Collection",
+    "edit_produk": "Edit Product",
+    "geser_ke_atas": "Move Up",
+    "geser_ke_bawah": "Move Down",
+    "pindah_kategori": "Move to Category",
+    "hapus_produk": "Delete Product"
   }
 }
