@@ -106,6 +106,7 @@ function PhonePreviewMockup({ collections }: { collections: any[] }) {
                 key={idx}
                 onClick={() => setActiveCollection(col)}
                 className="w-full flex items-center justify-between bg-white dark:bg-[#3A3B3C] p-3.5 rounded-2xl shadow-sm border border-gray-100 dark:border-[#4E4F50] transition-colors group"
+                style={{ viewTransitionName: col.id ? `col-${col.id}-preview` : undefined }}
               >
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 bg-emerald-100 dark:bg-[#242526] text-emerald-600 dark:text-gray-300 rounded-lg flex items-center justify-center shrink-0">
@@ -137,7 +138,7 @@ function PhonePreviewMockup({ collections }: { collections: any[] }) {
               {activeCollection?.items.map((item: any, idx: number) => {
                 if (item.type === "product") {
                   return (
-                    <div key={idx} className="bg-white dark:bg-[#3A3B3C] p-3 rounded-xl flex items-center gap-3 shadow-sm border border-gray-100 dark:border-[#4E4F50]">
+                    <div key={idx} className="bg-white dark:bg-[#3A3B3C] p-3 rounded-xl flex items-center gap-3 shadow-sm border border-gray-100 dark:border-[#4E4F50]" style={{ viewTransitionName: item.id ? `item-${item.id}-preview` : undefined }}>
                       <div className="w-12 h-12 bg-gray-100 dark:bg-[#242526] rounded-lg overflow-hidden shrink-0">
                         <img src="/produk-placeholder.png" alt="icon" className="w-full h-full object-cover opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                       </div>
@@ -148,14 +149,14 @@ function PhonePreviewMockup({ collections }: { collections: any[] }) {
                   );
                 } else if (item.type === "category") {
                   return (
-                    <div key={idx} className="mb-2 mt-5">
+                    <div key={idx} className="mb-2 mt-5" style={{ viewTransitionName: item.id ? `item-${item.id}-preview` : undefined }}>
                       <div className="flex items-center gap-1.5 text-gray-500 dark:text-[#B0B3B8] mb-3 px-1">
                         {item.icon}
                         <h4 className="text-[11px] font-bold uppercase tracking-wider">{item.title}</h4>
                       </div>
                       <div className="space-y-3">
                         {item.items.map((sub: any, sIdx: number) => (
-                          <div key={sIdx} className="bg-white dark:bg-[#3A3B3C] p-3 rounded-xl flex items-center gap-3 shadow-sm border border-gray-100 dark:border-[#4E4F50]">
+                          <div key={sIdx} className="bg-white dark:bg-[#3A3B3C] p-3 rounded-xl flex items-center gap-3 shadow-sm border border-gray-100 dark:border-[#4E4F50]" style={{ viewTransitionName: sub.id ? `item-${sub.id}-preview` : undefined }}>
                             <div className="w-12 h-12 bg-gray-100 dark:bg-[#242526] rounded-lg overflow-hidden shrink-0">
                               <img src="/produk-placeholder.png" alt="icon" className="w-full h-full object-cover opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                             </div>
