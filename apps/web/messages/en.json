@@ -548,10 +548,10 @@
     "tampilan": "Appearance",
     "market": "Market",
     "settings": "Settings",
-    "your_pages": "Your Pages",
+    "your_pages": "Your Showcase",
     "page": "Page",
     "home": "Home",
-    "add_new_block": "Add new block",
-    "block_list": "Block List"
+    "add_new_block": "Add new display",
+    "block_list": "Product display list"
   }
 }
