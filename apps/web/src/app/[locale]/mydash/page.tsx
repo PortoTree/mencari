@@ -149,15 +149,17 @@ function PhonePreviewMockup({ collections }: { collections: any[] }) {
   );
 }
 
-function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast }: { item: any, onMoveUp?: () => void, onMoveDown?: () => void, isFirst?: boolean, isLast?: boolean }) {
+function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMoveSubItemUp, onMoveSubItemDown }: { item: any, onMoveUp?: () => void, onMoveDown?: () => void, isFirst?: boolean, isLast?: boolean, onMoveSubItemUp?: (idx: number) => void, onMoveSubItemDown?: (idx: number) => void }) {
   const [isOpen, setIsOpen] = useState(true);
   const [isMovePopupOpen, setIsMovePopupOpen] = useState(false);
+  const [openMovePopupSubIdx, setOpenMovePopupSubIdx] = useState<number | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (!target.closest('.move-popup-container')) {
         setIsMovePopupOpen(false);
+        setOpenMovePopupSubIdx(null);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -170,7 +172,7 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast }: { 
         <div className="flex items-center gap-2 text-gray-500 dark:text-[#B0B3B8]">
           <div className="relative flex items-center shrink-0 move-popup-container" onClick={(e) => e.stopPropagation()}>
             <button onClick={() => setIsMovePopupOpen(!isMovePopupOpen)} className="text-gray-400 hover:text-gray-600 dark:text-[#8B8D90] dark:hover:text-[#E4E6EB] transition-colors cursor-pointer">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
+              <img src="/move.svg" alt="Move" className="w-4 h-4 opacity-40 hover:opacity-60 dark:invert transition-opacity" />
             </button>
             {isMovePopupOpen && (
               <div onClick={(e) => e.stopPropagation()} className="absolute top-full left-0 mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] shadow-lg rounded-md p-1 z-20 flex gap-1">
@@ -208,15 +210,29 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast }: { 
       {isOpen && (
         <div className="space-y-3">
           {item.items.map((subItem: any, subIdx: number) => (
-            <div key={subIdx} className="bg-transparent p-3.5 rounded-xl shadow-sm border border-gray-200 dark:border-[#3E4042] flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors cursor-pointer group">
-              <div className="cursor-grab text-gray-300 dark:text-[#4E4F50] hover:text-gray-500 shrink-0">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
+            <div key={subIdx} className="bg-transparent p-3.5 rounded-xl shadow-sm border border-gray-200 dark:border-[#3E4042] flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors group" style={{ viewTransitionName: subItem.id ? `item-${subItem.id}` : undefined }}>
+              <div className="relative flex items-center shrink-0 move-popup-container" onClick={(e) => e.stopPropagation()}>
+                <button onClick={() => setOpenMovePopupSubIdx(openMovePopupSubIdx === subIdx ? null : subIdx)} className="cursor-pointer text-gray-300 dark:text-[#4E4F50] hover:text-gray-500">
+                  <img src="/move.svg" alt="Move" className="w-4 h-4 opacity-40 hover:opacity-60 dark:invert transition-opacity" />
+                </button>
+                {openMovePopupSubIdx === subIdx && (
+                  <div onClick={(e) => e.stopPropagation()} className="absolute top-full left-0 mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] shadow-lg rounded-md p-1 z-20 flex gap-1">
+                    <button disabled={subIdx === 0} onClick={() => { onMoveSubItemUp?.(subIdx); setOpenMovePopupSubIdx(null); }} className="p-1 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded disabled:opacity-30 disabled:cursor-not-allowed text-gray-700 dark:text-[#E4E6EB]">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7" /></svg>
+                    </button>
+                    <button disabled={subIdx === item.items.length - 1} onClick={() => { onMoveSubItemDown?.(subIdx); setOpenMovePopupSubIdx(null); }} className="p-1 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded disabled:opacity-30 disabled:cursor-not-allowed text-gray-700 dark:text-[#E4E6EB]">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                  </div>
+                )}
               </div>
-              <div className="w-9 h-9 shrink-0 bg-gray-100 dark:bg-[#E4E6EB] rounded-lg flex items-center justify-center overflow-hidden">
-                <img src="/produk-placeholder.png" alt="Icon" className="w-full h-full object-cover opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
-              </div>
-              <div className="flex-1 text-[13px] text-gray-700 dark:text-[#E4E6EB] font-medium leading-snug pr-2 truncate">
-                {subItem.title}
+              <div className="flex-1 flex items-center gap-3 cursor-pointer group/itemclick min-w-0">
+                <div className="w-9 h-9 shrink-0 bg-gray-100 dark:bg-[#E4E6EB] rounded-lg flex items-center justify-center overflow-hidden">
+                  <img src="/produk-placeholder.png" alt="Icon" className="w-full h-full object-cover opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                </div>
+                <div className="flex-1 text-[13px] text-gray-700 dark:text-[#E4E6EB] font-medium leading-snug pr-2 truncate group-hover/itemclick:underline">
+                  {subItem.title}
+                </div>
               </div>
               <button className="text-gray-400 hover:text-gray-600 dark:hover:text-[#E4E6EB] shrink-0">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
@@ -229,7 +245,7 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast }: { 
   );
 }
 
-function BuilderCollectionItem({ collection, index, updateTitle, deleteCollection, moveCollection, moveItem, isFirst, isLast }: { collection: any, index: number, updateTitle: (idx: number, title: string) => void, deleteCollection: (idx: number) => void, moveCollection: (idx: number, dir: 'up'|'down') => void, moveItem: (colIdx: number, itemIdx: number, dir: 'up'|'down') => void, isFirst: boolean, isLast: boolean }) {
+function BuilderCollectionItem({ collection, index, updateTitle, deleteCollection, moveCollection, moveItem, moveSubItem, isFirst, isLast }: { collection: any, index: number, updateTitle: (idx: number, title: string) => void, deleteCollection: (idx: number) => void, moveCollection: (idx: number, dir: 'up'|'down') => void, moveItem: (colIdx: number, itemIdx: number, dir: 'up'|'down') => void, moveSubItem: (colIdx: number, itemIdx: number, subIdx: number, dir: 'up'|'down') => void, isFirst: boolean, isLast: boolean }) {
   const [isOpen, setIsOpen] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [isMovePopupOpen, setIsMovePopupOpen] = useState(false);
@@ -272,7 +288,7 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
         <div className="flex items-center gap-2 flex-1 min-w-0 pr-3">
           <div className="relative flex items-center shrink-0 move-popup-container" onClick={(e) => e.stopPropagation()}>
             <button onClick={() => setIsMovePopupOpen(!isMovePopupOpen)} className="text-gray-400 hover:text-gray-600 dark:text-[#8B8D90] dark:hover:text-[#E4E6EB] transition-colors cursor-pointer">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
+              <img src="/move.svg" alt="Move" className="w-4 h-4 opacity-40 hover:opacity-60 dark:invert transition-opacity" />
             </button>
             {isMovePopupOpen && (
               <div className="absolute top-full left-0 mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] shadow-lg rounded-md p-1 z-20 flex gap-1">
@@ -343,10 +359,10 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
             {collection.items.map((item: any, itemIdx: number) => {
               if (item.type === "product") {
                 return (
-                  <div key={itemIdx} className="bg-transparent p-3.5 rounded-xl shadow-sm border border-gray-200 dark:border-[#3E4042] flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors cursor-pointer group ml-2" style={{ viewTransitionName: item.id ? `item-${item.id}` : undefined }}>
+                  <div key={itemIdx} className="bg-transparent p-3.5 rounded-xl shadow-sm border border-gray-200 dark:border-[#3E4042] flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors group ml-2" style={{ viewTransitionName: item.id ? `item-${item.id}` : undefined }}>
                     <div className="relative flex items-center shrink-0 move-popup-container" onClick={(e) => e.stopPropagation()}>
                       <button onClick={() => setOpenMovePopupItemIdx(openMovePopupItemIdx === itemIdx ? null : itemIdx)} className="cursor-pointer text-gray-300 dark:text-[#4E4F50] hover:text-gray-500">
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
+                        <img src="/move.svg" alt="Move" className="w-4 h-4 opacity-40 hover:opacity-60 dark:invert transition-opacity" />
                       </button>
                       {openMovePopupItemIdx === itemIdx && (
                         <div onClick={(e) => e.stopPropagation()} className="absolute top-full left-0 mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] shadow-lg rounded-md p-1 z-20 flex gap-1">
@@ -359,11 +375,13 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
                         </div>
                       )}
                     </div>
-                    <div className="w-9 h-9 shrink-0 bg-gray-100 dark:bg-[#E4E6EB] rounded-lg flex items-center justify-center overflow-hidden">
-                      <img src="/produk-placeholder.png" alt="Icon" className="w-full h-full object-cover opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
-                    </div>
-                    <div className="flex-1 text-[13px] text-gray-700 dark:text-[#E4E6EB] font-medium leading-snug pr-2 truncate">
-                      {item.title}
+                    <div className="flex-1 flex items-center gap-3 cursor-pointer group/itemclick min-w-0">
+                      <div className="w-9 h-9 shrink-0 bg-gray-100 dark:bg-[#E4E6EB] rounded-lg flex items-center justify-center overflow-hidden">
+                        <img src="/produk-placeholder.png" alt="Icon" className="w-full h-full object-cover opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                      </div>
+                      <div className="flex-1 text-[13px] text-gray-700 dark:text-[#E4E6EB] font-medium leading-snug pr-2 truncate group-hover/itemclick:underline">
+                        {item.title}
+                      </div>
                     </div>
                     <button className="text-gray-400 hover:text-gray-600 dark:hover:text-[#E4E6EB] shrink-0">
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
@@ -371,7 +389,7 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
                   </div>
                 );
               } else if (item.type === "category") {
-                return <BuilderCategoryItem key={itemIdx} item={item} onMoveUp={() => moveItem(index, itemIdx, 'up')} onMoveDown={() => moveItem(index, itemIdx, 'down')} isFirst={itemIdx === 0} isLast={itemIdx === collection.items.length - 1} />;
+                return <BuilderCategoryItem key={itemIdx} item={item} onMoveUp={() => moveItem(index, itemIdx, 'up')} onMoveDown={() => moveItem(index, itemIdx, 'down')} onMoveSubItemUp={(subIdx) => moveSubItem(index, itemIdx, subIdx, 'up')} onMoveSubItemDown={(subIdx) => moveSubItem(index, itemIdx, subIdx, 'down')} isFirst={itemIdx === 0} isLast={itemIdx === collection.items.length - 1} />;
               }
               return null;
             })}
@@ -449,6 +467,31 @@ export default function MyDashPage() {
         const updated = [...prev];
         const targetIndex = direction === 'up' ? index - 1 : index + 1;
         [updated[index], updated[targetIndex]] = [updated[targetIndex], updated[index]];
+        return updated;
+      });
+    };
+
+    if (document.startViewTransition) {
+      document.startViewTransition(() => {
+        flushSync(() => { update(); });
+      });
+    } else {
+      update();
+    }
+  };
+
+  const moveSubItem = (colIdx: number, itemIdx: number, subItemIdx: number, direction: 'up' | 'down') => {
+    const update = () => {
+      setCollections(prev => {
+        const updated = [...prev];
+        const items = [...updated[colIdx].items];
+        const subItems = [...items[itemIdx].items];
+        if ((direction === 'up' && subItemIdx === 0) || (direction === 'down' && subItemIdx === subItems.length - 1)) return prev;
+        
+        const targetIdx = direction === 'up' ? subItemIdx - 1 : subItemIdx + 1;
+        [subItems[subItemIdx], subItems[targetIdx]] = [subItems[targetIdx], subItems[subItemIdx]];
+        items[itemIdx] = { ...items[itemIdx], items: subItems };
+        updated[colIdx] = { ...updated[colIdx], items };
         return updated;
       });
     };
@@ -694,6 +737,7 @@ export default function MyDashPage() {
                         deleteCollection={deleteCollection}
                         moveCollection={moveCollection}
                         moveItem={moveItem}
+                        moveSubItem={moveSubItem}
                         isFirst={colIdx === 0}
                         isLast={colIdx === collections.length - 1}
                       />
