@@ -156,7 +156,7 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
   const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
   const [isChangeCategoryOpen, setIsChangeCategoryOpen] = useState(false);
   const [categorySearch, setCategorySearch] = useState('');
-  const [popupPos, setPopupPos] = useState<{top: number, right: number} | null>(null);
+  const [popupPos, setPopupPos] = useState<{top?: number, bottom?: number, right: number} | null>(null);
   const settingRef = useRef<HTMLDivElement>(null);
   const settingBtnRef = useRef<HTMLButtonElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -170,7 +170,13 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
     }
     if (settingBtnRef.current) {
       const rect = settingBtnRef.current.getBoundingClientRect();
-      setPopupPos({ top: rect.bottom + 6, right: window.innerWidth - rect.right });
+      const spaceBelow = window.innerHeight - rect.bottom;
+      
+      if (spaceBelow < 300) {
+        setPopupPos({ bottom: window.innerHeight - rect.top + 6, right: window.innerWidth - rect.right });
+      } else {
+        setPopupPos({ top: rect.bottom + 6, right: window.innerWidth - rect.right });
+      }
     }
     setIsSettingPopupOpen(true);
     setIsChangeCategoryOpen(false);
@@ -201,6 +207,33 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    const sidebar = document.getElementById('mydash-sidebar');
+    if (isChangeCategoryOpen) {
+      if (sidebar) {
+        const scrollbarWidth = sidebar.offsetWidth - sidebar.clientWidth;
+        sidebar.style.overflow = 'hidden';
+        if (scrollbarWidth > 0) {
+          sidebar.style.paddingRight = `calc(1.5rem + ${scrollbarWidth}px)`;
+        }
+      }
+      document.body.style.overflow = 'hidden';
+    } else {
+      if (sidebar) {
+        sidebar.style.overflow = '';
+        sidebar.style.paddingRight = '';
+      }
+      document.body.style.overflow = '';
+    }
+    return () => {
+      if (sidebar) {
+        sidebar.style.overflow = '';
+        sidebar.style.paddingRight = '';
+      }
+      document.body.style.overflow = '';
+    };
+  }, [isChangeCategoryOpen]);
 
   return (
     <div className="ml-2 mb-3 mt-4" style={{ viewTransitionName: item.id ? `item-${item.id}` : undefined }}>
@@ -237,7 +270,13 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
               <div
                 data-setting-popup
                 className="fixed bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-xl min-w-[220px]"
-                style={{ top: popupPos.top, right: popupPos.right, zIndex: 99999, boxShadow: '0 8px 32px rgba(0,0,0,0.22)' }}
+                style={{ 
+                  ...(popupPos.top !== undefined ? { top: popupPos.top } : {}), 
+                  ...(popupPos.bottom !== undefined ? { bottom: popupPos.bottom } : {}), 
+                  right: popupPos.right, 
+                  zIndex: 99999, 
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.22)' 
+                }}
                 onMouseDown={(e) => e.stopPropagation()}
               >
                 {/* Ubah Kategori */}
@@ -744,7 +783,7 @@ export default function MyDashPage() {
         <div className="flex-1 flex flex-col lg:flex-row w-full h-full bg-[#f3f4f6] dark:bg-[#111213]">
           
           {/* Left Column (Dashboard Controls) */}
-          <div className="w-full lg:w-[500px] xl:w-[560px] shrink-0 h-full overflow-y-auto sidebar-scrollbar px-6 pt-8 pb-10 bg-white dark:bg-[#1C1D1F] border-r border-gray-200 dark:border-[#3E4042]">
+          <div id="mydash-sidebar" className="w-full lg:w-[500px] xl:w-[560px] shrink-0 h-full overflow-y-auto sidebar-scrollbar px-6 pt-8 pb-10 bg-white dark:bg-[#1C1D1F] border-r border-gray-200 dark:border-[#3E4042]">
 
             {activeTab === "store" && (
               <div className="flex flex-col gap-6">
