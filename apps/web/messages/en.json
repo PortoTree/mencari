@@ -294,20 +294,40 @@
     "visit": "Visit search page"
   },
   "product": {
-    "title": "Discover digital products from various platforms",
-    "search_placeholder": "Search products or categories...",
-    "filter_all": "All",
-    "badge_new": "New",
-    "sold": "Sold",
-    "manage": "Manage",
-    "sort_placeholder": "Select filter",
-    "sort_popular": "Popular",
-    "sort_lowest_price": "Lowest price",
-    "sort_highest_price": "Highest price",
-    "sort_highest_rating": "Highest rating",
     "buy_now": "Buy Now",
-    "checkout_at": "Checkout product at",
-    "dummy_description": "A professional website template with a modern, responsive, and easy-to-customize design. Perfect for businesses, portfolios, or digital product landing pages."
+    "checkout_at": "Secure checkout via",
+    "manage": "Manage",
+    "title": "Products",
+    "sort_placeholder": "SORT BY",
+    "sort_popular": "Most Popular",
+    "sort_lowest_price": "Lowest Price",
+    "sort_highest_price": "Highest Price",
+    "sort_highest_rating": "Highest Rating",
+    "search_placeholder": "Search products...",
+    "category": "Category",
+    "filter_all": "All Categories",
+    "categories": {
+      "ai_prompt": "AI & Prompt",
+      "design": "Design & Graphics",
+      "document": "Documents & Templates",
+      "ebook": "Ebook & Digital Books",
+      "course": "Courses & Education",
+      "software": "Software & Tools",
+      "business": "Business & Finance",
+      "social": "Social Media",
+      "photo_video": "Photo & Video",
+      "audio": "Audio & Music",
+      "gaming": "Gaming",
+      "website": "Website & Development",
+      "career": "Career & Professional",
+      "printable": "Printables",
+      "3d_asset": "3D & Assets",
+      "font": "Font & Typography",
+      "marketing": "Marketing",
+      "lifestyle": "Lifestyle",
+      "membership": "Membership & Subscription",
+      "bundle": "Bundle & Resource Pack"
+    }
   },
   "profile": {
     "reputation": "Reputation",
@@ -506,42 +526,6 @@
       "dec": "Dec"
     }
   },
-  "product": {
-    "buy_now": "Buy Now",
-    "checkout_at": "Secure checkout via",
-    "manage": "Manage",
-    "title": "Products",
-    "sort_placeholder": "SORT BY",
-    "sort_popular": "Most Popular",
-    "sort_lowest_price": "Lowest Price",
-    "sort_highest_price": "Highest Price",
-    "sort_highest_rating": "Highest Rating",
-    "search_placeholder": "Search products...",
-    "category": "Category",
-    "filter_all": "All Categories",
-    "categories": {
-      "ai_prompt": "AI & Prompt",
-      "design": "Design & Graphics",
-      "document": "Documents & Templates",
-      "ebook": "Ebook & Digital Books",
-      "course": "Courses & Education",
-      "software": "Software & Tools",
-      "business": "Business & Finance",
-      "social": "Social Media",
-      "photo_video": "Photo & Video",
-      "audio": "Audio & Music",
-      "gaming": "Gaming",
-      "website": "Website & Development",
-      "career": "Career & Professional",
-      "printable": "Printables",
-      "3d_asset": "3D & Assets",
-      "font": "Font & Typography",
-      "marketing": "Marketing",
-      "lifestyle": "Lifestyle",
-      "membership": "Membership & Subscription",
-      "bundle": "Bundle & Resource Pack"
-    }
-  },
   "mydash": {
     "toko": "Store",
     "produk": "Product",
@@ -556,6 +540,8 @@
     "link_toko": "Store Link",
     "start_creating_now": "Start creating now!",
     "layout": "Layout",
-    "add_collection": "Add Collection"
+    "add_collection": "Add Collection",
+    "add_display": "Add Display",
+    "add_product": "Add Product"
   }
 }

@@ -175,20 +175,25 @@ export default function MyDashPage() {
             {activeTab === "produk" && (
               <div className="flex flex-col">
                 {/* Your Pages */}
-                <div className="flex flex-col mb-8">
-                  <div className="flex items-center justify-between">
-                    <h2 className="text-[17px] font-bold text-gray-800 dark:text-[#E4E6EB]">{t("mydash.your_pages")}</h2>
+                <div className="flex flex-col mb-6">
+                  <div className="flex items-center">
+                    <h2 className="text-xl font-extrabold text-gray-900 dark:text-white tracking-tight">{t("mydash.your_pages")}</h2>
                   </div>
                 </div>
 
                 {/* Add new block */}
-                <div className="flex gap-2 mb-6">
-                  <button className="flex-1 py-2.5 bg-emerald-500 text-white font-bold rounded-xl text-[14px] hover:bg-emerald-600 transition-colors flex justify-center items-center gap-2 shadow-sm">
+                <div className="flex gap-2 mb-6 overflow-x-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                  <button className="flex-1 py-2.5 px-3 bg-emerald-500 text-white font-bold rounded-xl text-[13px] hover:bg-emerald-600 transition-colors flex justify-center items-center gap-1.5 shadow-sm whitespace-nowrap">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
-                    {t("mydash.add_new_block")}
+                    {t("mydash.add_display")}
                   </button>
-                  <button className="w-11 shrink-0 flex items-center justify-center bg-transparent border border-gray-400 dark:border-[#4E4F50] text-gray-400 dark:text-[#B0B3B8] rounded-xl hover:bg-gray-100 dark:hover:bg-[#3A3B3C] transition-colors shadow-sm">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
+                  <button className="flex-1 py-2.5 px-3 bg-emerald-500 text-white font-bold rounded-xl text-[13px] hover:bg-emerald-600 transition-colors flex justify-center items-center gap-1.5 shadow-sm whitespace-nowrap">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
+                    {t("mydash.add_collection")}
+                  </button>
+                  <button className="flex-1 py-2.5 px-3 bg-emerald-500 text-white font-bold rounded-xl text-[13px] hover:bg-emerald-600 transition-colors flex justify-center items-center gap-1.5 shadow-sm whitespace-nowrap">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
+                    {t("mydash.add_product")}
                   </button>
                 </div>
 
