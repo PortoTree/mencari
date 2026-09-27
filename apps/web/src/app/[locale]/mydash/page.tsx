@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import Navbar from "@/components/Navbar";
 
-const dummyCollections = [
+const initialCollections = [
   {
     type: "collection",
     title: "Koleksi Ebook & Buku Digital",
@@ -44,7 +44,7 @@ const dummyCollections = [
   }
 ];
 
-function PhonePreviewMockup() {
+function PhonePreviewMockup({ collections }: { collections: any[] }) {
   const [activeCollection, setActiveCollection] = useState<any>(null);
 
   return (
@@ -66,7 +66,7 @@ function PhonePreviewMockup() {
           </div>
 
           <div className="space-y-3">
-            {dummyCollections.map((col, idx) => (
+            {collections.map((col, idx) => (
               <button 
                 key={idx}
                 onClick={() => setActiveCollection(col)}
@@ -143,16 +143,163 @@ function PhonePreviewMockup() {
   );
 }
 
+function BuilderCategoryItem({ item }: { item: any }) {
+  const [isOpen, setIsOpen] = useState(true);
+
+  return (
+    <div className="ml-2 mb-3 mt-4">
+      <div className="flex items-center justify-between mb-3 px-1 cursor-pointer select-none group/cat" onClick={() => setIsOpen(!isOpen)}>
+        <div className="flex items-center gap-2 text-gray-500 dark:text-[#B0B3B8]">
+          {item.icon}
+          <h4 className="text-[12px] font-bold uppercase tracking-wider">{item.title}</h4>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="relative group/tooltip flex items-center" onClick={(e) => e.stopPropagation()}>
+            <button className="text-gray-400 hover:text-gray-600 dark:text-[#8B8D90] dark:hover:text-[#E4E6EB] transition-colors">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><circle cx="12" cy="12" r="3" strokeWidth={2} /></svg>
+            </button>
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2 py-1 bg-gray-800 dark:bg-gray-700 text-white text-[10px] whitespace-nowrap rounded opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-100 z-10 pointer-events-none">
+              Setting
+              <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-[4px] border-transparent border-t-gray-800 dark:border-t-gray-700"></div>
+            </div>
+          </div>
+          <button className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 border border-emerald-500/40 px-1.5 py-1 rounded-md hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition-colors" onClick={(e) => e.stopPropagation()}>
+            + Produk
+          </button>
+          <div className="text-gray-400 dark:text-[#8B8D90] transition-transform duration-200" style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
+          </div>
+        </div>
+      </div>
+      
+      {isOpen && (
+        <div className="space-y-3">
+          {item.items.map((subItem: any, subIdx: number) => (
+            <div key={subIdx} className="bg-transparent p-3.5 rounded-xl shadow-sm border border-gray-200 dark:border-[#3E4042] flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors cursor-pointer group">
+              <div className="cursor-grab text-gray-300 dark:text-[#4E4F50] hover:text-gray-500 shrink-0">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
+              </div>
+              <div className="w-9 h-9 shrink-0 bg-gray-100 dark:bg-[#E4E6EB] rounded-lg flex items-center justify-center overflow-hidden">
+                <img src="/produk-placeholder.png" alt="Icon" className="w-full h-full object-cover opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+              </div>
+              <div className="flex-1 text-[13px] text-gray-700 dark:text-[#E4E6EB] font-medium leading-snug pr-2 truncate">
+                {subItem.title}
+              </div>
+              <button className="text-gray-400 hover:text-gray-600 dark:hover:text-[#E4E6EB] shrink-0">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function BuilderCollectionItem({ collection }: { collection: any }) {
+  const [isOpen, setIsOpen] = useState(true);
+
+  return (
+    <div className="mb-6">
+      {/* Collection Header */}
+      <div className="flex items-center justify-between mb-3 px-1 cursor-pointer select-none group/col" onClick={() => setIsOpen(!isOpen)}>
+        <div className="flex items-center gap-2">
+          <div className="relative group/tooltip flex items-center" onClick={(e) => e.stopPropagation()}>
+            <button className="text-gray-400 hover:text-gray-600 dark:text-[#8B8D90] dark:hover:text-[#E4E6EB] transition-colors cursor-grab">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
+            </button>
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2 py-1 bg-gray-800 dark:bg-gray-700 text-white text-[10px] whitespace-nowrap rounded opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-100 z-10 pointer-events-none">
+              Pindah urutan
+              <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-[4px] border-transparent border-t-gray-800 dark:border-t-gray-700"></div>
+            </div>
+          </div>
+          <div className="w-7 h-7 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 rounded-lg flex items-center justify-center">
+             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+          </div>
+          <h3 className="text-[14px] font-bold text-gray-800 dark:text-[#E4E6EB]">{collection.title}</h3>
+        </div>
+        <div className="flex items-center gap-2">
+          {collection.items.length > 0 && (
+            <button className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 border border-emerald-500/40 px-2 py-1 rounded-md hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition-colors" onClick={(e) => e.stopPropagation()}>
+              + Tambah
+            </button>
+          )}
+          <div className="text-gray-400 dark:text-[#8B8D90] transition-transform duration-200" style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
+          </div>
+        </div>
+      </div>
+
+      {isOpen && (
+        <>
+          {/* Collection Items */}
+          <div className="space-y-3 pl-3 border-l-[3px] border-gray-100 dark:border-[#3E4042] ml-3">
+            {collection.items.map((item: any, itemIdx: number) => {
+              if (item.type === "product") {
+                return (
+                  <div key={itemIdx} className="bg-transparent p-3.5 rounded-xl shadow-sm border border-gray-200 dark:border-[#3E4042] flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors cursor-pointer group ml-2">
+                    <div className="cursor-grab text-gray-300 dark:text-[#4E4F50] hover:text-gray-500 shrink-0">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
+                    </div>
+                    <div className="w-9 h-9 shrink-0 bg-gray-100 dark:bg-[#E4E6EB] rounded-lg flex items-center justify-center overflow-hidden">
+                      <img src="/produk-placeholder.png" alt="Icon" className="w-full h-full object-cover opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                    </div>
+                    <div className="flex-1 text-[13px] text-gray-700 dark:text-[#E4E6EB] font-medium leading-snug pr-2 truncate">
+                      {item.title}
+                    </div>
+                    <button className="text-gray-400 hover:text-gray-600 dark:hover:text-[#E4E6EB] shrink-0">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
+                    </button>
+                  </div>
+                );
+              } else if (item.type === "category") {
+                return <BuilderCategoryItem key={itemIdx} item={item} />;
+              }
+              return null;
+            })}
+          </div>
+          
+          {/* CTA buttons inside Collection */}
+          {collection.items.length === 0 && (
+            <div className="flex items-center gap-2 mt-2 ml-6">
+              <button className="flex items-center gap-1.5 text-[11px] font-bold text-gray-500 hover:text-emerald-600 dark:text-[#B0B3B8] dark:hover:text-emerald-400 bg-white hover:bg-emerald-50 dark:bg-[#2A2B2C] dark:hover:bg-emerald-900/30 px-3 py-1.5 rounded-lg transition-colors border border-gray-200 dark:border-[#4E4F50] shadow-sm">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" /></svg>
+                Add display
+              </button>
+              <button className="flex items-center gap-1.5 text-[11px] font-bold text-gray-500 hover:text-emerald-600 dark:text-[#B0B3B8] dark:hover:text-emerald-400 bg-white hover:bg-emerald-50 dark:bg-[#2A2B2C] dark:hover:bg-emerald-900/30 px-3 py-1.5 rounded-lg transition-colors border border-gray-200 dark:border-[#4E4F50] shadow-sm">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" /></svg>
+                Add produk
+              </button>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
 export default function MyDashPage() {
   const t = useTranslations();
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [themeLoaded, setThemeLoaded] = useState(false);
   const [currentUser] = useState({ id: "1", name: "User", username: "user" });
   const [activeTab, setActiveTab] = useState<"store" | "produk" | "tampilan" | "settings">("store");
+  const [collections, setCollections] = useState(initialCollections);
 
   const handleTabChange = (tab: "store" | "produk" | "tampilan" | "settings") => {
     setActiveTab(tab);
     localStorage.setItem("mydash_tab", tab);
+  };
+
+  const handleAddCollection = () => {
+    setCollections([
+      ...collections,
+      {
+        type: "collection",
+        title: "Nama Koleksi",
+        items: []
+      }
+    ]);
   };
 
   useEffect(() => {
@@ -274,7 +421,7 @@ export default function MyDashPage() {
                     <h3 className="font-bold text-gray-700 dark:text-[#E4E6EB] text-[14px]">{t("mydash.start_creating_now")}</h3>
                     <div className="flex flex-col gap-2">
                       <div className="flex gap-2 overflow-x-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                        <button className="bg-white dark:bg-[#242526] border border-gray-300 dark:border-[#4E4F50] text-gray-600 dark:text-[#B0B3B8] rounded-md px-3 py-1.5 flex items-center gap-1.5 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors text-[13px] font-medium shadow-sm shrink-0">
+                        <button onClick={handleAddCollection} className="bg-white dark:bg-[#242526] border border-gray-300 dark:border-[#4E4F50] text-gray-600 dark:text-[#B0B3B8] rounded-md px-3 py-1.5 flex items-center gap-1.5 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors text-[13px] font-medium shadow-sm shrink-0">
                           <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
                           {t("mydash.add_collection")}
                         </button>
@@ -336,7 +483,7 @@ export default function MyDashPage() {
 
                 {/* Add new block */}
                 <div className="flex gap-2 mb-6 overflow-x-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                  <button className="flex-1 py-2.5 px-3 bg-emerald-500 text-white font-bold rounded-xl text-[13px] hover:bg-emerald-600 transition-colors flex justify-center items-center gap-1.5 shadow-sm whitespace-nowrap">
+                  <button onClick={handleAddCollection} className="flex-1 py-2.5 px-3 bg-emerald-500 text-white font-bold rounded-xl text-[13px] hover:bg-emerald-600 transition-colors flex justify-center items-center gap-1.5 shadow-sm whitespace-nowrap">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
                     {t("mydash.add_collection")}
                   </button>
@@ -355,103 +502,11 @@ export default function MyDashPage() {
                 {/* Block List */}
                 <div className="mb-3">
                   <div className="space-y-6">
-                    {dummyCollections.map((collection, colIdx) => (
-                      <div key={colIdx} className="mb-6">
-                        {/* Collection Header */}
-                        <div className="flex items-center justify-between mb-3 px-1">
-                          <div className="flex items-center gap-2">
-                            <div className="w-7 h-7 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 rounded-lg flex items-center justify-center">
-                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
-                            </div>
-                            <h3 className="text-[14px] font-bold text-gray-800 dark:text-[#E4E6EB]">{collection.title}</h3>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <div className="relative group/tooltip flex items-center">
-                              <button className="text-gray-400 hover:text-gray-600 dark:text-[#8B8D90] dark:hover:text-[#E4E6EB] transition-colors">
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
-                              </button>
-                              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2 py-1 bg-gray-800 dark:bg-gray-700 text-white text-[10px] whitespace-nowrap rounded opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-100 z-10 pointer-events-none">
-                                Edit koleksi
-                                <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-[4px] border-transparent border-t-gray-800 dark:border-t-gray-700"></div>
-                              </div>
-                            </div>
-                            <button className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 border border-emerald-500/40 px-2 py-1 rounded-md hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition-colors">
-                              + Tambah
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* Collection Items */}
-                        <div className="space-y-3 pl-3 border-l-[3px] border-gray-100 dark:border-[#3E4042] ml-3">
-                          {collection.items.map((item, itemIdx) => {
-                            if (item.type === "product") {
-                              return (
-                                <div key={itemIdx} className="bg-transparent p-3.5 rounded-xl shadow-sm border border-gray-200 dark:border-[#3E4042] flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors cursor-pointer group ml-2">
-                                  <div className="cursor-grab text-gray-300 dark:text-[#4E4F50] hover:text-gray-500 shrink-0">
-                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
-                                  </div>
-                                  <div className="w-9 h-9 shrink-0 bg-gray-100 dark:bg-[#E4E6EB] rounded-lg flex items-center justify-center overflow-hidden">
-                                    <img src="/produk-placeholder.png" alt="Icon" className="w-full h-full object-cover opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
-                                  </div>
-                                  <div className="flex-1 text-[13px] text-gray-700 dark:text-[#E4E6EB] font-medium leading-snug pr-2 truncate">
-                                    {item.title}
-                                  </div>
-                                  <button className="text-gray-400 hover:text-gray-600 dark:hover:text-[#E4E6EB] shrink-0">
-                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
-                                  </button>
-                                </div>
-                              );
-                            } else if (item.type === "category") {
-                              return (
-                                <div key={itemIdx} className="ml-2 mb-3 mt-4">
-                                  <div className="flex items-center justify-between mb-3 px-1">
-                                    <div className="flex items-center gap-2 text-gray-500 dark:text-[#B0B3B8]">
-                                      {item.icon}
-                                      <h4 className="text-[12px] font-bold uppercase tracking-wider">{item.title}</h4>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                      <div className="relative group/tooltip flex items-center">
-                                        <button className="text-gray-400 hover:text-gray-600 dark:text-[#8B8D90] dark:hover:text-[#E4E6EB] transition-colors">
-                                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
-                                        </button>
-                                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2 py-1 bg-gray-800 dark:bg-gray-700 text-white text-[10px] whitespace-nowrap rounded opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-100 z-10 pointer-events-none">
-                                          Edit kategori
-                                          <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-[4px] border-transparent border-t-gray-800 dark:border-t-gray-700"></div>
-                                        </div>
-                                      </div>
-                                      <button className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 border border-emerald-500/40 px-1.5 py-1 rounded-md hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition-colors">
-                                        + Produk
-                                      </button>
-                                    </div>
-                                  </div>
-                                  <div className="space-y-3">
-                                    {item.items.map((subItem, subIdx) => (
-                                      <div key={subIdx} className="bg-transparent p-3.5 rounded-xl shadow-sm border border-gray-200 dark:border-[#3E4042] flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors cursor-pointer group">
-                                        <div className="cursor-grab text-gray-300 dark:text-[#4E4F50] hover:text-gray-500 shrink-0">
-                                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
-                                        </div>
-                                        <div className="w-9 h-9 shrink-0 bg-gray-100 dark:bg-[#E4E6EB] rounded-lg flex items-center justify-center overflow-hidden">
-                                          <img src="/produk-placeholder.png" alt="Icon" className="w-full h-full object-cover opacity-80" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
-                                        </div>
-                                        <div className="flex-1 text-[13px] text-gray-700 dark:text-[#E4E6EB] font-medium leading-snug pr-2 truncate">
-                                          {subItem.title}
-                                        </div>
-                                        <button className="text-gray-400 hover:text-gray-600 dark:hover:text-[#E4E6EB] shrink-0">
-                                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
-                                        </button>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              );
-                            }
-                            return null;
-                          })}
-                        </div>
-                      </div>
+                    {collections.map((collection, colIdx) => (
+                      <BuilderCollectionItem key={colIdx} collection={collection} />
                     ))}
-            </div>
-          </div>
+                  </div>
+                </div>
         </div>
         )}
       </div>
@@ -461,7 +516,7 @@ export default function MyDashPage() {
           <div className="w-full h-full flex justify-center items-start lg:items-center">
             {/* Phone Preview Mockup */}
             {/* Phone Preview Mockup */}
-            <PhonePreviewMockup />
+            <PhonePreviewMockup collections={collections} />
           </div>
         </div>
 
