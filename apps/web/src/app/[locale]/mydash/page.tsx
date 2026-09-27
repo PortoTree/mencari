@@ -1,26 +1,57 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import Navbar from "@/components/Navbar";
 
 export default function MyDashPage() {
   const t = useTranslations();
-  
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [themeLoaded, setThemeLoaded] = useState(false);
+  const [currentUser] = useState({ id: "1", name: "User", username: "user" });
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      setIsDarkMode(true);
+      document.documentElement.classList.add("dark");
+    } else if (savedTheme === "light") {
+      setIsDarkMode(false);
+      document.documentElement.classList.remove("dark");
+    } else {
+      setIsDarkMode(true);
+      document.documentElement.classList.add("dark");
+    }
+    setThemeLoaded(true);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#f3f4f6] dark:bg-[#18191A] pt-[76px] pb-10 px-4">
-      <div className="max-w-[1200px] mx-auto flex flex-col lg:flex-row gap-6">
+    <>
+      {/* Custom Empty Header */}
+      <header className="fixed top-0 left-0 right-0 h-[56px] bg-white dark:bg-[#242526] border-b border-gray-200 dark:border-[#3E4042] z-50 flex items-center px-4"></header>
+
+      <div className="h-screen overflow-hidden bg-[#f3f4f6] dark:bg-[#18191A] pt-[56px]">
+      <div className="w-full flex flex-col lg:flex-row h-full">
         
-        {/* Left Column (Dashboard Controls) */}
-        <div className="flex-1">
-          {/* Top Tabs */}
-          <div className="flex items-center gap-2 mb-6">
-            <button className="px-5 py-2.5 bg-white dark:bg-[#242526] text-emerald-500 font-bold rounded-full shadow-sm border border-gray-100 dark:border-[#3E4042]">
-              My Link In Bio
-            </button>
-            <button className="px-5 py-2.5 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 font-bold rounded-full relative">
-              Landing Pages
-              <span className="absolute -top-2 right-0 bg-[#FF5A5F] text-white text-[10px] font-bold px-1.5 py-0.5 rounded">NEW</span>
-            </button>
-          </div>
+        {/* Icon Sidebar */}
+        <div className="w-full lg:w-[72px] shrink-0 flex lg:flex-col items-center gap-4 px-4 lg:px-0 py-4 bg-white dark:bg-[#242526] border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-[#3E4042]">
+          {/* Produk */}
+          <button className="flex flex-col items-center justify-center gap-1.5 w-14 h-14 bg-[#f3f4f6] dark:bg-[#3A3B3C] text-emerald-500 rounded-xl shadow-sm transition-colors hover:bg-emerald-50 dark:hover:bg-[#2A2B2C]">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+            <span className="text-[9px] font-bold">Produk</span>
+          </button>
+
+          {/* Tampilan */}
+          <button className="flex flex-col items-center justify-center gap-1.5 w-14 h-14 bg-transparent text-gray-500 dark:text-[#B0B3B8] rounded-xl transition-colors hover:bg-gray-200 dark:hover:bg-[#3A3B3C] relative">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" /></svg>
+            <span className="text-[9px] font-bold">Tampilan</span>
+            <span className="absolute -top-1 -right-1 bg-[#FF5A5F] text-white text-[8px] font-bold px-1 py-0.5 rounded-full">NEW</span>
+          </button>
+        </div>
+
+        {/* Main Content Area */}
+        <div className="flex-1 flex flex-col lg:flex-row justify-center max-w-[1440px] mx-auto w-full gap-6 lg:gap-8 pt-6">
+          {/* Left Column (Dashboard Controls) */}
+          <div className="w-full lg:w-[500px] xl:w-[560px] shrink-0 h-full overflow-y-auto sidebar-scrollbar px-4 pb-10">
 
           {/* URL Box */}
           <div className="bg-white dark:bg-[#242526] p-3 rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] flex flex-col sm:flex-row items-center gap-3 mb-8">
@@ -100,8 +131,8 @@ export default function MyDashPage() {
         </div>
 
         {/* Right Column (Preview) */}
-        <div className="w-full lg:w-[360px] xl:w-[400px] shrink-0">
-          <div className="sticky top-[80px]">
+        <div className="flex-1 h-full overflow-hidden flex justify-center pt-4 lg:pt-0">
+          <div className="w-full h-full flex justify-center items-start lg:items-center">
             {/* Phone Preview Mockup */}
             <div className="w-[320px] h-[640px] mx-auto bg-white dark:bg-[#18191A] rounded-[40px] border-[8px] border-gray-800 dark:border-gray-900 shadow-xl overflow-hidden relative">
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-gray-800 dark:bg-gray-900 rounded-b-3xl z-10"></div>
@@ -138,7 +169,9 @@ export default function MyDashPage() {
           </div>
         </div>
 
+        </div>
       </div>
     </div>
+    </>
   );
 }
