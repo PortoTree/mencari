@@ -505,5 +505,41 @@
       "nov": "Nov",
       "dec": "Dec"
     }
+  },
+  "product": {
+    "buy_now": "Buy Now",
+    "checkout_at": "Secure checkout via",
+    "manage": "Manage",
+    "title": "Products",
+    "sort_placeholder": "SORT BY",
+    "sort_popular": "Most Popular",
+    "sort_lowest_price": "Lowest Price",
+    "sort_highest_price": "Highest Price",
+    "sort_highest_rating": "Highest Rating",
+    "search_placeholder": "Search products...",
+    "category": "Category",
+    "filter_all": "All Categories",
+    "categories": {
+      "ai_prompt": "AI & Prompt",
+      "design": "Design & Graphics",
+      "document": "Documents & Templates",
+      "ebook": "Ebook & Digital Books",
+      "course": "Courses & Education",
+      "software": "Software & Tools",
+      "business": "Business & Finance",
+      "social": "Social Media",
+      "photo_video": "Photo & Video",
+      "audio": "Audio & Music",
+      "gaming": "Gaming",
+      "website": "Website & Development",
+      "career": "Career & Professional",
+      "printable": "Printables",
+      "3d_asset": "3D & Assets",
+      "font": "Font & Typography",
+      "marketing": "Marketing",
+      "lifestyle": "Lifestyle",
+      "membership": "Membership & Subscription",
+      "bundle": "Bundle & Resource Pack"
+    }
   }
 }

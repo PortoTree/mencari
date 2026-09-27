@@ -505,5 +505,41 @@
       "nov": "Nov.",
       "dec": "Des."
     }
+  },
+  "product": {
+    "buy_now": "Beli Sekarang",
+    "checkout_at": "Checkout dengan aman di",
+    "manage": "Kelola",
+    "title": "Produk",
+    "sort_placeholder": "URUTKAN BERDASARKAN",
+    "sort_popular": "Paling Populer",
+    "sort_lowest_price": "Harga Terendah",
+    "sort_highest_price": "Harga Tertinggi",
+    "sort_highest_rating": "Rating Tertinggi",
+    "search_placeholder": "Cari produk...",
+    "category": "Kategori",
+    "filter_all": "Semua Kategori",
+    "categories": {
+      "ai_prompt": "AI & Prompt",
+      "design": "Desain & Grafis",
+      "document": "Dokumen & Template",
+      "ebook": "Ebook & Buku Digital",
+      "course": "Kursus & Edukasi",
+      "software": "Software & Tools",
+      "business": "Bisnis & Keuangan",
+      "social": "Social Media",
+      "photo_video": "Foto & Video",
+      "audio": "Audio & Musik",
+      "gaming": "Gaming",
+      "website": "Website & Development",
+      "career": "Karier & Profesional",
+      "printable": "Printable",
+      "3d_asset": "3D & Asset",
+      "font": "Font & Typography",
+      "marketing": "Marketing",
+      "lifestyle": "Lifestyle",
+      "membership": "Membership & Subscription",
+      "bundle": "Bundle & Resource Pack"
+    }
   }
 }
