@@ -207,18 +207,22 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
         if (res.success && res.profile) {
           if (res.profile.avatarUrl) setAvatarPreview(res.profile.avatarUrl);
           if (res.profile.coverUrl) setCoverPreview(res.profile.coverUrl);
-          if (res.profile.bio) setBioText(res.profile.bio);
-          if (res.profile.locationName) setLocationName(res.profile.locationName);
-          if (res.profile.profession) setProfession(res.profile.profession);
-          if (res.profile.education) setEducation(res.profile.education);
-          if (res.profile.websiteUrl) setWebsiteUrl(res.profile.websiteUrl);
-          if (res.profile.gender) setGender(res.profile.gender);
+          if (res.profile.bio) setBioText(res.profile.bio); else setBioText("");
+          if (res.profile.locationName) setLocationName(res.profile.locationName); else setLocationName("");
+          if (res.profile.profession) setProfession(res.profile.profession); else setProfession("");
+          if (res.profile.education) setEducation(res.profile.education); else setEducation("");
+          if (res.profile.websiteUrl) setWebsiteUrl(res.profile.websiteUrl); else setWebsiteUrl("");
+          if (res.profile.gender) setGender(res.profile.gender); else setGender(t("selectPlaceholder"));
           if (res.profile.birthDate) {
             const d = new Date(res.profile.birthDate);
             setDobDay(d.getDate().toString());
             const months = [t("months.jan"), t("months.feb"), t("months.mar"), t("months.apr"), t("months.may"), t("months.jun"), t("months.jul"), t("months.aug"), t("months.sep"), t("months.oct"), t("months.nov"), t("months.dec")];
             setDobMonth(months[d.getMonth()] || months[0]);
             setDobYear(d.getFullYear().toString());
+          } else {
+            setDobDay(t("selectPlaceholder"));
+            setDobMonth(t("selectPlaceholder"));
+            setDobYear(t("selectPlaceholder"));
           }
           if (res.profile.displayName) {
             setCurrentDisplayName(res.profile.displayName);
@@ -306,9 +310,9 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingGender, setIsEditingGender] = useState(false);
   const [isEditingDOB, setIsEditingDOB] = useState(false);
-  const [dobDay, setDobDay] = useState("1");
-  const [dobMonth, setDobMonth] = useState(t("months.jan"));
-  const [dobYear, setDobYear] = useState("2000");
+  const [dobDay, setDobDay] = useState(t("selectPlaceholder"));
+  const [dobMonth, setDobMonth] = useState(t("selectPlaceholder"));
+  const [dobYear, setDobYear] = useState(t("selectPlaceholder"));
   const [isEditingLocation, setIsEditingLocation] = useState(false);
   const [isEditingProfession, setIsEditingProfession] = useState(false);
   const [isEditingExperience, setIsEditingExperience] = useState(false);
@@ -385,7 +389,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
   // Form States (for custom selects)
   const [gender, setGender] = useState(t("selectPlaceholder"));
-  const [socialPlatform, setSocialPlatform] = useState("Instagram");
+  const [socialPlatform, setSocialPlatform] = useState(t("selectPlaceholder"));
   const [socialUsername, setSocialUsername] = useState("");
   
   // Privacy States
@@ -696,7 +700,9 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{dobDay} {dobMonth} {dobYear}</span>
+                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">
+                          {dobDay === t("selectPlaceholder") ? t("addDOB") : `${dobDay} ${dobMonth} ${dobYear}`}
+                        </span>
                       </div>
                     </button>
                   </div>
@@ -709,21 +715,21 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                           <CustomSelect 
                             className="flex-1" 
                             columns={4}
-                            options={Array.from({length: 31}, (_, i) => String(i+1))} 
+                            options={[t("selectPlaceholder"), ...Array.from({length: 31}, (_, i) => String(i+1))]} 
                             value={dobDay} 
                             onChange={setDobDay} 
                           />
                           <CustomSelect 
                             className="flex-1" 
                             columns={3}
-                            options={[t("months.jan"), t("months.feb"), t("months.mar"), t("months.apr"), t("months.may"), t("months.jun"), t("months.jul"), t("months.aug"), t("months.sep"), t("months.oct"), t("months.nov"), t("months.dec")]} 
+                            options={[t("selectPlaceholder"), t("months.jan"), t("months.feb"), t("months.mar"), t("months.apr"), t("months.may"), t("months.jun"), t("months.jul"), t("months.aug"), t("months.sep"), t("months.oct"), t("months.nov"), t("months.dec")]} 
                             value={dobMonth} 
                             onChange={setDobMonth} 
                           />
                           <CustomSelect 
                             className="flex-1" 
                             columns={4}
-                            options={Array.from({length: 100}, (_, i) => String(new Date().getFullYear() - i))} 
+                            options={[t("selectPlaceholder"), ...Array.from({length: 100}, (_, i) => String(new Date().getFullYear() - i))]} 
                             value={dobYear} 
                             onChange={setDobYear} 
                           />
@@ -1011,7 +1017,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       <div className="flex flex-col sm:flex-row gap-3">
                         <CustomSelect 
                             className="w-[68px] shrink-0" 
-                            options={["Instagram", "Whatsapp", "Facebook", "Tiktok", "Github", "Portotree", "Linkedin", "Youtube", "Telegram", "Twitter"]} 
+                            options={[t("selectPlaceholder"), "Instagram", "Whatsapp", "Facebook", "Tiktok", "Github", "Portotree", "Linkedin", "Youtube", "Telegram", "Twitter"]} 
                             value={socialPlatform === "Lainnya" ? "Instagram" : socialPlatform} 
                             onChange={setSocialPlatform}
                             columns={2}

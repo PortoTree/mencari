@@ -418,6 +418,7 @@
     "genderMale": "Male",
     "genderFemale": "Female",
     "dobTitle": "Date of Birth",
+    "addDOB": "Add date of birth",
     "dobDay": "Day",
     "dobMonth": "Month",
     "dobYear": "Year",
