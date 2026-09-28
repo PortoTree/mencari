@@ -74,6 +74,10 @@ relasi sosial, konten, dan media dalam satu tabel.
 
   `updated_at`            TIMESTAMP               Waktu profile
                                                   diperbarui.
+  `social_media`          TEXT / NULL             platform url social media pribadi
+  `community`             TEXT / NULL             platform komunitas
+  `group_chat`            TEXT / NULL             platform obrolan
+  
   -----------------------------------------------------------------------
 
 ------------------------------------------------------------------------

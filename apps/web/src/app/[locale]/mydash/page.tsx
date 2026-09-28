@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import React, { useState, useEffect, useRef } from "react";
 import { flushSync, createPortal } from "react-dom";
 import { useTranslations, useLocale } from "next-intl";
@@ -164,7 +164,7 @@ function ProductPreviewMockup({ product }: { product: any }) {
           {/* Description */}
           <div className="mt-3">
             <h3 className="text-[10px] font-bold text-[#B0B3B8] uppercase tracking-wider mb-1">Deskripsi</h3>
-            <div 
+            <div
               className="text-[12px] text-[#B0B3B8] leading-relaxed [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:list-decimal [&_ol]:pl-4"
               dangerouslySetInnerHTML={{ __html: product?.description || "Template website profesional dengan desain modern, responsif, dan mudah dikustomisasi. Cocok untuk bisnis, portofolio, maupun landing page produk digital Anda." }}
             />
@@ -663,8 +663,8 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
                           <button
                             key={cat}
                             className={`w-full text-left px-3 py-2 rounded-md text-[12.5px] transition-colors hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-2 ${item.title === cat
-                                ? 'text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-50 dark:bg-emerald-900/20'
-                                : 'text-gray-600 dark:text-[#B0B3B8]'
+                              ? 'text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-50 dark:bg-emerald-900/20'
+                              : 'text-gray-600 dark:text-[#B0B3B8]'
                               }`}
                             onClick={(e) => { e.stopPropagation(); onChangeCategory?.(cat); setIsSettingPopupOpen(false); setIsChangeCategoryOpen(false); setCategorySearch(''); setPopupPos(null); }}
                           >
@@ -1063,10 +1063,10 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
                     onClick={() => p === "LYNK" && setPlatform(p.toLowerCase())}
                     disabled={p !== "LYNK"}
                     className={`px-3 py-1.5 rounded-full text-[12px] font-medium transition-colors border ${p !== "LYNK"
-                        ? "bg-white dark:bg-[#242526] text-red-500 border-red-500 opacity-70 cursor-not-allowed"
-                        : platform === p.toLowerCase()
-                          ? "bg-emerald-500 text-white border-emerald-500"
-                          : "bg-white dark:bg-[#242526] text-emerald-600 dark:text-emerald-400 border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/30"
+                      ? "bg-white dark:bg-[#242526] text-red-500 border-red-500 opacity-70 cursor-not-allowed"
+                      : platform === p.toLowerCase()
+                        ? "bg-emerald-500 text-white border-emerald-500"
+                        : "bg-white dark:bg-[#242526] text-emerald-600 dark:text-emerald-400 border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/30"
                       }`}
                   >
                     {p}

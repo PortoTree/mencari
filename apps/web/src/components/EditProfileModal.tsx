@@ -221,8 +221,27 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [selectedSport, setSelectedSport] = useState<string[]>([]);
   const [expCurrent, setExpCurrent] = useState(false);
   const [isEditingEducation, setIsEditingEducation] = useState(false);
-  const [eduCurrent, setEduCurrent] = useState(false);
   const [bioText, setBioText] = useState("");
+  
+  // Media States
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [coverPreview, setCoverPreview] = useState<string | null>(null);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+  const coverInputRef = useRef<HTMLInputElement>(null);
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setAvatarPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setCoverPreview(URL.createObjectURL(file));
+    }
+  };
 
   // Form States (for custom selects)
   const [gender, setGender] = useState(t("selectPlaceholder"));
@@ -586,14 +605,15 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                 <div>
                   <label className="block text-base font-bold text-gray-900 dark:text-white mb-4">{t("avatarTitle")}</label>
                   <div className="flex items-center gap-6">
-                    <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-gray-100 dark:border-gray-700 relative group cursor-pointer shadow-sm shrink-0">
-                      <img src="/default-avatar.svg" alt="Avatar" className="w-full h-full object-cover bg-white dark:bg-gray-800" />
+                    <input type="file" ref={avatarInputRef} onChange={handleAvatarChange} className="hidden" accept="image/*" />
+                    <div onClick={() => avatarInputRef.current?.click()} className="w-24 h-24 rounded-full overflow-hidden border-4 border-gray-100 dark:border-gray-700 relative group cursor-pointer shadow-sm shrink-0">
+                      <img src={avatarPreview || "/default-avatar.svg"} alt="Avatar" className="w-full h-full object-cover bg-white dark:bg-gray-800" />
                       <div className="absolute inset-0 bg-black/50 hidden group-hover:flex items-center justify-center transition-all">
                         <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                       </div>
                     </div>
                     <div>
-                      <button className="px-4 py-2 rounded-xl bg-gray-100 dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-gray-600 text-sm font-semibold transition-colors">{t("avatarBtn")}</button>
+                      <button onClick={() => avatarInputRef.current?.click()} className="px-4 py-2 rounded-xl bg-gray-100 dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-gray-600 text-sm font-semibold transition-colors">{t("avatarBtn")}</button>
                       <p className="text-xs text-gray-500 mt-2">{t("avatarDesc")}</p>
                     </div>
                   </div>
@@ -603,8 +623,9 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
                 <div>
                   <label className="block text-base font-bold text-gray-900 dark:text-white mb-4">{t("coverTitle")}</label>
-                  <div className="w-full h-[150px] rounded-2xl overflow-hidden relative group cursor-pointer border border-gray-200 dark:border-gray-700">
-                    <img src="/sampul-placeholder.png" alt="Cover" className="w-full h-full object-cover" />
+                  <input type="file" ref={coverInputRef} onChange={handleCoverChange} className="hidden" accept="image/*" />
+                  <div onClick={() => coverInputRef.current?.click()} className="w-full h-[150px] rounded-2xl overflow-hidden relative group cursor-pointer border border-gray-200 dark:border-gray-700">
+                    <img src={coverPreview || "/sampul-placeholder.png"} alt="Cover" className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-black/50 hidden group-hover:flex items-center justify-center transition-all">
                       <span className="text-white font-semibold flex items-center gap-2">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /></svg>

@@ -26,6 +26,23 @@ export default function ProfilePage({
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isProfileExpanded, setIsProfileExpanded] = useState(false);
   const [isProfileOptionsOpen, setIsProfileOptionsOpen] = useState(false);
+  
+  // Media states
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [coverPreview, setCoverPreview] = useState<string | null>(null);
+  const avatarInputRef = React.useRef<HTMLInputElement>(null);
+  const coverInputRef = React.useRef<HTMLInputElement>(null);
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) setAvatarPreview(URL.createObjectURL(file));
+  };
+
+  const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) setCoverPreview(URL.createObjectURL(file));
+  };
+
     const [activeAlbumIdx, setActiveAlbumIdx] = useState<number | null>(null);
     const [albumGridCols, setAlbumGridCols] = useState<number>(3);
     const carouselRef = React.useRef<HTMLDivElement>(null);
@@ -110,9 +127,10 @@ export default function ProfilePage({
         
         {/* Cover Photo */}
         <div className="w-full h-[280px] rounded-b-[40px] relative overflow-hidden bg-gray-200 dark:bg-gray-700 shadow-sm">
-          <img src="/sampul-placeholder.png" alt="Cover" className="w-full h-full object-cover" />
+          <input type="file" ref={coverInputRef} onChange={handleCoverChange} className="hidden" accept="image/*" />
+          <img src={coverPreview || "/sampul-placeholder.png"} alt="Cover" className="w-full h-full object-cover" />
           {isOwnProfile && (
-            <button onClick={() => setIsEditModalOpen(true)} className="absolute bottom-4 right-4 bg-black/50 hover:bg-black/70 text-white p-2.5 rounded-full backdrop-blur-sm transition-colors cursor-pointer shadow-md z-10">
+            <button onClick={() => coverInputRef.current?.click()} className="absolute bottom-4 right-4 bg-black/50 hover:bg-black/70 text-white p-2.5 rounded-full backdrop-blur-sm transition-colors cursor-pointer shadow-md z-30">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
               </svg>
@@ -130,11 +148,12 @@ export default function ProfilePage({
               <div className="flex flex-col items-center w-full">
             {/* Avatar */}
             <div className="relative mb-4">
+              <input type="file" ref={avatarInputRef} onChange={handleAvatarChange} className="hidden" accept="image/*" />
               <div className="w-[120px] h-[120px] rounded-full border-[4px] border-white dark:border-[#3A3B3C] bg-white dark:bg-[#242526] flex items-center justify-center shadow-md overflow-hidden">
-                <img src="/default-avatar.svg" alt="Avatar" className="w-full h-full object-cover" />
+                <img src={avatarPreview || "/default-avatar.svg"} alt="Avatar" className="w-full h-full object-cover" />
               </div>
               {isOwnProfile && (
-                <button onClick={() => setIsEditModalOpen(true)} className="absolute bottom-0 right-0 bg-gray-200 hover:bg-gray-300 dark:bg-[#4E4F50] dark:hover:bg-[#5E5F60] p-2 rounded-full border-[3px] border-white dark:border-[#3A3B3C] shadow-sm transition-colors text-black dark:text-white cursor-pointer z-10">
+                <button onClick={() => avatarInputRef.current?.click()} className="absolute bottom-0 right-0 bg-gray-200 hover:bg-gray-300 dark:bg-[#4E4F50] dark:hover:bg-[#5E5F60] p-2 rounded-full border-[3px] border-white dark:border-[#3A3B3C] shadow-sm transition-colors text-black dark:text-white cursor-pointer z-10">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                   </svg>
