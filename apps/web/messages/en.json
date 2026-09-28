@@ -295,7 +295,7 @@
   },
   "product": {
     "buy_now": "Buy Now",
-    "checkout_at": "Secure checkout via",
+    "checkout_at": "Checkout via",
     "manage": "Manage",
     "title": "Products",
     "sort_placeholder": "SORT BY",
@@ -597,6 +597,9 @@
     "simpan_produk": "Save Product",
     "nama_kategori_baru": "New category name...",
     "nama_koleksi_baru": "New collection name...",
-    "pilih_dari_pustaka_kategori": "Select from category library..."
+    "pilih_dari_pustaka_kategori": "Select from category library...",
+    "ulasan_pembeli": "Customer Reviews",
+    "selengkapnya": "See All",
+    "tambah_ulasan_kamu": "+Your review"
   }
 }

@@ -295,7 +295,7 @@
   },
   "product": {
     "buy_now": "Beli Sekarang",
-    "checkout_at": "Checkout dengan aman di",
+    "checkout_at": "Checkout dengan",
     "manage": "Kelola",
     "title": "Produk",
     "sort_placeholder": "URUTKAN BERDASARKAN",
@@ -580,11 +580,11 @@
     "layout_cta": "Ajakan bertindak",
     "harga": "Harga",
     "cta_button": "Tombol CTA",
-    "cta_i_want_this": "I Want This",
-    "cta_buy_now": "Buy Now",
-    "cta_support": "Support",
-    "cta_book_now": "Book Now",
-    "cta_custom": "Custom",
+    "cta_i_want_this": "Saya Mau Ini",
+    "cta_buy_now": "Beli Sekarang",
+    "cta_support": "Dukung",
+    "cta_book_now": "Pesan Sekarang",
+    "cta_custom": "Kustom",
     "sale_price": "Harga Potongan (Opsional)",
     "purchase_button": "Tombol Pembelian",
     "custom_cta_placeholder": "Tuliskan teks custom...",
@@ -597,6 +597,9 @@
     "simpan_produk": "Simpan Produk",
     "nama_kategori_baru": "Nama kategori baru...",
     "nama_koleksi_baru": "Nama koleksi baru...",
-    "pilih_dari_pustaka_kategori": "Pilih dari pustaka kategori..."
+    "pilih_dari_pustaka_kategori": "Pilih dari pustaka kategori...",
+    "ulasan_pembeli": "Ulasan Pembeli",
+    "selengkapnya": "Selengkapnya",
+    "tambah_ulasan_kamu": "+Ulasan kamu"
   }
 }

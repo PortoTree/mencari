@@ -82,13 +82,13 @@ const initialCollections = [
 
 function ProductPreviewMockup({ product }: { product: any }) {
   const t = useTranslations();
-  
+
   let embedUrl = "";
   let isDirectVideo = false;
 
   if (product?.isVideoEnabled && product?.videoUrl) {
     const url = product.videoUrl;
-    
+
     if (url.match(/\.(mp4|webm|ogg)$/i) || url.includes("cloudinary.com/video/upload") || url.includes("storage.googleapis.com")) {
       embedUrl = url;
       isDirectVideo = true;
@@ -100,10 +100,10 @@ function ProductPreviewMockup({ product }: { product: any }) {
         const urlParams = new URLSearchParams(url.split("?")[1]);
         const videoId = urlParams.get("v");
         if (videoId) embedUrl = `https://www.youtube.com/embed/${videoId}`;
-      } catch (e) {}
+      } catch (e) { }
     } else if (url.includes("youtube.com/shorts/")) {
-       const videoId = url.split("youtube.com/shorts/")[1]?.split("?")[0];
-       if (videoId) embedUrl = `https://www.youtube.com/embed/${videoId}`;
+      const videoId = url.split("youtube.com/shorts/")[1]?.split("?")[0];
+      if (videoId) embedUrl = `https://www.youtube.com/embed/${videoId}`;
     } else if (url.includes("vimeo.com/")) {
       const videoId = url.split("vimeo.com/")[1]?.split(/[?\/]/)[0];
       if (videoId) embedUrl = `https://player.vimeo.com/video/${videoId}`;
@@ -118,10 +118,10 @@ function ProductPreviewMockup({ product }: { product: any }) {
   return (
     <div className="w-[320px] h-[640px] mx-auto bg-[#1C1D1F] rounded-[40px] border-[8px] border-gray-800 shadow-2xl overflow-hidden relative flex flex-col">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-gray-800 rounded-b-3xl z-20"></div>
-      
+
       {/* Container */}
       <div className="relative w-full h-full flex flex-col overflow-y-auto hide-scrollbar bg-[#242526]">
-        
+
         {/* Top Image Placeholder */}
         <div className="w-full h-[280px] bg-[#3E4042] relative flex items-center justify-center shrink-0">
           <svg className="w-16 h-16 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
@@ -132,7 +132,7 @@ function ProductPreviewMockup({ product }: { product: any }) {
           {/* Store Info */}
           <div className="flex items-center gap-2 mb-2">
             <div className="w-5 h-5 bg-gray-100 rounded flex items-center justify-center shrink-0">
-               <svg className="w-3 h-3 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" /></svg>
+              <svg className="w-3 h-3 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" /></svg>
             </div>
             <span className="text-[12px] text-[#B0B3B8]">Toko Digital Kreatif 1</span>
           </div>
@@ -145,18 +145,18 @@ function ProductPreviewMockup({ product }: { product: any }) {
           {/* Badges (Koleksi & Kategori) */}
           {(product?.collection || product?.category) && (
             <div className="flex flex-wrap gap-1.5 mt-2.5">
-               {product?.collection && (
-                 <div className="flex items-center gap-1 px-2 py-1 bg-orange-500/10 border border-orange-500/20 rounded-md">
-                   <svg className="w-3 h-3 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
-                   <span className="text-[10px] font-medium text-orange-500">{product.collection}</span>
-                 </div>
-               )}
-               {product?.category && (
-                 <div className="flex items-center gap-1 px-2 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-md">
-                   <svg className="w-3 h-3 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
-                   <span className="text-[10px] font-medium text-emerald-500">{product.category}</span>
-                 </div>
-               )}
+              {product?.collection && (
+                <div className="flex items-center gap-1 px-2 py-1 bg-orange-500/10 border border-orange-500/20 rounded-md">
+                  <svg className="w-3 h-3 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                  <span className="text-[10px] font-medium text-orange-500">{product.collection}</span>
+                </div>
+              )}
+              {product?.category && (
+                <div className="flex items-center gap-1 px-2 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-md">
+                  <svg className="w-3 h-3 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
+                  <span className="text-[10px] font-medium text-emerald-500">{product.category}</span>
+                </div>
+              )}
             </div>
           )}
 
@@ -189,7 +189,10 @@ function ProductPreviewMockup({ product }: { product: any }) {
 
           {/* Reviews Placeholder */}
           <div className="mt-4 pt-4 border-t border-gray-700/50">
-            <h3 className="text-[12px] font-bold text-white mb-2">Ulasan Pembeli</h3>
+            <div className="flex justify-between items-center mb-2">
+              <h3 className="text-[12px] font-bold text-white">{t("mydash.ulasan_pembeli")}</h3>
+              <button className="text-[10px] text-emerald-500 font-medium hover:underline">{t("mydash.selengkapnya")}</button>
+            </div>
             <div className="bg-[#18191A] rounded-xl p-3 border border-gray-800 flex items-start gap-3">
               <div className="w-8 h-8 rounded-full bg-gray-700 shrink-0"></div>
               <div className="flex-1 mt-0.5">
@@ -198,7 +201,7 @@ function ProductPreviewMockup({ product }: { product: any }) {
                   <div className="w-12 h-2 bg-gray-700 rounded-full"></div>
                 </div>
                 <div className="flex gap-0.5 mb-2">
-                  {[1,2,3,4,5].map(i => (
+                  {[1, 2, 3, 4, 5].map(i => (
                     <svg key={i} className="w-3 h-3 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
                   ))}
                 </div>
@@ -206,6 +209,9 @@ function ProductPreviewMockup({ product }: { product: any }) {
                 <div className="w-3/4 h-2 bg-gray-700 rounded-full"></div>
               </div>
             </div>
+            <button className="w-full mt-3 py-2.5 border border-gray-700/80 rounded-lg text-[11px] font-medium text-gray-400 hover:bg-gray-800 hover:text-gray-300 transition-colors flex justify-center items-center gap-1.5">
+              {t("mydash.tambah_ulasan_kamu")}
+            </button>
           </div>
 
           <div className="flex-1 min-h-[16px]"></div>
@@ -229,15 +235,22 @@ function ProductPreviewMockup({ product }: { product: any }) {
           </div>
 
           {/* CTA */}
-          <button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl mt-3 transition-colors text-[14px]">
-            {product?.ctaType === "custom" && product?.customCta 
-              ? product.customCta 
-              : t(`mydash.cta_${product?.ctaType || "buy_now"}`)}
-          </button>
+          <div className="flex gap-2 mt-3">
+            <button className="w-11 shrink-0 bg-[#2A2B2C] hover:bg-[#3A3B3C] border border-gray-700/80 rounded-xl flex items-center justify-center text-gray-400 hover:text-white transition-colors">
+              <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+              </svg>
+            </button>
+            <button className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl transition-colors text-[14px]">
+              {product?.ctaType === "custom" && product?.customCta
+                ? product.customCta
+                : t(`mydash.cta_${product?.ctaType || "buy_now"}`)}
+            </button>
+          </div>
 
           {/* Footer Note */}
           <p className="text-center text-[10px] text-[#B0B3B8] mt-3 pb-2">
-            Checkout dengan aman di <span className="font-bold text-white">LYNK</span>
+            {t("product.checkout_at")} <span className="font-bold text-white">LYNK</span>
           </p>
 
         </div>
@@ -252,11 +265,11 @@ function PhonePreviewMockup({ collections }: { collections: any[] }) {
   return (
     <div className="w-[320px] h-[640px] mx-auto bg-white rounded-[40px] border-[8px] border-gray-800 shadow-xl overflow-hidden relative flex flex-col">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-gray-800 rounded-b-3xl z-20"></div>
-      
+
       {/* Container for sliding views */}
       <div className="relative w-full h-full flex overflow-hidden hide-scrollbar bg-[#f3f4f6]">
         {/* Main View */}
-        <div 
+        <div
           className={`absolute top-0 left-0 w-full h-full p-4 pt-10 overflow-y-auto hide-scrollbar transition-transform duration-300 ease-in-out ${activeCollection ? '-translate-x-full' : 'translate-x-0'}`}
         >
           <div className="flex flex-col items-center mb-6">
@@ -269,7 +282,7 @@ function PhonePreviewMockup({ collections }: { collections: any[] }) {
 
           <div className="space-y-3">
             {collections.map((col, idx) => (
-              <button 
+              <button
                 key={idx}
                 onClick={() => setActiveCollection(col)}
                 className="w-full flex items-center justify-between bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 transition-colors group"
@@ -277,7 +290,7 @@ function PhonePreviewMockup({ collections }: { collections: any[] }) {
               >
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 bg-emerald-100 text-emerald-600 rounded-lg flex items-center justify-center shrink-0">
-                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
                   </div>
                   <span className="font-bold text-[13px] text-gray-800 text-left leading-tight">{col.title}</span>
                 </div>
@@ -290,7 +303,7 @@ function PhonePreviewMockup({ collections }: { collections: any[] }) {
         </div>
 
         {/* Collection Detail View */}
-        <div 
+        <div
           className={`absolute top-0 left-0 w-full h-full bg-[#f3f4f6] flex flex-col transition-transform duration-300 ease-in-out z-10 ${activeCollection ? 'translate-x-0' : 'translate-x-full'}`}
         >
           <div className="p-4 pt-10 pb-4 bg-white border-b border-gray-200 flex items-center gap-3 shrink-0 shadow-sm z-10">
@@ -299,7 +312,7 @@ function PhonePreviewMockup({ collections }: { collections: any[] }) {
             </button>
             <h3 className="font-bold text-[14px] text-gray-800 truncate flex-1 leading-tight">{activeCollection?.title}</h3>
           </div>
-          
+
           <div className="flex-1 overflow-y-auto hide-scrollbar p-4">
             <div className="space-y-3">
               {activeCollection?.items.map((item: any, idx: number) => {
@@ -349,7 +362,7 @@ function PhonePreviewMockup({ collections }: { collections: any[] }) {
 function BuilderProductItem({ item, onMoveUp, onMoveDown, onEdit, onMoveCategory, onMoveCollection, isFirst, isLast, onDelete }: { item: any, onMoveUp?: () => void, onMoveDown?: () => void, onEdit?: () => void, onMoveCategory?: () => void, onMoveCollection?: () => void, isFirst?: boolean, isLast?: boolean, onDelete?: () => void }) {
   const t = useTranslations();
   const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
-  const [popupPos, setPopupPos] = useState<{top?: number, bottom?: number, right: number} | null>(null);
+  const [popupPos, setPopupPos] = useState<{ top?: number, bottom?: number, right: number } | null>(null);
   const settingRef = useRef<HTMLDivElement>(null);
   const settingBtnRef = useRef<HTMLButtonElement>(null);
 
@@ -363,7 +376,7 @@ function BuilderProductItem({ item, onMoveUp, onMoveDown, onEdit, onMoveCategory
     if (settingBtnRef.current) {
       const rect = settingBtnRef.current.getBoundingClientRect();
       const spaceBelow = window.innerHeight - rect.bottom;
-      
+
       if (spaceBelow < 250) {
         setPopupPos({ bottom: window.innerHeight - rect.top + 6, right: window.innerWidth - rect.right });
       } else {
@@ -399,17 +412,17 @@ function BuilderProductItem({ item, onMoveUp, onMoveDown, onEdit, onMoveCategory
       </div>
       <div className="relative flex items-center shrink-0" ref={settingRef}>
         <button ref={settingBtnRef} onClick={openSettingPopup} className="text-gray-400 hover:text-gray-600 dark:hover:text-[#E4E6EB] p-1">
-          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5" /><circle cx="12" cy="12" r="1.5" /><circle cx="19" cy="12" r="1.5" /></svg>
         </button>
         {isSettingPopupOpen && popupPos && createPortal(
           <div
             data-setting-popup
             className="fixed bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-xl min-w-[200px] z-50 py-1"
-            style={{ 
-              ...(popupPos.top !== undefined ? { top: popupPos.top } : {}), 
-              ...(popupPos.bottom !== undefined ? { bottom: popupPos.bottom } : {}), 
-              right: popupPos.right, 
-              boxShadow: '0 8px 32px rgba(0,0,0,0.22)' 
+            style={{
+              ...(popupPos.top !== undefined ? { top: popupPos.top } : {}),
+              ...(popupPos.bottom !== undefined ? { bottom: popupPos.bottom } : {}),
+              right: popupPos.right,
+              boxShadow: '0 8px 32px rgba(0,0,0,0.22)'
             }}
             onMouseDown={(e) => e.stopPropagation()}
           >
@@ -476,7 +489,7 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
   const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
   const [isChangeCategoryOpen, setIsChangeCategoryOpen] = useState(false);
   const [categorySearch, setCategorySearch] = useState('');
-  const [popupPos, setPopupPos] = useState<{top?: number, bottom?: number, right: number} | null>(null);
+  const [popupPos, setPopupPos] = useState<{ top?: number, bottom?: number, right: number } | null>(null);
   const settingRef = useRef<HTMLDivElement>(null);
   const settingBtnRef = useRef<HTMLButtonElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -491,7 +504,7 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
     if (settingBtnRef.current) {
       const rect = settingBtnRef.current.getBoundingClientRect();
       const spaceBelow = window.innerHeight - rect.bottom;
-      
+
       if (spaceBelow < 300) {
         setPopupPos({ bottom: window.innerHeight - rect.top + 6, right: window.innerWidth - rect.right });
       } else {
@@ -551,12 +564,12 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
               <div
                 data-setting-popup
                 className="fixed bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-xl min-w-[220px]"
-                style={{ 
-                  ...(popupPos.top !== undefined ? { top: popupPos.top } : {}), 
-                  ...(popupPos.bottom !== undefined ? { bottom: popupPos.bottom } : {}), 
-                  right: popupPos.right, 
-                  zIndex: 99999, 
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.22)' 
+                style={{
+                  ...(popupPos.top !== undefined ? { top: popupPos.top } : {}),
+                  ...(popupPos.bottom !== undefined ? { bottom: popupPos.bottom } : {}),
+                  right: popupPos.right,
+                  zIndex: 99999,
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.22)'
                 }}
                 onMouseDown={(e) => e.stopPropagation()}
               >
@@ -647,11 +660,10 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
                         PRODUCT_CATEGORIES.filter(cat => cat.toLowerCase().includes(categorySearch.toLowerCase())).map((cat) => (
                           <button
                             key={cat}
-                            className={`w-full text-left px-3 py-2 rounded-md text-[12.5px] transition-colors hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-2 ${
-                              item.title === cat
+                            className={`w-full text-left px-3 py-2 rounded-md text-[12.5px] transition-colors hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-2 ${item.title === cat
                                 ? 'text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-50 dark:bg-emerald-900/20'
                                 : 'text-gray-600 dark:text-[#B0B3B8]'
-                            }`}
+                              }`}
                             onClick={(e) => { e.stopPropagation(); onChangeCategory?.(cat); setIsSettingPopupOpen(false); setIsChangeCategoryOpen(false); setCategorySearch(''); setPopupPos(null); }}
                           >
                             {item.title === cat && <svg className="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
@@ -674,7 +686,7 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
           </div>
         </div>
       </div>
-      
+
       {isOpen && (
         <div className="space-y-3">
           {item.items.map((subItem: any, subIdx: number) => (
@@ -697,7 +709,7 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
   );
 }
 
-function BuilderCollectionItem({ collection, index, updateTitle, deleteCollection, moveCollection, moveItem, moveSubItem, changeCategoryTitle, deleteCategoryItem, isFirst, isLast, onEditProduct }: { collection: any, index: number, updateTitle: (idx: number, title: string) => void, deleteCollection: (idx: number) => void, moveCollection: (idx: number, dir: 'up'|'down') => void, moveItem: (colIdx: number, itemIdx: number, dir: 'up'|'down') => void, moveSubItem: (colIdx: number, itemIdx: number, subIdx: number, dir: 'up'|'down') => void, changeCategoryTitle: (colIdx: number, itemIdx: number, newTitle: string) => void, deleteCategoryItem: (colIdx: number, itemIdx: number) => void, isFirst: boolean, isLast: boolean, onEditProduct?: (product: any) => void }) {
+function BuilderCollectionItem({ collection, index, updateTitle, deleteCollection, moveCollection, moveItem, moveSubItem, changeCategoryTitle, deleteCategoryItem, isFirst, isLast, onEditProduct }: { collection: any, index: number, updateTitle: (idx: number, title: string) => void, deleteCollection: (idx: number) => void, moveCollection: (idx: number, dir: 'up' | 'down') => void, moveItem: (colIdx: number, itemIdx: number, dir: 'up' | 'down') => void, moveSubItem: (colIdx: number, itemIdx: number, subIdx: number, dir: 'up' | 'down') => void, changeCategoryTitle: (colIdx: number, itemIdx: number, newTitle: string) => void, deleteCategoryItem: (colIdx: number, itemIdx: number) => void, isFirst: boolean, isLast: boolean, onEditProduct?: (product: any) => void }) {
   const t = useTranslations();
   const [isOpen, setIsOpen] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
@@ -705,9 +717,9 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
   const [openMovePopupItemIdx, setOpenMovePopupItemIdx] = useState<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
   const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
-  const [popupPos, setPopupPos] = useState<{top?: number, bottom?: number, right: number} | null>(null);
+  const [popupPos, setPopupPos] = useState<{ top?: number, bottom?: number, right: number } | null>(null);
   const settingRef = useRef<HTMLDivElement>(null);
   const settingBtnRef = useRef<HTMLButtonElement>(null);
 
@@ -721,7 +733,7 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
     if (settingBtnRef.current) {
       const rect = settingBtnRef.current.getBoundingClientRect();
       const spaceBelow = window.innerHeight - rect.bottom;
-      
+
       if (spaceBelow < 200) {
         setPopupPos({ bottom: window.innerHeight - rect.top + 6, right: window.innerWidth - rect.right });
       } else {
@@ -772,27 +784,27 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
         <div className="flex items-center gap-2 flex-1 min-w-0 pr-3">
 
           <div className="w-7 h-7 shrink-0 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 rounded-lg flex items-center justify-center">
-             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
           </div>
           {isEditing ? (
-            <input 
+            <input
               ref={inputRef}
-              type="text" 
-              value={collection.title} 
+              type="text"
+              value={collection.title}
               onChange={(e) => updateTitle(index, e.target.value)}
               onClick={(e) => { e.stopPropagation(); onEditProduct?.({ type: 'product', title: '', isNew: true }); }}
               onBlur={() => setIsEditing(false)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') setIsEditing(false);
               }}
-              className="text-[14px] font-bold text-gray-800 dark:text-[#E4E6EB] bg-white dark:bg-[#2A2B2C] outline-none p-1 -ml-1 border border-emerald-500/50 rounded-md shadow-sm w-full" 
+              className="text-[14px] font-bold text-gray-800 dark:text-[#E4E6EB] bg-white dark:bg-[#2A2B2C] outline-none p-1 -ml-1 border border-emerald-500/50 rounded-md shadow-sm w-full"
             />
           ) : (
-            <div 
-              className="flex items-center gap-1.5 group/title cursor-text min-w-0" 
+            <div
+              className="flex items-center gap-1.5 group/title cursor-text min-w-0"
               onClick={(e) => { e.stopPropagation(); setIsEditing(true); }}
             >
-              <h3 
+              <h3
                 className="text-[14px] font-bold text-gray-800 dark:text-[#E4E6EB] truncate group-hover/title:text-gray-500 dark:group-hover/title:text-[#B0B3B8] transition-colors"
               >
                 {collection.title}
@@ -816,11 +828,11 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
               <div
                 data-setting-popup
                 className="fixed bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-xl min-w-[180px] z-50"
-                style={{ 
-                  ...(popupPos.top !== undefined ? { top: popupPos.top } : {}), 
-                  ...(popupPos.bottom !== undefined ? { bottom: popupPos.bottom } : {}), 
-                  right: popupPos.right, 
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.22)' 
+                style={{
+                  ...(popupPos.top !== undefined ? { top: popupPos.top } : {}),
+                  ...(popupPos.bottom !== undefined ? { bottom: popupPos.bottom } : {}),
+                  right: popupPos.right,
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.22)'
                 }}
                 onMouseDown={(e) => e.stopPropagation()}
               >
@@ -890,7 +902,7 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
               return null;
             })}
           </div>
-          
+
           {/* CTA buttons inside Collection */}
           {collection.items.length === 0 && (
             <div className="flex items-center gap-2 mt-2 ml-6">
@@ -927,8 +939,8 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
   const [isCollectionDropdownOpen, setIsCollectionDropdownOpen] = useState(false);
   const [newCollectionName, setNewCollectionName] = useState("");
 
-  const dbCategories: string[] = []; 
-  const dbCollections: string[] = []; 
+  const dbCategories: string[] = [];
+  const dbCollections: string[] = [];
   const libraryCategories = [
     { id: "ai_prompt", label: "AI & Prompt", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> },
     { id: "design_graphics", label: "Design & Graphics", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
@@ -951,7 +963,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
     { id: "membership_subscription", label: "Membership & Subscription", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg> },
     { id: "bundle_resource_pack", label: "Bundle & Resource Pack", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg> }
   ];
-  
+
   return (
     <div className="flex flex-col h-full bg-white dark:bg-[#1C1D1F] animate-in slide-in-from-right-4 duration-300">
       {/* Header */}
@@ -963,14 +975,14 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
       </div>
 
       <div className="flex-1 overflow-y-auto sidebar-scrollbar px-6 pb-10 space-y-6">
-        
+
         {/* Gambar dan Judul */}
         <div className="flex gap-4">
           <div className="space-y-2 shrink-0">
             <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.gambar")}</label>
             <div className="w-[80px] h-[80px] border border-dashed border-gray-300 dark:border-[#4E4F50] rounded-xl flex flex-col items-center justify-center gap-1 cursor-pointer hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors">
               <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-              <span className="text-[10px] text-gray-400 text-center leading-tight">Tambahkan<br/>{t("mydash.gambar")}</span>
+              <span className="text-[10px] text-gray-400 text-center leading-tight">Tambahkan<br />{t("mydash.gambar")}</span>
             </div>
           </div>
           <div className="space-y-2 flex-1">
@@ -1025,7 +1037,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
                 </div>
               </div>
             </div>
-            <button 
+            <button
               onClick={() => { setIsVideoEnabled(!isVideoEnabled); onChange?.({ isVideoEnabled: !isVideoEnabled }); }}
               className={`w-9 h-5 rounded-full relative transition-colors ${isVideoEnabled ? 'bg-emerald-500' : 'bg-gray-300 dark:bg-[#4E4F50]'}`}
             >
@@ -1049,21 +1061,20 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
               </div>
             </div>
           </div>
-          
+
           <div className="border border-dashed border-gray-300 dark:border-[#4E4F50] rounded-xl p-4 space-y-4">
             <div className="flex flex-wrap gap-2">
               {["LYNK", t("mydash.mengunggah"), "PDF/Ebook", "G-drive", t("mydash.lainnya")].map(p => (
                 <div key={p} className="relative group">
-                  <button 
+                  <button
                     onClick={() => p === "LYNK" && setPlatform(p.toLowerCase())}
                     disabled={p !== "LYNK"}
-                    className={`px-3 py-1.5 rounded-full text-[12px] font-medium transition-colors border ${
-                      p !== "LYNK" 
-                        ? "bg-white dark:bg-[#242526] text-red-500 border-red-500 opacity-70 cursor-not-allowed" 
-                        : platform === p.toLowerCase() 
+                    className={`px-3 py-1.5 rounded-full text-[12px] font-medium transition-colors border ${p !== "LYNK"
+                        ? "bg-white dark:bg-[#242526] text-red-500 border-red-500 opacity-70 cursor-not-allowed"
+                        : platform === p.toLowerCase()
                           ? "bg-emerald-500 text-white border-emerald-500"
                           : "bg-white dark:bg-[#242526] text-emerald-600 dark:text-emerald-400 border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/30"
-                    }`}
+                      }`}
                   >
                     {p}
                   </button>
@@ -1077,9 +1088,9 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
               ))}
             </div>
             <div className="relative pt-1">
-              <input 
-                type="text" 
-                placeholder="http://lynk.id/username/produk/checkout" 
+              <input
+                type="text"
+                placeholder="http://lynk.id/username/produk/checkout"
                 className="w-full bg-transparent border-b border-gray-300 dark:border-[#4E4F50] text-[13px] px-1 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400"
               />
               <p className="text-[11px] text-red-500 mt-2">{t("mydash.bantuan_lynk")}</p>
@@ -1163,8 +1174,8 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
               { id: "large", img: "large.png", label: t("mydash.layout_large_image") },
               { id: "cta", img: "compact.png", label: t("mydash.layout_cta") }
             ].map(layout => (
-              <button 
-                key={layout.id} 
+              <button
+                key={layout.id}
                 onClick={() => setProductLayout(layout.id)}
                 className={`flex flex-col items-center gap-1.5 p-1.5 rounded-xl border transition-colors ${productLayout === layout.id ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 shadow-sm' : 'border-gray-200 dark:border-[#4E4F50] hover:border-emerald-300 dark:hover:border-emerald-700 bg-white dark:bg-[#242526]'}`}
               >
@@ -1200,7 +1211,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
               {t(`mydash.cta_${ctaType}`)}
               <svg className={`w-4 h-4 text-gray-500 transition-transform ${isCtaDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
             </button>
-            
+
             {isCtaDropdownOpen && (
               <div className="absolute z-10 w-full mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-xl shadow-lg py-2 top-auto bottom-full mb-1">
                 {[
@@ -1210,7 +1221,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
                   { id: "book_now", label: t("mydash.cta_book_now") },
                   { id: "custom", label: t("mydash.cta_custom") }
                 ].map(opt => (
-                  <button 
+                  <button
                     key={opt.id}
                     onClick={() => { setCtaType(opt.id); onChange?.({ ctaType: opt.id }); setIsCtaDropdownOpen(false); }}
                     className={`w-full flex items-center justify-center px-4 py-2.5 text-[14px] transition-colors ${ctaType === opt.id ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' : 'text-gray-700 dark:text-[#E4E6EB] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]'}`}
@@ -1227,8 +1238,8 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
 
           {ctaType === "custom" && (
             <div className="flex gap-2 animate-in slide-in-from-top-2 fade-in duration-200">
-              <input 
-                type="text" 
+              <input
+                type="text"
                 maxLength={10}
                 value={customCta}
                 onChange={(e) => {
@@ -1236,11 +1247,11 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
                   setCustomCta(val);
                   onChange?.({ customCta: val });
                 }}
-                placeholder={t("mydash.custom_cta_placeholder")} 
-                className="flex-1 border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[14px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400" 
+                placeholder={t("mydash.custom_cta_placeholder")}
+                className="flex-1 border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[14px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400"
               />
-              <button 
-                disabled={!customCta.trim()} 
+              <button
+                disabled={!customCta.trim()}
                 className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 disabled:bg-gray-300 disabled:dark:bg-[#4E4F50] disabled:text-gray-500 text-white text-[13px] font-medium rounded-lg transition-colors"
               >
                 {t("mydash.simpan")}
@@ -1269,7 +1280,7 @@ export default function MyDashPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  
+
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [editingProduct, setEditingProduct] = useState<any | null>(null);
   const [themeLoaded, setThemeLoaded] = useState(false);
@@ -1293,7 +1304,7 @@ export default function MyDashPage() {
   const [isSettingsMenuOpen, setIsSettingsMenuOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const settingsBtnRef = useRef<HTMLButtonElement>(null);
-  
+
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -1307,7 +1318,7 @@ export default function MyDashPage() {
   }, []);
 
   useScrollLock(isSettingsMenuOpen);
-  
+
   const toggleTheme = () => {
     const newTheme = !isDarkMode;
     setIsDarkMode(newTheme);
@@ -1358,7 +1369,7 @@ export default function MyDashPage() {
 
   const moveCollection = (index: number, direction: 'up' | 'down') => {
     if ((direction === 'up' && index === 0) || (direction === 'down' && index === collections.length - 1)) return;
-    
+
     const update = () => {
       setCollections(prev => {
         const updated = [...prev];
@@ -1404,7 +1415,7 @@ export default function MyDashPage() {
         const items = [...updated[colIdx].items];
         const subItems = [...items[itemIdx].items];
         if ((direction === 'up' && subItemIdx === 0) || (direction === 'down' && subItemIdx === subItems.length - 1)) return prev;
-        
+
         const targetIdx = direction === 'up' ? subItemIdx - 1 : subItemIdx + 1;
         [subItems[subItemIdx], subItems[targetIdx]] = [subItems[targetIdx], subItems[subItemIdx]];
         items[itemIdx] = { ...items[itemIdx], items: subItems };
@@ -1428,7 +1439,7 @@ export default function MyDashPage() {
         const updated = [...prev];
         const items = [...updated[colIdx].items];
         if ((direction === 'up' && itemIdx === 0) || (direction === 'down' && itemIdx === items.length - 1)) return prev;
-        
+
         const targetIdx = direction === 'up' ? itemIdx - 1 : itemIdx + 1;
         [items[itemIdx], items[targetIdx]] = [items[targetIdx], items[itemIdx]];
         updated[colIdx] = { ...updated[colIdx], items };
@@ -1468,352 +1479,352 @@ export default function MyDashPage() {
   return (
     <>
       <div className="h-screen overflow-hidden bg-[#D1D1D1]">
-      <div className="w-full flex flex-col lg:flex-row h-full">
-        
-        {/* Icon Sidebar */}
-        <div className="w-full lg:w-[72px] shrink-0 h-full flex lg:flex-col items-center justify-start px-4 lg:px-0 pt-3 pb-6 bg-white dark:bg-[#242526] border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-[#3E4042] z-10 relative">
-          
-          {/* Top Nav Items */}
-          <div className="flex lg:flex-col items-center gap-2 w-full">
-            
-            {/* Back to Products */}
-            <a href="/product" className="flex items-center justify-center w-10 h-10 bg-transparent text-gray-400 dark:text-[#B0B3B8] rounded-xl transition-colors hover:bg-gray-100 dark:hover:bg-[#3A3B3C] mb-1">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-            </a>
+        <div className="w-full flex flex-col lg:flex-row h-full">
 
-            {/* Divider */}
-            <div className="hidden lg:block w-8 h-px bg-gray-200 dark:bg-[#3E4042] mb-1"></div>
+          {/* Icon Sidebar */}
+          <div className="w-full lg:w-[72px] shrink-0 h-full flex lg:flex-col items-center justify-start px-4 lg:px-0 pt-3 pb-6 bg-white dark:bg-[#242526] border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-[#3E4042] z-10 relative">
 
-            {/* Toko (Home Icon) */}
-            <button 
-              onClick={() => handleTabChange("store")}
-              className={`flex flex-col items-center justify-center gap-1.5 w-14 h-14 rounded-xl transition-colors ${activeTab === 'store' ? 'bg-[#f3f4f6] dark:bg-[#3A3B3C] text-emerald-500 shadow-sm' : 'bg-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C]'}`}
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}>
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                <polyline points="9 22 9 12 15 12 15 22" />
-              </svg>
-              <span className="text-[9px] font-bold">{t("mydash.toko")}</span>
-            </button>
+            {/* Top Nav Items */}
+            <div className="flex lg:flex-col items-center gap-2 w-full">
 
-            {/* Layout */}
-            <button 
-              onClick={() => handleTabChange("produk")}
-              className={`flex flex-col items-center justify-center gap-1.5 w-14 h-14 rounded-xl transition-colors ${activeTab === 'produk' ? 'bg-[#f3f4f6] dark:bg-[#3A3B3C] text-emerald-500 shadow-sm' : 'bg-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C]'}`}
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v14a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4z" /></svg>
-              <span className="text-[9px] font-bold">{t("mydash.layout")}</span>
-            </button>
+              {/* Back to Products */}
+              <a href="/product" className="flex items-center justify-center w-10 h-10 bg-transparent text-gray-400 dark:text-[#B0B3B8] rounded-xl transition-colors hover:bg-gray-100 dark:hover:bg-[#3A3B3C] mb-1">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+              </a>
 
-            {/* Tampilan */}
-            <button 
-              onClick={() => handleTabChange("tampilan")}
-              className={`flex flex-col items-center justify-center gap-1.5 w-14 h-14 rounded-xl transition-colors ${activeTab === 'tampilan' ? 'bg-[#f3f4f6] dark:bg-[#3A3B3C] text-emerald-500 shadow-sm' : 'bg-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C]'}`}
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>
-              <span className="text-[9px] font-bold">{t("mydash.tampilan")}</span>
-            </button>
+              {/* Divider */}
+              <div className="hidden lg:block w-8 h-px bg-gray-200 dark:bg-[#3E4042] mb-1"></div>
 
-            {/* Settings Icon */}
-            <div className="relative w-full flex justify-center">
-              <button 
-                ref={settingsBtnRef}
-                onClick={() => setIsSettingsMenuOpen(!isSettingsMenuOpen)}
-                className={`flex flex-col items-center justify-center gap-1.5 w-14 h-14 rounded-xl transition-colors ${isSettingsMenuOpen ? 'bg-[#f3f4f6] dark:bg-[#3A3B3C] text-emerald-500 shadow-sm' : 'bg-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C]'}`}
+              {/* Toko (Home Icon) */}
+              <button
+                onClick={() => handleTabChange("store")}
+                className={`flex flex-col items-center justify-center gap-1.5 w-14 h-14 rounded-xl transition-colors ${activeTab === 'store' ? 'bg-[#f3f4f6] dark:bg-[#3A3B3C] text-emerald-500 shadow-sm' : 'bg-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C]'}`}
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                <span className="text-[9px] font-bold">{t("mydash.settings")}</span>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}>
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                  <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+                <span className="text-[9px] font-bold">{t("mydash.toko")}</span>
               </button>
 
-              {isSettingsMenuOpen && (
-                <div className="absolute left-full ml-4 top-0 w-[300px] settings-popup-container bg-white dark:bg-[#242526] rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.15)] border border-gray-200 dark:border-[#3E4042] p-4 z-[10200]">
-                  <div className="bg-[#F2F2F2] dark:bg-[#3A3B3C] rounded-xl p-3 flex items-center gap-3 mb-2 shadow-sm border border-gray-100 dark:border-[#3E4042]">
-                    <div className="w-[40px] h-[40px] rounded-full flex items-center justify-center overflow-hidden shrink-0 border border-emerald-600 dark:border-emerald-400">
-                      <img
-                        src="/default-avatar.svg"
-                        alt="Profile"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-[15px] text-black dark:text-[#E4E6EB] leading-tight">
-                        {currentUser.username}
-                      </h3>
-                      <p className="text-[13px] text-gray-500 dark:text-[#B0B3B8]">
-                        Premium Plan
-                      </p>
-                    </div>
-                  </div>
+              {/* Layout */}
+              <button
+                onClick={() => handleTabChange("produk")}
+                className={`flex flex-col items-center justify-center gap-1.5 w-14 h-14 rounded-xl transition-colors ${activeTab === 'produk' ? 'bg-[#f3f4f6] dark:bg-[#3A3B3C] text-emerald-500 shadow-sm' : 'bg-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C]'}`}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v14a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4z" /></svg>
+                <span className="text-[9px] font-bold">{t("mydash.layout")}</span>
+              </button>
 
-                  <div className="w-full h-[1px] bg-gray-200 dark:bg-[#3A3B3C] my-3"></div>
+              {/* Tampilan */}
+              <button
+                onClick={() => handleTabChange("tampilan")}
+                className={`flex flex-col items-center justify-center gap-1.5 w-14 h-14 rounded-xl transition-colors ${activeTab === 'tampilan' ? 'bg-[#f3f4f6] dark:bg-[#3A3B3C] text-emerald-500 shadow-sm' : 'bg-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C]'}`}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>
+                <span className="text-[9px] font-bold">{t("mydash.tampilan")}</span>
+              </button>
 
-                  <div className="space-y-1">
-                    {/* Theme Switcher */}
-                    <button
-                      onClick={toggleTheme}
-                      className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#3A3B3C] transition-colors group/item"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-[#E4E6EB] dark:bg-[#2A2B2C] flex items-center justify-center shrink-0 overflow-hidden text-gray-600 dark:text-[#E4E6EB] group-hover/item:text-black dark:group-hover/item:text-emerald-400">
-                          {isDarkMode ? (
-                            <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.5-1.591a.75.75 0 10-1.061 1.06l1.5-1.591zM12 18.75a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25a.75.75 0 01.75-.75zM6.166 18.894a.75.75 0 001.06 1.06l1.5-1.591a.75.75 0 10-1.06-1.061l-1.591 1.59zM4.5 12a.75.75 0 01-.75.75H1.5a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM6.166 5.106a.75.75 0 00-1.06 1.06l1.591 1.59a.75.75 0 101.06-1.061l-1.5-1.59z" /></svg>
-                          ) : (
-                            <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path fillRule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" clipRule="evenodd" /></svg>
-                          )}
-                        </div>
-                        <span className="font-semibold text-[14px] text-gray-700 dark:text-[#E4E6EB]">
-                          {isDarkMode ? "Light Mode" : "Dark Mode"}
-                        </span>
+              {/* Settings Icon */}
+              <div className="relative w-full flex justify-center">
+                <button
+                  ref={settingsBtnRef}
+                  onClick={() => setIsSettingsMenuOpen(!isSettingsMenuOpen)}
+                  className={`flex flex-col items-center justify-center gap-1.5 w-14 h-14 rounded-xl transition-colors ${isSettingsMenuOpen ? 'bg-[#f3f4f6] dark:bg-[#3A3B3C] text-emerald-500 shadow-sm' : 'bg-transparent text-gray-500 dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C]'}`}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                  <span className="text-[9px] font-bold">{t("mydash.settings")}</span>
+                </button>
+
+                {isSettingsMenuOpen && (
+                  <div className="absolute left-full ml-4 top-0 w-[300px] settings-popup-container bg-white dark:bg-[#242526] rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.15)] border border-gray-200 dark:border-[#3E4042] p-4 z-[10200]">
+                    <div className="bg-[#F2F2F2] dark:bg-[#3A3B3C] rounded-xl p-3 flex items-center gap-3 mb-2 shadow-sm border border-gray-100 dark:border-[#3E4042]">
+                      <div className="w-[40px] h-[40px] rounded-full flex items-center justify-center overflow-hidden shrink-0 border border-emerald-600 dark:border-emerald-400">
+                        <img
+                          src="/default-avatar.svg"
+                          alt="Profile"
+                          className="w-full h-full object-cover"
+                        />
                       </div>
-                    </button>
+                      <div>
+                        <h3 className="font-bold text-[15px] text-black dark:text-[#E4E6EB] leading-tight">
+                          {currentUser.username}
+                        </h3>
+                        <p className="text-[13px] text-gray-500 dark:text-[#B0B3B8]">
+                          Premium Plan
+                        </p>
+                      </div>
+                    </div>
 
-                    {/* Language Menu Toggle */}
-                    <div className="relative">
+                    <div className="w-full h-[1px] bg-gray-200 dark:bg-[#3A3B3C] my-3"></div>
+
+                    <div className="space-y-1">
+                      {/* Theme Switcher */}
                       <button
-                        onClick={() => setIsLangOpen(!isLangOpen)}
+                        onClick={toggleTheme}
                         className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#3A3B3C] transition-colors group/item"
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-full bg-[#E4E6EB] dark:bg-[#2A2B2C] flex items-center justify-center shrink-0 overflow-hidden">
-                            {locale === "id" ? (
-                              <svg className="w-[18px] h-[18px] rounded-sm shrink-0 shadow-[0_0_2px_rgba(0,0,0,0.2)]" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <div className="w-9 h-9 rounded-full bg-[#E4E6EB] dark:bg-[#2A2B2C] flex items-center justify-center shrink-0 overflow-hidden text-gray-600 dark:text-[#E4E6EB] group-hover/item:text-black dark:group-hover/item:text-emerald-400">
+                            {isDarkMode ? (
+                              <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.5-1.591a.75.75 0 10-1.061 1.06l1.5-1.591zM12 18.75a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25a.75.75 0 01.75-.75zM6.166 18.894a.75.75 0 001.06 1.06l1.5-1.591a.75.75 0 10-1.06-1.061l-1.591 1.59zM4.5 12a.75.75 0 01-.75.75H1.5a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM6.166 5.106a.75.75 0 00-1.06 1.06l1.591 1.59a.75.75 0 101.06-1.061l-1.5-1.59z" /></svg>
+                            ) : (
+                              <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path fillRule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" clipRule="evenodd" /></svg>
+                            )}
+                          </div>
+                          <span className="font-semibold text-[14px] text-gray-700 dark:text-[#E4E6EB]">
+                            {isDarkMode ? "Light Mode" : "Dark Mode"}
+                          </span>
+                        </div>
+                      </button>
+
+                      {/* Language Menu Toggle */}
+                      <div className="relative">
+                        <button
+                          onClick={() => setIsLangOpen(!isLangOpen)}
+                          className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#3A3B3C] transition-colors group/item"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="w-9 h-9 rounded-full bg-[#E4E6EB] dark:bg-[#2A2B2C] flex items-center justify-center shrink-0 overflow-hidden">
+                              {locale === "id" ? (
+                                <svg className="w-[18px] h-[18px] rounded-sm shrink-0 shadow-[0_0_2px_rgba(0,0,0,0.2)]" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path fill="#ED2939" d="M0 0h36v18H0z" />
+                                  <path fill="#fff" d="M0 18h36v18H0z" />
+                                </svg>
+                              ) : (
+                                <svg className="w-[18px] h-[18px] rounded-sm shrink-0 shadow-[0_0_2px_rgba(0,0,0,0.2)]" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path fill="#0A3161" d="M0 0h36v36H0z" />
+                                  <path fill="#B31942" d="M0 4.5h36v4.5H0zm0 9h36v4.5H0zm0 9h36v4.5H0zm0 9h36v4.5H0z" />
+                                  <path fill="#fff" d="M0 9h36v4.5H0zm0 9h36v4.5H0zm0 9h36v4.5H0z" />
+                                  <path fill="#0A3161" d="M0 0h18v18H0z" />
+                                  <path fill="#fff" d="M3 3h2v2H3zm4 0h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2zM3 7h2v2H3zm4 0h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2zM3 11h2v2H3zm4 0h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z" />
+                                </svg>
+                              )}
+                            </div>
+                            <span className="font-semibold text-[14px] text-gray-700 dark:text-[#E4E6EB]">
+                              {locale === "id" ? "Bahasa Indonesia" : "English"}
+                            </span>
+                          </div>
+                          <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                          </svg>
+                        </button>
+
+                        {/* Language Dropdown */}
+                        {isLangOpen && (
+                          <div className="absolute left-[100%] top-[-20px] ml-2 w-[160px] bg-white dark:bg-[#1C1D1F] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.2)] border border-gray-200 dark:border-[#3E4042] p-2 z-[10300]">
+                            <button
+                              onClick={() => {
+                                document.cookie = `NEXT_LOCALE=id; path=/; max-age=31536000; SameSite=Lax`;
+                                localStorage.setItem("NEXT_LOCALE", "id");
+                                const currentPath = window.location.pathname;
+                                const pathWithoutLocale = currentPath.replace(/^\/(id|en)/, "");
+                                window.location.href = "/id" + (pathWithoutLocale || "/home");
+                              }}
+                              className={`w-full flex items-center gap-3 p-2 rounded-lg transition-colors ${locale === "id" ? "bg-[#E4E6EB] dark:bg-[#3A3B3C]" : "hover:bg-gray-100 dark:hover:bg-[#3A3B3C]"}`}
+                            >
+                              <svg className="w-[16px] h-[16px] rounded-sm shrink-0 shadow-[0_0_2px_rgba(0,0,0,0.2)]" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="#ED2939" d="M0 0h36v18H0z" />
                                 <path fill="#fff" d="M0 18h36v18H0z" />
                               </svg>
-                            ) : (
-                              <svg className="w-[18px] h-[18px] rounded-sm shrink-0 shadow-[0_0_2px_rgba(0,0,0,0.2)]" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <span className="font-semibold text-[13px] text-gray-700 dark:text-[#E4E6EB]">Indonesia</span>
+                            </button>
+                            <button
+                              onClick={() => {
+                                document.cookie = `NEXT_LOCALE=en; path=/; max-age=31536000; SameSite=Lax`;
+                                localStorage.setItem("NEXT_LOCALE", "en");
+                                const currentPath = window.location.pathname;
+                                const pathWithoutLocale = currentPath.replace(/^\/(id|en)/, "");
+                                window.location.href = "/en" + (pathWithoutLocale || "/home");
+                              }}
+                              className={`w-full flex items-center gap-3 p-2 rounded-lg transition-colors mt-1 ${locale === "en" ? "bg-[#E4E6EB] dark:bg-[#3A3B3C]" : "hover:bg-gray-100 dark:hover:bg-[#3A3B3C]"}`}
+                            >
+                              <svg className="w-[16px] h-[16px] rounded-sm shrink-0 shadow-[0_0_2px_rgba(0,0,0,0.2)]" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="#0A3161" d="M0 0h36v36H0z" />
                                 <path fill="#B31942" d="M0 4.5h36v4.5H0zm0 9h36v4.5H0zm0 9h36v4.5H0zm0 9h36v4.5H0z" />
                                 <path fill="#fff" d="M0 9h36v4.5H0zm0 9h36v4.5H0zm0 9h36v4.5H0z" />
                                 <path fill="#0A3161" d="M0 0h18v18H0z" />
                                 <path fill="#fff" d="M3 3h2v2H3zm4 0h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2zM3 7h2v2H3zm4 0h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2zM3 11h2v2H3zm4 0h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z" />
                               </svg>
-                            )}
+                              <span className="font-semibold text-[13px] text-gray-700 dark:text-[#E4E6EB]">English</span>
+                            </button>
                           </div>
-                          <span className="font-semibold text-[14px] text-gray-700 dark:text-[#E4E6EB]">
-                            {locale === "id" ? "Bahasa Indonesia" : "English"}
-                          </span>
-                        </div>
-                        <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                        </svg>
-                      </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
 
-                      {/* Language Dropdown */}
-                      {isLangOpen && (
-                        <div className="absolute left-[100%] top-[-20px] ml-2 w-[160px] bg-white dark:bg-[#1C1D1F] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.2)] border border-gray-200 dark:border-[#3E4042] p-2 z-[10300]">
-                          <button
-                            onClick={() => {
-                              document.cookie = `NEXT_LOCALE=id; path=/; max-age=31536000; SameSite=Lax`;
-                              localStorage.setItem("NEXT_LOCALE", "id");
-                              const currentPath = window.location.pathname;
-                              const pathWithoutLocale = currentPath.replace(/^\/(id|en)/, "");
-                              window.location.href = "/id" + (pathWithoutLocale || "/home");
-                            }}
-                            className={`w-full flex items-center gap-3 p-2 rounded-lg transition-colors ${locale === "id" ? "bg-[#E4E6EB] dark:bg-[#3A3B3C]" : "hover:bg-gray-100 dark:hover:bg-[#3A3B3C]"}`}
-                          >
-                            <svg className="w-[16px] h-[16px] rounded-sm shrink-0 shadow-[0_0_2px_rgba(0,0,0,0.2)]" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path fill="#ED2939" d="M0 0h36v18H0z" />
-                              <path fill="#fff" d="M0 18h36v18H0z" />
-                            </svg>
-                            <span className="font-semibold text-[13px] text-gray-700 dark:text-[#E4E6EB]">Indonesia</span>
+            </div>
+
+            <div className="flex-1"></div>
+          </div>
+
+          {/* Main Content Area */}
+          <div className="flex-1 flex flex-col lg:flex-row w-full h-full bg-[#D1D1D1]">
+
+            {/* Left Column (Dashboard Controls) */}
+            <div id="mydash-sidebar" className={`w-full lg:w-[500px] xl:w-[560px] shrink-0 h-full sidebar-scrollbar bg-white dark:bg-[#1C1D1F] border-r border-gray-200 dark:border-[#3E4042] ${editingProduct && activeTab === 'produk' ? 'overflow-hidden' : 'overflow-y-auto px-6 pt-8 pb-10'}`}>
+
+              {activeTab === "store" && (
+                <div className="flex flex-col gap-6">
+                  <div className="bg-white dark:bg-[#242526] rounded-2xl border border-gray-200 dark:border-[#3E4042] p-5 shadow-sm">
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="font-bold text-gray-600 dark:text-[#E4E6EB]">{t("mydash.link_toko")}</span>
+                    </div>
+                    <div className="bg-[#f0f9f6] dark:bg-[#1a2e26] rounded-2xl p-3 flex items-center justify-between mb-6 shadow-md dark:shadow-black/40 border border-emerald-100 dark:border-emerald-900/30">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center p-2 shrink-0">
+                          {/* Logo Mencari Online */}
+                          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full text-white">
+                            <path d="M25 75V40C25 31.7 31.7 25 40 25C48.3 25 55 31.7 55 40V75M55 75V55C55 46.7 61.7 40 70 40C78.3 40 85 46.7 85 55V75" stroke="currentColor" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-gray-800 dark:text-[#E4E6EB] text-[15px] leading-tight">Mencari Online</h3>
+                          <a href="https://mencari.online/{namatoko}" className="text-emerald-500 text-[13px] hover:underline">https://mencari.online/{"{namatoko}"}</a>
+                        </div>
+                      </div>
+                      <button className="bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#3E4042] text-emerald-500 px-4 py-1.5 rounded-full font-bold text-[13px] flex items-center gap-1.5 shadow-sm hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
+                        Share
+                      </button>
+                    </div>
+
+                    {/* Start creating now */}
+                    <div className="flex flex-col gap-3">
+                      <h3 className="font-bold text-gray-700 dark:text-[#E4E6EB] text-[14px]">{t("mydash.start_creating_now")}</h3>
+                      <div className="flex flex-col gap-2">
+                        <div className="flex gap-2 overflow-x-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                          <button onClick={handleAddCollection} className="bg-white dark:bg-[#242526] border border-gray-300 dark:border-[#4E4F50] text-gray-600 dark:text-[#B0B3B8] rounded-md px-3 py-1.5 flex items-center gap-1.5 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors text-[13px] font-medium shadow-sm shrink-0">
+                            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                            {t("mydash.add_collection")}
                           </button>
-                          <button
-                            onClick={() => {
-                              document.cookie = `NEXT_LOCALE=en; path=/; max-age=31536000; SameSite=Lax`;
-                              localStorage.setItem("NEXT_LOCALE", "en");
-                              const currentPath = window.location.pathname;
-                              const pathWithoutLocale = currentPath.replace(/^\/(id|en)/, "");
-                              window.location.href = "/en" + (pathWithoutLocale || "/home");
-                            }}
-                            className={`w-full flex items-center gap-3 p-2 rounded-lg transition-colors mt-1 ${locale === "en" ? "bg-[#E4E6EB] dark:bg-[#3A3B3C]" : "hover:bg-gray-100 dark:hover:bg-[#3A3B3C]"}`}
-                          >
-                            <svg className="w-[16px] h-[16px] rounded-sm shrink-0 shadow-[0_0_2px_rgba(0,0,0,0.2)]" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path fill="#0A3161" d="M0 0h36v36H0z" />
-                              <path fill="#B31942" d="M0 4.5h36v4.5H0zm0 9h36v4.5H0zm0 9h36v4.5H0zm0 9h36v4.5H0z" />
-                              <path fill="#fff" d="M0 9h36v4.5H0zm0 9h36v4.5H0zm0 9h36v4.5H0z" />
-                              <path fill="#0A3161" d="M0 0h18v18H0z" />
-                              <path fill="#fff" d="M3 3h2v2H3zm4 0h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2zM3 7h2v2H3zm4 0h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2zM3 11h2v2H3zm4 0h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z" />
-                            </svg>
-                            <span className="font-semibold text-[13px] text-gray-700 dark:text-[#E4E6EB]">English</span>
+                          <button className="bg-white dark:bg-[#242526] border border-gray-300 dark:border-[#4E4F50] text-gray-600 dark:text-[#B0B3B8] rounded-md px-3 py-1.5 flex items-center gap-1.5 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors text-[13px] font-medium shadow-sm shrink-0">
+                            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                            {t("mydash.add_category")}
+                          </button>
+                          <button className="bg-white dark:bg-[#242526] border border-gray-300 dark:border-[#4E4F50] text-gray-600 dark:text-[#B0B3B8] rounded-md px-3 py-1.5 flex items-center gap-1.5 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors text-[13px] font-medium shadow-sm shrink-0">
+                            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                            {t("mydash.add_product")}
                           </button>
                         </div>
-                      )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Analytics Chart Mockup */}
+                  <div className="bg-white dark:bg-[#242526] rounded-2xl border border-gray-200 dark:border-[#3E4042] p-5 shadow-sm">
+                    <div className="flex items-center justify-between mb-6">
+                      <h3 className="font-bold text-gray-800 dark:text-[#E4E6EB] text-[15px]">Analytics</h3>
+                      <select className="bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-[#4E4F50] text-gray-600 dark:text-[#B0B3B8] rounded-lg px-3 py-1.5 text-[12px] font-semibold outline-none focus:border-emerald-500">
+                        <option>Last 7 Days</option>
+                        <option>Last 30 Days</option>
+                        <option>All Time</option>
+                      </select>
+                    </div>
+
+                    <div className="h-48 w-full flex items-end justify-between gap-2">
+                      {/* Mockup bars */}
+                      {[40, 70, 45, 90, 65, 80, 55].map((h, i) => (
+                        <div key={i} className="w-full bg-emerald-100 dark:bg-emerald-900/30 rounded-t-sm relative group cursor-pointer hover:bg-emerald-200 dark:hover:bg-emerald-800/40 transition-colors" style={{ height: `${h}%` }}>
+                          <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 dark:bg-gray-700 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
+                            {h * 12} Views
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex items-center justify-between mt-3 text-[11px] font-semibold text-gray-400 dark:text-[#8B8D90] px-1">
+                      <span>Mon</span>
+                      <span>Tue</span>
+                      <span>Wed</span>
+                      <span>Thu</span>
+                      <span>Fri</span>
+                      <span>Sat</span>
+                      <span>Sun</span>
                     </div>
                   </div>
                 </div>
               )}
+
+              {activeTab === "produk" && (
+                editingProduct ? (
+                  <ProductEditForm product={editingProduct} onClose={() => router.push(pathname)} onChange={(updates) => setEditingProduct({ ...editingProduct, ...updates })} />
+                ) : (
+                  <div className="flex flex-col">
+                    {/* Your Pages */}
+                    <div className="flex flex-col mb-6">
+                      <div className="flex items-center">
+                        <h2 className="text-xl font-extrabold text-gray-900 dark:text-white tracking-tight">{t("mydash.your_pages")}</h2>
+                      </div>
+                    </div>
+
+                    {/* Add new block */}
+                    <div className="flex gap-2 mb-6 overflow-x-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                      <button onClick={handleAddCollection} className="flex-1 py-2.5 px-3 bg-emerald-500 text-white font-bold rounded-xl text-[13px] hover:bg-emerald-600 transition-colors flex justify-center items-center gap-1.5 shadow-sm whitespace-nowrap">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
+                        {t("mydash.add_collection")}
+                      </button>
+                      <button className="flex-1 py-2.5 px-3 bg-emerald-500 text-white font-bold rounded-xl text-[13px] hover:bg-emerald-600 transition-colors flex justify-center items-center gap-1.5 shadow-sm whitespace-nowrap">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
+                        {t("mydash.add_category")}
+                      </button>
+                      <button onClick={() => router.push(`${pathname}?product=new`)} className="flex-1 py-2.5 px-3 bg-emerald-500 text-white font-bold rounded-xl text-[13px] hover:bg-emerald-600 transition-colors flex justify-center items-center gap-1.5 shadow-sm whitespace-nowrap">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
+                        {t("mydash.add_product")}
+                      </button>
+                    </div>
+
+                    <div className="w-full h-px bg-gray-200 dark:bg-[#3E4042] mb-6"></div>
+
+                    {/* Block List */}
+                    <div className="mb-3">
+                      <div className="space-y-6">
+                        {collections.map((collection, colIdx) => (
+                          <BuilderCollectionItem
+                            key={colIdx}
+                            index={colIdx}
+                            collection={collection}
+                            updateTitle={updateCollectionTitle}
+                            deleteCollection={deleteCollection}
+                            moveCollection={moveCollection}
+                            moveItem={moveItem}
+                            moveSubItem={moveSubItem}
+                            changeCategoryTitle={changeCategoryTitle}
+                            deleteCategoryItem={deleteCategoryItem}
+                            isFirst={colIdx === 0}
+                            isLast={colIdx === collections.length - 1}
+                            onEditProduct={(p: any) => {
+                              if (p?.isNew) {
+                                router.push(`${pathname}?product=new`);
+                              } else {
+                                router.push(`${pathname}?product=${p?.id || '123'}`);
+                              }
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )
+              )}
             </div>
-            
-          </div>
-
-          <div className="flex-1"></div>
-        </div>
-
-        {/* Main Content Area */}
-        <div className="flex-1 flex flex-col lg:flex-row w-full h-full bg-[#D1D1D1]">
-          
-          {/* Left Column (Dashboard Controls) */}
-          <div id="mydash-sidebar" className={`w-full lg:w-[500px] xl:w-[560px] shrink-0 h-full sidebar-scrollbar bg-white dark:bg-[#1C1D1F] border-r border-gray-200 dark:border-[#3E4042] ${editingProduct && activeTab === 'produk' ? 'overflow-hidden' : 'overflow-y-auto px-6 pt-8 pb-10'}`}>
-
-            {activeTab === "store" && (
-              <div className="flex flex-col gap-6">
-                <div className="bg-white dark:bg-[#242526] rounded-2xl border border-gray-200 dark:border-[#3E4042] p-5 shadow-sm">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="font-bold text-gray-600 dark:text-[#E4E6EB]">{t("mydash.link_toko")}</span>
-                  </div>
-                  <div className="bg-[#f0f9f6] dark:bg-[#1a2e26] rounded-2xl p-3 flex items-center justify-between mb-6 shadow-md dark:shadow-black/40 border border-emerald-100 dark:border-emerald-900/30">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center p-2 shrink-0">
-                         {/* Logo Mencari Online */}
-                         <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full text-white">
-                           <path d="M25 75V40C25 31.7 31.7 25 40 25C48.3 25 55 31.7 55 40V75M55 75V55C55 46.7 61.7 40 70 40C78.3 40 85 46.7 85 55V75" stroke="currentColor" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round"/>
-                         </svg>
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-gray-800 dark:text-[#E4E6EB] text-[15px] leading-tight">Mencari Online</h3>
-                        <a href="https://mencari.online/{namatoko}" className="text-emerald-500 text-[13px] hover:underline">https://mencari.online/{"{namatoko}"}</a>
-                      </div>
-                    </div>
-                    <button className="bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#3E4042] text-emerald-500 px-4 py-1.5 rounded-full font-bold text-[13px] flex items-center gap-1.5 shadow-sm hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
-                      Share
-                    </button>
-                  </div>
-
-                  {/* Start creating now */}
-                  <div className="flex flex-col gap-3">
-                    <h3 className="font-bold text-gray-700 dark:text-[#E4E6EB] text-[14px]">{t("mydash.start_creating_now")}</h3>
-                    <div className="flex flex-col gap-2">
-                      <div className="flex gap-2 overflow-x-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                        <button onClick={handleAddCollection} className="bg-white dark:bg-[#242526] border border-gray-300 dark:border-[#4E4F50] text-gray-600 dark:text-[#B0B3B8] rounded-md px-3 py-1.5 flex items-center gap-1.5 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors text-[13px] font-medium shadow-sm shrink-0">
-                          <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
-                          {t("mydash.add_collection")}
-                        </button>
-                        <button className="bg-white dark:bg-[#242526] border border-gray-300 dark:border-[#4E4F50] text-gray-600 dark:text-[#B0B3B8] rounded-md px-3 py-1.5 flex items-center gap-1.5 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors text-[13px] font-medium shadow-sm shrink-0">
-                          <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                          {t("mydash.add_category")}
-                        </button>
-                        <button className="bg-white dark:bg-[#242526] border border-gray-300 dark:border-[#4E4F50] text-gray-600 dark:text-[#B0B3B8] rounded-md px-3 py-1.5 flex items-center gap-1.5 hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors text-[13px] font-medium shadow-sm shrink-0">
-                          <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                          {t("mydash.add_product")}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Analytics Chart Mockup */}
-                <div className="bg-white dark:bg-[#242526] rounded-2xl border border-gray-200 dark:border-[#3E4042] p-5 shadow-sm">
-                  <div className="flex items-center justify-between mb-6">
-                    <h3 className="font-bold text-gray-800 dark:text-[#E4E6EB] text-[15px]">Analytics</h3>
-                    <select className="bg-gray-50 dark:bg-[#3A3B3C] border border-gray-200 dark:border-[#4E4F50] text-gray-600 dark:text-[#B0B3B8] rounded-lg px-3 py-1.5 text-[12px] font-semibold outline-none focus:border-emerald-500">
-                      <option>Last 7 Days</option>
-                      <option>Last 30 Days</option>
-                      <option>All Time</option>
-                    </select>
-                  </div>
-                  
-                  <div className="h-48 w-full flex items-end justify-between gap-2">
-                    {/* Mockup bars */}
-                    {[40, 70, 45, 90, 65, 80, 55].map((h, i) => (
-                      <div key={i} className="w-full bg-emerald-100 dark:bg-emerald-900/30 rounded-t-sm relative group cursor-pointer hover:bg-emerald-200 dark:hover:bg-emerald-800/40 transition-colors" style={{ height: `${h}%` }}>
-                        <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 dark:bg-gray-700 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
-                          {h * 12} Views
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex items-center justify-between mt-3 text-[11px] font-semibold text-gray-400 dark:text-[#8B8D90] px-1">
-                    <span>Mon</span>
-                    <span>Tue</span>
-                    <span>Wed</span>
-                    <span>Thu</span>
-                    <span>Fri</span>
-                    <span>Sat</span>
-                    <span>Sun</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activeTab === "produk" && (
-              editingProduct ? (
-                <ProductEditForm product={editingProduct} onClose={() => router.push(pathname)} onChange={(updates) => setEditingProduct({ ...editingProduct, ...updates })} />
-              ) : (
-              <div className="flex flex-col">
-                {/* Your Pages */}
-                <div className="flex flex-col mb-6">
-                  <div className="flex items-center">
-                    <h2 className="text-xl font-extrabold text-gray-900 dark:text-white tracking-tight">{t("mydash.your_pages")}</h2>
-                  </div>
-                </div>
-
-                {/* Add new block */}
-                <div className="flex gap-2 mb-6 overflow-x-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                  <button onClick={handleAddCollection} className="flex-1 py-2.5 px-3 bg-emerald-500 text-white font-bold rounded-xl text-[13px] hover:bg-emerald-600 transition-colors flex justify-center items-center gap-1.5 shadow-sm whitespace-nowrap">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
-                    {t("mydash.add_collection")}
-                  </button>
-                  <button className="flex-1 py-2.5 px-3 bg-emerald-500 text-white font-bold rounded-xl text-[13px] hover:bg-emerald-600 transition-colors flex justify-center items-center gap-1.5 shadow-sm whitespace-nowrap">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
-                    {t("mydash.add_category")}
-                  </button>
-                  <button onClick={() => router.push(`${pathname}?product=new`)} className="flex-1 py-2.5 px-3 bg-emerald-500 text-white font-bold rounded-xl text-[13px] hover:bg-emerald-600 transition-colors flex justify-center items-center gap-1.5 shadow-sm whitespace-nowrap">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
-                    {t("mydash.add_product")}
-                  </button>
-                </div>
-
-                <div className="w-full h-px bg-gray-200 dark:bg-[#3E4042] mb-6"></div>
-
-                {/* Block List */}
-                <div className="mb-3">
-                  <div className="space-y-6">
-                    {collections.map((collection, colIdx) => (
-                      <BuilderCollectionItem 
-                        key={colIdx} 
-                        index={colIdx}
-                        collection={collection} 
-                        updateTitle={updateCollectionTitle}
-                        deleteCollection={deleteCollection}
-                        moveCollection={moveCollection}
-                        moveItem={moveItem}
-                        moveSubItem={moveSubItem}
-                        changeCategoryTitle={changeCategoryTitle}
-                        deleteCategoryItem={deleteCategoryItem}
-                        isFirst={colIdx === 0}
-                        isLast={colIdx === collections.length - 1}
-                        onEditProduct={(p: any) => {
-                          if (p?.isNew) {
-                            router.push(`${pathname}?product=new`);
-                          } else {
-                            router.push(`${pathname}?product=${p?.id || '123'}`);
-                          }
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              )
-            )}
-          </div>
 
             {/* Right Column (Preview) */}
-        <div className="flex-1 h-full overflow-hidden flex justify-center pt-4 lg:pt-0">
-          <div className="w-full h-full flex justify-center items-start lg:items-center">
-            {editingProduct && activeTab === "produk" ? (
-              <ProductPreviewMockup product={editingProduct} />
-            ) : (
-              <PhonePreviewMockup collections={collections} />
-            )}
+            <div className="flex-1 h-full overflow-hidden flex justify-center pt-4 lg:pt-0">
+              <div className="w-full h-full flex justify-center items-start lg:items-center">
+                {editingProduct && activeTab === "produk" ? (
+                  <ProductPreviewMockup product={editingProduct} />
+                ) : (
+                  <PhonePreviewMockup collections={collections} />
+                )}
+              </div>
+            </div>
+
           </div>
         </div>
-
-        </div>
       </div>
-    </div>
     </>
   );
 }
