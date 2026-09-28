@@ -172,6 +172,9 @@ export default function ProfilePage({
     };
   }, [isDetailModalOpen]);
 
+  const hasExpandableInfo = profileData?.websiteUrl || profileData?.education || profileData?.profession || profileData?.gender || profileData?.birthDate;
+  const hasAnyInfo = profileData?.bio || profileData?.locationName || hasExpandableInfo;
+
   return (
     <main className="min-h-screen bg-[#F3F2EF] dark:bg-[#18191A] text-black dark:text-[#E4E6EB] pb-20 pt-[56px] font-sans">
       <Navbar activeTab={null} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} themeLoaded={themeLoaded} currentUser={currentUser} />
@@ -205,8 +208,8 @@ export default function ProfilePage({
           {/* Left Sidebar */}
             <div className="w-full md:w-[320px] shrink-0 flex flex-col gap-6 relative z-20">
               {/* Actual Profile Card */}
-              <div className="w-full bg-gradient-to-b from-white to-[#D9D9D9] dark:from-[#3A3B3C] dark:to-[#18191A] rounded-[40px] px-8 pt-8 pb-5 shadow-xl flex flex-col justify-between border border-white/20 dark:border-white/5 transition-all duration-300 h-auto">
-              <div className="flex flex-col items-center w-full">
+              <div className="w-full bg-gradient-to-b from-white to-[#D9D9D9] dark:from-[#3A3B3C] dark:to-[#18191A] rounded-[40px] px-8 pt-8 pb-5 shadow-xl flex flex-col justify-between border border-white/20 dark:border-white/5 transition-all duration-300 min-h-[460px]">
+              <div className="flex flex-col items-center w-full h-full">
             {/* Avatar */}
             <div className="relative mb-4">
               <input type="file" ref={avatarInputRef} onChange={handleAvatarChange} className="hidden" accept="image/*" />
@@ -260,9 +263,13 @@ export default function ProfilePage({
 
             
               {/* Profile Details List */}
-              <div className="w-full">
-                <div className="flex flex-col gap-4">
-                  
+              <div className="w-full flex-1 flex flex-col">
+                <div className="flex flex-col gap-4 flex-1">
+                  {!hasAnyInfo && (
+                    <div className="flex-1 flex items-center justify-center text-[15px] font-bold text-gray-400 dark:text-gray-500 italic pb-12">
+                      {t("noInfoPlaceholder")}
+                    </div>
+                  )}
                   {/* 1. Bio */}
                   {profileData?.bio && (
                     <div className="flex items-start gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
@@ -328,18 +335,20 @@ export default function ProfilePage({
               </div>
               
               {/* Expand / Collapse Button */}
-              <button 
-                onClick={() => setIsProfileExpanded(!isProfileExpanded)}
-                className="w-full mt-6 flex items-center justify-center gap-2 text-[15px] font-bold text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors group cursor-pointer"
-              >
-                {isProfileExpanded ? t("showLess") : t("showMore")}
-                <svg 
-                  className={`w-4 h-4 transition-transform duration-300 ${isProfileExpanded ? "rotate-180" : "group-hover:translate-y-1"}`} 
-                  fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              {hasExpandableInfo ? (
+                <button 
+                  onClick={() => setIsProfileExpanded(!isProfileExpanded)}
+                  className="w-full mt-6 flex items-center justify-center gap-2 text-[15px] font-bold text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors group cursor-pointer"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
+                  {isProfileExpanded ? t("showLess") : t("showMore")}
+                  <svg 
+                    className={`w-4 h-4 transition-transform duration-300 ${isProfileExpanded ? "rotate-180" : "group-hover:translate-y-1"}`} 
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              ) : null}
               </div>
             </div>
 
