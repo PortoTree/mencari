@@ -241,6 +241,7 @@ export default function Beranda() {
   const [isProductSortOpen, setIsProductSortOpen] = useState(false);
   const [productSort, setProductSort] = useState("popular");
   const [isProductDetailOpen, setIsProductDetailOpen] = useState(false);
+  const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
   const [postPrivacy, setPostPrivacy] = useState("public");
   const [isPrivacyDropdownOpen, setIsPrivacyDropdownOpen] = useState(false);
@@ -3943,6 +3944,12 @@ export default function Beranda() {
                       <iframe width="100%" height="100%" src={embedUrl} title="Video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                     )}
                     <button
+                      onClick={() => setIsProductModalOpen(true)}
+                      className="absolute top-2 left-2 p-1.5 rounded-full bg-black/40 hover:bg-black/60 text-white z-10 transition-colors backdrop-blur-sm"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
+                    </button>
+                    <button
                       onClick={() => setIsProductDetailOpen(false)}
                       className="absolute top-2 right-2 p-1.5 rounded-full bg-black/40 hover:bg-black/60 text-white z-10 transition-colors backdrop-blur-sm"
                     >
@@ -3952,6 +3959,12 @@ export default function Beranda() {
                 ) : (
                   <div className="aspect-square bg-gray-100 dark:bg-[#3A3B3C] w-full flex items-center justify-center relative overflow-hidden">
                     <svg className="w-12 h-12 text-gray-300 dark:text-[#4E4F50]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    <button
+                      onClick={() => setIsProductModalOpen(true)}
+                      className="absolute top-2 left-2 p-1.5 rounded-full bg-black/40 hover:bg-black/60 text-white z-10 transition-colors backdrop-blur-sm"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
+                    </button>
                     <button
                       onClick={() => setIsProductDetailOpen(false)}
                       className="absolute top-2 right-2 p-1.5 rounded-full bg-black/40 hover:bg-black/60 text-white z-10 transition-colors backdrop-blur-sm"
@@ -5936,6 +5949,194 @@ export default function Beranda() {
                       <button className="w-full bg-gray-200 dark:bg-[#4E4F50] text-gray-400 dark:text-gray-500 font-semibold py-2 rounded-lg cursor-not-allowed">
                         Post
                       </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Product Modal */}
+              {isProductModalOpen && selectedProduct && (
+                <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4 sm:p-6">
+                  {/* Backdrop */}
+                  <div 
+                    className="absolute inset-0 bg-black/70" 
+                    onClick={() => setIsProductModalOpen(false)} 
+                  />
+                  
+                  {/* Modal Content - 2 Columns */}
+                  <div className="relative bg-white dark:bg-[#242526] w-full max-w-4xl rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[85vh]">
+                    
+                    {/* Left Column: Image / Video */}
+                    <div className="w-full md:w-1/2 bg-gray-100 dark:bg-[#18191A] flex items-center justify-center relative border-r border-gray-200 dark:border-[#3E4042]">
+                      {(() => {
+                        const url = selectedProduct.videoUrl || "";
+                        let isDirectVideo = false;
+                        let embedUrl = "";
+                        if (url) {
+                          if (url.match(/\.(mp4|webm|ogg)$/i)) {
+                            isDirectVideo = true;
+                            embedUrl = url;
+                          } else if (url.includes("youtube.com") || url.includes("youtu.be")) {
+                            const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+                            if (match && match[1]) {
+                              embedUrl = `https://www.youtube.com/embed/${match[1]}`;
+                            }
+                          } else if (url.includes("tiktok.com/")) {
+                            const match = url.match(/video\/(\d+)/);
+                            if (match && match[1]) {
+                              embedUrl = `https://www.tiktok.com/embed/v2/${match[1]}`;
+                            }
+                          } else if (url.includes("vimeo.com")) {
+                            const match = url.match(/vimeo\.com\/(?:.*#|.*\/)?(\d+)/);
+                            if (match && match[1]) {
+                              embedUrl = `https://player.vimeo.com/video/${match[1]}`;
+                            }
+                          }
+                        }
+                        
+                        return embedUrl ? (
+                          <div className="w-full aspect-square md:aspect-auto md:h-full relative bg-black">
+                            {isDirectVideo ? (
+                              <video src={embedUrl} controls className="w-full h-full object-contain" />
+                            ) : (
+                              <iframe width="100%" height="100%" src={embedUrl} title="Video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="w-full aspect-square md:aspect-auto md:h-full flex items-center justify-center p-8">
+                             <svg className="w-24 h-24 text-gray-300 dark:text-[#4E4F50]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                          </div>
+                        );
+                      })()}
+
+                      {/* Close button for mobile */}
+                      <button
+                        onClick={() => setIsProductModalOpen(false)}
+                        className="absolute top-4 right-4 md:hidden p-2 rounded-full bg-black/40 hover:bg-black/60 text-white z-10 transition-colors backdrop-blur-sm"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                      </button>
+                    </div>
+
+                    {/* Right Column: Info & Actions */}
+                    <div className="w-full md:w-1/2 flex flex-col max-h-[50vh] md:max-h-[85vh]">
+                      {/* Close button for desktop */}
+                      <div className="hidden md:flex justify-end p-4 pb-0">
+                        <button
+                          onClick={() => setIsProductModalOpen(false)}
+                          className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-[#3A3B3C] text-gray-500 dark:text-gray-400 transition-colors"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                      </div>
+
+                      <div className="flex-1 overflow-y-auto p-5 md:px-6 md:pb-6 custom-scrollbar">
+                        {/* Store Row */}
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="w-7 h-7 rounded bg-gray-100 dark:bg-[#3A3B3C] overflow-hidden shrink-0 flex items-center justify-center border border-gray-200 dark:border-gray-700">
+                            <svg className="w-3 h-3 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" /></svg>
+                          </div>
+                          <span className="text-[13px] font-medium text-gray-600 dark:text-[#B0B3B8] hover:underline hover:text-gray-900 dark:hover:text-white transition-colors cursor-pointer">{selectedProduct.store}</span>
+                        </div>
+
+                        {/* Name */}
+                        <h1 className="font-bold text-[18px] md:text-[20px] text-black dark:text-[#E4E6EB] leading-snug mb-3">
+                          {selectedProduct.name}
+                        </h1>
+
+                        {/* Badges */}
+                        {(selectedProduct.collection || selectedProduct.category) && (
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            {selectedProduct.collection && (
+                              <div className="flex items-center gap-1.5 px-2.5 py-1 bg-orange-500/10 border border-orange-500/20 rounded-md">
+                                <svg className="w-3.5 h-3.5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                                <span className="text-[11px] font-medium text-orange-500">{selectedProduct.collection}</span>
+                              </div>
+                            )}
+                            {selectedProduct.category && (
+                              <div className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-md">
+                                <svg className="w-3.5 h-3.5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
+                                <span className="text-[11px] font-medium text-emerald-500">{selectedProduct.category}</span>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+
+
+                        {/* Description */}
+                        <div className="mb-6">
+                          <h3 className="text-[11px] font-bold text-gray-500 dark:text-[#B0B3B8] uppercase tracking-wider mb-1.5">Deskripsi Produk</h3>
+                          <p className="text-[13px] text-gray-600 dark:text-[#B0B3B8] leading-relaxed whitespace-pre-wrap">
+                            {selectedProduct.description}
+                          </p>
+                        </div>
+                        
+                        {/* Reviews (Placeholder) */}
+                        <div className="mb-2">
+                          <div className="flex justify-between items-center mb-2">
+                            <h3 className="text-[13px] font-bold text-gray-800 dark:text-white">{t("mydash.ulasan_pembeli") || "Ulasan Pembeli"}</h3>
+                            <button className="text-[11px] text-emerald-500 font-medium hover:underline">{t("mydash.selengkapnya") || "Selengkapnya"}</button>
+                          </div>
+                          <div className="bg-gray-50 dark:bg-[#18191A] rounded-xl p-3 border border-gray-200 dark:border-gray-800 flex items-start gap-3">
+                            <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 shrink-0"></div>
+                            <div className="flex-1 mt-0.5">
+                              <div className="flex justify-between items-center mb-1.5">
+                                <div className="w-16 h-2 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+                                <div className="w-10 h-2 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+                              </div>
+                              <div className="flex gap-0.5 mb-2">
+                                {[1, 2, 3, 4, 5].map(i => (
+                                  <svg key={i} className="w-3 h-3 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                                ))}
+                              </div>
+                              <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full mb-1.5"></div>
+                              <div className="w-3/4 h-2 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+                            </div>
+                          </div>
+                          <button className="w-full mt-3 py-2.5 border border-gray-200 dark:border-gray-700/80 rounded-lg text-[12px] font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex justify-center items-center gap-1.5">
+                            {t("mydash.tambah_ulasan_kamu") || "+Ulasan kamu"}
+                          </button>
+                        </div>
+
+                        {/* Price */}
+                        <div className="flex items-end gap-3 mt-4 mb-2">
+                          {selectedProduct.salePrice ? (
+                            <>
+                              <div className="text-[24px] font-bold text-emerald-500 leading-none">
+                                Rp {Number(selectedProduct.salePrice.toString().replace(/\D/g, '') || 0).toLocaleString('id-ID')}
+                              </div>
+                              <div className="text-[14px] text-gray-400 dark:text-[#B0B3B8] line-through mb-[2px]">
+                                Rp {Number(selectedProduct.price?.toString().replace(/\D/g, '') || 0).toLocaleString('id-ID')}
+                              </div>
+                            </>
+                          ) : (
+                            <div className="text-[24px] font-bold text-emerald-500 leading-none">
+                              Rp {Number(selectedProduct.price?.toString().replace(/\D/g, '') || 0).toLocaleString('id-ID')}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Sticky Footer CTA */}
+                      <div className="p-4 md:px-6 md:py-4 border-t border-gray-100 dark:border-[#3E4042] bg-white dark:bg-[#242526]">
+                        <div className="flex gap-2">
+                          <button className="w-11 shrink-0 bg-white dark:bg-[#2A2B2C] hover:bg-gray-50 dark:hover:bg-[#3A3B3C] border border-gray-200 dark:border-gray-700/80 rounded-xl flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-white transition-colors">
+                            <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                            </svg>
+                          </button>
+                          <button className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl transition-colors text-[14px] shadow-md shadow-emerald-500/20">
+                            {selectedProduct.ctaType === "custom" && selectedProduct.customCta
+                              ? selectedProduct.customCta
+                              : (selectedProduct.ctaType ? t(`mydash.cta_${selectedProduct.ctaType}`) : t("product.buy_now"))}
+                          </button>
+                        </div>
+                        <p className="text-center text-[11px] text-gray-400 dark:text-[#B0B3B8] mt-2">
+                          {t("product.checkout_at")}{" "}
+                          <span className="font-bold text-gray-500 dark:text-[#E4E6EB]">LYNK</span>
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
