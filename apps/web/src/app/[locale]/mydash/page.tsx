@@ -889,7 +889,7 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
                     isLast={itemIdx === collection.items.length - 1}
                     onMoveUp={() => moveItem(index, itemIdx, 'up')}
                     onMoveDown={() => moveItem(index, itemIdx, 'down')}
-                    onEdit={() => onEditProduct?.(subItem)}
+                    onEdit={() => onEditProduct?.(item)}
                     onMoveCategory={() => console.log('Move to Category')}
                     onMoveCollection={() => console.log('Move to Collection')}
                     onDelete={() => console.log('Delete product')}
