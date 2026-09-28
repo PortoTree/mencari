@@ -1183,7 +1183,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
         {/* Price */}
         <div className="space-y-3 mt-6">
           <label className="text-[15px] font-semibold text-gray-800 dark:text-white">{t("mydash.harga")}</label>
-          <div className="space-y-3">
+          <div className="grid grid-cols-2 gap-4">
             <div className="relative">
               <span className="absolute left-3 top-[9px] text-[14px] text-gray-500">Rp</span>
               <input type="text" value={product?.price ? Number(product.price).toLocaleString('id-ID') : ""} onChange={(e) => onChange?.({ price: e.target.value.replace(/\D/g, '') })} placeholder="0" className="w-full border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[14px] rounded-lg pl-9 pr-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500" />
@@ -1196,7 +1196,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
         </div>
 
         {/* Dropdown */}
-        <div className="mt-6 pb-6 space-y-3 relative">
+        <div className="mt-6 pb-6 space-y-3 relative w-1/2">
           <label className="text-[15px] font-semibold text-gray-800 dark:text-white">{t("mydash.purchase_button")}</label>
           <div className="relative">
             <button onClick={() => setIsCtaDropdownOpen(!isCtaDropdownOpen)} className="w-full flex items-center justify-between border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[14px] rounded-lg px-4 py-2.5 text-gray-700 dark:text-[#E4E6EB] focus:outline-none focus:border-emerald-500 transition-colors">
@@ -1240,7 +1240,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
                   onChange?.({ customCta: val });
                 }}
                 placeholder={t("mydash.custom_cta_placeholder")}
-                className="w-1/2 border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[14px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400"
+                className="w-full border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[14px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400"
               />
             </div>
           )}
