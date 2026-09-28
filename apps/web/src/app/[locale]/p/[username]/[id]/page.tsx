@@ -477,15 +477,21 @@ export default function ProfilePage({
               <div className="flex items-center gap-6 sm:gap-10">
                   <div className="flex flex-col items-center cursor-pointer group">
                     <span className="text-[14px] font-medium text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">{t("friends")}</span>
-                    <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">1.210</span>
+                    <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">
+                      {(profileData?.user?._count?.friendshipsAsUser || 0) + (profileData?.user?._count?.friendshipsAsFriend || 0)}
+                    </span>
                   </div>
                   <div className="flex flex-col items-center cursor-pointer group">
                     <span className="text-[14px] font-medium text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">{t("followers")}</span>
-                    <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">2.038</span>
+                    <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">
+                      {profileData?.user?._count?.followers || 0}
+                    </span>
                   </div>
                   <div className="flex flex-col items-center cursor-pointer group">
                     <span className="text-[14px] font-medium text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">{t("following")}</span>
-                    <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">1.318</span>
+                    <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">
+                      {profileData?.user?._count?.following || 0}
+                    </span>
                   </div>
                 </div>
               <div className="flex items-center gap-3 mt-4 sm:mt-0">

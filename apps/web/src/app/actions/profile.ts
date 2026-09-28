@@ -15,7 +15,15 @@ export const getProfile = async (userId: string) => {
         include: {
           user: {
             include: {
-              socialLinks: true
+              socialLinks: true,
+              _count: {
+                select: {
+                  followers: true,
+                  following: true,
+                  friendshipsAsUser: { where: { status: 'ACCEPTED' } },
+                  friendshipsAsFriend: { where: { status: 'ACCEPTED' } }
+                }
+              }
             }
           }
         }
