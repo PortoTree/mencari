@@ -68,7 +68,10 @@ model Profile {
   gender       String?
   birthDate    DateTime?
   locationId   String?
+  locationName String?      
   websiteUrl   String?      @db.Text
+  profession   String?
+  education    String?
   
   // Custom links from plan
   socialMedia  String?      @db.Text

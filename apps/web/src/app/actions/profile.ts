@@ -5,17 +5,34 @@ import { revalidateTag } from "next/cache";
 
 const prisma = new PrismaClient();
 
-export async function getProfile(userId: string) {
+import { unstable_cache } from "next/cache";
+
+export const getProfile = async (userId: string) => {
+  const getCachedProfile = unstable_cache(
+    async (id: string) => {
+      return prisma.profile.findUnique({
+        where: { userId: id },
+        include: {
+          user: {
+            include: {
+              socialLinks: true
+            }
+          }
+        }
+      });
+    },
+    [`profile-${userId}`],
+    { tags: [`profile-${userId}`], revalidate: 604800 } // 7 days
+  );
+
   try {
-    const profile = await prisma.profile.findUnique({
-      where: { userId },
-    });
+    const profile = await getCachedProfile(userId);
     return { success: true, profile };
   } catch (error) {
     console.error("Error fetching profile:", error);
     return { success: false, error: "Database error" };
   }
-}
+};
 
 export async function updateDisplayName(userId: string, newDisplayName: string) {
   try {
@@ -69,9 +86,38 @@ export async function updateProfileMedia(userId: string, type: "avatar" | "cover
         data: { coverUrl: url },
       });
     }
+    
+    // Invalidate cache
+    revalidateTag(`profile-${userId}`);
+
     return { success: true, url };
   } catch (error) {
     console.error("Error updating profile media:", error);
+    return { success: false, error: "Database error" };
+  }
+}
+
+export async function updateProfileInfo(userId: string, data: any) {
+  try {
+    const { bio, locationName, websiteUrl, education, profession, gender, birthDate } = data;
+    
+    await prisma.profile.update({
+      where: { userId },
+      data: {
+        bio,
+        locationName,
+        websiteUrl,
+        education,
+        profession,
+        gender,
+        birthDate: birthDate ? new Date(birthDate) : null,
+      },
+    });
+
+    revalidateTag(`profile-${userId}`);
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating profile info:", error);
     return { success: false, error: "Database error" };
   }
 }
