@@ -99,8 +99,18 @@ export async function updateProfileMedia(userId: string, type: "avatar" | "cover
 
 export async function updateProfileInfo(userId: string, data: any) {
   try {
-    const { bio, locationName, websiteUrl, externalLinks, education, profession, gender, birthDate } = data;
+    const { bio, locationName, websiteUrl, externalLinks, socialLinks, education, profession, gender, birthDate } = data;
     
+    // Validate platform and url for socialLinks
+    let formattedSocialLinks: any[] = [];
+    if (socialLinks && Array.isArray(socialLinks)) {
+      formattedSocialLinks = socialLinks.filter(s => s.platform && s.url).map((s, index) => ({
+        platform: s.platform,
+        url: s.url,
+        displayOrder: index
+      }));
+    }
+
     await prisma.profile.update({
       where: { userId },
       data: {
@@ -112,6 +122,16 @@ export async function updateProfileInfo(userId: string, data: any) {
         profession,
         gender,
         birthDate: birthDate ? new Date(birthDate) : null,
+        ...(formattedSocialLinks.length >= 0 ? {
+          user: {
+            update: {
+              socialLinks: {
+                deleteMany: {},
+                create: formattedSocialLinks
+              }
+            }
+          }
+        } : {})
       },
     });
 
