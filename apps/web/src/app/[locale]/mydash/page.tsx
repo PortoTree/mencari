@@ -187,6 +187,27 @@ function ProductPreviewMockup({ product }: { product: any }) {
             </div>
           )}
 
+          {/* Reviews Placeholder */}
+          <div className="mt-4 pt-4 border-t border-gray-700/50">
+            <h3 className="text-[12px] font-bold text-white mb-2">Ulasan Pembeli</h3>
+            <div className="bg-[#18191A] rounded-xl p-3 border border-gray-800 flex items-start gap-3">
+              <div className="w-8 h-8 rounded-full bg-gray-700 shrink-0"></div>
+              <div className="flex-1 mt-0.5">
+                <div className="flex justify-between items-center mb-1.5">
+                  <div className="w-16 h-2.5 bg-gray-600 rounded-full"></div>
+                  <div className="w-12 h-2 bg-gray-700 rounded-full"></div>
+                </div>
+                <div className="flex gap-0.5 mb-2">
+                  {[1,2,3,4,5].map(i => (
+                    <svg key={i} className="w-3 h-3 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                  ))}
+                </div>
+                <div className="w-full h-2 bg-gray-700 rounded-full mb-1.5"></div>
+                <div className="w-3/4 h-2 bg-gray-700 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+
           <div className="flex-1 min-h-[16px]"></div>
 
           {/* Price */}
@@ -961,31 +982,6 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
           </div>
         </div>
 
-        {/* Video */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5">
-              <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.tambahkan_video")}</label>
-              <div className="relative group flex items-center">
-                <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-[max-content] max-w-[200px] bg-gray-800 text-white text-[11px] px-2.5 py-1.5 rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 shadow-lg text-center pointer-events-none z-50">
-                  {t("mydash.tooltip_info_video")}
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
-                </div>
-              </div>
-            </div>
-            <button 
-              onClick={() => { setIsVideoEnabled(!isVideoEnabled); onChange?.({ isVideoEnabled: !isVideoEnabled }); }}
-              className={`w-9 h-5 rounded-full relative transition-colors ${isVideoEnabled ? 'bg-emerald-500' : 'bg-gray-300 dark:bg-[#4E4F50]'}`}
-            >
-              <div className={`w-3.5 h-3.5 bg-white rounded-full absolute top-[3px] transition-transform ${isVideoEnabled ? 'left-[19px]' : 'left-[3px]'}`}></div>
-            </button>
-          </div>
-          {isVideoEnabled && (
-            <input type="text" value={product?.videoUrl || ""} onChange={(e) => onChange?.({ videoUrl: e.target.value })} placeholder={t("mydash.tempel_url_youtube")} className="w-full border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[13px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400" />
-          )}
-        </div>
-
         {/* Keterangan */}
         <div className="space-y-2">
           <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.keterangan")}</label>
@@ -1014,6 +1010,31 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
               <div className="w-6 h-1 bg-gray-300 dark:bg-[#4E4F50] rounded-full"></div>
             </div>
           </div>
+        </div>
+
+        {/* Video */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.tambahkan_video")}</label>
+              <div className="relative group flex items-center">
+                <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-[max-content] max-w-[200px] bg-gray-800 text-white text-[11px] px-2.5 py-1.5 rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 shadow-lg text-center pointer-events-none z-50">
+                  {t("mydash.tooltip_info_video")}
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+                </div>
+              </div>
+            </div>
+            <button 
+              onClick={() => { setIsVideoEnabled(!isVideoEnabled); onChange?.({ isVideoEnabled: !isVideoEnabled }); }}
+              className={`w-9 h-5 rounded-full relative transition-colors ${isVideoEnabled ? 'bg-emerald-500' : 'bg-gray-300 dark:bg-[#4E4F50]'}`}
+            >
+              <div className={`w-3.5 h-3.5 bg-white rounded-full absolute top-[3px] transition-transform ${isVideoEnabled ? 'left-[19px]' : 'left-[3px]'}`}></div>
+            </button>
+          </div>
+          {isVideoEnabled && (
+            <input type="text" value={product?.videoUrl || ""} onChange={(e) => onChange?.({ videoUrl: e.target.value })} placeholder={t("mydash.tempel_url_youtube")} className="w-full border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[13px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400" />
+          )}
         </div>
 
         {/* Platform */}
