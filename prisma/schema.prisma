@@ -79,6 +79,19 @@ model Profile {
   community    String?      @db.Text
   groupChat    String?      @db.Text
 
+  // Skills
+  softSkills     String[]     @default([])
+  hardSkills     String[]     @default([])
+  softwareSkills String[]     @default([])
+
+  // Interests/Hobbies
+  hobbies        String[]     @default([])
+  music          String[]     @default([])
+  tvShows        String[]     @default([])
+  movies         String[]     @default([])
+  games          String[]     @default([])
+  sports         String[]     @default([])
+
   displayNameChangeDates DateTime[] @default([])
 
   createdAt    DateTime     @default(now())

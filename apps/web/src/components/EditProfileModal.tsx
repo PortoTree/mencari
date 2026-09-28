@@ -250,6 +250,15 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
             setCurrentDisplayName(res.profile.displayName);
             setDraftDisplayName(res.profile.displayName);
           }
+          if (res.profile.softSkills) setSelectedSoft(res.profile.softSkills);
+          if (res.profile.hardSkills) setSelectedHard(res.profile.hardSkills);
+          if (res.profile.softwareSkills) setSelectedSoftware(res.profile.softwareSkills);
+          if (res.profile.hobbies) setSelectedHobby(res.profile.hobbies);
+          if (res.profile.music) setSelectedMusic(res.profile.music);
+          if (res.profile.tvShows) setSelectedTV(res.profile.tvShows);
+          if (res.profile.movies) setSelectedFilm(res.profile.movies);
+          if (res.profile.games) setSelectedGame(res.profile.games);
+          if (res.profile.sports) setSelectedSport(res.profile.sports);
           
           if (res.profile.displayNameChangeDates) {
             const now = new Date();
@@ -325,6 +334,15 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
       profession,
       gender: gender === t("selectPlaceholder") ? null : gender,
       birthDate,
+      softSkills: selectedSoft,
+      hardSkills: selectedHard,
+      softwareSkills: selectedSoftware,
+      hobbies: selectedHobby,
+      music: selectedMusic,
+      tvShows: selectedTV,
+      movies: selectedFilm,
+      games: selectedGame,
+      sports: selectedSport
     });
     setIsUpdatingInfo(false);
     if (res.success) {
@@ -1176,7 +1194,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     <SkillInput title="Soft Skill" tPlaceholder={t("searchOrAdd") + " soft skill..."} options={SOFT_SKILLS} selected={selectedSoft} onChange={setSelectedSoft} />
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
                       <button onClick={() => setIsEditingSoftSkill(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
-                      <button onClick={() => setIsEditingSoftSkill(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
+                      <button onClick={() => handleSaveInfo(setIsEditingSoftSkill)} disabled={isUpdatingInfo} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm disabled:opacity-50">{isUpdatingInfo ? "..." : t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -1198,7 +1216,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     <SkillInput title="Hard Skill" tPlaceholder={t("searchOrAdd") + " hard skill..."} options={HARD_SKILLS} selected={selectedHard} onChange={setSelectedHard} />
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
                       <button onClick={() => setIsEditingHardSkill(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
-                      <button onClick={() => setIsEditingHardSkill(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
+                      <button onClick={() => handleSaveInfo(setIsEditingHardSkill)} disabled={isUpdatingInfo} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm disabled:opacity-50">{isUpdatingInfo ? "..." : t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -1220,7 +1238,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     <SkillInput title="Software Skill" tPlaceholder={t("searchOrAdd") + " software skill..."} options={SOFTWARE_SKILLS} selected={selectedSoftware} onChange={setSelectedSoftware} />
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
                       <button onClick={() => setIsEditingSoftwareSkill(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
-                      <button onClick={() => setIsEditingSoftwareSkill(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
+                      <button onClick={() => handleSaveInfo(setIsEditingSoftwareSkill)} disabled={isUpdatingInfo} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm disabled:opacity-50">{isUpdatingInfo ? "..." : t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -1248,7 +1266,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
                       <button onClick={() => setIsEditingHobby(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
-                      <button onClick={() => setIsEditingHobby(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
+                      <button onClick={() => handleSaveInfo(setIsEditingHobby)} disabled={isUpdatingInfo} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm disabled:opacity-50">{isUpdatingInfo ? "..." : t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -1276,7 +1294,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     <SkillInput title="Music" tPlaceholder={t("searchOrAdd") + " Music..."} options={MUSIC_OPTIONS} selected={selectedMusic} onChange={setSelectedMusic} />
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
                       <button onClick={() => setIsEditingMusic(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
-                      <button onClick={() => setIsEditingMusic(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
+                      <button onClick={() => handleSaveInfo(setIsEditingMusic)} disabled={isUpdatingInfo} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm disabled:opacity-50">{isUpdatingInfo ? "..." : t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -1298,7 +1316,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     <SkillInput title="TV programmes" tPlaceholder={t("searchOrAdd") + " TV programmes..."} options={TV_OPTIONS} selected={selectedTV} onChange={setSelectedTV} />
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
                       <button onClick={() => setIsEditingTV(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
-                      <button onClick={() => setIsEditingTV(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
+                      <button onClick={() => handleSaveInfo(setIsEditingTV)} disabled={isUpdatingInfo} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm disabled:opacity-50">{isUpdatingInfo ? "..." : t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -1320,7 +1338,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     <SkillInput title="Films" tPlaceholder={t("searchOrAdd") + " Films..."} options={FILM_OPTIONS} selected={selectedFilm} onChange={setSelectedFilm} />
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
                       <button onClick={() => setIsEditingFilm(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
-                      <button onClick={() => setIsEditingFilm(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
+                      <button onClick={() => handleSaveInfo(setIsEditingFilm)} disabled={isUpdatingInfo} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm disabled:opacity-50">{isUpdatingInfo ? "..." : t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -1342,7 +1360,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     <SkillInput title="Games" tPlaceholder={t("searchOrAdd") + " Games..."} options={GAME_OPTIONS} selected={selectedGame} onChange={setSelectedGame} />
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
                       <button onClick={() => setIsEditingGame(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
-                      <button onClick={() => setIsEditingGame(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
+                      <button onClick={() => handleSaveInfo(setIsEditingGame)} disabled={isUpdatingInfo} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm disabled:opacity-50">{isUpdatingInfo ? "..." : t("save")}</button>
                     </div>
                   </div>
                 )}
@@ -1364,7 +1382,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     <SkillInput title="Sports teams and athletes" tPlaceholder={t("searchOrAdd") + " Sports teams..."} options={SPORT_OPTIONS} selected={selectedSport} onChange={setSelectedSport} />
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
                       <button onClick={() => setIsEditingSport(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
-                      <button onClick={() => setIsEditingSport(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
+                      <button onClick={() => handleSaveInfo(setIsEditingSport)} disabled={isUpdatingInfo} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm disabled:opacity-50">{isUpdatingInfo ? "..." : t("save")}</button>
                     </div>
                   </div>
                 )}

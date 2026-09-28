@@ -99,7 +99,7 @@ export async function updateProfileMedia(userId: string, type: "avatar" | "cover
 
 export async function updateProfileInfo(userId: string, data: any) {
   try {
-    const { bio, locationName, websiteUrl, externalLinks, socialLinks, education, profession, gender, birthDate } = data;
+    const { bio, locationName, websiteUrl, externalLinks, socialLinks, education, profession, gender, birthDate, softSkills, hardSkills, softwareSkills, hobbies, music, tvShows, movies, games, sports } = data;
     
     // Validate platform and url for socialLinks
     let formattedSocialLinks: any[] = [];
@@ -122,6 +122,15 @@ export async function updateProfileInfo(userId: string, data: any) {
         profession,
         gender,
         birthDate: birthDate ? new Date(birthDate) : null,
+        softSkills: softSkills !== undefined ? softSkills : undefined,
+        hardSkills: hardSkills !== undefined ? hardSkills : undefined,
+        softwareSkills: softwareSkills !== undefined ? softwareSkills : undefined,
+        hobbies: hobbies !== undefined ? hobbies : undefined,
+        music: music !== undefined ? music : undefined,
+        tvShows: tvShows !== undefined ? tvShows : undefined,
+        movies: movies !== undefined ? movies : undefined,
+        games: games !== undefined ? games : undefined,
+        sports: sports !== undefined ? sports : undefined,
         ...(formattedSocialLinks.length >= 0 ? {
           user: {
             update: {
