@@ -979,7 +979,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
         {/* Gambar dan Judul */}
         <div className="flex gap-4">
           <div className="space-y-2 shrink-0">
-            <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.gambar")}</label>
+            <label className="text-[15px] font-semibold text-gray-800 dark:text-white">{t("mydash.gambar")}</label>
             <div className="w-[80px] h-[80px] border border-dashed border-gray-300 dark:border-[#4E4F50] rounded-xl flex flex-col items-center justify-center gap-1 cursor-pointer hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors">
               <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
               <span className="text-[10px] text-gray-400 text-center leading-tight">Tambahkan<br />{t("mydash.gambar")}</span>
@@ -987,16 +987,16 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
           </div>
           <div className="space-y-2 flex-1">
             <div className="flex items-center justify-between">
-              <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.judul_produk")}</label>
-              <span className="text-[11px] text-gray-400">0/100</span>
+              <label className="text-[15px] font-semibold text-gray-800 dark:text-white">{t("mydash.judul_produk")}</label>
+              <span className="text-[11px] text-gray-400">{product?.title?.length || 0}/41</span>
             </div>
-            <input type="text" placeholder={t("mydash.judul_produk")} value={product?.title || ""} onChange={(e) => onChange?.({ title: e.target.value })} className="w-full border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[13px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400" />
+            <input type="text" maxLength={41} placeholder={t("mydash.judul_produk")} value={product?.title || ""} onChange={(e) => onChange?.({ title: e.target.value })} className="w-full border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[13px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400" />
           </div>
         </div>
 
         {/* Keterangan */}
         <div className="space-y-2">
-          <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.keterangan")}</label>
+          <label className="text-[15px] font-semibold text-gray-800 dark:text-white">{t("mydash.keterangan")}</label>
           <div className="border border-gray-200 dark:border-[#4E4F50] rounded-lg overflow-hidden bg-[#F4F9F7] dark:bg-[#2A2B2C]">
             <div className="p-2 border-b border-gray-200 dark:border-[#4E4F50] flex flex-wrap gap-x-4 gap-y-2 items-center text-gray-600 dark:text-[#B0B3B8]">
               <div className="flex items-center gap-1 cursor-pointer hover:text-emerald-600"><span className="text-[13px]">🪄</span><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg></div>
@@ -1008,14 +1008,6 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
               <div className="cursor-pointer hover:text-emerald-600"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg></div>
               <div className="cursor-pointer hover:text-emerald-600"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7" /></svg></div>
               <div className="cursor-pointer hover:text-emerald-600 flex items-center gap-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h8m-8 6h16" /></svg><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg></div>
-              <div className="w-full flex gap-4 pt-1">
-                <div className="cursor-pointer hover:text-emerald-600"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg></div>
-                <div className="cursor-pointer hover:text-emerald-600"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg></div>
-                <div className="cursor-pointer hover:text-emerald-600"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg></div>
-                <div className="cursor-pointer hover:text-emerald-600"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg></div>
-                <div className="cursor-pointer hover:text-emerald-600 font-bold text-[13px]">&lt;/&gt;</div>
-                <div className="cursor-pointer hover:text-emerald-600 text-[12px]">Emoji</div>
-              </div>
             </div>
             <textarea value={product?.description || ""} onChange={(e) => onChange?.({ description: e.target.value })} className="w-full h-[150px] bg-white dark:bg-[#18191A] resize-none outline-none p-3 text-[13px] text-gray-700 dark:text-[#E4E6EB]" placeholder={t("mydash.tuliskan_keterangan")}></textarea>
             <div className="flex justify-center bg-gray-100 dark:bg-[#242526] py-0.5 border-t border-gray-200 dark:border-[#4E4F50] cursor-row-resize">
@@ -1028,7 +1020,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1.5">
-              <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.tambahkan_video")}</label>
+              <label className="text-[15px] font-semibold text-gray-800 dark:text-white">{t("mydash.tambahkan_video")}</label>
               <div className="relative group flex items-center">
                 <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-[max-content] max-w-[200px] bg-gray-800 text-white text-[11px] px-2.5 py-1.5 rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 shadow-lg text-center pointer-events-none z-50">
@@ -1052,7 +1044,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
         {/* Platform */}
         <div className="space-y-3">
           <div className="flex items-center gap-1.5">
-            <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.platform")}</label>
+            <label className="text-[15px] font-semibold text-gray-800 dark:text-white">{t("mydash.platform")}</label>
             <div className="relative group flex items-center">
               <svg className="w-3.5 h-3.5 text-emerald-500 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-[max-content] max-w-[200px] bg-gray-800 text-white text-[11px] px-2.5 py-1.5 rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 shadow-lg text-center pointer-events-none z-50">
@@ -1102,7 +1094,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
         <div className="grid grid-cols-2 gap-4 mt-2 items-start">
           {/* Kategori */}
           <div className="relative">
-            <label className="block mb-1.5 text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.pilih_kategori")}</label>
+            <label className="block mb-1.5 text-[15px] font-semibold text-gray-800 dark:text-white">{t("mydash.pilih_kategori")}</label>
             <button onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)} className="w-full flex items-center justify-between border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[13px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] focus:outline-none focus:border-emerald-500 transition-colors">
               {category === "create_new" ? t("mydash.buat_kategori") : (category || t("mydash.pilih_kategori"))}
               <svg className={`w-4 h-4 text-gray-500 transition-transform ${isCategoryDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
@@ -1141,7 +1133,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
 
           {/* Koleksi */}
           <div className="relative">
-            <label className="block mb-1.5 text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.pilih_koleksi")}</label>
+            <label className="block mb-1.5 text-[15px] font-semibold text-gray-800 dark:text-white">{t("mydash.pilih_koleksi")}</label>
             <button onClick={() => setIsCollectionDropdownOpen(!isCollectionDropdownOpen)} className="w-full flex items-center justify-between border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[13px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] focus:outline-none focus:border-emerald-500 transition-colors">
               {collection === "create_new" ? t("mydash.buat_koleksi") : (collection || t("mydash.pilih_koleksi"))}
               <svg className={`w-4 h-4 text-gray-500 transition-transform ${isCollectionDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
@@ -1166,7 +1158,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
 
         {/* Produk layout */}
         <div className="mt-6">
-          <label className="block mb-3 text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.produk_layout")}</label>
+          <label className="block mb-3 text-[15px] font-semibold text-gray-800 dark:text-white">{t("mydash.produk_layout")}</label>
           <div className="grid grid-cols-4 gap-2">
             {[
               { id: "grid", img: "grid.png", label: t("mydash.layout_grid") },
@@ -1190,7 +1182,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
 
         {/* Price */}
         <div className="space-y-3 mt-6">
-          <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.harga")}</label>
+          <label className="text-[15px] font-semibold text-gray-800 dark:text-white">{t("mydash.harga")}</label>
           <div className="space-y-3">
             <div className="relative">
               <span className="absolute left-3 top-[9px] text-[14px] text-gray-500">Rp</span>
@@ -1205,7 +1197,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
 
         {/* Dropdown */}
         <div className="mt-6 pb-6 space-y-3 relative">
-          <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.purchase_button")}</label>
+          <label className="text-[15px] font-semibold text-gray-800 dark:text-white">{t("mydash.purchase_button")}</label>
           <div className="relative">
             <button onClick={() => setIsCtaDropdownOpen(!isCtaDropdownOpen)} className="w-full flex items-center justify-between border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[14px] rounded-lg px-4 py-2.5 text-gray-700 dark:text-[#E4E6EB] focus:outline-none focus:border-emerald-500 transition-colors">
               {t(`mydash.cta_${ctaType}`)}
@@ -1237,7 +1229,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
           </div>
 
           {ctaType === "custom" && (
-            <div className="flex gap-2 animate-in slide-in-from-top-2 fade-in duration-200">
+            <div className="animate-in slide-in-from-top-2 fade-in duration-200">
               <input
                 type="text"
                 maxLength={10}
@@ -1248,14 +1240,8 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
                   onChange?.({ customCta: val });
                 }}
                 placeholder={t("mydash.custom_cta_placeholder")}
-                className="flex-1 border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[14px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400"
+                className="w-1/2 border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[14px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400"
               />
-              <button
-                disabled={!customCta.trim()}
-                className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 disabled:bg-gray-300 disabled:dark:bg-[#4E4F50] disabled:text-gray-500 text-white text-[13px] font-medium rounded-lg transition-colors"
-              >
-                {t("mydash.simpan")}
-              </button>
             </div>
           )}
         </div>

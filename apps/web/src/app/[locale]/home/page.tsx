@@ -242,6 +242,20 @@ export default function Beranda() {
   const [productSort, setProductSort] = useState("popular");
   const [isProductDetailOpen, setIsProductDetailOpen] = useState(false);
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (isProductModalOpen) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, [isProductModalOpen]);
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
   const [postPrivacy, setPostPrivacy] = useState("public");
   const [isPrivacyDropdownOpen, setIsPrivacyDropdownOpen] = useState(false);
