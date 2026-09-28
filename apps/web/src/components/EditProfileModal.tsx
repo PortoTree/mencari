@@ -531,6 +531,41 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
     }
   };
 
+  const extractUsername = (val: string, platform: string) => {
+    let cleanVal = val.trim();
+    const prefix = getPrefix(platform);
+    
+    if (prefix) {
+      // match e.g. https://www.instagram.com/ or instagram.com/
+      const regex = new RegExp(`^(https?:\\/\\/)?(www\\.)?${prefix.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')}`, 'i');
+      if (regex.test(cleanVal)) {
+        cleanVal = cleanVal.replace(regex, '');
+      } else if (cleanVal.toLowerCase().includes(prefix.toLowerCase())) {
+        const parts = cleanVal.toLowerCase().split(prefix.toLowerCase());
+        cleanVal = cleanVal.substring(cleanVal.length - parts[1].length);
+      }
+    }
+    
+    // if still a URL, get last segment
+    if (cleanVal.startsWith('http') || cleanVal.includes('.com/')) {
+      cleanVal = cleanVal.split('/').filter(Boolean).pop() || cleanVal;
+    }
+    
+    // Clean query params
+    cleanVal = cleanVal.split('?')[0];
+
+    // Remove @ if the prefix already includes it or if it's generally not needed in the input
+    if ((platform === "Tiktok" || platform === "Youtube") && cleanVal.startsWith('@')) {
+       cleanVal = cleanVal.substring(1);
+    }
+    
+    if (platform === "Whatsapp") {
+      cleanVal = cleanVal.replace(/\\D/g, '');
+    }
+
+    return cleanVal;
+  };
+
   const TABS = [
     { id: "intro", label: t("intro") },
     { id: "dasar", label: t("basicInfo") },
@@ -1090,9 +1125,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                                 value={link.url}
                                 onChange={(e) => {
                                   let val = e.target.value;
-                                  if (link.platform === "Whatsapp") {
-                                    val = val.replace(/\D/g, '');
-                                  }
+                                  val = extractUsername(val, link.platform);
                                   const newLinks = [...socialLinks];
                                   newLinks[idx].url = val;
                                   setSocialLinks(newLinks);

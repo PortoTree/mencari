@@ -249,10 +249,27 @@ export default function ProfilePage({
             {/* Social Media Icons */}
             {profileData?.user?.socialLinks && profileData.user.socialLinks.length > 0 && (
               <div className="flex flex-wrap items-center justify-center gap-2.5 mb-8 px-4">
-                {profileData.user.socialLinks.map((social: any) => (
+                {profileData.user.socialLinks.map((social: any) => {
+                  const getSocialUrl = (platform: string, username: string) => {
+                    if (username.startsWith('http')) return username;
+                    switch (platform) {
+                      case "Instagram": return `https://instagram.com/${username}`;
+                      case "Whatsapp": return `https://wa.me/${username}`;
+                      case "Facebook": return `https://facebook.com/${username}`;
+                      case "Tiktok": return `https://tiktok.com/@${username}`;
+                      case "Github": return `https://github.com/${username}`;
+                      case "Portotree": return `https://portotree.com/p/${username}`;
+                      case "Linkedin": return `https://linkedin.com/in/${username}`;
+                      case "Youtube": return `https://youtube.com/@${username}`;
+                      case "Telegram": return `https://t.me/${username}`;
+                      case "Twitter": return `https://twitter.com/${username}`;
+                      default: return `https://${username}`;
+                    }
+                  };
+                  return (
                   <a 
                     key={social.id} 
-                    href={social.url.startsWith('http') ? social.url : `https://${social.url}`}
+                    href={getSocialUrl(social.platform, social.url)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-9 h-9 rounded-full bg-gray-100 dark:bg-[#3A3B3C] flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-colors shadow-sm border border-gray-200 dark:border-[#4E4F50] shrink-0 group relative z-10"
@@ -268,7 +285,7 @@ export default function ProfilePage({
                       <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#1C1E21] dark:bg-white rotate-45"></div>
                     </div>
                   </a>
-                ))}
+                )})}
               </div>
             )}
 
