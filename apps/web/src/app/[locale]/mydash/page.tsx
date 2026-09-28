@@ -80,6 +80,151 @@ const initialCollections = [
   }
 ];
 
+function ProductPreviewMockup({ product }: { product: any }) {
+  const t = useTranslations();
+  
+  let embedUrl = "";
+  let isDirectVideo = false;
+
+  if (product?.isVideoEnabled && product?.videoUrl) {
+    const url = product.videoUrl;
+    
+    if (url.match(/\.(mp4|webm|ogg)$/i) || url.includes("cloudinary.com/video/upload") || url.includes("storage.googleapis.com")) {
+      embedUrl = url;
+      isDirectVideo = true;
+    } else if (url.includes("youtu.be/")) {
+      const videoId = url.split("youtu.be/")[1]?.split("?")[0];
+      if (videoId) embedUrl = `https://www.youtube.com/embed/${videoId}`;
+    } else if (url.includes("youtube.com/watch")) {
+      try {
+        const urlParams = new URLSearchParams(url.split("?")[1]);
+        const videoId = urlParams.get("v");
+        if (videoId) embedUrl = `https://www.youtube.com/embed/${videoId}`;
+      } catch (e) {}
+    } else if (url.includes("youtube.com/shorts/")) {
+       const videoId = url.split("youtube.com/shorts/")[1]?.split("?")[0];
+       if (videoId) embedUrl = `https://www.youtube.com/embed/${videoId}`;
+    } else if (url.includes("vimeo.com/")) {
+      const videoId = url.split("vimeo.com/")[1]?.split(/[?\/]/)[0];
+      if (videoId) embedUrl = `https://player.vimeo.com/video/${videoId}`;
+    } else if (url.includes("tiktok.com/")) {
+      const match = url.match(/video\/(\d+)/);
+      if (match && match[1]) {
+        embedUrl = `https://www.tiktok.com/embed/v2/${match[1]}`;
+      }
+    }
+  }
+
+  return (
+    <div className="w-[320px] h-[640px] mx-auto bg-[#1C1D1F] rounded-[40px] border-[8px] border-gray-800 shadow-2xl overflow-hidden relative flex flex-col">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-gray-800 rounded-b-3xl z-20"></div>
+      
+      {/* Container */}
+      <div className="relative w-full h-full flex flex-col overflow-y-auto hide-scrollbar bg-[#242526]">
+        
+        {/* Top Image Placeholder */}
+        <div className="w-full h-[280px] bg-[#3E4042] relative flex items-center justify-center shrink-0">
+          <svg className="w-16 h-16 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+        </div>
+
+        {/* Content Details */}
+        <div className="flex-1 bg-[#242526] p-4 flex flex-col">
+          {/* Store Info */}
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-5 h-5 bg-gray-100 rounded flex items-center justify-center shrink-0">
+               <svg className="w-3 h-3 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" /></svg>
+            </div>
+            <span className="text-[12px] text-[#B0B3B8]">Toko Digital Kreatif 1</span>
+          </div>
+
+          {/* Title */}
+          <h2 className="text-[16px] font-bold text-white leading-snug">
+            {product?.title || "Produk kamu"}
+          </h2>
+
+          {/* Badges (Koleksi & Kategori) */}
+          {(product?.collection || product?.category) && (
+            <div className="flex flex-wrap gap-1.5 mt-2.5">
+               {product?.collection && (
+                 <div className="flex items-center gap-1 px-2 py-1 bg-orange-500/10 border border-orange-500/20 rounded-md">
+                   <svg className="w-3 h-3 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                   <span className="text-[10px] font-medium text-orange-500">{product.collection}</span>
+                 </div>
+               )}
+               {product?.category && (
+                 <div className="flex items-center gap-1 px-2 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-md">
+                   <svg className="w-3 h-3 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
+                   <span className="text-[10px] font-medium text-emerald-500">{product.category}</span>
+                 </div>
+               )}
+            </div>
+          )}
+
+          {/* Description */}
+          <div className="mt-3">
+            <h3 className="text-[10px] font-bold text-[#B0B3B8] uppercase tracking-wider mb-1">Deskripsi</h3>
+            <p className="text-[12px] text-[#B0B3B8] leading-relaxed">
+              {product?.description || "Template website profesional dengan desain modern, responsif, dan mudah dikustomisasi. Cocok untuk bisnis, portofolio, maupun landing page produk digital Anda."}
+            </p>
+          </div>
+
+          {/* Video Preview */}
+          {embedUrl && (
+            <div className="mt-4 rounded-xl overflow-hidden aspect-video bg-[#18191A] border border-gray-800 relative">
+              {isDirectVideo ? (
+                <video src={embedUrl} controls className="w-full h-full object-cover" />
+              ) : (
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src={embedUrl}
+                  title="Video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              )}
+            </div>
+          )}
+
+          <div className="flex-1 min-h-[16px]"></div>
+
+          {/* Price */}
+          <div className="flex items-end gap-2 mt-4">
+            {product?.salePrice ? (
+              <>
+                <div className="text-[18px] font-bold text-emerald-500 leading-none">
+                  Rp {Number(product.salePrice).toLocaleString('id-ID')}
+                </div>
+                <div className="text-[13px] text-[#B0B3B8] line-through mb-[1px]">
+                  Rp {Number(product?.price || 0).toLocaleString('id-ID')}
+                </div>
+              </>
+            ) : (
+              <div className="text-[18px] font-bold text-emerald-500 leading-none">
+                Rp {Number(product?.price || 0).toLocaleString('id-ID')}
+              </div>
+            )}
+          </div>
+
+          {/* CTA */}
+          <button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl mt-3 transition-colors text-[14px]">
+            {product?.ctaType === "custom" && product?.customCta 
+              ? product.customCta 
+              : t(`mydash.cta_${product?.ctaType || "buy_now"}`)}
+          </button>
+
+          {/* Footer Note */}
+          <p className="text-center text-[10px] text-[#B0B3B8] mt-3 pb-2">
+            Checkout dengan aman di <span className="font-bold text-white">LYNK</span>
+          </p>
+
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function PhonePreviewMockup({ collections }: { collections: any[] }) {
   const [activeCollection, setActiveCollection] = useState<any>(null);
 
@@ -745,14 +890,14 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
 }
 
 
-function ProductEditForm({ product, onClose }: { product: any, onClose: () => void }) {
+function ProductEditForm({ product, onClose, onChange }: { product: any, onClose: () => void, onChange?: (updatedProduct: any) => void }) {
   const t = useTranslations();
-  const [isVideoEnabled, setIsVideoEnabled] = useState(false);
+  const [isVideoEnabled, setIsVideoEnabled] = useState(product?.isVideoEnabled || false);
   const [platform, setPlatform] = useState("lynk");
   const [productLayout, setProductLayout] = useState("grid");
-  const [ctaType, setCtaType] = useState("buy_now");
+  const [ctaType, setCtaType] = useState(product?.ctaType || "buy_now");
   const [isCtaDropdownOpen, setIsCtaDropdownOpen] = useState(false);
-  const [customCta, setCustomCta] = useState("");
+  const [customCta, setCustomCta] = useState(product?.customCta || "");
   const [category, setCategory] = useState("");
   const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState("");
@@ -812,7 +957,7 @@ function ProductEditForm({ product, onClose }: { product: any, onClose: () => vo
               <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.judul_produk")}</label>
               <span className="text-[11px] text-gray-400">0/100</span>
             </div>
-            <input type="text" placeholder={t("mydash.judul_produk")} defaultValue={product?.title || ""} className="w-full border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[13px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400" />
+            <input type="text" placeholder={t("mydash.judul_produk")} value={product?.title || ""} onChange={(e) => onChange?.({ title: e.target.value })} className="w-full border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[13px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400" />
           </div>
         </div>
 
@@ -830,14 +975,14 @@ function ProductEditForm({ product, onClose }: { product: any, onClose: () => vo
               </div>
             </div>
             <button 
-              onClick={() => setIsVideoEnabled(!isVideoEnabled)}
+              onClick={() => { setIsVideoEnabled(!isVideoEnabled); onChange?.({ isVideoEnabled: !isVideoEnabled }); }}
               className={`w-9 h-5 rounded-full relative transition-colors ${isVideoEnabled ? 'bg-emerald-500' : 'bg-gray-300 dark:bg-[#4E4F50]'}`}
             >
               <div className={`w-3.5 h-3.5 bg-white rounded-full absolute top-[3px] transition-transform ${isVideoEnabled ? 'left-[19px]' : 'left-[3px]'}`}></div>
             </button>
           </div>
           {isVideoEnabled && (
-            <input type="text" placeholder={t("mydash.tempel_url_youtube")} className="w-full border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[13px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400" />
+            <input type="text" value={product?.videoUrl || ""} onChange={(e) => onChange?.({ videoUrl: e.target.value })} placeholder={t("mydash.tempel_url_youtube")} className="w-full border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[13px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400" />
           )}
         </div>
 
@@ -864,7 +1009,7 @@ function ProductEditForm({ product, onClose }: { product: any, onClose: () => vo
                 <div className="cursor-pointer hover:text-emerald-600 text-[12px]">Emoji</div>
               </div>
             </div>
-            <textarea className="w-full h-[150px] bg-white dark:bg-[#18191A] resize-none outline-none p-3 text-[13px] text-gray-700 dark:text-[#E4E6EB]" placeholder={t("mydash.tuliskan_keterangan")}></textarea>
+            <textarea value={product?.description || ""} onChange={(e) => onChange?.({ description: e.target.value })} className="w-full h-[150px] bg-white dark:bg-[#18191A] resize-none outline-none p-3 text-[13px] text-gray-700 dark:text-[#E4E6EB]" placeholder={t("mydash.tuliskan_keterangan")}></textarea>
             <div className="flex justify-center bg-gray-100 dark:bg-[#242526] py-0.5 border-t border-gray-200 dark:border-[#4E4F50] cursor-row-resize">
               <div className="w-6 h-1 bg-gray-300 dark:bg-[#4E4F50] rounded-full"></div>
             </div>
@@ -933,7 +1078,7 @@ function ProductEditForm({ product, onClose }: { product: any, onClose: () => vo
             {isCategoryDropdownOpen && (
               <div className="absolute z-10 w-full mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-xl shadow-lg py-1.5 top-full">
                 {dbCategories.map(cat => (
-                  <button key={cat} onClick={() => { setCategory(cat); setIsCategoryDropdownOpen(false); }} className={`w-full text-left px-4 py-2 text-[13px] transition-colors ${category === cat ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' : 'text-gray-700 dark:text-[#E4E6EB] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]'}`}>
+                  <button key={cat} onClick={() => { setCategory(cat); onChange?.({ category: cat }); setIsCategoryDropdownOpen(false); }} className={`w-full text-left px-4 py-2 text-[13px] transition-colors ${category === cat ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' : 'text-gray-700 dark:text-[#E4E6EB] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]'}`}>
                     {cat}
                   </button>
                 ))}
@@ -951,7 +1096,7 @@ function ProductEditForm({ product, onClose }: { product: any, onClose: () => vo
                 {isLibraryCategoryDropdownOpen && (
                   <div className="absolute z-10 w-full mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-xl shadow-lg py-1.5 top-full max-h-64 overflow-y-auto">
                     {libraryCategories.map(cat => (
-                      <button key={cat.id} onClick={() => { setNewCategoryName(cat.label); setIsLibraryCategoryDropdownOpen(false); }} className={`w-full flex items-center gap-3 px-4 py-2 text-[13px] transition-colors ${newCategoryName === cat.label ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' : 'text-gray-700 dark:text-[#E4E6EB] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]'}`}>
+                      <button key={cat.id} onClick={() => { setNewCategoryName(cat.label); onChange?.({ category: cat.label }); setIsLibraryCategoryDropdownOpen(false); }} className={`w-full flex items-center gap-3 px-4 py-2 text-[13px] transition-colors ${newCategoryName === cat.label ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' : 'text-gray-700 dark:text-[#E4E6EB] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]'}`}>
                         {cat.icon}
                         <span>{cat.label}</span>
                       </button>
@@ -972,7 +1117,7 @@ function ProductEditForm({ product, onClose }: { product: any, onClose: () => vo
             {isCollectionDropdownOpen && (
               <div className="absolute z-10 w-full mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-xl shadow-lg py-1.5 top-full">
                 {dbCollections.map(col => (
-                  <button key={col} onClick={() => { setCollection(col); setIsCollectionDropdownOpen(false); }} className={`w-full text-left px-4 py-2 text-[13px] transition-colors ${collection === col ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' : 'text-gray-700 dark:text-[#E4E6EB] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]'}`}>
+                  <button key={col} onClick={() => { setCollection(col); onChange?.({ collection: col }); setIsCollectionDropdownOpen(false); }} className={`w-full text-left px-4 py-2 text-[13px] transition-colors ${collection === col ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' : 'text-gray-700 dark:text-[#E4E6EB] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]'}`}>
                     {col}
                   </button>
                 ))}
@@ -982,7 +1127,7 @@ function ProductEditForm({ product, onClose }: { product: any, onClose: () => vo
               </div>
             )}
             {collection === "create_new" && (
-              <input type="text" value={newCollectionName} onChange={(e) => setNewCollectionName(e.target.value)} placeholder={t("mydash.nama_koleksi_baru")} className="w-full mt-2 border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[13px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 animate-in slide-in-from-top-2 fade-in duration-200" />
+              <input type="text" value={newCollectionName} onChange={(e) => { setNewCollectionName(e.target.value); onChange?.({ collection: e.target.value }); }} placeholder={t("mydash.nama_koleksi_baru")} className="w-full mt-2 border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[13px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 animate-in slide-in-from-top-2 fade-in duration-200" />
             )}
           </div>
         </div>
@@ -1015,8 +1160,14 @@ function ProductEditForm({ product, onClose }: { product: any, onClose: () => vo
         <div className="space-y-3 mt-6">
           <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.harga")}</label>
           <div className="space-y-3">
-            <input type="text" placeholder="0" className="w-full border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[14px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500" />
-            <input type="text" placeholder={t("mydash.sale_price")} className="w-full border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[14px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400" />
+            <div className="relative">
+              <span className="absolute left-3 top-[9px] text-[14px] text-gray-500">Rp</span>
+              <input type="text" value={product?.price ? Number(product.price).toLocaleString('id-ID') : ""} onChange={(e) => onChange?.({ price: e.target.value.replace(/\D/g, '') })} placeholder="0" className="w-full border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[14px] rounded-lg pl-9 pr-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500" />
+            </div>
+            <div className="relative">
+              <span className="absolute left-3 top-[9px] text-[14px] text-gray-500">Rp</span>
+              <input type="text" value={product?.salePrice ? Number(product.salePrice).toLocaleString('id-ID') : ""} onChange={(e) => onChange?.({ salePrice: e.target.value.replace(/\D/g, '') })} placeholder={t("mydash.sale_price")} className="w-full border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[14px] rounded-lg pl-9 pr-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400" />
+            </div>
           </div>
         </div>
 
@@ -1040,7 +1191,7 @@ function ProductEditForm({ product, onClose }: { product: any, onClose: () => vo
                 ].map(opt => (
                   <button 
                     key={opt.id}
-                    onClick={() => { setCtaType(opt.id); setIsCtaDropdownOpen(false); }}
+                    onClick={() => { setCtaType(opt.id); onChange?.({ ctaType: opt.id }); setIsCtaDropdownOpen(false); }}
                     className={`w-full flex items-center justify-center px-4 py-2.5 text-[14px] transition-colors ${ctaType === opt.id ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' : 'text-gray-700 dark:text-[#E4E6EB] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]'}`}
                   >
                     {opt.label}
@@ -1059,7 +1210,11 @@ function ProductEditForm({ product, onClose }: { product: any, onClose: () => vo
                 type="text" 
                 maxLength={10}
                 value={customCta}
-                onChange={(e) => setCustomCta(e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+                  setCustomCta(val);
+                  onChange?.({ customCta: val });
+                }}
                 placeholder={t("mydash.custom_cta_placeholder")} 
                 className="flex-1 border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[14px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400" 
               />
@@ -1563,7 +1718,7 @@ export default function MyDashPage() {
 
             {activeTab === "produk" && (
               editingProduct ? (
-                <ProductEditForm product={editingProduct} onClose={() => router.push(pathname)} />
+                <ProductEditForm product={editingProduct} onClose={() => router.push(pathname)} onChange={(updates) => setEditingProduct({ ...editingProduct, ...updates })} />
               ) : (
               <div className="flex flex-col">
                 {/* Your Pages */}
@@ -1627,9 +1782,11 @@ export default function MyDashPage() {
             {/* Right Column (Preview) */}
         <div className="flex-1 h-full overflow-hidden flex justify-center pt-4 lg:pt-0">
           <div className="w-full h-full flex justify-center items-start lg:items-center">
-            {/* Phone Preview Mockup */}
-            {/* Phone Preview Mockup */}
-            <PhonePreviewMockup collections={collections} />
+            {editingProduct && activeTab === "produk" ? (
+              <ProductPreviewMockup product={editingProduct} />
+            ) : (
+              <PhonePreviewMockup collections={collections} />
+            )}
           </div>
         </div>
 
