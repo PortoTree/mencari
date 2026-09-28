@@ -1,9 +1,10 @@
-"use client";
+﻿"use client";
 import React, { useState, useEffect, useRef } from "react";
 import { flushSync, createPortal } from "react-dom";
 import { useTranslations, useLocale } from "next-intl";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import RichTextEditor from "./RichTextEditor";
 
 function useScrollLock(isLocked: boolean) {
   useEffect(() => {
@@ -163,9 +164,10 @@ function ProductPreviewMockup({ product }: { product: any }) {
           {/* Description */}
           <div className="mt-3">
             <h3 className="text-[10px] font-bold text-[#B0B3B8] uppercase tracking-wider mb-1">Deskripsi</h3>
-            <p className="text-[12px] text-[#B0B3B8] leading-relaxed">
-              {product?.description || "Template website profesional dengan desain modern, responsif, dan mudah dikustomisasi. Cocok untuk bisnis, portofolio, maupun landing page produk digital Anda."}
-            </p>
+            <div 
+              className="text-[12px] text-[#B0B3B8] leading-relaxed [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:list-decimal [&_ol]:pl-4"
+              dangerouslySetInnerHTML={{ __html: product?.description || "Template website profesional dengan desain modern, responsif, dan mudah dikustomisasi. Cocok untuk bisnis, portofolio, maupun landing page produk digital Anda." }}
+            />
           </div>
 
           {/* Video Preview */}
@@ -948,68 +950,6 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
   const [collection, setCollection] = useState("");
   const [isCollectionDropdownOpen, setIsCollectionDropdownOpen] = useState(false);
   const [newCollectionName, setNewCollectionName] = useState("");
-  const [isHeadingDropdownOpen, setIsHeadingDropdownOpen] = useState(false);
-  const headingDropdownRef = useRef<HTMLDivElement>(null);
-  const [isFontSizeDropdownOpen, setIsFontSizeDropdownOpen] = useState(false);
-  const [currentFontSize, setCurrentFontSize] = useState<number>(16);
-  const fontSizeDropdownRef = useRef<HTMLDivElement>(null);
-  const [isBold, setIsBold] = useState(false);
-  const [isUnderline, setIsUnderline] = useState(false);
-  const [isColorDropdownOpen, setIsColorDropdownOpen] = useState(false);
-  const colorDropdownRef = useRef<HTMLDivElement>(null);
-  const [currentTextColor, setCurrentTextColor] = useState<string>("#242526");
-  const [currentBgColor, setCurrentBgColor] = useState<string>("transparent");
-  const [isAlignDropdownOpen, setIsAlignDropdownOpen] = useState(false);
-  const alignDropdownRef = useRef<HTMLDivElement>(null);
-  const [currentAlign, setCurrentAlign] = useState<'left' | 'center' | 'right' | 'justify'>('left');
-  const [descriptionHeight, setDescriptionHeight] = useState(150);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const bgRef = useRef<HTMLDivElement>(null);
-
-  const syncScroll = () => {
-    if (textareaRef.current && bgRef.current) {
-      bgRef.current.scrollTop = textareaRef.current.scrollTop;
-      bgRef.current.scrollLeft = textareaRef.current.scrollLeft;
-    }
-  };
-
-  const handleResizeStart = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const startY = e.clientY;
-    const startHeight = descriptionHeight;
-
-    const handleMouseMove = (moveEvent: MouseEvent) => {
-      const newHeight = Math.max(100, startHeight + moveEvent.clientY - startY);
-      setDescriptionHeight(newHeight);
-    };
-
-    const handleMouseUp = () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  };
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (headingDropdownRef.current && !headingDropdownRef.current.contains(event.target as Node)) {
-        setIsHeadingDropdownOpen(false);
-      }
-      if (fontSizeDropdownRef.current && !fontSizeDropdownRef.current.contains(event.target as Node)) {
-        setIsFontSizeDropdownOpen(false);
-      }
-      if (colorDropdownRef.current && !colorDropdownRef.current.contains(event.target as Node)) {
-        setIsColorDropdownOpen(false);
-      }
-      if (alignDropdownRef.current && !alignDropdownRef.current.contains(event.target as Node)) {
-        setIsAlignDropdownOpen(false);
-      }
-    }
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, []);
 
   const dbCategories: string[] = [];
   const dbCollections: string[] = [];
@@ -1069,299 +1009,12 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
         {/* Keterangan */}
         <div className="space-y-2">
           <label className="text-[15px] font-semibold text-gray-800 dark:text-white">{t("mydash.keterangan")}</label>
-          <div className="border border-gray-200 dark:border-[#4E4F50] rounded-lg bg-[#F4F9F7] dark:bg-[#2A2B2C]">
-            <div className="p-2 border-b border-gray-200 dark:border-[#4E4F50] flex flex-wrap gap-x-4 gap-y-2 items-center text-gray-600 dark:text-[#B0B3B8] rounded-t-lg">
-              <div className="relative" ref={headingDropdownRef}>
-                <div 
-                  onClick={() => setIsHeadingDropdownOpen(!isHeadingDropdownOpen)} 
-                  className={`flex items-center gap-1 cursor-pointer transition-all rounded-md px-1.5 py-0.5 -ml-1.5 ${
-                    isHeadingDropdownOpen 
-                      ? 'text-emerald-600 bg-gray-200 dark:bg-[#3A3B3C] shadow-inner scale-[0.98]' 
-                      : 'hover:text-emerald-600'
-                  }`}
-                >
-                  <span className="font-serif font-bold text-[15px] leading-none">Aa</span>
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                </div>
-                {isHeadingDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-lg shadow-lg py-2 z-10 w-40 flex flex-col items-start">
-                    <button onClick={() => { setIsHeadingDropdownOpen(false); setCurrentFontSize(16); setIsBold(false); }} className="w-full text-left px-4 py-1.5 text-[14px] text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-[#3A3B3C]">Normal</button>
-                    <button onClick={() => { setIsHeadingDropdownOpen(false); setCurrentFontSize(32); setIsBold(true); }} className="w-full text-left px-4 py-1.5 text-[24px] font-bold text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-[#3A3B3C]">Header 1</button>
-                    <button onClick={() => { setIsHeadingDropdownOpen(false); setCurrentFontSize(24); setIsBold(true); }} className="w-full text-left px-4 py-1.5 text-[20px] font-bold text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-[#3A3B3C]">Header 2</button>
-                    <button onClick={() => { setIsHeadingDropdownOpen(false); setCurrentFontSize(18); setIsBold(true); }} className="w-full text-left px-4 py-1.5 text-[18px] font-bold text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-[#3A3B3C]">Header 3</button>
-                    <button onClick={() => { setIsHeadingDropdownOpen(false); setCurrentFontSize(16); setIsBold(true); }} className="w-full text-left px-4 py-1.5 text-[16px] font-bold text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-[#3A3B3C]">Header 4</button>
-                    <button onClick={() => { setIsHeadingDropdownOpen(false); setCurrentFontSize(13); setIsBold(true); }} className="w-full text-left px-4 py-1.5 text-[14px] font-bold text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-[#3A3B3C]">Header 5</button>
-                    <button onClick={() => { setIsHeadingDropdownOpen(false); setCurrentFontSize(10); setIsBold(true); }} className="w-full text-left px-4 py-1.5 text-[12px] font-bold text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-[#3A3B3C]">Header 6</button>
-                  </div>
-                )}
-              </div>
-              <div className="relative" ref={fontSizeDropdownRef}>
-                <div 
-                  onClick={() => setIsFontSizeDropdownOpen(!isFontSizeDropdownOpen)} 
-                  className={`flex items-center gap-1 cursor-pointer transition-all rounded-md px-1.5 py-0.5 ${
-                    isFontSizeDropdownOpen 
-                      ? 'text-emerald-600 bg-gray-200 dark:bg-[#3A3B3C] shadow-inner scale-[0.98]' 
-                      : 'hover:text-emerald-600'
-                  }`}
-                >
-                  <span className="text-[13px]">{currentFontSize}</span>
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                </div>
-                {isFontSizeDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-lg shadow-lg py-2 z-10 w-24 flex flex-col items-start max-h-48 overflow-y-auto sidebar-scrollbar">
-                    {[8, 10, 12, 14, 16, 18, 24, 36].map((size) => (
-                      <button 
-                        key={size}
-                        onClick={() => {
-                          setCurrentFontSize(size);
-                          setIsFontSizeDropdownOpen(false);
-                        }} 
-                        className="w-full text-left px-4 py-1.5 text-[14px] text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-[#3A3B3C] flex items-center gap-2"
-                      >
-                        {currentFontSize === size ? (
-                          <svg className="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                        ) : (
-                          <div className="w-4 h-4 shrink-0"></div>
-                        )}
-                        <span>{size}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <div 
-                onClick={() => setIsBold(!isBold)}
-                className={`font-bold text-[14px] cursor-pointer transition-all rounded-md px-2 py-0.5 ${
-                  isBold 
-                    ? 'text-emerald-600 bg-gray-200 dark:bg-[#3A3B3C] shadow-inner scale-[0.98]' 
-                    : 'text-gray-600 dark:text-[#B0B3B8] hover:text-emerald-600'
-                }`}
-              >
-                B
-              </div>
-              <div 
-                onClick={() => setIsUnderline(!isUnderline)}
-                className={`font-bold text-[14px] cursor-pointer transition-all rounded-md px-2 py-0.5 underline ${
-                  isUnderline 
-                    ? 'text-emerald-600 bg-gray-200 dark:bg-[#3A3B3C] shadow-inner scale-[0.98]' 
-                    : 'text-gray-600 dark:text-[#B0B3B8] hover:text-emerald-600'
-                }`}
-              >
-                U
-              </div>
-              <div 
-                onClick={() => { 
-                  setCurrentTextColor("#242526"); 
-                  setCurrentBgColor("transparent"); 
-                  setIsBold(false);
-                  setIsUnderline(false);
-                  setCurrentFontSize(16);
-                }}
-                className="cursor-pointer text-gray-600 dark:text-[#B0B3B8] hover:text-emerald-600 transition-colors"
-                title="Clear All Formatting"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/>
-                  <path d="M22 21H7"/>
-                  <path d="m5 11 9 9"/>
-                </svg>
-              </div>
-              <div className="relative" ref={colorDropdownRef}>
-                <div 
-                  onClick={() => setIsColorDropdownOpen(!isColorDropdownOpen)}
-                  className={`flex items-center gap-1 cursor-pointer transition-all rounded-md px-1.5 py-0.5 ${
-                    isColorDropdownOpen 
-                      ? 'bg-gray-200 dark:bg-[#3A3B3C] shadow-inner scale-[0.98]' 
-                      : 'hover:bg-gray-100 dark:hover:bg-[#3A3B3C]'
-                  }`}
-                >
-                  <div className="font-bold text-[14px]" style={{ color: currentTextColor === "#242526" ? "" : currentTextColor, backgroundColor: currentBgColor === "transparent" ? "" : currentBgColor }}>A</div>
-                  <svg className="w-3 h-3 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                </div>
-                
-                {isColorDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-lg shadow-lg p-3 z-[9999] w-[230px]">
-                    
-                    {/* Background Color */}
-                    <div className="text-center mb-1">
-                      <div className="text-[12px] text-gray-700 dark:text-gray-300 mb-1 relative flex items-center justify-center">
-                        <span className="bg-white dark:bg-[#2A2B2C] px-2 relative z-10">Background Color</span>
-                        <div className="absolute w-full h-[1px] bg-gray-200 dark:bg-[#4E4F50] top-1/2 left-0 -translate-y-1/2"></div>
-                      </div>
-                      <button onClick={() => setCurrentBgColor("transparent")} className="text-[11px] text-emerald-600 hover:underline mb-2">Transparent</button>
-                    </div>
-                    <div className="grid grid-cols-10 gap-0 border border-gray-200 dark:border-[#4E4F50] mb-4 rounded overflow-hidden">
-                      {COLOR_PALETTE.map((c, i) => (
-                        <button key={i} onClick={(e) => { e.stopPropagation(); setCurrentBgColor(c); }} className="w-full aspect-square hover:scale-125 hover:z-10 transition-transform relative" style={{ backgroundColor: c }}></button>
-                      ))}
-                    </div>
-
-                    {/* Text Color */}
-                    <div className="text-center mb-1">
-                      <div className="text-[12px] text-gray-700 dark:text-gray-300 mb-1 relative flex items-center justify-center">
-                        <span className="bg-white dark:bg-[#2A2B2C] px-2 relative z-10">Text Color</span>
-                        <div className="absolute w-full h-[1px] bg-gray-200 dark:bg-[#4E4F50] top-1/2 left-0 -translate-y-1/2"></div>
-                      </div>
-                      <button onClick={() => setCurrentTextColor("#242526")} className="text-[11px] text-emerald-600 hover:underline mb-2">Reset to default</button>
-                    </div>
-                    <div className="grid grid-cols-10 gap-0 border border-gray-200 dark:border-[#4E4F50] rounded overflow-hidden">
-                      {COLOR_PALETTE.map((c, i) => (
-                        <button key={i} onClick={(e) => { e.stopPropagation(); setCurrentTextColor(c); }} className="w-full aspect-square hover:scale-125 hover:z-10 transition-transform relative" style={{ backgroundColor: c }}></button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Reset Font Color Icon */}
-              {(currentTextColor !== "#242526" || currentBgColor !== "transparent") && (
-                <div 
-                  onClick={() => { setCurrentTextColor("#242526"); setCurrentBgColor("transparent"); }}
-                  className="cursor-pointer text-gray-600 dark:text-[#B0B3B8] hover:text-emerald-600 transition-colors"
-                  title="Reset Font & Background Color"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                  </svg>
-                </div>
-              )}
-              {/* Unordered List */}
-              <div 
-                className="cursor-pointer text-gray-600 dark:text-[#B0B3B8] hover:text-emerald-600 transition-colors"
-                onClick={() => {
-                  const currentVal = product?.description || "";
-                  const prefix = currentVal ? "\n• " : "• ";
-                  onChange?.({ description: currentVal + prefix });
-                }}
-                title="Bullet List"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 6h.01M5 12h.01M5 18h.01" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 6h11M9 12h11M9 18h11" />
-                </svg>
-              </div>
-
-              {/* Ordered List */}
-              <div 
-                className="cursor-pointer text-gray-600 dark:text-[#B0B3B8] hover:text-emerald-600 transition-colors flex items-center"
-                onClick={() => {
-                  const currentVal = product?.description || "";
-                  const lines = currentVal.split('\n');
-                  const lastLine = lines[lines.length - 1];
-                  const match = lastLine ? lastLine.match(/^(\d+)\.\s/) : null;
-                  let nextNum = 1;
-                  if (match) nextNum = parseInt(match[1]) + 1;
-                  else if (currentVal) nextNum = 1;
-
-                  const prefix = currentVal ? `\n${nextNum}. ` : `${nextNum}. `;
-                  onChange?.({ description: currentVal + prefix });
-                }}
-                title="Numbered List"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6h11M10 12h11M10 18h11M4 6h1v4M4 10h2M6 18H4c0-1 2-2 2-3s-1-1.5-2-1" />
-                </svg>
-              </div>
-              {/* Align Dropdown */}
-              <div className="relative" ref={alignDropdownRef}>
-                <div 
-                  onClick={() => setIsAlignDropdownOpen(!isAlignDropdownOpen)}
-                  className={`flex items-center gap-1 cursor-pointer transition-all rounded-md px-1.5 py-0.5 ${
-                    isAlignDropdownOpen 
-                      ? 'bg-gray-200 dark:bg-[#3A3B3C] shadow-inner scale-[0.98]' 
-                      : 'hover:bg-gray-100 dark:hover:bg-[#3A3B3C]'
-                  }`}
-                >
-                  <div className="text-gray-600 dark:text-[#B0B3B8]">
-                    {currentAlign === 'left' && <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h10M4 18h16" /></svg>}
-                    {currentAlign === 'center' && <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M7 12h10M4 18h16" /></svg>}
-                    {currentAlign === 'right' && <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M10 12h10M4 18h16" /></svg>}
-                    {currentAlign === 'justify' && <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" /></svg>}
-                  </div>
-                  <svg className="w-3 h-3 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                </div>
-                
-                {isAlignDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-lg shadow-lg p-1 z-10 flex gap-1">
-                    <div 
-                      onClick={() => { setCurrentAlign('left'); setIsAlignDropdownOpen(false); }}
-                      className={`cursor-pointer p-1.5 rounded-md transition-colors ${currentAlign === 'left' ? 'text-emerald-600 bg-gray-200 dark:bg-[#3A3B3C] shadow-inner' : 'text-gray-600 dark:text-[#B0B3B8] hover:bg-gray-100 dark:hover:bg-[#3A3B3C]'}`}
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h10M4 18h16" /></svg>
-                    </div>
-                    <div 
-                      onClick={() => { setCurrentAlign('center'); setIsAlignDropdownOpen(false); }}
-                      className={`cursor-pointer p-1.5 rounded-md transition-colors ${currentAlign === 'center' ? 'text-emerald-600 bg-gray-200 dark:bg-[#3A3B3C] shadow-inner' : 'text-gray-600 dark:text-[#B0B3B8] hover:bg-gray-100 dark:hover:bg-[#3A3B3C]'}`}
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M7 12h10M4 18h16" /></svg>
-                    </div>
-                    <div 
-                      onClick={() => { setCurrentAlign('right'); setIsAlignDropdownOpen(false); }}
-                      className={`cursor-pointer p-1.5 rounded-md transition-colors ${currentAlign === 'right' ? 'text-emerald-600 bg-gray-200 dark:bg-[#3A3B3C] shadow-inner' : 'text-gray-600 dark:text-[#B0B3B8] hover:bg-gray-100 dark:hover:bg-[#3A3B3C]'}`}
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M10 12h10M4 18h16" /></svg>
-                    </div>
-                    <div 
-                      onClick={() => { setCurrentAlign('justify'); setIsAlignDropdownOpen(false); }}
-                      className={`cursor-pointer p-1.5 rounded-md transition-colors ${currentAlign === 'justify' ? 'text-emerald-600 bg-gray-200 dark:bg-[#3A3B3C] shadow-inner' : 'text-gray-600 dark:text-[#B0B3B8] hover:bg-gray-100 dark:hover:bg-[#3A3B3C]'}`}
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" /></svg>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-            
-            <div className="relative w-full overflow-hidden bg-white dark:bg-[#18191A]" style={{ height: `${descriptionHeight}px` }}>
-              {/* Background Highlight Overlay */}
-              <div 
-                ref={bgRef}
-                className={`absolute inset-0 w-full h-full p-3 pointer-events-none whitespace-pre-wrap break-words overflow-hidden text-[13px] ${
-                  currentAlign === 'center' ? 'text-center' : currentAlign === 'right' ? 'text-right' : currentAlign === 'justify' ? 'text-justify' : 'text-left'
-                }`}
-                style={{
-                  fontWeight: isBold ? 'bold' : 'normal',
-                  textDecoration: isUnderline ? 'underline' : 'none',
-                  fontSize: `${currentFontSize}px`,
-                  color: 'transparent'
-                }}
-              >
-                <span 
-                  className="rounded-sm" 
-                  style={{ backgroundColor: currentBgColor !== "transparent" ? currentBgColor : undefined }}
-                >
-                  {product?.description || ""}
-                  {/* Append space to ensure background renders for trailing newlines */}
-                  {product?.description?.endsWith('\n') ? ' ' : ''}
-                </span>
-              </div>
-
-              {/* Actual Textarea */}
-              <textarea 
-                ref={textareaRef}
-                onScroll={syncScroll}
-                style={{ 
-                  fontWeight: isBold ? 'bold' : 'normal',
-                  textDecoration: isUnderline ? 'underline' : 'none',
-                  fontSize: `${currentFontSize}px`,
-                  color: currentTextColor !== "#242526" ? currentTextColor : undefined,
-                }} 
-                value={product?.description || ""} 
-                onChange={(e) => {
-                  onChange?.({ description: e.target.value });
-                  setTimeout(syncScroll, 0);
-                }} 
-                className={`absolute inset-0 w-full h-full bg-transparent resize-none outline-none p-3 text-[13px] text-gray-700 dark:text-[#E4E6EB] z-10 ${
-                  currentAlign === 'center' ? 'text-center' : currentAlign === 'right' ? 'text-right' : currentAlign === 'justify' ? 'text-justify' : 'text-left'
-                }`} 
-                placeholder={t("mydash.tuliskan_keterangan")}
-              ></textarea>
-            </div>
-
-            <div onMouseDown={handleResizeStart} className="flex justify-center bg-gray-100 dark:bg-[#242526] py-0.5 border-t border-gray-200 dark:border-[#4E4F50] cursor-row-resize rounded-b-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors">
-              <div className="w-6 h-1 bg-gray-300 dark:bg-[#4E4F50] rounded-full pointer-events-none"></div>
-            </div>
-          </div>
+          <RichTextEditor
+            value={product?.description || ''}
+            onChange={(html) => onChange?.({ description: html })}
+            placeholder={t("mydash.tuliskan_keterangan")}
+            minHeight={150}
+          />
         </div>
 
         {/* Video */}
