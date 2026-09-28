@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import React, { useState, useEffect, useRef } from "react";
+import CropModal from "@/components/CropModal";
 
 function CustomSelect({ options, value, onChange, className, columns = 1, getIcon, hideLabelOnDisplay = false, hideArrow = false }: { options: string[], value: string, onChange: (val: string) => void, className?: string, columns?: number, getIcon?: (opt: string) => any, hideLabelOnDisplay?: boolean, hideArrow?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -229,17 +230,35 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const coverInputRef = useRef<HTMLInputElement>(null);
 
+  const [cropModalOpen, setCropModalOpen] = useState(false);
+  const [cropImageSrc, setCropImageSrc] = useState("");
+  const [cropType, setCropType] = useState<"avatar" | "cover">("avatar");
+
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setAvatarPreview(URL.createObjectURL(file));
+      setCropImageSrc(URL.createObjectURL(file));
+      setCropType("avatar");
+      setCropModalOpen(true);
+      if (avatarInputRef.current) avatarInputRef.current.value = '';
     }
   };
 
   const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setCoverPreview(URL.createObjectURL(file));
+      setCropImageSrc(URL.createObjectURL(file));
+      setCropType("cover");
+      setCropModalOpen(true);
+      if (coverInputRef.current) coverInputRef.current.value = '';
+    }
+  };
+
+  const handleCropComplete = (croppedUrl: string) => {
+    if (cropType === "avatar") {
+      setAvatarPreview(croppedUrl);
+    } else {
+      setCoverPreview(croppedUrl);
     }
   };
 
@@ -1124,6 +1143,14 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
           </div>
         </div>
       </div>
+      <CropModal
+        isOpen={cropModalOpen}
+        imageSrc={cropImageSrc}
+        onClose={() => setCropModalOpen(false)}
+        onCropComplete={handleCropComplete}
+        aspect={cropType === "avatar" ? 1 : 3 / 1}
+        cropShape={cropType === "avatar" ? "round" : "rect"}
+      />
     </div>
   );
 }
