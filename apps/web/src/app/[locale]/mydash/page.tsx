@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { flushSync, createPortal } from "react-dom";
 import { useTranslations, useLocale } from "next-intl";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 
 function useScrollLock(isLocked: boolean) {
@@ -1089,6 +1090,10 @@ function ProductEditForm({ product, onClose }: { product: any, onClose: () => vo
 
 export default function MyDashPage() {
   const t = useTranslations();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [editingProduct, setEditingProduct] = useState<any | null>(null);
   const [themeLoaded, setThemeLoaded] = useState(false);
@@ -1096,6 +1101,19 @@ export default function MyDashPage() {
   const [activeTab, setActiveTab] = useState<"store" | "produk" | "tampilan" | "settings">("store");
   const [collections, setCollections] = useState<any[]>(initialCollections);
   const locale = useLocale();
+
+  useEffect(() => {
+    const productParam = searchParams.get("product");
+    if (productParam === "new") {
+      setEditingProduct({ isNew: true });
+      setActiveTab("produk");
+    } else if (productParam === "123") {
+      setEditingProduct({ id: "123", title: "Mock Edit Product" });
+      setActiveTab("produk");
+    } else {
+      setEditingProduct(null);
+    }
+  }, [searchParams]);
   const [isSettingsMenuOpen, setIsSettingsMenuOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const settingsBtnRef = useRef<HTMLButtonElement>(null);
@@ -1545,7 +1563,7 @@ export default function MyDashPage() {
 
             {activeTab === "produk" && (
               editingProduct ? (
-                <ProductEditForm product={editingProduct} onClose={() => setEditingProduct(null)} />
+                <ProductEditForm product={editingProduct} onClose={() => router.push(pathname)} />
               ) : (
               <div className="flex flex-col">
                 {/* Your Pages */}
@@ -1565,7 +1583,7 @@ export default function MyDashPage() {
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
                     {t("mydash.add_category")}
                   </button>
-                  <button className="flex-1 py-2.5 px-3 bg-emerald-500 text-white font-bold rounded-xl text-[13px] hover:bg-emerald-600 transition-colors flex justify-center items-center gap-1.5 shadow-sm whitespace-nowrap">
+                  <button onClick={() => router.push(`${pathname}?product=new`)} className="flex-1 py-2.5 px-3 bg-emerald-500 text-white font-bold rounded-xl text-[13px] hover:bg-emerald-600 transition-colors flex justify-center items-center gap-1.5 shadow-sm whitespace-nowrap">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
                     {t("mydash.add_product")}
                   </button>
@@ -1590,7 +1608,13 @@ export default function MyDashPage() {
                         deleteCategoryItem={deleteCategoryItem}
                         isFirst={colIdx === 0}
                         isLast={colIdx === collections.length - 1}
-                        onEditProduct={setEditingProduct}
+                        onEditProduct={(p: any) => {
+                          if (p?.isNew) {
+                            router.push(`${pathname}?product=new`);
+                          } else {
+                            router.push(`${pathname}?product=${p?.id || '123'}`);
+                          }
+                        }}
                       />
                     ))}
                   </div>
