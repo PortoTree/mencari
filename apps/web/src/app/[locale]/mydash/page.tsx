@@ -301,7 +301,7 @@ function BuilderProductItem({ item, onMoveUp, onMoveDown, onEdit, onMoveCategory
   );
 }
 
-function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMoveSubItemUp, onMoveSubItemDown, onChangeCategory, onDeleteCategory }: { item: any, onMoveUp?: () => void, onMoveDown?: () => void, isFirst?: boolean, isLast?: boolean, onMoveSubItemUp?: (idx: number) => void, onMoveSubItemDown?: (idx: number) => void, onChangeCategory?: (newCategory: string) => void, onDeleteCategory?: () => void }) {
+function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMoveSubItemUp, onMoveSubItemDown, onChangeCategory, onDeleteCategory, onEditProduct }: { item: any, onMoveUp?: () => void, onMoveDown?: () => void, isFirst?: boolean, isLast?: boolean, onMoveSubItemUp?: (idx: number) => void, onMoveSubItemDown?: (idx: number) => void, onChangeCategory?: (newCategory: string) => void, onDeleteCategory?: () => void, onEditProduct?: (product: any) => void }) {
   const t = useTranslations();
   const [isOpen, setIsOpen] = useState(true);
   const [isMovePopupOpen, setIsMovePopupOpen] = useState(false);
@@ -372,7 +372,7 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
           <h4 className="text-[12px] font-bold uppercase tracking-wider">{item.title}</h4>
         </div>
         <div className="flex items-center gap-2">
-          <div className="relative flex items-center" ref={settingRef} onClick={(e) => e.stopPropagation()}>
+          <div className="relative flex items-center" ref={settingRef} onClick={(e) => { e.stopPropagation(); onEditProduct?.({ type: 'product', title: '', isNew: true }); }}>
             <button
               ref={settingBtnRef}
               onClick={openSettingPopup}
@@ -462,7 +462,7 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
                           placeholder={t("mydash.cari_kategori")}
                           value={categorySearch}
                           onChange={(e) => setCategorySearch(e.target.value)}
-                          onClick={(e) => e.stopPropagation()}
+                          onClick={(e) => { e.stopPropagation(); onEditProduct?.({ type: 'product', title: '', isNew: true }); }}
                           onMouseDown={(e) => e.stopPropagation()}
                           className="flex-1 bg-transparent text-[12px] text-gray-700 dark:text-[#E4E6EB] placeholder-gray-400 dark:placeholder-[#8B8D90] outline-none min-w-0"
                         />
@@ -499,7 +499,7 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
               document.body
             )}
           </div>
-          <button className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 border border-emerald-500/40 px-1.5 py-1 rounded-md hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition-colors" onClick={(e) => e.stopPropagation()}>
+          <button className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 border border-emerald-500/40 px-1.5 py-1 rounded-md hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition-colors" onClick={(e) => { e.stopPropagation(); onEditProduct?.({ type: 'product', title: '', isNew: true }); }}>
             + Produk
           </button>
           <div className="text-gray-400 dark:text-[#8B8D90] transition-transform duration-200" style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>
@@ -518,7 +518,7 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
               isLast={subIdx === item.items.length - 1}
               onMoveUp={() => onMoveSubItemUp?.(subIdx)}
               onMoveDown={() => onMoveSubItemDown?.(subIdx)}
-              onEdit={() => console.log('Edit product')}
+              onEdit={() => onEditProduct?.(subItem)}
               onMoveCategory={() => console.log('Move to Category')}
               onMoveCollection={() => console.log('Move to Collection')}
               onDelete={() => console.log('Delete product')}
@@ -530,7 +530,7 @@ function BuilderCategoryItem({ item, onMoveUp, onMoveDown, isFirst, isLast, onMo
   );
 }
 
-function BuilderCollectionItem({ collection, index, updateTitle, deleteCollection, moveCollection, moveItem, moveSubItem, changeCategoryTitle, deleteCategoryItem, isFirst, isLast }: { collection: any, index: number, updateTitle: (idx: number, title: string) => void, deleteCollection: (idx: number) => void, moveCollection: (idx: number, dir: 'up'|'down') => void, moveItem: (colIdx: number, itemIdx: number, dir: 'up'|'down') => void, moveSubItem: (colIdx: number, itemIdx: number, subIdx: number, dir: 'up'|'down') => void, changeCategoryTitle: (colIdx: number, itemIdx: number, newTitle: string) => void, deleteCategoryItem: (colIdx: number, itemIdx: number) => void, isFirst: boolean, isLast: boolean }) {
+function BuilderCollectionItem({ collection, index, updateTitle, deleteCollection, moveCollection, moveItem, moveSubItem, changeCategoryTitle, deleteCategoryItem, isFirst, isLast, onEditProduct }: { collection: any, index: number, updateTitle: (idx: number, title: string) => void, deleteCollection: (idx: number) => void, moveCollection: (idx: number, dir: 'up'|'down') => void, moveItem: (colIdx: number, itemIdx: number, dir: 'up'|'down') => void, moveSubItem: (colIdx: number, itemIdx: number, subIdx: number, dir: 'up'|'down') => void, changeCategoryTitle: (colIdx: number, itemIdx: number, newTitle: string) => void, deleteCategoryItem: (colIdx: number, itemIdx: number) => void, isFirst: boolean, isLast: boolean, onEditProduct?: (product: any) => void }) {
   const t = useTranslations();
   const [isOpen, setIsOpen] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
@@ -613,7 +613,7 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
               type="text" 
               value={collection.title} 
               onChange={(e) => updateTitle(index, e.target.value)}
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) => { e.stopPropagation(); onEditProduct?.({ type: 'product', title: '', isNew: true }); }}
               onBlur={() => setIsEditing(false)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') setIsEditing(false);
@@ -637,7 +637,7 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
           )}
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <div className="relative flex items-center" ref={settingRef} onClick={(e) => e.stopPropagation()}>
+          <div className="relative flex items-center" ref={settingRef} onClick={(e) => { e.stopPropagation(); onEditProduct?.({ type: 'product', title: '', isNew: true }); }}>
             <button
               ref={settingBtnRef}
               onClick={openSettingPopup}
@@ -686,7 +686,7 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
             )}
           </div>
           {collection.items.length > 0 && (
-            <button className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 border border-emerald-500/40 px-2 py-1 rounded-md hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition-colors" onClick={(e) => e.stopPropagation()}>
+            <button className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 border border-emerald-500/40 px-2 py-1 rounded-md hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition-colors" onClick={(e) => { e.stopPropagation(); onEditProduct?.({ type: 'product', title: '', isNew: true }); }}>
               + {t("mydash.tambah")}
             </button>
           )}
@@ -710,14 +710,15 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
                     isLast={itemIdx === collection.items.length - 1}
                     onMoveUp={() => moveItem(index, itemIdx, 'up')}
                     onMoveDown={() => moveItem(index, itemIdx, 'down')}
-                    onEdit={() => console.log('Edit product')}
+                    onEdit={() => onEditProduct?.(subItem)}
                     onMoveCategory={() => console.log('Move to Category')}
                     onMoveCollection={() => console.log('Move to Collection')}
                     onDelete={() => console.log('Delete product')}
                   />
                 );
               } else if (item.type === "category") {
-                return <BuilderCategoryItem key={itemIdx} item={item} onMoveUp={() => moveItem(index, itemIdx, 'up')} onMoveDown={() => moveItem(index, itemIdx, 'down')} onMoveSubItemUp={(subIdx) => moveSubItem(index, itemIdx, subIdx, 'up')} onMoveSubItemDown={(subIdx) => moveSubItem(index, itemIdx, subIdx, 'down')} onChangeCategory={(newCat) => changeCategoryTitle(index, itemIdx, newCat)} onDeleteCategory={() => deleteCategoryItem(index, itemIdx)} isFirst={itemIdx === 0} isLast={itemIdx === collection.items.length - 1} />;
+                return <BuilderCategoryItem key={itemIdx} item={item} onMoveUp={() => moveItem(index, itemIdx, 'up')} onMoveDown={() => moveItem(index, itemIdx, 'down')} onMoveSubItemUp={(subIdx) => moveSubItem(index, itemIdx, subIdx, 'up')} onMoveSubItemDown={(subIdx) => moveSubItem(index, itemIdx, subIdx, 'down')} onChangeCategory={(newCat) => changeCategoryTitle(index, itemIdx, newCat)} onDeleteCategory={() => deleteCategoryItem(index, itemIdx)}
+                  onEditProduct={onEditProduct} isFirst={itemIdx === 0} isLast={itemIdx === collection.items.length - 1} />;
               }
               return null;
             })}
@@ -742,9 +743,138 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
   );
 }
 
+
+function ProductEditForm({ product, onClose }: { product: any, onClose: () => void }) {
+  const t = useTranslations();
+  const [isVideoEnabled, setIsVideoEnabled] = useState(false);
+  const [platform, setPlatform] = useState("lynk");
+  
+  return (
+    <div className="flex flex-col h-full bg-white dark:bg-[#1C1D1F] animate-in slide-in-from-right-4 duration-300">
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-6 px-6 pt-8">
+        <button onClick={onClose} className="p-1.5 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-lg transition-colors text-gray-500 dark:text-[#B0B3B8]">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
+        </button>
+        <h2 className="text-[16px] font-bold text-gray-800 dark:text-[#E4E6EB]">{t("mydash.detail")}</h2>
+      </div>
+
+      <div className="flex-1 overflow-y-auto sidebar-scrollbar px-6 pb-10 space-y-6">
+        
+        {/* Gambar dan Judul */}
+        <div className="flex gap-4">
+          <div className="space-y-2 shrink-0">
+            <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.gambar")}</label>
+            <div className="w-[80px] h-[80px] border border-dashed border-gray-300 dark:border-[#4E4F50] rounded-xl flex flex-col items-center justify-center gap-1 cursor-pointer hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors">
+              <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              <span className="text-[10px] text-gray-400 text-center leading-tight">Tambahkan<br/>{t("mydash.gambar")}</span>
+            </div>
+          </div>
+          <div className="space-y-2 flex-1">
+            <div className="flex items-center justify-between">
+              <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.judul_produk")}</label>
+              <span className="text-[11px] text-gray-400">0/100</span>
+            </div>
+            <input type="text" placeholder={t("mydash.judul_produk")} defaultValue={product?.title || ""} className="w-full border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[13px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400" />
+          </div>
+        </div>
+
+        {/* Video */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.tambahkan_video")}</label>
+              <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </div>
+            <button 
+              onClick={() => setIsVideoEnabled(!isVideoEnabled)}
+              className={`w-9 h-5 rounded-full relative transition-colors ${isVideoEnabled ? 'bg-emerald-500' : 'bg-gray-300 dark:bg-[#4E4F50]'}`}
+            >
+              <div className={`w-3.5 h-3.5 bg-white rounded-full absolute top-[3px] transition-transform ${isVideoEnabled ? 'left-[19px]' : 'left-[3px]'}`}></div>
+            </button>
+          </div>
+          {isVideoEnabled && (
+            <input type="text" placeholder={t("mydash.tempel_url_youtube")} className="w-full border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[13px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400" />
+          )}
+        </div>
+
+        {/* Keterangan */}
+        <div className="space-y-2">
+          <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.keterangan")}</label>
+          <div className="border border-gray-200 dark:border-[#4E4F50] rounded-lg overflow-hidden bg-[#F4F9F7] dark:bg-[#2A2B2C]">
+            <div className="p-2 border-b border-gray-200 dark:border-[#4E4F50] flex flex-wrap gap-x-4 gap-y-2 items-center text-gray-600 dark:text-[#B0B3B8]">
+              <div className="flex items-center gap-1 cursor-pointer hover:text-emerald-600"><span className="text-[13px]">🪄</span><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg></div>
+              <div className="flex items-center gap-1 cursor-pointer hover:text-emerald-600"><span className="text-[13px]">16</span><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg></div>
+              <div className="font-bold text-[14px] cursor-pointer text-emerald-800 dark:text-emerald-500 hover:text-emerald-600">B</div>
+              <div className="font-bold text-[14px] cursor-pointer hover:text-emerald-600 text-emerald-700 dark:text-emerald-400 underline">U</div>
+              <div className="cursor-pointer hover:text-emerald-600"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></div>
+              <div className="flex items-center gap-1 cursor-pointer hover:text-emerald-600 font-bold text-yellow-400">A<svg className="w-3 h-3 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg></div>
+              <div className="cursor-pointer hover:text-emerald-600"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg></div>
+              <div className="cursor-pointer hover:text-emerald-600"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7" /></svg></div>
+              <div className="cursor-pointer hover:text-emerald-600 flex items-center gap-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h8m-8 6h16" /></svg><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg></div>
+              <div className="w-full flex gap-4 pt-1">
+                <div className="cursor-pointer hover:text-emerald-600"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg></div>
+                <div className="cursor-pointer hover:text-emerald-600"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg></div>
+                <div className="cursor-pointer hover:text-emerald-600"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg></div>
+                <div className="cursor-pointer hover:text-emerald-600"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg></div>
+                <div className="cursor-pointer hover:text-emerald-600 font-bold text-[13px]">&lt;/&gt;</div>
+                <div className="cursor-pointer hover:text-emerald-600 text-[12px]">Emoji</div>
+              </div>
+            </div>
+            <textarea className="w-full h-[150px] bg-white dark:bg-[#18191A] resize-none outline-none p-3 text-[13px] text-gray-700 dark:text-[#E4E6EB]" placeholder={t("mydash.tuliskan_keterangan")}></textarea>
+            <div className="flex justify-center bg-gray-100 dark:bg-[#242526] py-0.5 border-t border-gray-200 dark:border-[#4E4F50] cursor-row-resize">
+              <div className="w-6 h-1 bg-gray-300 dark:bg-[#4E4F50] rounded-full"></div>
+            </div>
+          </div>
+        </div>
+
+        {/* Platform */}
+        <div className="space-y-3">
+          <div className="flex items-center gap-1.5">
+            <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.platform")}</label>
+            <svg className="w-3.5 h-3.5 text-emerald-500 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          </div>
+          
+          <div className="border border-dashed border-gray-300 dark:border-[#4E4F50] rounded-xl p-4 space-y-4">
+            <div className="flex flex-wrap gap-2">
+              {["LYNK", t("mydash.mengunggah"), "PDF/Ebook", "G-drive", t("mydash.lainnya")].map(p => (
+                <div key={p} className="relative group">
+                  <button 
+                    onClick={() => p === "LYNK" && setPlatform(p.toLowerCase())}
+                    disabled={p !== "LYNK"}
+                    className={`px-3 py-1.5 rounded-full text-[12px] font-medium transition-colors border ${platform === p.toLowerCase() ? 'bg-emerald-500 text-white border-emerald-500' : 'bg-white dark:bg-[#242526] text-emerald-600 dark:text-emerald-400 border-emerald-500'} ${p !== "LYNK" ? "opacity-50 cursor-not-allowed" : "hover:bg-emerald-50 dark:hover:bg-emerald-900/30"}`}
+                  >
+                    {p}
+                  </button>
+                  {p !== "LYNK" && (
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-[max-content] max-w-[200px] bg-gray-800 text-white text-[11px] px-2.5 py-1.5 rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 shadow-lg text-center pointer-events-none z-50">
+                      {t("mydash.tooltip_payment")}
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div className="relative pt-1">
+              <input 
+                type="text" 
+                placeholder="http://lynk.id/username/produk/checkout" 
+                className="w-full bg-transparent border-b border-gray-300 dark:border-[#4E4F50] text-[13px] px-1 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400"
+              />
+              <p className="text-[11px] text-red-500 mt-2">{t("mydash.bantuan_lynk")}</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
 export default function MyDashPage() {
   const t = useTranslations();
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [editingProduct, setEditingProduct] = useState<any | null>(null);
   const [themeLoaded, setThemeLoaded] = useState(false);
   const [currentUser] = useState({ id: "1", name: "User", username: "user" });
   const [activeTab, setActiveTab] = useState<"store" | "produk" | "tampilan" | "settings">("store");
@@ -1114,7 +1244,7 @@ export default function MyDashPage() {
         <div className="flex-1 flex flex-col lg:flex-row w-full h-full bg-[#D1D1D1]">
           
           {/* Left Column (Dashboard Controls) */}
-          <div id="mydash-sidebar" className="w-full lg:w-[500px] xl:w-[560px] shrink-0 h-full overflow-y-auto sidebar-scrollbar px-6 pt-8 pb-10 bg-white dark:bg-[#1C1D1F] border-r border-gray-200 dark:border-[#3E4042]">
+          <div id="mydash-sidebar" className={`w-full lg:w-[500px] xl:w-[560px] shrink-0 h-full sidebar-scrollbar bg-white dark:bg-[#1C1D1F] border-r border-gray-200 dark:border-[#3E4042] ${editingProduct && activeTab === 'produk' ? 'overflow-hidden' : 'overflow-y-auto px-6 pt-8 pb-10'}`}>
 
             {activeTab === "store" && (
               <div className="flex flex-col gap-6">
@@ -1198,6 +1328,9 @@ export default function MyDashPage() {
             )}
 
             {activeTab === "produk" && (
+              editingProduct ? (
+                <ProductEditForm product={editingProduct} onClose={() => setEditingProduct(null)} />
+              ) : (
               <div className="flex flex-col">
                 {/* Your Pages */}
                 <div className="flex flex-col mb-6">
@@ -1241,15 +1374,17 @@ export default function MyDashPage() {
                         deleteCategoryItem={deleteCategoryItem}
                         isFirst={colIdx === 0}
                         isLast={colIdx === collections.length - 1}
+                        onEditProduct={setEditingProduct}
                       />
                     ))}
                   </div>
                 </div>
-        </div>
-        )}
-      </div>
+              </div>
+              )
+            )}
+          </div>
 
-        {/* Right Column (Preview) */}
+            {/* Right Column (Preview) */}
         <div className="flex-1 h-full overflow-hidden flex justify-center pt-4 lg:pt-0">
           <div className="w-full h-full flex justify-center items-start lg:items-center">
             {/* Phone Preview Mockup */}

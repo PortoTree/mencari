@@ -556,6 +556,20 @@
     "geser_ke_atas": "Move Up",
     "geser_ke_bawah": "Move Down",
     "pindah_kategori": "Move to Category",
-    "hapus_produk": "Delete Product"
+    "hapus_produk": "Delete Product",
+    "detail": "Detail",
+    "gambar": "Image",
+    "tambahkan_gambar": "Add Image",
+    "tambahkan_video": "Add video",
+    "tempel_url_youtube": "Paste YouTube URL here",
+    "judul": "Title",
+    "keterangan": "Description",
+    "tuliskan_keterangan": "Write product description here...",
+    "platform": "Platform",
+    "mengunggah": "Upload",
+    "lainnya": "Other",
+    "judul_produk": "Title/product",
+    "tooltip_payment": "This option is currently processing for payment gateway",
+    "bantuan_lynk": "Copy paste your LYNK product checkout link here"
   }
 }
