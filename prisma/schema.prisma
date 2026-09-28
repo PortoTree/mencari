@@ -70,6 +70,7 @@ model Profile {
   locationId   String?
   locationName String?      
   websiteUrl   String?      @db.Text
+  externalLinks Json?       @default("[]")
   profession   String?
   education    String?
   

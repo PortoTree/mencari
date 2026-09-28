@@ -212,6 +212,23 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
           if (res.profile.profession) setProfession(res.profile.profession); else setProfession("");
           if (res.profile.education) setEducation(res.profile.education); else setEducation("");
           if (res.profile.websiteUrl) setWebsiteUrl(res.profile.websiteUrl); else setWebsiteUrl("");
+          
+          if (res.profile.externalLinks) {
+            try {
+              const parsed = typeof res.profile.externalLinks === 'string' ? JSON.parse(res.profile.externalLinks) : res.profile.externalLinks;
+              if (Array.isArray(parsed) && parsed.length > 0) {
+                setExternalLinks(parsed);
+              } else {
+                setExternalLinks([{label: "", url: ""}]);
+              }
+            } catch (e) {
+              setExternalLinks([{label: "", url: ""}]);
+            }
+          } else if (res.profile.websiteUrl) {
+            setExternalLinks([{label: "", url: res.profile.websiteUrl}]);
+          } else {
+            setExternalLinks([{label: "", url: ""}]);
+          }
           if (res.profile.gender) setGender(res.profile.gender); else setGender(t("selectPlaceholder"));
           if (res.profile.birthDate) {
             const d = new Date(res.profile.birthDate);
@@ -273,6 +290,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [profession, setProfession] = useState("");
   const [education, setEducation] = useState("");
   const [websiteUrl, setWebsiteUrl] = useState("");
+  const [externalLinks, setExternalLinks] = useState<{label: string, url: string}[]>([{label: "", url: ""}]);
   const [isUpdatingInfo, setIsUpdatingInfo] = useState(false);
 
   const handleSaveInfo = async (fieldToClose: (val: boolean) => void) => {
@@ -288,10 +306,12 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
        }
     }
 
+    const validLinks = externalLinks.filter(l => l.url.trim() !== "");
     const res = await updateProfileInfo(currentUser.id, {
       bio: bioText,
       locationName,
-      websiteUrl,
+      websiteUrl: validLinks.length > 0 ? validLinks[0].url : "",
+      externalLinks: validLinks,
       education,
       profession,
       gender: gender === t("selectPlaceholder") ? null : gender,
@@ -961,11 +981,24 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                 {!isEditingLinks ? (
                   <div>
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">{t("linkTitle")}</h3>
-                    <button onClick={() => setIsEditingLinks(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
-                      <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
-                      </div>
-                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{websiteUrl || t("addLink")}</span>
+                    <button onClick={() => setIsEditingLinks(true)} className="flex flex-col gap-2 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
+                      {externalLinks.filter(l => l.url.trim() !== "").length > 0 ? (
+                        externalLinks.filter(l => l.url.trim() !== "").map((link, idx) => (
+                          <div key={idx} className="flex items-center gap-4 w-full">
+                            <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors shrink-0">
+                              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+                            </div>
+                            <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300 truncate">{link.label ? `${link.label} - ${link.url}` : link.url}</span>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="flex items-center gap-4 w-full">
+                            <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors shrink-0">
+                              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+                            </div>
+                            <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("addLink")}</span>
+                        </div>
+                      )}
                     </button>
                   </div>
                 ) : (
@@ -973,18 +1006,38 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t("linkTitle")}</h3>
                     
                     <div className="space-y-3">
-                      <div className="flex gap-3">
-                        <input type="text" value={websiteUrl} onChange={(e) => setWebsiteUrl(e.target.value)} placeholder="https://website-kamu.com" className="flex-1 px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
-                        <CustomSelect className="w-[52px] shrink-0" options={[t("public"), t("friendsOnly"), t("private")]} value={privacyExternalLink} onChange={setPrivacyExternalLink} getIcon={getPrivacyIcon} hideLabelOnDisplay={true} hideArrow={true} />
-                        <button className="p-2.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-colors border border-transparent hover:border-red-200 dark:hover:border-red-500/20 shrink-0 flex items-center justify-center">
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                        </button>
-                      </div>
+                      {externalLinks.map((link, idx) => (
+                        <div key={idx} className="flex gap-3">
+                          <input type="text" value={link.label} onChange={(e) => {
+                            const newLinks = [...externalLinks];
+                            newLinks[idx].label = e.target.value;
+                            setExternalLinks(newLinks);
+                          }} placeholder="Label (Ops)" className="w-1/3 px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                          <input type="text" value={link.url} onChange={(e) => {
+                            const newLinks = [...externalLinks];
+                            newLinks[idx].url = e.target.value;
+                            setExternalLinks(newLinks);
+                          }} placeholder="https://website-kamu.com" className="flex-1 px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                          
+                          <CustomSelect className="w-[52px] shrink-0" options={[t("public"), t("friendsOnly"), t("private")]} value={privacyExternalLink} onChange={setPrivacyExternalLink} getIcon={getPrivacyIcon} hideLabelOnDisplay={true} hideArrow={true} />
+                          <button onClick={() => {
+                            if (externalLinks.length > 1) {
+                              setExternalLinks(externalLinks.filter((_, i) => i !== idx));
+                            } else {
+                              setExternalLinks([{label: "", url: ""}]);
+                            }
+                          }} className={`p-2.5 rounded-xl transition-colors border shrink-0 flex items-center justify-center ${externalLinks.length === 1 && link.url === "" && link.label === "" ? 'text-gray-400 border-transparent cursor-not-allowed' : 'text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 border-transparent hover:border-red-200 dark:hover:border-red-500/20'}`}>
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                          </button>
+                        </div>
+                      ))}
                       
-                      <button className="text-sm font-bold text-[#10B981] hover:text-emerald-600 flex items-center gap-1.5 px-1 py-1 transition-colors">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/></svg>
-                        {t("linkBtn")}
-                      </button>
+                      {externalLinks.length < 3 && (
+                        <button onClick={() => setExternalLinks([...externalLinks, {label: "", url: ""}])} className="text-sm font-bold text-[#10B981] hover:text-emerald-600 flex items-center gap-1.5 px-1 py-1 transition-colors">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/></svg>
+                          {t("linkBtn")}
+                        </button>
+                      )}
                     </div>
 
                     <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">

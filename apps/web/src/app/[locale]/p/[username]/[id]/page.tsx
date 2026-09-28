@@ -297,15 +297,45 @@ export default function ProfilePage({
                     </div>
                   )}
 
-                  {/* 3. Link web */}
-                  {profileData?.websiteUrl && (
-                    <div className="flex items-center gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
-                      <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
-                      <a href={profileData.websiteUrl.startsWith("http") ? profileData.websiteUrl : `https://${profileData.websiteUrl}`} target="_blank" rel="noopener noreferrer" className="underline cursor-pointer hover:text-blue-500 transition-colors">
-                        {profileData.websiteUrl}
-                      </a>
-                    </div>
-                  )}
+                  {/* 3. Link web (External Links) */}
+                  {(() => {
+                    let links: {label: string, url: string}[] = [];
+                    if (profileData?.externalLinks) {
+                      try {
+                         links = typeof profileData.externalLinks === 'string' ? JSON.parse(profileData.externalLinks) : profileData.externalLinks;
+                      } catch(e) {}
+                    } else if (profileData?.websiteUrl) {
+                      links = [{label: "", url: profileData.websiteUrl}];
+                    }
+                    
+                    if (!Array.isArray(links) || links.length === 0) return null;
+                    
+                    return (
+                      <div className="flex items-start gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
+                        <svg className="w-5 h-5 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
+                        <div className="flex flex-col gap-1.5 w-full">
+                          {links.map((link, idx) => {
+                            if (!link.url) return null;
+                            const fullUrl = link.url.startsWith("http") ? link.url : `https://${link.url}`;
+                            const displayLabel = link.label?.trim() ? link.label : link.url;
+                            return (
+                              <div key={idx} className="relative group/link w-fit max-w-full">
+                                <a href={fullUrl} target="_blank" rel="noopener noreferrer" className="underline cursor-pointer hover:text-blue-500 transition-colors inline-block max-w-[220px] truncate relative z-10">
+                                  {displayLabel}
+                                </a>
+                                {link.label?.trim() && (
+                                  <div className="absolute bottom-full left-0 mb-1 bg-[#1C1E21] dark:bg-white text-[#E4E6EB] dark:text-black px-2.5 py-1.5 rounded-lg text-[11px] whitespace-nowrap opacity-0 invisible group-hover/link:opacity-100 group-hover/link:visible transition-all shadow-xl z-[999] pointer-events-none">
+                                    {link.url}
+                                    <div className="absolute -bottom-1 left-4 w-2 h-2 bg-[#1C1E21] dark:bg-white rotate-45"></div>
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })()}
 
                   {/* 4. Pendidikan & Profesi */}
                   {(profileData?.education || profileData?.profession) && (

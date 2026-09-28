@@ -99,7 +99,7 @@ export async function updateProfileMedia(userId: string, type: "avatar" | "cover
 
 export async function updateProfileInfo(userId: string, data: any) {
   try {
-    const { bio, locationName, websiteUrl, education, profession, gender, birthDate } = data;
+    const { bio, locationName, websiteUrl, externalLinks, education, profession, gender, birthDate } = data;
     
     await prisma.profile.update({
       where: { userId },
@@ -107,6 +107,7 @@ export async function updateProfileInfo(userId: string, data: any) {
         bio,
         locationName,
         websiteUrl,
+        externalLinks: externalLinks !== undefined ? externalLinks : undefined,
         education,
         profession,
         gender,
