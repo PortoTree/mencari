@@ -748,6 +748,10 @@ function ProductEditForm({ product, onClose }: { product: any, onClose: () => vo
   const t = useTranslations();
   const [isVideoEnabled, setIsVideoEnabled] = useState(false);
   const [platform, setPlatform] = useState("lynk");
+  const [productLayout, setProductLayout] = useState("grid");
+  const [ctaType, setCtaType] = useState("buy_now");
+  const [isCtaDropdownOpen, setIsCtaDropdownOpen] = useState(false);
+  const [customCta, setCustomCta] = useState("");
   
   return (
     <div className="flex flex-col h-full bg-white dark:bg-[#1C1D1F] animate-in slide-in-from-right-4 duration-300">
@@ -784,7 +788,13 @@ function ProductEditForm({ product, onClose }: { product: any, onClose: () => vo
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1.5">
               <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.tambahkan_video")}</label>
-              <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <div className="relative group flex items-center">
+                <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-[max-content] max-w-[200px] bg-gray-800 text-white text-[11px] px-2.5 py-1.5 rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 shadow-lg text-center pointer-events-none z-50">
+                  {t("mydash.tooltip_info_video")}
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+                </div>
+              </div>
             </div>
             <button 
               onClick={() => setIsVideoEnabled(!isVideoEnabled)}
@@ -832,7 +842,13 @@ function ProductEditForm({ product, onClose }: { product: any, onClose: () => vo
         <div className="space-y-3">
           <div className="flex items-center gap-1.5">
             <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.platform")}</label>
-            <svg className="w-3.5 h-3.5 text-emerald-500 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <div className="relative group flex items-center">
+              <svg className="w-3.5 h-3.5 text-emerald-500 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-[max-content] max-w-[200px] bg-gray-800 text-white text-[11px] px-2.5 py-1.5 rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 shadow-lg text-center pointer-events-none z-50">
+                {t("mydash.tooltip_info_platform")}
+                <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+              </div>
+            </div>
           </div>
           
           <div className="border border-dashed border-gray-300 dark:border-[#4E4F50] rounded-xl p-4 space-y-4">
@@ -842,7 +858,13 @@ function ProductEditForm({ product, onClose }: { product: any, onClose: () => vo
                   <button 
                     onClick={() => p === "LYNK" && setPlatform(p.toLowerCase())}
                     disabled={p !== "LYNK"}
-                    className={`px-3 py-1.5 rounded-full text-[12px] font-medium transition-colors border ${platform === p.toLowerCase() ? 'bg-emerald-500 text-white border-emerald-500' : 'bg-white dark:bg-[#242526] text-emerald-600 dark:text-emerald-400 border-emerald-500'} ${p !== "LYNK" ? "opacity-50 cursor-not-allowed" : "hover:bg-emerald-50 dark:hover:bg-emerald-900/30"}`}
+                    className={`px-3 py-1.5 rounded-full text-[12px] font-medium transition-colors border ${
+                      p !== "LYNK" 
+                        ? "bg-white dark:bg-[#242526] text-red-500 border-red-500 opacity-70 cursor-not-allowed" 
+                        : platform === p.toLowerCase() 
+                          ? "bg-emerald-500 text-white border-emerald-500"
+                          : "bg-white dark:bg-[#242526] text-emerald-600 dark:text-emerald-400 border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/30"
+                    }`}
                   >
                     {p}
                   </button>
@@ -864,6 +886,92 @@ function ProductEditForm({ product, onClose }: { product: any, onClose: () => vo
               <p className="text-[11px] text-red-500 mt-2">{t("mydash.bantuan_lynk")}</p>
             </div>
           </div>
+        </div>
+
+        {/* Produk layout */}
+        <div className="mt-4">
+          <label className="block mb-3 text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.produk_layout")}</label>
+          <div className="grid grid-cols-4 gap-2">
+            {[
+              { id: "grid", img: "grid.png", label: t("mydash.layout_grid") },
+              { id: "list", img: "list.png", label: t("mydash.layout_list") },
+              { id: "large", img: "large.png", label: t("mydash.layout_large_image") },
+              { id: "cta", img: "compact.png", label: t("mydash.layout_cta") }
+            ].map(layout => (
+              <button 
+                key={layout.id} 
+                onClick={() => setProductLayout(layout.id)}
+                className={`flex flex-col items-center gap-1.5 p-1.5 rounded-xl border transition-colors ${productLayout === layout.id ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 shadow-sm' : 'border-gray-200 dark:border-[#4E4F50] hover:border-emerald-300 dark:hover:border-emerald-700 bg-white dark:bg-[#242526]'}`}
+              >
+                <span className={`text-[10px] font-medium w-full text-center leading-tight truncate px-0.5 ${productLayout === layout.id ? 'text-emerald-700 dark:text-emerald-400' : 'text-gray-600 dark:text-[#B0B3B8]'}`}>{layout.label}</span>
+                <div className="w-full aspect-[4/5] bg-gray-50 dark:bg-[#18191A] rounded flex items-center justify-center overflow-hidden border border-gray-100 dark:border-[#3A3B3C]">
+                  <img src={`/${layout.img}`} alt={layout.label} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Price */}
+        <div className="space-y-3 mt-6">
+          <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.harga")}</label>
+          <div className="space-y-3">
+            <input type="text" placeholder="0" className="w-full border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[14px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500" />
+            <input type="text" placeholder={t("mydash.sale_price")} className="w-full border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[14px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400" />
+          </div>
+        </div>
+
+        {/* Dropdown */}
+        <div className="mt-6 pb-6 space-y-3 relative">
+          <label className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.purchase_button")}</label>
+          <div className="relative">
+            <button onClick={() => setIsCtaDropdownOpen(!isCtaDropdownOpen)} className="w-full flex items-center justify-between border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[14px] rounded-lg px-4 py-2.5 text-gray-700 dark:text-[#E4E6EB] focus:outline-none focus:border-emerald-500 transition-colors">
+              {t(`mydash.cta_${ctaType}`)}
+              <svg className={`w-4 h-4 text-gray-500 transition-transform ${isCtaDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+            </button>
+            
+            {isCtaDropdownOpen && (
+              <div className="absolute z-10 w-full mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-xl shadow-lg py-2 top-auto bottom-full mb-1">
+                {[
+                  { id: "i_want_this", label: t("mydash.cta_i_want_this") },
+                  { id: "buy_now", label: t("mydash.cta_buy_now") },
+                  { id: "support", label: t("mydash.cta_support") },
+                  { id: "book_now", label: t("mydash.cta_book_now") },
+                  { id: "custom", label: t("mydash.cta_custom") }
+                ].map(opt => (
+                  <button 
+                    key={opt.id}
+                    onClick={() => { setCtaType(opt.id); setIsCtaDropdownOpen(false); }}
+                    className={`w-full flex items-center justify-center px-4 py-2.5 text-[14px] transition-colors ${ctaType === opt.id ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' : 'text-gray-700 dark:text-[#E4E6EB] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]'}`}
+                  >
+                    {opt.label}
+                    {opt.id === "custom" && (
+                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="w-4 h-4 ml-1.5 text-gray-400"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    )}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {ctaType === "custom" && (
+            <div className="flex gap-2 animate-in slide-in-from-top-2 fade-in duration-200">
+              <input 
+                type="text" 
+                maxLength={10}
+                value={customCta}
+                onChange={(e) => setCustomCta(e.target.value.replace(/[^a-zA-Z\s]/g, ''))}
+                placeholder={t("mydash.custom_cta_placeholder")} 
+                className="flex-1 border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[14px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 placeholder-gray-400" 
+              />
+              <button 
+                disabled={!customCta.trim()} 
+                className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 disabled:bg-gray-300 disabled:dark:bg-[#4E4F50] disabled:text-gray-500 text-white text-[13px] font-medium rounded-lg transition-colors"
+              >
+                {t("mydash.simpan")}
+              </button>
+            </div>
+          )}
         </div>
 
       </div>
