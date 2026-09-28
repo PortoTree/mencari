@@ -1051,7 +1051,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
                       : 'hover:text-emerald-600'
                   }`}
                 >
-                  <span className="text-[13px]">🪄</span>
+                  <span className="font-serif font-bold text-[15px] leading-none">Aa</span>
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                 </div>
                 {isHeadingDropdownOpen && (
@@ -1120,7 +1120,23 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
               >
                 U
               </div>
-              <div className="cursor-pointer hover:text-emerald-600"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></div>
+              <div 
+                onClick={() => { 
+                  setCurrentTextColor("#242526"); 
+                  setCurrentBgColor("transparent"); 
+                  setIsBold(false);
+                  setIsUnderline(false);
+                  setCurrentFontSize(16);
+                }}
+                className="cursor-pointer text-gray-600 dark:text-[#B0B3B8] hover:text-emerald-600 transition-colors"
+                title="Clear All Formatting"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/>
+                  <path d="M22 21H7"/>
+                  <path d="m5 11 9 9"/>
+                </svg>
+              </div>
               <div className="relative" ref={colorDropdownRef}>
                 <div 
                   onClick={() => setIsColorDropdownOpen(!isColorDropdownOpen)}
@@ -1167,7 +1183,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
                   </div>
                 )}
               </div>
-              
+
               {/* Reset Font Color Icon */}
               {(currentTextColor !== "#242526" || currentBgColor !== "transparent") && (
                 <div 
@@ -1180,7 +1196,6 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
                   </svg>
                 </div>
               )}
-
               {/* Unordered List */}
               <div 
                 className="cursor-pointer text-gray-600 dark:text-[#B0B3B8] hover:text-emerald-600 transition-colors"
