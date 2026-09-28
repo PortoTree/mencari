@@ -588,6 +588,15 @@
     "sale_price": "Harga Jual (Opsional)",
     "purchase_button": "Tombol Pembelian",
     "custom_cta_placeholder": "Tuliskan teks custom...",
-    "simpan": "Simpan"
+    "simpan": "Simpan",
+    "pilih_kategori": "Pilih kategori",
+    "pilih_koleksi": "Pilih koleksi",
+    "buat_kategori": "Buat Kategori",
+    "buat_koleksi": "Buat Koleksi",
+    "batal": "Batal",
+    "simpan_produk": "Simpan Produk",
+    "nama_kategori_baru": "Nama kategori baru...",
+    "nama_koleksi_baru": "Nama koleksi baru...",
+    "pilih_dari_pustaka_kategori": "Pilih dari pustaka kategori..."
   }
 }

@@ -752,6 +752,38 @@ function ProductEditForm({ product, onClose }: { product: any, onClose: () => vo
   const [ctaType, setCtaType] = useState("buy_now");
   const [isCtaDropdownOpen, setIsCtaDropdownOpen] = useState(false);
   const [customCta, setCustomCta] = useState("");
+  const [category, setCategory] = useState("");
+  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState("");
+  const [isLibraryCategoryDropdownOpen, setIsLibraryCategoryDropdownOpen] = useState(false);
+  const [collection, setCollection] = useState("");
+  const [isCollectionDropdownOpen, setIsCollectionDropdownOpen] = useState(false);
+  const [newCollectionName, setNewCollectionName] = useState("");
+
+  const dbCategories: string[] = []; 
+  const dbCollections: string[] = []; 
+  const libraryCategories = [
+    { id: "ai_prompt", label: "AI & Prompt", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> },
+    { id: "design_graphics", label: "Design & Graphics", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
+    { id: "documents_templates", label: "Documents & Templates", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg> },
+    { id: "ebook_digital_books", label: "Ebook & Digital Books", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg> },
+    { id: "courses_education", label: "Courses & Education", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 14l9-5-9-5-9 5 9 5z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" /></svg> },
+    { id: "software_tools", label: "Software & Tools", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
+    { id: "business_finance", label: "Business & Finance", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
+    { id: "social_media", label: "Social Media", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg> },
+    { id: "photo_video", label: "Photo & Video", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
+    { id: "audio_music", label: "Audio & Music", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" /></svg> },
+    { id: "gaming", label: "Gaming", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+    { id: "website_development", label: "Website & Development", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg> },
+    { id: "career_professional", label: "Career & Professional", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
+    { id: "printables", label: "Printables", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg> },
+    { id: "3d_assets", label: "3D & Assets", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg> },
+    { id: "font_typography", label: "Font & Typography", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" /></svg> },
+    { id: "marketing", label: "Marketing", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg> },
+    { id: "lifestyle", label: "Lifestyle", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg> },
+    { id: "membership_subscription", label: "Membership & Subscription", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg> },
+    { id: "bundle_resource_pack", label: "Bundle & Resource Pack", icon: <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg> }
+  ];
   
   return (
     <div className="flex flex-col h-full bg-white dark:bg-[#1C1D1F] animate-in slide-in-from-right-4 duration-300">
@@ -888,8 +920,74 @@ function ProductEditForm({ product, onClose }: { product: any, onClose: () => vo
           </div>
         </div>
 
+        {/* Filters */}
+        <div className="grid grid-cols-2 gap-4 mt-2 items-start">
+          {/* Kategori */}
+          <div className="relative">
+            <label className="block mb-1.5 text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.pilih_kategori")}</label>
+            <button onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)} className="w-full flex items-center justify-between border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[13px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] focus:outline-none focus:border-emerald-500 transition-colors">
+              {category === "create_new" ? t("mydash.buat_kategori") : (category || t("mydash.pilih_kategori"))}
+              <svg className={`w-4 h-4 text-gray-500 transition-transform ${isCategoryDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+            </button>
+            {isCategoryDropdownOpen && (
+              <div className="absolute z-10 w-full mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-xl shadow-lg py-1.5 top-full">
+                {dbCategories.map(cat => (
+                  <button key={cat} onClick={() => { setCategory(cat); setIsCategoryDropdownOpen(false); }} className={`w-full text-left px-4 py-2 text-[13px] transition-colors ${category === cat ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' : 'text-gray-700 dark:text-[#E4E6EB] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]'}`}>
+                    {cat}
+                  </button>
+                ))}
+                <button onClick={() => { setCategory("create_new"); setIsCategoryDropdownOpen(false); }} className={`w-full text-left px-4 py-2 text-[13px] font-medium transition-colors ${category === 'create_new' ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' : 'text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-[#3A3B3C]'}`}>
+                  + {t("mydash.buat_kategori")}
+                </button>
+              </div>
+            )}
+            {category === "create_new" && (
+              <div className="relative mt-2 animate-in slide-in-from-top-2 fade-in duration-200">
+                <button onClick={() => setIsLibraryCategoryDropdownOpen(!isLibraryCategoryDropdownOpen)} className="w-full flex items-center justify-between border border-emerald-300 dark:border-emerald-700 bg-emerald-50/50 dark:bg-emerald-900/10 text-[13px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] focus:outline-none focus:border-emerald-500 transition-colors">
+                  {newCategoryName || t("mydash.pilih_dari_pustaka_kategori")}
+                  <svg className={`w-4 h-4 text-gray-500 transition-transform ${isLibraryCategoryDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                {isLibraryCategoryDropdownOpen && (
+                  <div className="absolute z-10 w-full mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-xl shadow-lg py-1.5 top-full max-h-64 overflow-y-auto">
+                    {libraryCategories.map(cat => (
+                      <button key={cat.id} onClick={() => { setNewCategoryName(cat.label); setIsLibraryCategoryDropdownOpen(false); }} className={`w-full flex items-center gap-3 px-4 py-2 text-[13px] transition-colors ${newCategoryName === cat.label ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' : 'text-gray-700 dark:text-[#E4E6EB] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]'}`}>
+                        {cat.icon}
+                        <span>{cat.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Koleksi */}
+          <div className="relative">
+            <label className="block mb-1.5 text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.pilih_koleksi")}</label>
+            <button onClick={() => setIsCollectionDropdownOpen(!isCollectionDropdownOpen)} className="w-full flex items-center justify-between border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[13px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] focus:outline-none focus:border-emerald-500 transition-colors">
+              {collection === "create_new" ? t("mydash.buat_koleksi") : (collection || t("mydash.pilih_koleksi"))}
+              <svg className={`w-4 h-4 text-gray-500 transition-transform ${isCollectionDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+            </button>
+            {isCollectionDropdownOpen && (
+              <div className="absolute z-10 w-full mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-xl shadow-lg py-1.5 top-full">
+                {dbCollections.map(col => (
+                  <button key={col} onClick={() => { setCollection(col); setIsCollectionDropdownOpen(false); }} className={`w-full text-left px-4 py-2 text-[13px] transition-colors ${collection === col ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' : 'text-gray-700 dark:text-[#E4E6EB] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]'}`}>
+                    {col}
+                  </button>
+                ))}
+                <button onClick={() => { setCollection("create_new"); setIsCollectionDropdownOpen(false); }} className={`w-full text-left px-4 py-2 text-[13px] font-medium transition-colors ${collection === 'create_new' ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' : 'text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-[#3A3B3C]'}`}>
+                  + {t("mydash.buat_koleksi")}
+                </button>
+              </div>
+            )}
+            {collection === "create_new" && (
+              <input type="text" value={newCollectionName} onChange={(e) => setNewCollectionName(e.target.value)} placeholder={t("mydash.nama_koleksi_baru")} className="w-full mt-2 border border-gray-300 dark:border-[#4E4F50] bg-white dark:bg-[#242526] text-[13px] rounded-lg px-3 py-2 text-gray-700 dark:text-[#E4E6EB] outline-none focus:border-emerald-500 animate-in slide-in-from-top-2 fade-in duration-200" />
+            )}
+          </div>
+        </div>
+
         {/* Produk layout */}
-        <div className="mt-4">
+        <div className="mt-6">
           <label className="block mb-3 text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB]">{t("mydash.produk_layout")}</label>
           <div className="grid grid-cols-4 gap-2">
             {[
@@ -972,6 +1070,16 @@ function ProductEditForm({ product, onClose }: { product: any, onClose: () => vo
               </button>
             </div>
           )}
+        </div>
+
+        {/* Action Buttons */}
+        <div className="mt-8 mb-6 flex items-center justify-end gap-3 pt-6 border-t border-gray-200 dark:border-[#4E4F50]">
+          <button onClick={onClose} className="px-5 py-2 text-[14px] font-medium text-gray-600 dark:text-[#B0B3B8] hover:text-gray-900 dark:hover:text-white transition-colors">
+            {t("mydash.batal")}
+          </button>
+          <button onClick={onClose} className="px-5 py-2 text-[14px] font-medium bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors shadow-sm">
+            {t("mydash.simpan_produk")}
+          </button>
         </div>
 
       </div>
