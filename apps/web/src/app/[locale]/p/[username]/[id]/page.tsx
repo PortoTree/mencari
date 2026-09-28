@@ -5,6 +5,8 @@ import React, { useState, useEffect, use } from "react";
 import { useTranslations } from "next-intl";
 import Navbar from "@/components/Navbar";
 import EditProfileModal from "@/components/EditProfileModal";
+import CropModal from "@/components/CropModal";
+import ImagePreviewModal from "@/components/ImagePreviewModal";
 import { ShinyButton } from "@/components/ui/shiny-button";
 
 export default function ProfilePage({
@@ -33,14 +35,39 @@ export default function ProfilePage({
   const avatarInputRef = React.useRef<HTMLInputElement>(null);
   const coverInputRef = React.useRef<HTMLInputElement>(null);
 
+  const [cropModalOpen, setCropModalOpen] = useState(false);
+  const [cropImageSrc, setCropImageSrc] = useState("");
+  const [cropType, setCropType] = useState<"avatar" | "cover">("avatar");
+
+  const [previewModalOpen, setPreviewModalOpen] = useState(false);
+  const [previewImageSrc, setPreviewImageSrc] = useState("");
+
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) setAvatarPreview(URL.createObjectURL(file));
+    if (file) {
+      setCropImageSrc(URL.createObjectURL(file));
+      setCropType("avatar");
+      setCropModalOpen(true);
+      if (avatarInputRef.current) avatarInputRef.current.value = ''; // reset input
+    }
   };
 
   const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) setCoverPreview(URL.createObjectURL(file));
+    if (file) {
+      setCropImageSrc(URL.createObjectURL(file));
+      setCropType("cover");
+      setCropModalOpen(true);
+      if (coverInputRef.current) coverInputRef.current.value = ''; // reset input
+    }
+  };
+
+  const handleCropComplete = (croppedUrl: string) => {
+    if (cropType === "avatar") {
+      setAvatarPreview(croppedUrl);
+    } else {
+      setCoverPreview(croppedUrl);
+    }
   };
 
     const [activeAlbumIdx, setActiveAlbumIdx] = useState<number | null>(null);
@@ -126,9 +153,17 @@ export default function ProfilePage({
       <div className="max-w-[1100px] mx-auto px-4 md:px-8">
         
         {/* Cover Photo */}
-        <div className="w-full h-[280px] rounded-b-[40px] relative overflow-hidden bg-gray-200 dark:bg-gray-700 shadow-sm">
+        <div className="w-full aspect-[3/1] rounded-b-[40px] relative overflow-hidden bg-gray-200 dark:bg-gray-700 shadow-sm">
           <input type="file" ref={coverInputRef} onChange={handleCoverChange} className="hidden" accept="image/*" />
-          <img src={coverPreview || "/sampul-placeholder.png"} alt="Cover" className="w-full h-full object-cover" />
+          <img 
+            src={coverPreview || "/sampul-placeholder.png"} 
+            alt="Cover" 
+            className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity" 
+            onClick={() => {
+              setPreviewImageSrc(coverPreview || "/sampul-placeholder.png");
+              setPreviewModalOpen(true);
+            }}
+          />
           {isOwnProfile && (
             <button onClick={() => coverInputRef.current?.click()} className="absolute bottom-4 right-4 bg-black/50 hover:bg-black/70 text-white p-2.5 rounded-full backdrop-blur-sm transition-colors cursor-pointer shadow-md z-30">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -150,7 +185,15 @@ export default function ProfilePage({
             <div className="relative mb-4">
               <input type="file" ref={avatarInputRef} onChange={handleAvatarChange} className="hidden" accept="image/*" />
               <div className="w-[120px] h-[120px] rounded-full border-[4px] border-white dark:border-[#3A3B3C] bg-white dark:bg-[#242526] flex items-center justify-center shadow-md overflow-hidden">
-                <img src={avatarPreview || "/default-avatar.svg"} alt="Avatar" className="w-full h-full object-cover" />
+                <img 
+                  src={avatarPreview || "/default-avatar.svg"} 
+                  alt="Avatar" 
+                  className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity" 
+                  onClick={() => {
+                    setPreviewImageSrc(avatarPreview || "/default-avatar.svg");
+                    setPreviewModalOpen(true);
+                  }}
+                />
               </div>
               {isOwnProfile && (
                 <button onClick={() => avatarInputRef.current?.click()} className="absolute bottom-0 right-0 bg-gray-200 hover:bg-gray-300 dark:bg-[#4E4F50] dark:hover:bg-[#5E5F60] p-2 rounded-full border-[3px] border-white dark:border-[#3A3B3C] shadow-sm transition-colors text-black dark:text-white cursor-pointer z-10">
@@ -884,6 +927,21 @@ export default function ProfilePage({
         isOpen={isEditModalOpen} 
         onClose={() => setIsEditModalOpen(false)} 
         currentUser={currentUser} 
+      />
+      
+      <CropModal
+        isOpen={cropModalOpen}
+        imageSrc={cropImageSrc}
+        onClose={() => setCropModalOpen(false)}
+        onCropComplete={handleCropComplete}
+        aspect={cropType === "avatar" ? 1 : 3 / 1}
+        cropShape={cropType === "avatar" ? "round" : "rect"}
+      />
+      
+      <ImagePreviewModal
+        isOpen={previewModalOpen}
+        imageSrc={previewImageSrc}
+        onClose={() => setPreviewModalOpen(false)}
       />
     </main>
   );
