@@ -213,6 +213,14 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
           if (res.profile.education) setEducation(res.profile.education); else setEducation("");
           if (res.profile.websiteUrl) setWebsiteUrl(res.profile.websiteUrl); else setWebsiteUrl("");
           
+          if (res.profile.type) {
+            setAccountType(res.profile.type);
+            setOriginalAccountType(res.profile.type);
+          } else {
+            setAccountType("PERSONAL");
+            setOriginalAccountType("PERSONAL");
+          }
+          
           if (res.profile.externalLinks) {
             try {
               const parsed = typeof res.profile.externalLinks === 'string' ? JSON.parse(res.profile.externalLinks) : res.profile.externalLinks;
@@ -307,6 +315,8 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [externalLinks, setExternalLinks] = useState<{label: string, url: string}[]>([{label: "", url: ""}]);
   const [socialLinks, setSocialLinks] = useState<{platform: string, url: string}[]>([{platform: "Instagram", url: ""}]);
+  const [accountType, setAccountType] = useState("PERSONAL");
+  const [originalAccountType, setOriginalAccountType] = useState("PERSONAL");
   const [isUpdatingInfo, setIsUpdatingInfo] = useState(false);
 
   const handleSaveInfo = async (fieldToClose: (val: boolean) => void, overrides: any = {}) => {
@@ -344,6 +354,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
       movies: selectedFilm,
       games: selectedGame,
       sports: selectedSport,
+      type: accountType,
 
       ...overrides
     });
@@ -604,14 +615,6 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                       <button onClick={() => setIsEditingBio(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
                         <svg className="w-7 h-7 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"/></svg>
                         <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("aboutYou")}</span>
-                      </button>
-                    </div>
-
-                    <div>
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">{t("pinnedDetails")}</h3>
-                      <button className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
-                        <svg className="w-7 h-7 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
-                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("pinnedDetails")}</span>
                       </button>
                     </div>
                   </>
@@ -1350,12 +1353,70 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white">{t("privacy")}</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t("privacyDesc")}</p>
                 </div>
+
                 {privacySettings.map((item, idx) => (
                   <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-gray-50 dark:bg-[#3A3B3C]/40 border border-gray-100 dark:border-gray-700/50 hover:border-[#10B981]/30 transition-colors">
                     <label className="text-sm font-semibold text-gray-700 dark:text-gray-200">{item.label}</label>
                     <CustomSelect className="w-full sm:w-[160px]" options={item.options} value={item.state} onChange={item.setState} getIcon={getPrivacyIcon} />
                   </div>
                 ))}
+
+                {/* Account Type Selection */}
+                <div className="mt-8 mb-8 border-t border-gray-200 dark:border-gray-700 pt-8">
+                  <h4 className="text-[15px] font-bold text-gray-900 dark:text-white mb-3">{t("accountType")}</h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {/* Personal Option */}
+                    <div 
+                      onClick={() => setAccountType("PERSONAL")}
+                      className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 flex items-center justify-between gap-3 ${
+                        accountType === "PERSONAL" 
+                        ? "border-[#10B981] bg-[#10B981]/5 shadow-sm" 
+                        : "border-gray-200 dark:border-gray-700 bg-white dark:bg-[#2A2B2C] hover:border-gray-300 dark:hover:border-gray-600"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${accountType === "PERSONAL" ? "bg-[#10B981]/20 text-[#10B981]" : "bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400"}`}>
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                        </div>
+                        <h5 className="font-bold text-gray-900 dark:text-white text-[15px]">{t("personalAccount")}</h5>
+                      </div>
+                      <div className={`w-5 h-5 shrink-0 rounded-full border-2 flex items-center justify-center ${accountType === "PERSONAL" ? "border-[#10B981]" : "border-gray-300 dark:border-gray-600"}`}>
+                        {accountType === "PERSONAL" && <div className="w-2.5 h-2.5 rounded-full bg-[#10B981]"></div>}
+                      </div>
+                    </div>
+
+                    {/* Business Option */}
+                    <div 
+                      onClick={() => setAccountType("BUSINESS")}
+                      className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 flex items-center justify-between gap-3 ${
+                        accountType === "BUSINESS" 
+                        ? "border-[#10B981] bg-[#10B981]/5 shadow-sm" 
+                        : "border-gray-200 dark:border-gray-700 bg-white dark:bg-[#2A2B2C] hover:border-gray-300 dark:hover:border-gray-600"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${accountType === "BUSINESS" ? "bg-[#10B981]/20 text-[#10B981]" : "bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400"}`}>
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                        </div>
+                        <h5 className="font-bold text-gray-900 dark:text-white text-[15px]">{t("businessAccount")}</h5>
+                      </div>
+                      <div className={`w-5 h-5 shrink-0 rounded-full border-2 flex items-center justify-center ${accountType === "BUSINESS" ? "border-[#10B981]" : "border-gray-300 dark:border-gray-600"}`}>
+                        {accountType === "BUSINESS" && <div className="w-2.5 h-2.5 rounded-full bg-[#10B981]"></div>}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {accountType !== originalAccountType && (
+                    <div className="flex justify-end gap-2 pt-4 mt-2">
+                      <button onClick={() => setAccountType(originalAccountType)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">
+                        {t("cancel")}
+                      </button>
+                      <button onClick={() => handleSaveInfo(() => setOriginalAccountType(accountType), { type: accountType })} disabled={isUpdatingInfo} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm disabled:opacity-50">
+                        {isUpdatingInfo ? "..." : t("save")}
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 

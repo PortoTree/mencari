@@ -545,7 +545,7 @@ export default function ProfilePage({
 
               
               {/* Groups Section */}
-              <div className="w-full mt-4 mb-2 flex flex-col gap-6">
+              <div className="w-full max-w-[590px] mx-auto mt-4 mb-2 flex flex-col gap-6">
                 
                 {/* 1. Grup yang kamu buat */}
                 <div>
@@ -672,7 +672,7 @@ export default function ProfilePage({
               </div>
 
               {/* Divider */}
-              <div className="w-full border-t border-gray-300 dark:border-gray-700 mt-4"></div>
+              <div className="w-full max-w-[590px] mx-auto border-t border-gray-300 dark:border-gray-700 mt-4"></div>
 
               {/* Tabs Navigation - Gradient Pill Style */}
               <div className="flex justify-center w-full relative z-10">
