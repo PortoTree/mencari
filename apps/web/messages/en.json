@@ -411,6 +411,8 @@
     "bioPlaceholder": "Tell a bit about yourself...",
     "identity": "Identity & Name",
     "displayName": "Display Name",
+    "displayNameRemaining": "({count}x left)",
+    "displayNameLimitReached": "You have changed your name twice in the last 15 days.",
     "username": "Username",
     "genderTitle": "Gender",
     "genderMale": "Male",

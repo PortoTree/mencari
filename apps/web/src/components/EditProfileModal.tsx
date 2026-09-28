@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import React, { useState, useEffect, useRef } from "react";
 import CropModal from "@/components/CropModal";
 import { uploadToCloudinary } from "@/utils/uploadImage";
-import { updateProfileMedia, getProfile } from "@/app/actions/profile";
+import { updateProfileMedia, getProfile, updateDisplayName } from "@/app/actions/profile";
 import { getOptimizedUrl } from "@/utils/cloudinary";
 
 function CustomSelect({ options, value, onChange, className, columns = 1, getIcon, hideLabelOnDisplay = false, hideArrow = false }: { options: string[], value: string, onChange: (val: string) => void, className?: string, columns?: number, getIcon?: (opt: string) => any, hideLabelOnDisplay?: boolean, hideArrow?: boolean }) {
@@ -192,17 +192,66 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const t = useTranslations("editProfile");
     const [activeTab, setActiveTab] = useState("intro");
 
+  const [displayNameChangesRemaining, setDisplayNameChangesRemaining] = useState(2);
+  const [currentDisplayName, setCurrentDisplayName] = useState(currentUser?.username || "User");
+  const [draftDisplayName, setDraftDisplayName] = useState("");
+  const [isUpdatingName, setIsUpdatingName] = useState(false);
+  const [updateNameStatus, setUpdateNameStatus] = useState<"success" | "error" | null>(null);
+  const [updateNameMessage, setUpdateNameMessage] = useState("");
+
   useEffect(() => {
     if (isOpen && currentUser?.id) {
+      setUpdateNameStatus(null);
+      setUpdateNameMessage("");
       getProfile(currentUser.id).then(res => {
         if (res.success && res.profile) {
           if (res.profile.avatarUrl) setAvatarPreview(res.profile.avatarUrl);
           if (res.profile.coverUrl) setCoverPreview(res.profile.coverUrl);
           if (res.profile.bio) setBioText(res.profile.bio);
+          if (res.profile.displayName) {
+            setCurrentDisplayName(res.profile.displayName);
+            setDraftDisplayName(res.profile.displayName);
+          }
+          
+          if (res.profile.displayNameChangeDates) {
+            const now = new Date();
+            const fifteenDaysAgo = new Date(now.getTime() - 15 * 24 * 60 * 60 * 1000);
+            const recentChanges = res.profile.displayNameChangeDates.filter((d: any) => new Date(d) > fifteenDaysAgo);
+            setDisplayNameChangesRemaining(2 - recentChanges.length);
+          }
         }
       });
     }
   }, [isOpen, currentUser]);
+
+  const handleSaveDisplayName = async () => {
+    setUpdateNameStatus(null);
+    setUpdateNameMessage("");
+    if (!currentUser?.id || draftDisplayName.trim() === "" || draftDisplayName === currentDisplayName) {
+      setIsEditingName(false);
+      return;
+    }
+    
+    setIsUpdatingName(true);
+    const res = await updateDisplayName(currentUser.id, draftDisplayName);
+    setIsUpdatingName(false);
+    
+    if (res.success) {
+      setCurrentDisplayName(res.displayName || draftDisplayName);
+      if (res.remainingChanges !== undefined) {
+        setDisplayNameChangesRemaining(res.remainingChanges);
+      }
+      setUpdateNameStatus("success");
+      setUpdateNameMessage("Berhasil update display name!");
+      setTimeout(() => {
+        setIsEditingName(false);
+        setUpdateNameStatus(null);
+      }, 2000);
+    } else {
+      setUpdateNameStatus("error");
+      setUpdateNameMessage("Gagal update: " + res.error);
+    }
+  };
 
   // Intro States
   const [isEditingBio, setIsEditingBio] = useState(false);
@@ -505,7 +554,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     <button onClick={() => setIsEditingName(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
                       <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors text-[18px]">Aa</div>
                       <div className="flex flex-col">
-                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{currentUser?.username || t("accountName")}</span>
+                        <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{currentDisplayName}</span>
                         <span className="text-[13px] font-medium text-gray-500">@{currentUser?.username || "pampam"}</span>
                       </div>
                     </button>
@@ -515,8 +564,28 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t("identity")}</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">{t("displayName")}</label>
-                        <input type="text" defaultValue={currentUser?.username || t("accountName")} className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 flex justify-between">
+                          {t("displayName")} 
+                          <span className={`text-xs ${displayNameChangesRemaining === 0 ? "text-red-500" : "text-gray-500"}`}>
+                            {t("displayNameRemaining", { count: displayNameChangesRemaining })}
+                          </span>
+                        </label>
+                        <input 
+                          type="text" 
+                          value={draftDisplayName} 
+                          onChange={(e) => setDraftDisplayName(e.target.value.replace(/[^a-zA-Z0-9 ]/g, ""))}
+                          disabled={displayNameChangesRemaining === 0 || isUpdatingName}
+                          className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed" 
+                        />
+                        {displayNameChangesRemaining === 0 && (
+                          <p className="text-xs text-red-500 mt-1">{t("displayNameLimitReached")}</p>
+                        )}
+                        {updateNameStatus === "error" && (
+                          <p className="text-xs font-bold text-red-500 mt-1">{updateNameMessage}</p>
+                        )}
+                        {updateNameStatus === "success" && (
+                          <p className="text-xs font-bold text-[#10B981] mt-1">{updateNameMessage}</p>
+                        )}
                       </div>
                       <div>
                         <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">{t("username")}</label>
@@ -525,11 +594,20 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     </div>
                     
                     <div className="flex justify-end gap-2 pt-2 border-b border-gray-200 dark:border-gray-700 pb-4">
-                      <button onClick={() => setIsEditingName(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">
+                      <button onClick={() => { setIsEditingName(false); setDraftDisplayName(currentDisplayName); }} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">
                         {t("cancel")}
                         </button>
-                      <button onClick={() => setIsEditingName(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">
-                        {t("save")}
+                      <button 
+                        onClick={handleSaveDisplayName} 
+                        disabled={displayNameChangesRemaining === 0 || draftDisplayName === currentDisplayName || isUpdatingName || draftDisplayName.trim() === ""}
+                        className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                      >
+                        {isUpdatingName ? (
+                          <>
+                            <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            Menyimpan...
+                          </>
+                        ) : t("save")}
                         </button>
                     </div>
                   </div>

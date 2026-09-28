@@ -411,6 +411,8 @@
     "bioPlaceholder": "Ceritakan sedikit tentang dirimu...",
     "identity": "Identitas & Nama",
     "displayName": "Display Name",
+    "displayNameRemaining": "(Sisa {count}x)",
+    "displayNameLimitReached": "Anda sudah mengganti nama 2 kali dalam 15 hari terakhir.",
     "username": "Username",
     "genderTitle": "Jenis Kelamin",
     "genderMale": "Laki-laki",

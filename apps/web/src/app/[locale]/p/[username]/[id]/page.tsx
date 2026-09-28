@@ -35,6 +35,7 @@ export default function ProfilePage({
   // Media states
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
+  const [displayName, setDisplayName] = useState<string | null>(null);
   const avatarInputRef = React.useRef<HTMLInputElement>(null);
   const coverInputRef = React.useRef<HTMLInputElement>(null);
 
@@ -144,6 +145,7 @@ export default function ProfilePage({
           if (res.success && res.profile) {
             if (res.profile.avatarUrl) setAvatarPreview(res.profile.avatarUrl);
             if (res.profile.coverUrl) setCoverPreview(res.profile.coverUrl);
+            if (res.profile.displayName) setDisplayName(res.profile.displayName);
           }
         });
 
@@ -226,7 +228,7 @@ export default function ProfilePage({
               )}
             </div>
             
-            <h1 className="text-2xl font-bold text-black dark:text-white">{username === "pampam" ? "nama akun" : username}</h1>
+            <h1 className="text-2xl font-bold text-black dark:text-white">{displayName || (username === "pampam" ? "nama akun" : username)}</h1>
             <p className="text-[15px] text-gray-700 dark:text-gray-300 font-medium mb-3">@{username}</p>
             {/* Social Media Icons */}
             <div className="flex flex-wrap items-center justify-center gap-2.5 mb-8 px-4">
