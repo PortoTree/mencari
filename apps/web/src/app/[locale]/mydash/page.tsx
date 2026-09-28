@@ -963,6 +963,15 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
   const alignDropdownRef = useRef<HTMLDivElement>(null);
   const [currentAlign, setCurrentAlign] = useState<'left' | 'center' | 'right' | 'justify'>('left');
   const [descriptionHeight, setDescriptionHeight] = useState(150);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
+
+  const syncScroll = () => {
+    if (textareaRef.current && bgRef.current) {
+      bgRef.current.scrollTop = textareaRef.current.scrollTop;
+      bgRef.current.scrollLeft = textareaRef.current.scrollLeft;
+    }
+  };
 
   const handleResizeStart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -998,8 +1007,8 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
         setIsAlignDropdownOpen(false);
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
   const dbCategories: string[] = [];
@@ -1171,7 +1180,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
                 </div>
                 
                 {isColorDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-lg shadow-lg p-3 z-10 w-[230px]">
+                  <div className="absolute top-full left-0 mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-lg shadow-lg p-3 z-[9999] w-[230px]">
                     
                     {/* Background Color */}
                     <div className="text-center mb-1">
@@ -1183,7 +1192,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
                     </div>
                     <div className="grid grid-cols-10 gap-0 border border-gray-200 dark:border-[#4E4F50] mb-4 rounded overflow-hidden">
                       {COLOR_PALETTE.map((c, i) => (
-                        <button key={i} onClick={() => setCurrentBgColor(c)} className="w-full aspect-square hover:scale-125 hover:z-10 transition-transform relative" style={{ backgroundColor: c }}></button>
+                        <button key={i} onClick={(e) => { e.stopPropagation(); setCurrentBgColor(c); }} className="w-full aspect-square hover:scale-125 hover:z-10 transition-transform relative" style={{ backgroundColor: c }}></button>
                       ))}
                     </div>
 
@@ -1197,7 +1206,7 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
                     </div>
                     <div className="grid grid-cols-10 gap-0 border border-gray-200 dark:border-[#4E4F50] rounded overflow-hidden">
                       {COLOR_PALETTE.map((c, i) => (
-                        <button key={i} onClick={() => setCurrentTextColor(c)} className="w-full aspect-square hover:scale-125 hover:z-10 transition-transform relative" style={{ backgroundColor: c }}></button>
+                        <button key={i} onClick={(e) => { e.stopPropagation(); setCurrentTextColor(c); }} className="w-full aspect-square hover:scale-125 hover:z-10 transition-transform relative" style={{ backgroundColor: c }}></button>
                       ))}
                     </div>
                   </div>
@@ -1302,7 +1311,53 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
                 )}
               </div>
             </div>
-            <textarea style={{ height: `${descriptionHeight}px` }} value={product?.description || ""} onChange={(e) => onChange?.({ description: e.target.value })} className={`w-full bg-white dark:bg-[#18191A] resize-none outline-none p-3 text-[13px] text-gray-700 dark:text-[#E4E6EB] ${currentAlign === 'center' ? 'text-center' : currentAlign === 'right' ? 'text-right' : currentAlign === 'justify' ? 'text-justify' : 'text-left'}`} placeholder={t("mydash.tuliskan_keterangan")}></textarea>
+            
+            <div className="relative w-full overflow-hidden bg-white dark:bg-[#18191A]" style={{ height: `${descriptionHeight}px` }}>
+              {/* Background Highlight Overlay */}
+              <div 
+                ref={bgRef}
+                className={`absolute inset-0 w-full h-full p-3 pointer-events-none whitespace-pre-wrap break-words overflow-hidden text-[13px] ${
+                  currentAlign === 'center' ? 'text-center' : currentAlign === 'right' ? 'text-right' : currentAlign === 'justify' ? 'text-justify' : 'text-left'
+                }`}
+                style={{
+                  fontWeight: isBold ? 'bold' : 'normal',
+                  textDecoration: isUnderline ? 'underline' : 'none',
+                  fontSize: `${currentFontSize}px`,
+                  color: 'transparent'
+                }}
+              >
+                <span 
+                  className="rounded-sm" 
+                  style={{ backgroundColor: currentBgColor !== "transparent" ? currentBgColor : undefined }}
+                >
+                  {product?.description || ""}
+                  {/* Append space to ensure background renders for trailing newlines */}
+                  {product?.description?.endsWith('\n') ? ' ' : ''}
+                </span>
+              </div>
+
+              {/* Actual Textarea */}
+              <textarea 
+                ref={textareaRef}
+                onScroll={syncScroll}
+                style={{ 
+                  fontWeight: isBold ? 'bold' : 'normal',
+                  textDecoration: isUnderline ? 'underline' : 'none',
+                  fontSize: `${currentFontSize}px`,
+                  color: currentTextColor !== "#242526" ? currentTextColor : undefined,
+                }} 
+                value={product?.description || ""} 
+                onChange={(e) => {
+                  onChange?.({ description: e.target.value });
+                  setTimeout(syncScroll, 0);
+                }} 
+                className={`absolute inset-0 w-full h-full bg-transparent resize-none outline-none p-3 text-[13px] text-gray-700 dark:text-[#E4E6EB] z-10 ${
+                  currentAlign === 'center' ? 'text-center' : currentAlign === 'right' ? 'text-right' : currentAlign === 'justify' ? 'text-justify' : 'text-left'
+                }`} 
+                placeholder={t("mydash.tuliskan_keterangan")}
+              ></textarea>
+            </div>
+
             <div onMouseDown={handleResizeStart} className="flex justify-center bg-gray-100 dark:bg-[#242526] py-0.5 border-t border-gray-200 dark:border-[#4E4F50] cursor-row-resize rounded-b-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors">
               <div className="w-6 h-1 bg-gray-300 dark:bg-[#4E4F50] rounded-full pointer-events-none"></div>
             </div>
