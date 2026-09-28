@@ -959,6 +959,9 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
   const colorDropdownRef = useRef<HTMLDivElement>(null);
   const [currentTextColor, setCurrentTextColor] = useState<string>("#242526");
   const [currentBgColor, setCurrentBgColor] = useState<string>("transparent");
+  const [isAlignDropdownOpen, setIsAlignDropdownOpen] = useState(false);
+  const alignDropdownRef = useRef<HTMLDivElement>(null);
+  const [currentAlign, setCurrentAlign] = useState<'left' | 'center' | 'right' | 'justify'>('left');
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -970,6 +973,9 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
       }
       if (colorDropdownRef.current && !colorDropdownRef.current.contains(event.target as Node)) {
         setIsColorDropdownOpen(false);
+      }
+      if (alignDropdownRef.current && !alignDropdownRef.current.contains(event.target as Node)) {
+        setIsAlignDropdownOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -1163,19 +1169,103 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
               </div>
               
               {/* Reset Font Color Icon */}
+              {(currentTextColor !== "#242526" || currentBgColor !== "transparent") && (
+                <div 
+                  onClick={() => { setCurrentTextColor("#242526"); setCurrentBgColor("transparent"); }}
+                  className="cursor-pointer text-gray-600 dark:text-[#B0B3B8] hover:text-emerald-600 transition-colors"
+                  title="Reset Font & Background Color"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                </div>
+              )}
+
+              {/* Unordered List */}
               <div 
-                onClick={() => { setCurrentTextColor("#242526"); setCurrentBgColor("transparent"); }}
                 className="cursor-pointer text-gray-600 dark:text-[#B0B3B8] hover:text-emerald-600 transition-colors"
-                title="Reset Font & Background Color"
+                onClick={() => {
+                  const currentVal = product?.description || "";
+                  const prefix = currentVal ? "\n• " : "• ";
+                  onChange?.({ description: currentVal + prefix });
+                }}
+                title="Bullet List"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 6h.01M5 12h.01M5 18h.01" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 6h11M9 12h11M9 18h11" />
                 </svg>
               </div>
 
-              <div className="cursor-pointer hover:text-emerald-600"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg></div>
-              <div className="cursor-pointer hover:text-emerald-600"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7" /></svg></div>
-              <div className="cursor-pointer hover:text-emerald-600 flex items-center gap-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h8m-8 6h16" /></svg><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg></div>
+              {/* Ordered List */}
+              <div 
+                className="cursor-pointer text-gray-600 dark:text-[#B0B3B8] hover:text-emerald-600 transition-colors flex items-center"
+                onClick={() => {
+                  const currentVal = product?.description || "";
+                  const lines = currentVal.split('\n');
+                  const lastLine = lines[lines.length - 1];
+                  const match = lastLine ? lastLine.match(/^(\d+)\.\s/) : null;
+                  let nextNum = 1;
+                  if (match) nextNum = parseInt(match[1]) + 1;
+                  else if (currentVal) nextNum = 1;
+
+                  const prefix = currentVal ? `\n${nextNum}. ` : `${nextNum}. `;
+                  onChange?.({ description: currentVal + prefix });
+                }}
+                title="Numbered List"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6h11M10 12h11M10 18h11M4 6h1v4M4 10h2M6 18H4c0-1 2-2 2-3s-1-1.5-2-1" />
+                </svg>
+              </div>
+              {/* Align Dropdown */}
+              <div className="relative" ref={alignDropdownRef}>
+                <div 
+                  onClick={() => setIsAlignDropdownOpen(!isAlignDropdownOpen)}
+                  className={`flex items-center gap-1 cursor-pointer transition-all rounded-md px-1.5 py-0.5 ${
+                    isAlignDropdownOpen 
+                      ? 'bg-gray-200 dark:bg-[#3A3B3C] shadow-inner scale-[0.98]' 
+                      : 'hover:bg-gray-100 dark:hover:bg-[#3A3B3C]'
+                  }`}
+                >
+                  <div className="text-gray-600 dark:text-[#B0B3B8]">
+                    {currentAlign === 'left' && <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h10M4 18h16" /></svg>}
+                    {currentAlign === 'center' && <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M7 12h10M4 18h16" /></svg>}
+                    {currentAlign === 'right' && <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M10 12h10M4 18h16" /></svg>}
+                    {currentAlign === 'justify' && <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" /></svg>}
+                  </div>
+                  <svg className="w-3 h-3 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                </div>
+                
+                {isAlignDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-lg shadow-lg p-1 z-10 flex gap-1">
+                    <div 
+                      onClick={() => { setCurrentAlign('left'); setIsAlignDropdownOpen(false); }}
+                      className={`cursor-pointer p-1.5 rounded-md transition-colors ${currentAlign === 'left' ? 'text-emerald-600 bg-gray-200 dark:bg-[#3A3B3C] shadow-inner' : 'text-gray-600 dark:text-[#B0B3B8] hover:bg-gray-100 dark:hover:bg-[#3A3B3C]'}`}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h10M4 18h16" /></svg>
+                    </div>
+                    <div 
+                      onClick={() => { setCurrentAlign('center'); setIsAlignDropdownOpen(false); }}
+                      className={`cursor-pointer p-1.5 rounded-md transition-colors ${currentAlign === 'center' ? 'text-emerald-600 bg-gray-200 dark:bg-[#3A3B3C] shadow-inner' : 'text-gray-600 dark:text-[#B0B3B8] hover:bg-gray-100 dark:hover:bg-[#3A3B3C]'}`}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M7 12h10M4 18h16" /></svg>
+                    </div>
+                    <div 
+                      onClick={() => { setCurrentAlign('right'); setIsAlignDropdownOpen(false); }}
+                      className={`cursor-pointer p-1.5 rounded-md transition-colors ${currentAlign === 'right' ? 'text-emerald-600 bg-gray-200 dark:bg-[#3A3B3C] shadow-inner' : 'text-gray-600 dark:text-[#B0B3B8] hover:bg-gray-100 dark:hover:bg-[#3A3B3C]'}`}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M10 12h10M4 18h16" /></svg>
+                    </div>
+                    <div 
+                      onClick={() => { setCurrentAlign('justify'); setIsAlignDropdownOpen(false); }}
+                      className={`cursor-pointer p-1.5 rounded-md transition-colors ${currentAlign === 'justify' ? 'text-emerald-600 bg-gray-200 dark:bg-[#3A3B3C] shadow-inner' : 'text-gray-600 dark:text-[#B0B3B8] hover:bg-gray-100 dark:hover:bg-[#3A3B3C]'}`}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
             <textarea value={product?.description || ""} onChange={(e) => onChange?.({ description: e.target.value })} className="w-full h-[150px] bg-white dark:bg-[#18191A] resize-none outline-none p-3 text-[13px] text-gray-700 dark:text-[#E4E6EB]" placeholder={t("mydash.tuliskan_keterangan")}></textarea>
             <div className="flex justify-center bg-gray-100 dark:bg-[#242526] py-0.5 border-t border-gray-200 dark:border-[#4E4F50] cursor-row-resize rounded-b-lg">
