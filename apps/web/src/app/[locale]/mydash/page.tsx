@@ -962,6 +962,26 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
   const [isAlignDropdownOpen, setIsAlignDropdownOpen] = useState(false);
   const alignDropdownRef = useRef<HTMLDivElement>(null);
   const [currentAlign, setCurrentAlign] = useState<'left' | 'center' | 'right' | 'justify'>('left');
+  const [descriptionHeight, setDescriptionHeight] = useState(150);
+
+  const handleResizeStart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const startY = e.clientY;
+    const startHeight = descriptionHeight;
+
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      const newHeight = Math.max(100, startHeight + moveEvent.clientY - startY);
+      setDescriptionHeight(newHeight);
+    };
+
+    const handleMouseUp = () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  };
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -1282,9 +1302,9 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
                 )}
               </div>
             </div>
-            <textarea value={product?.description || ""} onChange={(e) => onChange?.({ description: e.target.value })} className="w-full h-[150px] bg-white dark:bg-[#18191A] resize-none outline-none p-3 text-[13px] text-gray-700 dark:text-[#E4E6EB]" placeholder={t("mydash.tuliskan_keterangan")}></textarea>
-            <div className="flex justify-center bg-gray-100 dark:bg-[#242526] py-0.5 border-t border-gray-200 dark:border-[#4E4F50] cursor-row-resize rounded-b-lg">
-              <div className="w-6 h-1 bg-gray-300 dark:bg-[#4E4F50] rounded-full"></div>
+            <textarea style={{ height: `${descriptionHeight}px` }} value={product?.description || ""} onChange={(e) => onChange?.({ description: e.target.value })} className={`w-full bg-white dark:bg-[#18191A] resize-none outline-none p-3 text-[13px] text-gray-700 dark:text-[#E4E6EB] ${currentAlign === 'center' ? 'text-center' : currentAlign === 'right' ? 'text-right' : currentAlign === 'justify' ? 'text-justify' : 'text-left'}`} placeholder={t("mydash.tuliskan_keterangan")}></textarea>
+            <div onMouseDown={handleResizeStart} className="flex justify-center bg-gray-100 dark:bg-[#242526] py-0.5 border-t border-gray-200 dark:border-[#4E4F50] cursor-row-resize rounded-b-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors">
+              <div className="w-6 h-1 bg-gray-300 dark:bg-[#4E4F50] rounded-full pointer-events-none"></div>
             </div>
           </div>
         </div>
