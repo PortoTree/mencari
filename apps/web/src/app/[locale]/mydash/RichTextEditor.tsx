@@ -235,7 +235,7 @@ export default function RichTextEditor({ value, onChange, placeholder = 'Write p
   useEffect(() => {
     if (!editor || editor.getHTML() === value) return;
     isExternal.current = true;
-    editor.commands.setContent(value || '', false);
+    editor.commands.setContent(value || '', { emitUpdate: false });
     isExternal.current = false;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);

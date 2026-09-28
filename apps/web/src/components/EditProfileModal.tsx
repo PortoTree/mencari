@@ -366,6 +366,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [isEditingSport, setIsEditingSport] = useState(false);
   const [selectedSport, setSelectedSport] = useState<string[]>([]);
   const [expCurrent, setExpCurrent] = useState(false);
+  const [eduCurrent, setEduCurrent] = useState(false);
   const [isEditingEducation, setIsEditingEducation] = useState(false);
   const [bioText, setBioText] = useState("");
   
