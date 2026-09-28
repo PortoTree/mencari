@@ -259,6 +259,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
           if (res.profile.movies) setSelectedFilm(res.profile.movies);
           if (res.profile.games) setSelectedGame(res.profile.games);
           if (res.profile.sports) setSelectedSport(res.profile.sports);
+
           
           if (res.profile.displayNameChangeDates) {
             const now = new Date();
@@ -308,7 +309,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [socialLinks, setSocialLinks] = useState<{platform: string, url: string}[]>([{platform: "Instagram", url: ""}]);
   const [isUpdatingInfo, setIsUpdatingInfo] = useState(false);
 
-  const handleSaveInfo = async (fieldToClose: (val: boolean) => void) => {
+  const handleSaveInfo = async (fieldToClose: (val: boolean) => void, overrides: any = {}) => {
     if (!currentUser?.id) return;
     setIsUpdatingInfo(true);
     
@@ -342,7 +343,9 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
       tvShows: selectedTV,
       movies: selectedFilm,
       games: selectedGame,
-      sports: selectedSport
+      sports: selectedSport,
+
+      ...overrides
     });
     setIsUpdatingInfo(false);
     if (res.success) {
@@ -383,7 +386,8 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [selectedGame, setSelectedGame] = useState<string[]>([]);
   const [isEditingSport, setIsEditingSport] = useState(false);
   const [selectedSport, setSelectedSport] = useState<string[]>([]);
-  const [expCurrent, setExpCurrent] = useState(false);
+  
+
   const [eduCurrent, setEduCurrent] = useState(false);
   const [isEditingEducation, setIsEditingEducation] = useState(false);
   const [bioText, setBioText] = useState("");
@@ -891,57 +895,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                   </div>
                 )}
 
-                {/* Pengalaman Kerja */}
-                {!isEditingExperience ? (
-                  <div>
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">{t("exp")}</h3>
-                    <button onClick={() => setIsEditingExperience(true)} className="flex items-center gap-4 w-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-xl transition-colors text-left group">
-                      <div className="w-7 h-7 flex items-center justify-center rounded-lg bg-transparent text-gray-500 dark:text-gray-400 font-bold group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
-                      </div>
-                      <span className="text-[15px] font-bold text-gray-700 dark:text-gray-300">{t("addExp")}</span>
-                    </button>
-                  </div>
-                ) : (
-                  <div className="space-y-4 animate-in fade-in duration-200 pb-20">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t("exp")}</h3>
-                    
-                    <div className="space-y-4">
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">{t("expTitle")}</label>
-                        <input type="text" placeholder={t("expTitlePlaceholder")} className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">{t("expCompany")}</label>
-                        <input type="text" placeholder={t("expCompanyPlaceholder")} className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none transition-all" />
-                      </div>
-                      
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">{t("expStart")}</label>
-                          <input type="number" placeholder="2020" className="w-full px-4 py-2.5 rounded-xl bg-transparent border border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white outline-none" />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">{t("expEnd")}</label>
-                          <input type="number" placeholder="2024" disabled={expCurrent} className={`w-full px-4 py-2.5 rounded-xl border outline-none transition-all ${expCurrent ? 'bg-gray-100 dark:bg-[#2A2B2C] border-transparent text-gray-400 cursor-not-allowed' : 'bg-transparent border-gray-300 dark:border-gray-600 focus:border-[#10B981] focus:ring-1 focus:ring-[#10B981] text-gray-900 dark:text-white'}`} />
-                        </div>
-                      </div>
-                      
-                      <label className="flex items-center gap-2.5 cursor-pointer pt-1">
-                        <input type="checkbox" checked={expCurrent} onChange={(e) => setExpCurrent(e.target.checked)} className="w-4 h-4 rounded text-[#10B981] border-gray-300 focus:ring-[#10B981]" />
-                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{t("expCurrent")}</span>
-                      </label>
-                    </div>
 
-                    <div className="flex items-center justify-between pt-4">
-                      <CustomSelect className="w-[140px]" options={[t("public"), t("friendsOnly"), t("private")]} value={privacyProf} onChange={setPrivacyProf} getIcon={getPrivacyIcon} />
-                      <div className="flex gap-2">
-                        <button onClick={() => setIsEditingExperience(false)} className="px-5 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm">{t("cancel")}</button>
-                        <button onClick={() => setIsEditingExperience(false)} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm">{t("save")}</button>
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
             )}
 

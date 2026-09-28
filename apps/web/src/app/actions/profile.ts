@@ -140,7 +140,8 @@ export async function updateProfileInfo(userId: string, data: any) {
               }
             }
           }
-        } : {})
+        } : {}),
+
       },
     });
 

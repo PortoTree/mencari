@@ -18,6 +18,7 @@ export default function ProfilePage({
   params: Promise<{ locale: string; username: string; id: string }>;
 }) {
   const t = useTranslations("profile");
+  const tEdit = useTranslations("editProfile");
 
   const unwrappedParams = use(params);
   const username = unwrappedParams.username ? decodeURIComponent(unwrappedParams.username) : "pampam";
@@ -29,6 +30,7 @@ export default function ProfilePage({
   const [themeLoaded, setThemeLoaded] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+
   const [isProfileExpanded, setIsProfileExpanded] = useState(false);
   const [isProfileOptionsOpen, setIsProfileOptionsOpen] = useState(false);
   
@@ -463,6 +465,7 @@ export default function ProfilePage({
                 </div>
                 <svg className="w-5 h-5 text-gray-400 group-hover:text-emerald-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
               </button>
+
 
               </div>
 
@@ -1020,6 +1023,8 @@ export default function ProfilePage({
           </div>
         </div>
       )}
+
+
 
       <EditProfileModal 
         isOpen={isEditModalOpen} 

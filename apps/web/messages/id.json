@@ -386,8 +386,9 @@
     "skills": "Keahlian & Skill",
     "hobbies": "Hobby",
     "interests": "Ketertarikan",
-    "viewDetails": "Lihat Detail",
-    "profileDetails": "Detail Profil",
+    "viewDetails": "User Details",
+    "profileDetails": "User Details",
+    "workExperience": "Pengalaman kerja",
     "activity": "Aktifitas akun",
     "reportCommunity": "Laporkan komunitas",
     "joinOnly": "Gabung"
@@ -436,13 +437,7 @@
     "profNow": "Profesi saat ini",
     "addProf": "Tambahkan profesi",
     "profPlaceholder": "Misal: Web Developer, UI/UX Designer...",
-    "exp": "Pengalaman kerja",
-    "addExp": "Tambahkan pengalaman kerja",
-    "expTitle": "Jabatan",
-    "expCompany": "Nama Perusahaan",
-    "expStart": "Tahun Mulai",
-    "expEnd": "Tahun Akhir",
-    "expCurrent": "Saya masih bekerja di sini",
+
     "education": "Pendidikan",
     "eduNow": "Pendidikan saat ini",
     "addEdu": "Tambahkan pendidikan",
@@ -514,8 +509,7 @@
       "nov": "November",
       "dec": "Desember"
     },
-    "expTitlePlaceholder": "Misal: Senior Frontend Engineer",
-    "expCompanyPlaceholder": "Misal: PT Teknologi Cerdas",
+
     "monthsShort": {
       "jan": "Jan.",
       "feb": "Feb.",

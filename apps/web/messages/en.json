@@ -386,8 +386,9 @@
     "skills": "Skills & Expertise",
     "hobbies": "Hobbies",
     "interests": "Interests",
-    "viewDetails": "View Details",
-    "profileDetails": "Profile Details",
+    "viewDetails": "User Details",
+    "profileDetails": "User Details",
+    "workExperience": "Work Experience",
     "activity": "Account Activity",
     "reportCommunity": "Report community",
     "joinOnly": "Join"
@@ -436,13 +437,7 @@
     "profNow": "Current profession",
     "addProf": "Add profession",
     "profPlaceholder": "e.g. Web Developer, UI/UX Designer...",
-    "exp": "Work experience",
-    "addExp": "Add work experience",
-    "expTitle": "Job Title",
-    "expCompany": "Company Name",
-    "expStart": "Start Year",
-    "expEnd": "End Year",
-    "expCurrent": "I currently work here",
+
     "education": "Education",
     "eduNow": "Current education",
     "addEdu": "Add education",
@@ -514,8 +509,7 @@
       "nov": "November",
       "dec": "December"
     },
-    "expTitlePlaceholder": "e.g. Senior Frontend Engineer",
-    "expCompanyPlaceholder": "e.g. Tech Solutions Inc.",
+
     "monthsShort": {
       "jan": "Jan",
       "feb": "Feb",
