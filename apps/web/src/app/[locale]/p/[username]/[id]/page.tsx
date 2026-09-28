@@ -8,6 +8,9 @@ import EditProfileModal from "@/components/EditProfileModal";
 import CropModal from "@/components/CropModal";
 import ImagePreviewModal from "@/components/ImagePreviewModal";
 import { ShinyButton } from "@/components/ui/shiny-button";
+import { uploadToCloudinary } from "@/utils/uploadImage";
+import { updateProfileMedia, getProfile } from "@/app/actions/profile";
+import { getOptimizedUrl } from "@/utils/cloudinary";
 
 export default function ProfilePage({
   params,
@@ -62,11 +65,20 @@ export default function ProfilePage({
     }
   };
 
-  const handleCropComplete = (croppedUrl: string) => {
+  const handleCropComplete = async (croppedUrl: string) => {
     if (cropType === "avatar") {
       setAvatarPreview(croppedUrl);
     } else {
       setCoverPreview(croppedUrl);
+    }
+
+    try {
+      const cloudinaryUrl = await uploadToCloudinary(croppedUrl);
+      if (currentUser?.id) {
+        await updateProfileMedia(currentUser.id, cropType, cloudinaryUrl);
+      }
+    } catch (error) {
+      console.error("Failed to save image:", error);
     }
   };
 
@@ -118,13 +130,23 @@ export default function ProfilePage({
     if (token) {
       try {
         const payload = JSON.parse(atob(token.split(".")[1]));
+        const userId = payload.sub || payload.id || payload._id || payload.userId || "1";
         if (payload.username || payload.name) {
           setCurrentUser({
-            id: payload.sub || payload.id || payload._id || payload.userId || "1",
+            id: userId,
             username: payload.username || payload.name || "User",
             displayName: payload.displayName || payload.username || payload.name || "User",
           });
         }
+        
+        // Fetch real profile data to populate initial images
+        getProfile(userId).then(res => {
+          if (res.success && res.profile) {
+            if (res.profile.avatarUrl) setAvatarPreview(res.profile.avatarUrl);
+            if (res.profile.coverUrl) setCoverPreview(res.profile.coverUrl);
+          }
+        });
+
       } catch (e) {
         console.error("Failed to parse token");
       }
@@ -156,7 +178,7 @@ export default function ProfilePage({
         <div className="w-full aspect-[3/1] rounded-b-[40px] relative overflow-hidden bg-gray-200 dark:bg-gray-700 shadow-sm">
           <input type="file" ref={coverInputRef} onChange={handleCoverChange} className="hidden" accept="image/*" />
           <img 
-            src={coverPreview || "/sampul-placeholder.png"} 
+            src={getOptimizedUrl(coverPreview, "cover") || "/sampul-placeholder.png"} 
             alt="Cover" 
             className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity" 
             onClick={() => {
@@ -186,7 +208,7 @@ export default function ProfilePage({
               <input type="file" ref={avatarInputRef} onChange={handleAvatarChange} className="hidden" accept="image/*" />
               <div className="w-[120px] h-[120px] rounded-full border-[4px] border-white dark:border-[#3A3B3C] bg-white dark:bg-[#242526] flex items-center justify-center shadow-md overflow-hidden">
                 <img 
-                  src={avatarPreview || "/default-avatar.svg"} 
+                  src={getOptimizedUrl(avatarPreview, "avatar") || "/default-avatar.svg"} 
                   alt="Avatar" 
                   className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity" 
                   onClick={() => {
@@ -940,7 +962,7 @@ export default function ProfilePage({
       
       <ImagePreviewModal
         isOpen={previewModalOpen}
-        imageSrc={previewImageSrc}
+        imageSrc={getOptimizedUrl(previewImageSrc, "preview")}
         onClose={() => setPreviewModalOpen(false)}
       />
     </main>
