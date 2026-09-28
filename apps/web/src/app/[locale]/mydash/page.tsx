@@ -923,6 +923,16 @@ function BuilderCollectionItem({ collection, index, updateTitle, deleteCollectio
 }
 
 
+const COLOR_PALETTE = [
+  "#000000", "#434343", "#666666", "#999999", "#b7b7b7", "#cccccc", "#d9d9d9", "#efefef", "#f3f3f3", "#ffffff",
+  "#980000", "#ff0000", "#ff9900", "#ffff00", "#00ff00", "#00ffff", "#4a86e8", "#0000ff", "#9900ff", "#ff00ff",
+  "#e6b8af", "#f4cccc", "#fce5cd", "#fff2cc", "#d9ead3", "#d0e0e3", "#c9daf8", "#cfe2f3", "#d9d2e9", "#ead1dc",
+  "#dd7e6b", "#ea9999", "#f9cb9c", "#ffe599", "#b6d7a8", "#a2c4c9", "#a4c2f4", "#9fc5e8", "#b4a7d6", "#d5a6bd",
+  "#cc4125", "#e06666", "#f6b26b", "#ffd966", "#93c47d", "#76a5af", "#6d9eeb", "#6fa8dc", "#8e7cc3", "#c27ba0",
+  "#a61c00", "#cc0000", "#e69138", "#f1c232", "#6aa84f", "#45818e", "#3c78d8", "#3d85c6", "#674ea7", "#a64d79",
+  "#85200c", "#990000", "#b45f06", "#bf9000", "#38761d", "#134f5c", "#1155cc", "#0b5394", "#351c75", "#741b47"
+];
+
 function ProductEditForm({ product, onClose, onChange }: { product: any, onClose: () => void, onChange?: (updatedProduct: any) => void }) {
   const t = useTranslations();
   const [isVideoEnabled, setIsVideoEnabled] = useState(product?.isVideoEnabled || false);
@@ -938,6 +948,33 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
   const [collection, setCollection] = useState("");
   const [isCollectionDropdownOpen, setIsCollectionDropdownOpen] = useState(false);
   const [newCollectionName, setNewCollectionName] = useState("");
+  const [isHeadingDropdownOpen, setIsHeadingDropdownOpen] = useState(false);
+  const headingDropdownRef = useRef<HTMLDivElement>(null);
+  const [isFontSizeDropdownOpen, setIsFontSizeDropdownOpen] = useState(false);
+  const [currentFontSize, setCurrentFontSize] = useState<number>(16);
+  const fontSizeDropdownRef = useRef<HTMLDivElement>(null);
+  const [isBold, setIsBold] = useState(false);
+  const [isUnderline, setIsUnderline] = useState(false);
+  const [isColorDropdownOpen, setIsColorDropdownOpen] = useState(false);
+  const colorDropdownRef = useRef<HTMLDivElement>(null);
+  const [currentTextColor, setCurrentTextColor] = useState<string>("#242526");
+  const [currentBgColor, setCurrentBgColor] = useState<string>("transparent");
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (headingDropdownRef.current && !headingDropdownRef.current.contains(event.target as Node)) {
+        setIsHeadingDropdownOpen(false);
+      }
+      if (fontSizeDropdownRef.current && !fontSizeDropdownRef.current.contains(event.target as Node)) {
+        setIsFontSizeDropdownOpen(false);
+      }
+      if (colorDropdownRef.current && !colorDropdownRef.current.contains(event.target as Node)) {
+        setIsColorDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const dbCategories: string[] = [];
   const dbCollections: string[] = [];
@@ -997,20 +1034,151 @@ function ProductEditForm({ product, onClose, onChange }: { product: any, onClose
         {/* Keterangan */}
         <div className="space-y-2">
           <label className="text-[15px] font-semibold text-gray-800 dark:text-white">{t("mydash.keterangan")}</label>
-          <div className="border border-gray-200 dark:border-[#4E4F50] rounded-lg overflow-hidden bg-[#F4F9F7] dark:bg-[#2A2B2C]">
-            <div className="p-2 border-b border-gray-200 dark:border-[#4E4F50] flex flex-wrap gap-x-4 gap-y-2 items-center text-gray-600 dark:text-[#B0B3B8]">
-              <div className="flex items-center gap-1 cursor-pointer hover:text-emerald-600"><span className="text-[13px]">🪄</span><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg></div>
-              <div className="flex items-center gap-1 cursor-pointer hover:text-emerald-600"><span className="text-[13px]">16</span><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg></div>
-              <div className="font-bold text-[14px] cursor-pointer text-emerald-800 dark:text-emerald-500 hover:text-emerald-600">B</div>
-              <div className="font-bold text-[14px] cursor-pointer hover:text-emerald-600 text-emerald-700 dark:text-emerald-400 underline">U</div>
+          <div className="border border-gray-200 dark:border-[#4E4F50] rounded-lg bg-[#F4F9F7] dark:bg-[#2A2B2C]">
+            <div className="p-2 border-b border-gray-200 dark:border-[#4E4F50] flex flex-wrap gap-x-4 gap-y-2 items-center text-gray-600 dark:text-[#B0B3B8] rounded-t-lg">
+              <div className="relative" ref={headingDropdownRef}>
+                <div 
+                  onClick={() => setIsHeadingDropdownOpen(!isHeadingDropdownOpen)} 
+                  className={`flex items-center gap-1 cursor-pointer transition-all rounded-md px-1.5 py-0.5 -ml-1.5 ${
+                    isHeadingDropdownOpen 
+                      ? 'text-emerald-600 bg-gray-200 dark:bg-[#3A3B3C] shadow-inner scale-[0.98]' 
+                      : 'hover:text-emerald-600'
+                  }`}
+                >
+                  <span className="text-[13px]">🪄</span>
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                </div>
+                {isHeadingDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-lg shadow-lg py-2 z-10 w-40 flex flex-col items-start">
+                    <button onClick={() => { setIsHeadingDropdownOpen(false); setCurrentFontSize(16); setIsBold(false); }} className="w-full text-left px-4 py-1.5 text-[14px] text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-[#3A3B3C]">Normal</button>
+                    <button onClick={() => { setIsHeadingDropdownOpen(false); setCurrentFontSize(32); setIsBold(true); }} className="w-full text-left px-4 py-1.5 text-[24px] font-bold text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-[#3A3B3C]">Header 1</button>
+                    <button onClick={() => { setIsHeadingDropdownOpen(false); setCurrentFontSize(24); setIsBold(true); }} className="w-full text-left px-4 py-1.5 text-[20px] font-bold text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-[#3A3B3C]">Header 2</button>
+                    <button onClick={() => { setIsHeadingDropdownOpen(false); setCurrentFontSize(18); setIsBold(true); }} className="w-full text-left px-4 py-1.5 text-[18px] font-bold text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-[#3A3B3C]">Header 3</button>
+                    <button onClick={() => { setIsHeadingDropdownOpen(false); setCurrentFontSize(16); setIsBold(true); }} className="w-full text-left px-4 py-1.5 text-[16px] font-bold text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-[#3A3B3C]">Header 4</button>
+                    <button onClick={() => { setIsHeadingDropdownOpen(false); setCurrentFontSize(13); setIsBold(true); }} className="w-full text-left px-4 py-1.5 text-[14px] font-bold text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-[#3A3B3C]">Header 5</button>
+                    <button onClick={() => { setIsHeadingDropdownOpen(false); setCurrentFontSize(10); setIsBold(true); }} className="w-full text-left px-4 py-1.5 text-[12px] font-bold text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-[#3A3B3C]">Header 6</button>
+                  </div>
+                )}
+              </div>
+              <div className="relative" ref={fontSizeDropdownRef}>
+                <div 
+                  onClick={() => setIsFontSizeDropdownOpen(!isFontSizeDropdownOpen)} 
+                  className={`flex items-center gap-1 cursor-pointer transition-all rounded-md px-1.5 py-0.5 ${
+                    isFontSizeDropdownOpen 
+                      ? 'text-emerald-600 bg-gray-200 dark:bg-[#3A3B3C] shadow-inner scale-[0.98]' 
+                      : 'hover:text-emerald-600'
+                  }`}
+                >
+                  <span className="text-[13px]">{currentFontSize}</span>
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                </div>
+                {isFontSizeDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-lg shadow-lg py-2 z-10 w-24 flex flex-col items-start max-h-48 overflow-y-auto sidebar-scrollbar">
+                    {[8, 10, 12, 14, 16, 18, 24, 36].map((size) => (
+                      <button 
+                        key={size}
+                        onClick={() => {
+                          setCurrentFontSize(size);
+                          setIsFontSizeDropdownOpen(false);
+                        }} 
+                        className="w-full text-left px-4 py-1.5 text-[14px] text-gray-800 dark:text-white hover:bg-gray-50 dark:hover:bg-[#3A3B3C] flex items-center gap-2"
+                      >
+                        {currentFontSize === size ? (
+                          <svg className="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+                        ) : (
+                          <div className="w-4 h-4 shrink-0"></div>
+                        )}
+                        <span>{size}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div 
+                onClick={() => setIsBold(!isBold)}
+                className={`font-bold text-[14px] cursor-pointer transition-all rounded-md px-2 py-0.5 ${
+                  isBold 
+                    ? 'text-emerald-600 bg-gray-200 dark:bg-[#3A3B3C] shadow-inner scale-[0.98]' 
+                    : 'text-gray-600 dark:text-[#B0B3B8] hover:text-emerald-600'
+                }`}
+              >
+                B
+              </div>
+              <div 
+                onClick={() => setIsUnderline(!isUnderline)}
+                className={`font-bold text-[14px] cursor-pointer transition-all rounded-md px-2 py-0.5 underline ${
+                  isUnderline 
+                    ? 'text-emerald-600 bg-gray-200 dark:bg-[#3A3B3C] shadow-inner scale-[0.98]' 
+                    : 'text-gray-600 dark:text-[#B0B3B8] hover:text-emerald-600'
+                }`}
+              >
+                U
+              </div>
               <div className="cursor-pointer hover:text-emerald-600"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></div>
-              <div className="flex items-center gap-1 cursor-pointer hover:text-emerald-600 font-bold text-yellow-400">A<svg className="w-3 h-3 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg></div>
+              <div className="relative" ref={colorDropdownRef}>
+                <div 
+                  onClick={() => setIsColorDropdownOpen(!isColorDropdownOpen)}
+                  className={`flex items-center gap-1 cursor-pointer transition-all rounded-md px-1.5 py-0.5 ${
+                    isColorDropdownOpen 
+                      ? 'bg-gray-200 dark:bg-[#3A3B3C] shadow-inner scale-[0.98]' 
+                      : 'hover:bg-gray-100 dark:hover:bg-[#3A3B3C]'
+                  }`}
+                >
+                  <div className="font-bold text-[14px]" style={{ color: currentTextColor === "#242526" ? "" : currentTextColor, backgroundColor: currentBgColor === "transparent" ? "" : currentBgColor }}>A</div>
+                  <svg className="w-3 h-3 text-gray-600 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                </div>
+                
+                {isColorDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-1 bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#4E4F50] rounded-lg shadow-lg p-3 z-10 w-[230px]">
+                    
+                    {/* Background Color */}
+                    <div className="text-center mb-1">
+                      <div className="text-[12px] text-gray-700 dark:text-gray-300 mb-1 relative flex items-center justify-center">
+                        <span className="bg-white dark:bg-[#2A2B2C] px-2 relative z-10">Background Color</span>
+                        <div className="absolute w-full h-[1px] bg-gray-200 dark:bg-[#4E4F50] top-1/2 left-0 -translate-y-1/2"></div>
+                      </div>
+                      <button onClick={() => setCurrentBgColor("transparent")} className="text-[11px] text-emerald-600 hover:underline mb-2">Transparent</button>
+                    </div>
+                    <div className="grid grid-cols-10 gap-0 border border-gray-200 dark:border-[#4E4F50] mb-4 rounded overflow-hidden">
+                      {COLOR_PALETTE.map((c, i) => (
+                        <button key={i} onClick={() => setCurrentBgColor(c)} className="w-full aspect-square hover:scale-125 hover:z-10 transition-transform relative" style={{ backgroundColor: c }}></button>
+                      ))}
+                    </div>
+
+                    {/* Text Color */}
+                    <div className="text-center mb-1">
+                      <div className="text-[12px] text-gray-700 dark:text-gray-300 mb-1 relative flex items-center justify-center">
+                        <span className="bg-white dark:bg-[#2A2B2C] px-2 relative z-10">Text Color</span>
+                        <div className="absolute w-full h-[1px] bg-gray-200 dark:bg-[#4E4F50] top-1/2 left-0 -translate-y-1/2"></div>
+                      </div>
+                      <button onClick={() => setCurrentTextColor("#242526")} className="text-[11px] text-emerald-600 hover:underline mb-2">Reset to default</button>
+                    </div>
+                    <div className="grid grid-cols-10 gap-0 border border-gray-200 dark:border-[#4E4F50] rounded overflow-hidden">
+                      {COLOR_PALETTE.map((c, i) => (
+                        <button key={i} onClick={() => setCurrentTextColor(c)} className="w-full aspect-square hover:scale-125 hover:z-10 transition-transform relative" style={{ backgroundColor: c }}></button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              {/* Reset Font Color Icon */}
+              <div 
+                onClick={() => { setCurrentTextColor("#242526"); setCurrentBgColor("transparent"); }}
+                className="cursor-pointer text-gray-600 dark:text-[#B0B3B8] hover:text-emerald-600 transition-colors"
+                title="Reset Font & Background Color"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+              </div>
+
               <div className="cursor-pointer hover:text-emerald-600"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg></div>
               <div className="cursor-pointer hover:text-emerald-600"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7" /></svg></div>
               <div className="cursor-pointer hover:text-emerald-600 flex items-center gap-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h8m-8 6h16" /></svg><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg></div>
             </div>
             <textarea value={product?.description || ""} onChange={(e) => onChange?.({ description: e.target.value })} className="w-full h-[150px] bg-white dark:bg-[#18191A] resize-none outline-none p-3 text-[13px] text-gray-700 dark:text-[#E4E6EB]" placeholder={t("mydash.tuliskan_keterangan")}></textarea>
-            <div className="flex justify-center bg-gray-100 dark:bg-[#242526] py-0.5 border-t border-gray-200 dark:border-[#4E4F50] cursor-row-resize">
+            <div className="flex justify-center bg-gray-100 dark:bg-[#242526] py-0.5 border-t border-gray-200 dark:border-[#4E4F50] cursor-row-resize rounded-b-lg">
               <div className="w-6 h-1 bg-gray-300 dark:bg-[#4E4F50] rounded-full"></div>
             </div>
           </div>
