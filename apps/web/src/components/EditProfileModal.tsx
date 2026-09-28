@@ -1348,7 +1348,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
             {/* 10. PRIVASI */}
             {activeTab === "privasi" && (
-              <div className="space-y-4 max-w-xl animate-in fade-in duration-200 pb-24">
+              <div className="space-y-4 max-w-xl animate-in fade-in duration-200 pb-8">
                 <div className="mb-6">
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white">{t("privacy")}</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t("privacyDesc")}</p>
@@ -1362,7 +1362,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                 ))}
 
                 {/* Account Type Selection */}
-                <div className="mt-8 mb-8 border-t border-gray-200 dark:border-gray-700 pt-8">
+                <div className="mt-6 border-t border-gray-200 dark:border-gray-700 pt-6">
                   <h4 className="text-[15px] font-bold text-gray-900 dark:text-white mb-3">{t("accountType")}</h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {/* Personal Option */}

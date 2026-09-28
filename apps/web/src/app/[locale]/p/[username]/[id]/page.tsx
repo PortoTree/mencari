@@ -144,23 +144,24 @@ export default function ProfilePage({
             displayName: payload.displayName || payload.username || payload.name || "User",
           });
         }
-        
-        // Fetch real profile data to populate initial images
-        getProfile(userId).then(res => {
-          if (res.success && res.profile) {
-            if (res.profile.avatarUrl) setAvatarPreview(res.profile.avatarUrl);
-            if (res.profile.coverUrl) setCoverPreview(res.profile.coverUrl);
-            if (res.profile.displayName) setDisplayName(res.profile.displayName);
-            setProfileData(res.profile);
-          }
-        });
-
       } catch (e) {
         console.error("Failed to parse token");
       }
     }
+    
+    // Fetch real profile data to populate initial images and details
+    // We use `id` from the URL, NOT `userId` from the token!
+    getProfile(id).then(res => {
+      if (res.success && res.profile) {
+        if (res.profile.avatarUrl) setAvatarPreview(res.profile.avatarUrl);
+        if (res.profile.coverUrl) setCoverPreview(res.profile.coverUrl);
+        if (res.profile.displayName) setDisplayName(res.profile.displayName);
+        setProfileData(res.profile);
+      }
+    });
+
     setThemeLoaded(true);
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (isDetailModalOpen) {
