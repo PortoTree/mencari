@@ -90,9 +90,23 @@ export default function ProfilePage({
 
     try {
       const cloudinaryUrl = await uploadToCloudinary(croppedUrl);
-      if (currentUser?.id) {
-        const token = localStorage.getItem("token") || "";
-        await updateProfileMedia(token, currentUser.id, cropType, cloudinaryUrl);
+      const token = localStorage.getItem("token") || "";
+      if (!token) return;
+
+      // Decode fresh from token to avoid stale closure on currentUser state
+      let userId: string | null = null;
+      try {
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        userId = payload.sub || payload.id || payload._id || payload.userId || null;
+      } catch (e) {
+        console.error("Failed to decode token");
+      }
+
+      if (userId) {
+        const res = await updateProfileMedia(token, userId, cropType, cloudinaryUrl);
+        if (!res.success) {
+          console.error("updateProfileMedia failed:", res.error);
+        }
       }
     } catch (error) {
       console.error("Failed to save image:", error);
