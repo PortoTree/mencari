@@ -40,6 +40,7 @@ export default function ProfilePage({
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
   const [displayName, setDisplayName] = useState<string | null>(null);
   const [profileData, setProfileData] = useState<any>(null);
+  const [isLoadingProfile, setIsLoadingProfile] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState<any>({
     isFollowing: false,
@@ -152,6 +153,7 @@ export default function ProfilePage({
             id: userId,
             username: payload.username || payload.name || "User",
             displayName: payload.displayName || payload.username || payload.name || "User",
+            token: token,
           });
         }
       } catch (e) {
@@ -168,6 +170,7 @@ export default function ProfilePage({
         if (res.profile.displayName) setDisplayName(res.profile.displayName);
         setProfileData(res.profile);
       }
+      setIsLoadingProfile(false);
     });
 
     const checkConnection = async (currentId: string) => {
@@ -285,6 +288,10 @@ export default function ProfilePage({
   const hasExpandableInfo = profileData?.websiteUrl || profileData?.education || profileData?.profession || profileData?.gender || profileData?.birthDate;
   const hasAnyInfo = profileData?.bio || profileData?.locationName || hasExpandableInfo;
 
+  const isBlockedByMe = connectionStatus?.isBlocked;
+  const isBlockedByThem = connectionStatus?.hasBlockedYou;
+  const isProfileInaccessible = isBlockedByMe || isBlockedByThem;
+
   return (
     <main className="min-h-screen bg-[#F3F2EF] dark:bg-[#18191A] text-black dark:text-[#E4E6EB] pb-20 pt-[56px] font-sans">
       <Navbar activeTab={null} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} themeLoaded={themeLoaded} currentUser={currentUser} />
@@ -312,16 +319,22 @@ export default function ProfilePage({
         
         {/* Cover Photo */}
         <div className="w-full aspect-[3/1] rounded-b-[40px] relative overflow-hidden bg-gray-200 dark:bg-gray-700 shadow-sm">
-          <input type="file" ref={coverInputRef} onChange={handleCoverChange} className="hidden" accept="image/*" />
-          <img 
-            src={getOptimizedUrl(coverPreview, "cover") || "/sampul-placeholder.png"} 
-            alt="Cover" 
-            className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity" 
-            onClick={() => {
-              setPreviewImageSrc(coverPreview || "/sampul-placeholder.png");
-              setPreviewModalOpen(true);
-            }}
-          />
+          {isLoadingProfile ? (
+            <div className="w-full h-full bg-gray-300 dark:bg-[#3E4042] animate-pulse" />
+          ) : (
+            <>
+              <input type="file" ref={coverInputRef} onChange={handleCoverChange} className="hidden" accept="image/*" />
+              <img 
+                src={isProfileInaccessible ? "/sampul-placeholder.png" : (getOptimizedUrl(coverPreview, "cover") || "/sampul-placeholder.png")} 
+                alt="Cover" 
+                className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity" 
+                onClick={() => {
+                  setPreviewImageSrc(coverPreview || "/sampul-placeholder.png");
+                  setPreviewModalOpen(true);
+                }}
+              />
+            </>
+          )}
           {isOwnProfile && (
             <button onClick={() => coverInputRef.current?.click()} className="absolute bottom-4 right-4 bg-black/50 hover:bg-black/70 text-white p-2.5 rounded-full backdrop-blur-sm transition-colors cursor-pointer shadow-md z-30">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -341,17 +354,23 @@ export default function ProfilePage({
               <div className="flex flex-col items-center w-full h-full">
             {/* Avatar */}
             <div className="relative mb-4">
-              <input type="file" ref={avatarInputRef} onChange={handleAvatarChange} className="hidden" accept="image/*" />
               <div className="w-[120px] h-[120px] rounded-full border-[4px] border-white dark:border-[#3A3B3C] bg-white dark:bg-[#242526] flex items-center justify-center shadow-md overflow-hidden">
-                <img 
-                  src={getOptimizedUrl(avatarPreview, "avatar") || "/default-avatar.svg"} 
-                  alt="Avatar" 
-                  className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity" 
-                  onClick={() => {
-                    setPreviewImageSrc(avatarPreview || "/default-avatar.svg");
-                    setPreviewModalOpen(true);
-                  }}
-                />
+                {isLoadingProfile ? (
+                  <div className="w-full h-full bg-gray-300 dark:bg-[#3E4042] animate-pulse" />
+                ) : (
+                  <>
+                    <input type="file" ref={avatarInputRef} onChange={handleAvatarChange} className="hidden" accept="image/*" />
+                    <img 
+                      src={isProfileInaccessible ? "/default-avatar.svg" : (getOptimizedUrl(avatarPreview, "avatar") || "/default-avatar.svg")} 
+                      alt="Avatar" 
+                      className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity" 
+                      onClick={() => {
+                        setPreviewImageSrc(avatarPreview || "/default-avatar.svg");
+                        setPreviewModalOpen(true);
+                      }}
+                    />
+                  </>
+                )}
               </div>
               {isOwnProfile && (
                 <button onClick={() => avatarInputRef.current?.click()} className="absolute bottom-0 right-0 bg-gray-200 hover:bg-gray-300 dark:bg-[#4E4F50] dark:hover:bg-[#5E5F60] p-2 rounded-full border-[3px] border-white dark:border-[#3A3B3C] shadow-sm transition-colors text-black dark:text-white cursor-pointer z-10">
@@ -362,10 +381,21 @@ export default function ProfilePage({
               )}
             </div>
             
-            <h1 className="text-2xl font-bold text-black dark:text-white">{displayName || (username === "pampam" ? "nama akun" : username)}</h1>
-            <p className="text-[15px] text-gray-700 dark:text-gray-300 font-medium mb-3">@{username}</p>
+            {isLoadingProfile ? (
+              <div className="flex flex-col items-center gap-2 w-full mt-2">
+                <div className="h-7 w-48 bg-gray-300 dark:bg-[#3E4042] rounded animate-pulse"></div>
+                <div className="h-5 w-32 bg-gray-300 dark:bg-[#3E4042] rounded animate-pulse mb-3"></div>
+              </div>
+            ) : (
+              <>
+                <h1 className="text-2xl font-bold text-black dark:text-white">
+                  {isProfileInaccessible ? (isBlockedByThem ? t("someone", { fallback: "Seseorang" }) : displayName || username) : (displayName || (username === "pampam" ? "nama akun" : username))}
+                </h1>
+                <p className="text-[15px] text-gray-700 dark:text-gray-300 font-medium mb-3">@{username}</p>
+              </>
+            )}
             {/* Social Media Icons */}
-            {profileData?.user?.socialLinks && profileData.user.socialLinks.length > 0 && (
+            {!isProfileInaccessible && profileData?.user?.socialLinks && profileData.user.socialLinks.length > 0 && (
               <div className="flex flex-wrap items-center justify-center gap-2.5 mb-8 px-4">
                 {profileData.user.socialLinks.map((social: any) => {
                   const getSocialUrl = (platform: string, username: string) => {
@@ -410,32 +440,39 @@ export default function ProfilePage({
             
               {/* Profile Details List */}
               <div className="w-full flex flex-col flex-1">
-                <div 
-                  ref={contentRef}
-                  className={`flex flex-col gap-4 ${!hasAnyInfo ? 'flex-1' : ''} mt-4 transition-all duration-300 ease-in-out relative ${isProfileExpanded ? "max-h-[1000px]" : "max-h-[180px] overflow-hidden"}`}
-                >
-                  {!hasAnyInfo && (
-                    <div className="flex-1 flex items-center justify-center text-[15px] font-bold text-gray-400 dark:text-gray-500 italic pb-12">
-                      {t("noInfoPlaceholder")}
-                    </div>
-                  )}
-                  {/* 1. Bio */}
-                  {profileData?.bio && (
-                    <div className="flex items-start gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
-                      <svg className="w-5 h-5 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                      <span className="leading-relaxed">{profileData.bio}</span>
-                    </div>
-                  )}
+                {isProfileInaccessible ? null : isLoadingProfile ? (
+                  <div className="flex flex-col gap-4 mt-4 w-full">
+                    <div className="h-4 w-full bg-gray-300 dark:bg-[#3E4042] rounded animate-pulse"></div>
+                    <div className="h-4 w-4/5 bg-gray-300 dark:bg-[#3E4042] rounded animate-pulse"></div>
+                    <div className="h-4 w-2/3 bg-gray-300 dark:bg-[#3E4042] rounded animate-pulse"></div>
+                  </div>
+                ) : (
+                  <div 
+                    ref={contentRef}
+                    className={`flex flex-col gap-4 ${!hasAnyInfo ? 'flex-1' : ''} mt-4 transition-all duration-300 ease-in-out relative ${isProfileExpanded ? "max-h-[1000px]" : "max-h-[180px] overflow-hidden"}`}
+                  >
+                    {!hasAnyInfo && (
+                      <div className="flex-1 flex items-center justify-center text-[15px] font-bold text-gray-400 dark:text-gray-500 italic pb-12">
+                        {t("noInfoPlaceholder")}
+                      </div>
+                    )}
+                    {/* 1. Bio */}
+                    {profileData?.bio && (
+                      <div className="flex items-start gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
+                        <svg className="w-5 h-5 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <span className="leading-relaxed">{profileData.bio}</span>
+                      </div>
+                    )}
 
-                  {/* 2. Lokasi */}
-                  {profileData?.locationName && (
-                    <div className="flex items-center gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
-                      <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                      {profileData.locationName}
-                    </div>
-                  )}
+                    {/* 2. Lokasi */}
+                    {profileData?.locationName && (
+                      <div className="flex items-center gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
+                        <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                        {profileData.locationName}
+                      </div>
+                    )}
 
-                  {/* 3. Link web (External Links) */}
+                    {/* 3. Link web (External Links) */}
                   {(() => {
                     let links: {label: string, url: string}[] = [];
                     if (profileData?.externalLinks) {
@@ -511,10 +548,11 @@ export default function ProfilePage({
                     </div>
                   )}
                 </div>
+                )}
               </div>
               
               {/* Expand / Collapse Button */}
-              {needsExpansion && (
+              {needsExpansion && !isLoadingProfile && (
                 <button 
                   onClick={() => setIsProfileExpanded(!isProfileExpanded)}
                   className="w-full mt-auto pt-4 pb-2 flex items-center justify-center gap-2 text-[15px] font-bold text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors group cursor-pointer shrink-0"
@@ -532,7 +570,7 @@ export default function ProfilePage({
             </div>
 
               {/* Reputasi Card */}
-              {profileData?.type === "BUSINESS" && (
+              {!isProfileInaccessible && profileData?.type === "BUSINESS" && (
                 <div className="w-full shrink-0 bg-gradient-to-br from-blue-900 to-slate-900 border border-blue-800/30 rounded-[30px] p-5 flex flex-col justify-between shadow-lg">
                   <div className="flex items-center gap-4">
                     <div className="relative">
@@ -591,18 +629,20 @@ export default function ProfilePage({
               )}
 
               {/* View Details Button */}
-              <button 
-                onClick={() => setIsDetailModalOpen(true)}
-                className="w-full mt-4 bg-white dark:bg-[#242526] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 border border-gray-200 dark:border-[#3A3B3C] rounded-[24px] p-4 shadow-sm flex items-center justify-between transition-colors group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center text-emerald-500">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              {!isLoadingProfile && !isProfileInaccessible && (
+                <button 
+                  onClick={() => setIsDetailModalOpen(true)}
+                  className="w-full mt-4 bg-white dark:bg-[#242526] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]/50 border border-gray-200 dark:border-[#3A3B3C] rounded-[24px] p-4 shadow-sm flex items-center justify-between transition-colors group"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center text-emerald-500">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </div>
+                    <span className="font-bold text-gray-800 dark:text-gray-200 text-[14px]">{t("viewDetails")}</span>
                   </div>
-                  <span className="font-bold text-gray-800 dark:text-gray-200 text-[14px]">{t("viewDetails")}</span>
-                </div>
-                <svg className="w-5 h-5 text-gray-400 group-hover:text-emerald-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-              </button>
+                  <svg className="w-5 h-5 text-gray-400 group-hover:text-emerald-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                </button>
+              )}
 
 
               </div>
@@ -615,21 +655,33 @@ export default function ProfilePage({
               <div className="flex items-center gap-6 sm:gap-10">
                   <div className="flex flex-col items-center cursor-pointer group">
                     <span className="text-[14px] font-medium text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">{t("friends")}</span>
-                    <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">
-                      {(profileData?.user?._count?.friendshipsAsUser || 0) + (profileData?.user?._count?.friendshipsAsFriend || 0)}
-                    </span>
+                    {isLoadingProfile ? (
+                      <div className="w-6 h-6 bg-gray-300 dark:bg-[#3E4042] rounded animate-pulse mt-0.5"></div>
+                    ) : (
+                      <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">
+                        {isProfileInaccessible ? "-" : (profileData?.user?._count?.friendshipsAsUser || 0) + (profileData?.user?._count?.friendshipsAsFriend || 0)}
+                      </span>
+                    )}
                   </div>
                   <div className="flex flex-col items-center cursor-pointer group">
                     <span className="text-[14px] font-medium text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">{t("followers")}</span>
-                    <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">
-                      {profileData?.user?._count?.followers || 0}
-                    </span>
+                    {isLoadingProfile ? (
+                      <div className="w-6 h-6 bg-gray-300 dark:bg-[#3E4042] rounded animate-pulse mt-0.5"></div>
+                    ) : (
+                      <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">
+                        {isProfileInaccessible ? "-" : profileData?.user?._count?.followers || 0}
+                      </span>
+                    )}
                   </div>
                   <div className="flex flex-col items-center cursor-pointer group">
                     <span className="text-[14px] font-medium text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">{t("following")}</span>
-                    <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">
-                      {profileData?.user?._count?.following || 0}
-                    </span>
+                    {isLoadingProfile ? (
+                      <div className="w-6 h-6 bg-gray-300 dark:bg-[#3E4042] rounded animate-pulse mt-0.5"></div>
+                    ) : (
+                      <span className="text-[18px] font-bold text-black dark:text-white mt-0.5">
+                        {isProfileInaccessible ? "-" : profileData?.user?._count?.following || 0}
+                      </span>
+                    )}
                   </div>
                 </div>
               <div className="flex items-center gap-3 mt-4 sm:mt-0">
@@ -642,7 +694,7 @@ export default function ProfilePage({
                   </button>
                 ) : (
                   <>
-                    {!connectionStatus.hasBlockedYou && !connectionStatus.isBlocked && (
+                    {!isProfileInaccessible && (
                       <>
                         <button 
                           onClick={handlePrimaryAction}
@@ -660,13 +712,19 @@ export default function ProfilePage({
                         </button>
                         
                         <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full text-sm shadow-sm transition-colors">
-                          {t("sendMessage") || "Pesan"}
+                          {t("sendMessage", { fallback: "Pesan" })}
                         </button>
                       </>
                     )}
                     
-                    {connectionStatus.isBlocked && (
-                      <span className="text-red-500 font-bold text-sm bg-red-100 py-2 px-4 rounded-full">Anda telah memblokir user ini</span>
+                    {isBlockedByMe && (
+                      <button 
+                        onClick={handleToggleBlock}
+                        disabled={isProcessing}
+                        className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-full text-sm shadow-sm transition-colors flex items-center gap-2"
+                      >
+                        {isProcessing ? "Loading..." : t("unblock", { fallback: "Buka Blokir" })}
+                      </button>
                     )}
 
                     <div className="relative">
@@ -706,8 +764,11 @@ export default function ProfilePage({
             </div>
 
               
-              {/* Groups Section */}
-              <div className="w-full max-w-[590px] mx-auto mt-4 mb-2 flex flex-col gap-6">
+              {/* Main Profile Content Area */}
+              {!isProfileInaccessible ? (
+                <>
+                  {/* Groups Section */}
+                  <div className="w-full max-w-[590px] mx-auto mt-4 mb-2 flex flex-col gap-6">
                 
                 {/* 1. Grup yang kamu buat */}
                 <div>
@@ -1064,6 +1125,20 @@ export default function ProfilePage({
                   </div>
                 ) : null}
               </div>
+                </>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-20 text-center w-full max-w-[590px] mx-auto mt-4">
+                 <div className="w-24 h-24 mb-4 text-gray-300 dark:text-gray-600">
+                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-2.12.83-4.06 2.19-5.52l11.33 11.33C16.06 19.17 14.12 20 12 20zm5.81-2.48L6.48 6.19C7.94 4.83 9.88 4 12 4c4.41 0 8 3.59 8 8 0 1.9-.7 3.65-1.81 5.06z"/></svg>
+                 </div>
+                 <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+                   {isBlockedByMe ? t("youBlockedThisAccount", { fallback: "Anda telah memblokir akun ini" }) : t("accountNotAvailable", { fallback: "Akun ini tidak tersedia" })}
+                 </h2>
+                 <p className="text-gray-500 dark:text-gray-400 max-w-sm">
+                   {isBlockedByMe ? t("unblockToSeeContent", { fallback: "Buka blokir untuk melihat postingan, teman, dan berinteraksi kembali dengan akun ini." }) : t("linkMightBeBroken", { fallback: "Tautan yang Anda ikuti mungkin rusak, atau halaman mungkin telah dihapus." })}
+                 </p>
+                </div>
+              )}
 
 
               

@@ -361,3 +361,37 @@ export async function getConnectionStatus(currentUserId: string, targetUserId: s
     return { isFollowing: false, friendshipStatus: null, isBlocked: false, hasBlockedYou: false };
   }
 }
+
+// ==========================================
+// GET BLOCKED USERS
+// ==========================================
+
+export async function getBlockedUsers(token: string, userId: string) {
+  if (!verifyToken(token, userId)) return { success: false, error: "Unauthorized" };
+
+  try {
+    const blocks = await prisma.block.findMany({
+      where: { userId },
+      include: {
+        blockedUser: {
+          select: {
+            id: true,
+            username: true,
+            profile: {
+              select: {
+                displayName: true,
+                avatarUrl: true
+              }
+            }
+          }
+        }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+
+    return { success: true, blocks };
+  } catch (error) {
+    console.error("Error fetching blocked users:", error);
+    return { success: false, error: "Database error" };
+  }
+}

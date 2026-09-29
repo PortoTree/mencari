@@ -61,8 +61,8 @@ export default function Navbar({
     }
     fetchNotifs();
     // In a real app with WebSockets, we would listen for events here.
-    // For now we just poll every 30 seconds
-    const interval = setInterval(fetchNotifs, 30000);
+    // For now we just poll every 1 minute (60000ms)
+    const interval = setInterval(fetchNotifs, 60000);
     return () => clearInterval(interval);
   }, [currentUser]);
 

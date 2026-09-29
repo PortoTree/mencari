@@ -5,6 +5,7 @@ import React, { useState, useEffect, useRef } from "react";
 import CropModal from "@/components/CropModal";
 import { uploadToCloudinary } from "@/utils/uploadImage";
 import { updateProfileMedia, getProfile, updateDisplayName, updateProfileInfo } from "@/app/actions/profile";
+import { getBlockedUsers, handlePrimaryConnectionAction } from "@/app/actions/connections";
 import { getOptimizedUrl } from "@/utils/cloudinary";
 
 function CustomSelect({ options, value, onChange, className, columns = 1, getIcon, hideLabelOnDisplay = false, hideArrow = false }: { options: string[], value: string, onChange: (val: string) => void, className?: string, columns?: number, getIcon?: (opt: string) => any, hideLabelOnDisplay?: boolean, hideArrow?: boolean }) {
@@ -475,6 +476,21 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [privacyActivity, setPrivacyActivity] = useState(t("public"));
   const [privacyAccount, setPrivacyAccount] = useState(t("public"));
   const [privacyExternalLink, setPrivacyExternalLink] = useState(t("public"));
+
+  const [blockedUsers, setBlockedUsers] = useState<any[]>([]);
+  const [isLoadingBlockedUsers, setIsLoadingBlockedUsers] = useState(false);
+
+  useEffect(() => {
+    if (activeTab === "privasi" && currentUser?.token && isOpen) {
+      setIsLoadingBlockedUsers(true);
+      getBlockedUsers(currentUser.token, currentUser.id).then((res) => {
+        if (res.success && res.blocks) {
+          setBlockedUsers(res.blocks);
+        }
+        setIsLoadingBlockedUsers(false);
+      });
+    }
+  }, [currentUser?.id, activeTab, isOpen]);
 
   useEffect(() => {
     if (isOpen) {
@@ -1399,6 +1415,52 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                     <CustomSelect className="w-full sm:w-[160px]" options={item.options} value={item.state} onChange={item.setState} getIcon={getPrivacyIcon} />
                   </div>
                 ))}
+
+                <div className="mt-8 border-t border-gray-200 dark:border-gray-700 pt-6">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t("blockedAccounts", { fallback: "Akun yang Diblokir" })}</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{t("blockedAccountsDesc", { fallback: "Daftar pengguna yang telah Anda blokir. Mereka tidak dapat melihat profil Anda atau berinteraksi dengan Anda." })}</p>
+                  
+                  {isLoadingBlockedUsers ? (
+                    <div className="flex justify-center p-4">
+                      <div className="w-6 h-6 border-2 border-[#10B981] border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                  ) : blockedUsers.length === 0 ? (
+                    <div className="text-center p-6 bg-gray-50 dark:bg-[#3A3B3C]/20 rounded-xl border border-gray-100 dark:border-gray-700/50">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{t("noBlockedAccounts", { fallback: "Tidak ada akun yang diblokir." })}</p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-3">
+                      {blockedUsers.map((block) => (
+                        <div key={block.blockedUser.id} className="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-[#3A3B3C]/40 border border-gray-100 dark:border-gray-700/50">
+                          <div className="flex items-center gap-3">
+                            <img src={block.blockedUser.profile?.avatarUrl ? getOptimizedUrl(block.blockedUser.profile.avatarUrl, "avatar") : "/default-avatar.svg"} alt={block.blockedUser.username} className="w-10 h-10 rounded-full object-cover" />
+                            <div>
+                              <p className="font-bold text-sm text-gray-900 dark:text-white">{block.blockedUser.profile?.displayName || block.blockedUser.username}</p>
+                              <p className="text-xs text-gray-500 dark:text-gray-400">@{block.blockedUser.username}</p>
+                            </div>
+                          </div>
+                          <button 
+                            onClick={async () => {
+                              if (!currentUser?.token) return;
+                              const { handlePrimaryConnectionAction } = await import('@/app/actions/connections');
+                              // Assuming handlePrimaryConnectionAction handles unblocking when called, 
+                              // wait, actually we have a toggleBlock function! But handlePrimaryConnectionAction isn't exactly toggleBlock.
+                              // Let's use toggleBlock from connections.ts
+                              const { toggleBlock } = await import('@/app/actions/connections');
+                              const res = await toggleBlock(currentUser.token, currentUser.id, block.blockedUser.id);
+                              if (res.success && !res.isBlocked) {
+                                setBlockedUsers(prev => prev.filter(b => b.blockedUser.id !== block.blockedUser.id));
+                              }
+                            }}
+                            className="px-3 py-1.5 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg text-xs font-bold transition-colors"
+                          >
+                            {t("unblock", { fallback: "Buka Blokir" })}
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
 
                 {/* Account Type Selection */}
                 <div className="mt-6 border-t border-gray-200 dark:border-gray-700 pt-6">
