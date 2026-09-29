@@ -123,7 +123,7 @@ export default function ProfilePage({
 
     const [activeAlbumIdx, setActiveAlbumIdx] = useState<number | null>(null);
     const [albumGridCols, setAlbumGridCols] = useState<number>(3);
-    const [activeStatTab, setActiveStatTab] = useState<'friends' | 'followers' | 'following' | null>(null);
+    const [activeStatTab, setActiveStatTab] = useState<'friends' | 'followers' | null>(null);
     const [expandedGroupTab, setExpandedGroupTab] = useState<'managed' | 'joined' | null>(null);
     const [statPage, setStatPage] = useState(1);
     const [groupPage, setGroupPage] = useState(1);
@@ -774,19 +774,6 @@ export default function ProfilePage({
                       </span>
                     )}
                   </div>
-                  <div 
-                    onClick={() => { setActiveStatTab(activeStatTab === 'following' ? null : 'following'); setStatPage(1); }}
-                    className="flex flex-col items-center cursor-pointer group"
-                  >
-                    <span className={`text-[14px] font-medium transition-colors ${activeStatTab === 'following' ? 'text-black dark:text-white' : 'text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white'}`}>{t("following")}</span>
-                    {isLoadingProfile ? (
-                      <div className="w-6 h-6 bg-gray-300 dark:bg-[#3E4042] rounded animate-pulse mt-0.5"></div>
-                    ) : (
-                      <span className="text-[18px] font-bold mt-0.5 text-black dark:text-white">
-                        {isProfileInaccessible ? "-" : profileData?.user?._count?.following || 0}
-                      </span>
-                    )}
-                  </div>
                 </div>
               <div className="flex items-center gap-3 mt-4 sm:mt-0">
                 {isOwnProfile ? (
@@ -876,7 +863,7 @@ export default function ProfilePage({
                       <div className="flex flex-col flex-1">
                         <div className="flex items-center px-1 mb-3">
                           <h3 className="text-[15px] font-bold text-black dark:text-white">
-                            {activeStatTab === 'friends' ? (t("friends") || "Teman") : activeStatTab === 'followers' ? (t("followers") || "Pengikut") : (t("following") || "Diikuti")}
+                            {activeStatTab === 'friends' ? (t("friends") || "Teman") : (t("followers") || "Pengikut")}
                           </h3>
                         </div>
                         <div className="flex items-center justify-between mb-4 px-1 sticky top-0 bg-[#F3F2EF] dark:bg-[#18191A] z-10 py-1">
