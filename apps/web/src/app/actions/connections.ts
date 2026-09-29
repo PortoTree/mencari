@@ -167,6 +167,35 @@ export async function toggleFollow(token: string, followerId: string, followingI
   }
 }
 
+export async function removeFollower(token: string, currentUserId: string, followerUserId: string) {
+  if (!verifyToken(token, currentUserId)) return { success: false, error: "Unauthorized" };
+
+  try {
+    const existingFollow = await prisma.follow.findUnique({
+      where: {
+        followerId_followingId: {
+          followerId: followerUserId,
+          followingId: currentUserId
+        }
+      }
+    });
+
+    if (existingFollow) {
+      await prisma.follow.delete({
+        where: { id: existingFollow.id }
+      });
+      revalidateTag(`profile-${currentUserId}`);
+      revalidateTag(`profile-${followerUserId}`);
+      return { success: true };
+    }
+    
+    return { success: false, error: "Not a follower" };
+  } catch (error) {
+    console.error("Error removing follower:", error);
+    return { success: false, error: "Database error" };
+  }
+}
+
 // ==========================================
 // FRIENDSHIP
 // ==========================================

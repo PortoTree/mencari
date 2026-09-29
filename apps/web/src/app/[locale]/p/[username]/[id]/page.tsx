@@ -11,7 +11,7 @@ import ImagePreviewModal from "@/components/ImagePreviewModal";
 import { ShinyButton } from "@/components/ui/shiny-button";
 import { uploadToCloudinary } from "@/utils/uploadImage";
 import { updateProfileMedia, getProfile } from "@/app/actions/profile";
-import { getConnectionStatus, handlePrimaryConnectionAction, toggleBlock } from "@/app/actions/connections";
+import { getConnectionStatus, handlePrimaryConnectionAction, toggleBlock, removeFollower } from "@/app/actions/connections";
 import { getOptimizedUrl } from "@/utils/cloudinary";
 
 // In-memory cache to prevent excessive loading states when navigating
@@ -327,12 +327,18 @@ export default function ProfilePage({
     setIsProfileOptionsOpen(false);
   };
 
-  const handleListConnectionAction = async (targetUserId: string) => {
+  const handleListConnectionAction = async (targetUserId: string, actionType: 'remove_follower' | 'other') => {
     if (!currentUser || isProcessing) return;
     setIsProcessing(true);
     const token = localStorage.getItem("token") || "";
 
-    const res = await handlePrimaryConnectionAction(token, currentUser.id, targetUserId);
+    let res: any;
+    if (actionType === 'remove_follower') {
+      res = await removeFollower(token, currentUser.id, targetUserId);
+    } else {
+      res = await handlePrimaryConnectionAction(token, currentUser.id, targetUserId);
+    }
+    
     if (res.success) {
       const freshProfile = await getProfile(id);
       if (freshProfile.success && freshProfile.profile) {
@@ -442,13 +448,17 @@ export default function ProfilePage({
       }));
       statsUsers = [...friends1, ...friends2];
     } else if (activeStatTab === 'followers') {
-      statsUsers = (profileData.user.followers || []).map((f: any) => ({
-        id: f.follower.id,
-        name: f.follower.profile?.displayName || f.follower.username,
-        username: f.follower.username,
-        isFriend: false, // We'd need to check actual friendship status, but setting false for now or omit
-        avatar: f.follower.profile?.avatarUrl || '/default-avatar.svg'
-      }));
+      statsUsers = (profileData.user.followers || []).map((f: any) => {
+        const isAlsoFriend = (profileData.user.friendshipsAsUser || []).some((fr: any) => fr.friend.id === f.follower.id) || 
+                             (profileData.user.friendshipsAsFriend || []).some((fr: any) => fr.user.id === f.follower.id);
+        return {
+          id: f.follower.id,
+          name: f.follower.profile?.displayName || f.follower.username,
+          username: f.follower.username,
+          isFriend: isAlsoFriend,
+          avatar: f.follower.profile?.avatarUrl || '/default-avatar.svg'
+        };
+      });
     }
   }
 
@@ -1024,11 +1034,11 @@ export default function ProfilePage({
                                         <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                                         {t("viewProfile")}
                                       </button>
-                                      <button onClick={() => handleListConnectionAction(user.id)} className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-2 transition-colors border-b border-gray-100 dark:border-white/5">
+                                      <button onClick={() => handleListConnectionAction(user.id, (isOwnProfile && activeStatTab === 'followers' && !user.isFriend) ? 'remove_follower' : 'other')} className="w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-2 transition-colors border-b border-gray-100 dark:border-white/5">
                                         {isOwnProfile ? (
                                           <>
                                             <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7a4 4 0 11-8 0 4 4 0 018 0zM9 14a6 6 0 00-6 6v1h12v-1a6 6 0 00-6-6zM21 12h-6" /></svg>
-                                            {activeStatTab === 'friends' ? t("removeFriend") : t("removeFollower")}
+                                            {user.isFriend ? t("removeFriend") : t("removeFollower")}
                                           </>
                                         ) : user.isFriend ? (
                                           <>
