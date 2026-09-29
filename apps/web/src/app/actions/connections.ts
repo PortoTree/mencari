@@ -1,7 +1,7 @@
 "use server";
 
 import { PrismaClient } from "@prisma/client";
-import { revalidateTag } from "next/cache";
+import { updateTag } from "next/cache";
 import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
@@ -110,8 +110,8 @@ export async function handlePrimaryConnectionAction(token: string, currentUserId
       }
     }
 
-    revalidateTag(`profile-${currentUserId}`);
-    revalidateTag(`profile-${targetUserId}`);
+    updateTag(`profile-${currentUserId}`);
+    updateTag(`profile-${targetUserId}`);
     return { success: true };
   } catch (error) {
     console.error("Error in primary connection action:", error);
@@ -146,8 +146,8 @@ export async function toggleFollow(token: string, followerId: string, followingI
       await prisma.follow.delete({
         where: { id: existingFollow.id }
       });
-      revalidateTag(`profile-${followerId}`);
-      revalidateTag(`profile-${followingId}`);
+      updateTag(`profile-${followerId}`);
+      updateTag(`profile-${followingId}`);
       return { success: true, isFollowing: false };
     } else {
       // Follow
@@ -157,8 +157,8 @@ export async function toggleFollow(token: string, followerId: string, followingI
           followingId
         }
       });
-      revalidateTag(`profile-${followerId}`);
-      revalidateTag(`profile-${followingId}`);
+      updateTag(`profile-${followerId}`);
+      updateTag(`profile-${followingId}`);
       return { success: true, isFollowing: true };
     }
   } catch (error) {
@@ -213,8 +213,8 @@ export async function sendFriendRequest(token: string, userId: string, friendId:
       }
     });
     
-    revalidateTag(`profile-${userId}`);
-    revalidateTag(`profile-${friendId}`);
+    updateTag(`profile-${userId}`);
+    updateTag(`profile-${friendId}`);
     return { success: true };
   } catch (error) {
     console.error("Error sending friend request:", error);
@@ -252,8 +252,8 @@ export async function respondFriendRequest(token: string, userId: string, friend
       });
     }
 
-    revalidateTag(`profile-${userId}`);
-    revalidateTag(`profile-${friendId}`);
+    updateTag(`profile-${userId}`);
+    updateTag(`profile-${friendId}`);
     return { success: true };
   } catch (error) {
     console.error("Error responding to friend request:", error);
@@ -282,8 +282,8 @@ export async function toggleBlock(token: string, userId: string, blockedUserId: 
       await prisma.block.delete({
         where: { id: existing.id }
       });
-      revalidateTag(`profile-${userId}`);
-      revalidateTag(`profile-${blockedUserId}`);
+      updateTag(`profile-${userId}`);
+      updateTag(`profile-${blockedUserId}`);
       return { success: true, isBlocked: false };
     } else {
       // Block - also remove any friendship or follow
@@ -309,8 +309,8 @@ export async function toggleBlock(token: string, userId: string, blockedUserId: 
         })
       ]);
       
-      revalidateTag(`profile-${userId}`);
-      revalidateTag(`profile-${blockedUserId}`);
+      updateTag(`profile-${userId}`);
+      updateTag(`profile-${blockedUserId}`);
       return { success: true, isBlocked: true };
     }
   } catch (error) {
