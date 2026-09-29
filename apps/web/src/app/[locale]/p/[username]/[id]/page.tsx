@@ -414,61 +414,63 @@ export default function ProfilePage({
             </div>
 
               {/* Reputasi Card */}
-              <div className="w-full shrink-0 bg-gradient-to-br from-blue-900 to-slate-900 border border-blue-800/30 rounded-[30px] p-5 flex flex-col justify-between shadow-lg">
-                <div className="flex items-center gap-4">
-                  <div className="relative">
-                    {/* Reputasi Logo */}
-                    <div className="w-[70px] h-[70px] shrink-0">
-                       <img src="/reputasi.png" alt={t("reputation")} className="w-full h-full object-contain drop-shadow-md" />
+              {profileData?.type === "BUSINESS" && (
+                <div className="w-full shrink-0 bg-gradient-to-br from-blue-900 to-slate-900 border border-blue-800/30 rounded-[30px] p-5 flex flex-col justify-between shadow-lg">
+                  <div className="flex items-center gap-4">
+                    <div className="relative">
+                      {/* Reputasi Logo */}
+                      <div className="w-[70px] h-[70px] shrink-0">
+                         <img src="/reputasi.png" alt={t("reputation")} className="w-full h-full object-contain drop-shadow-md" />
+                      </div>
+                    </div>
+                    <div className="text-white flex flex-col justify-center">
+                    <p className="font-bold text-[18px] leading-none mb-1.5 tracking-wide">{isOwnProfile ? t("yourPoints") : `@${username}`}</p>
+                    <div className="flex items-center gap-1.5 mt-1">
+                      <p className="font-extrabold text-[22px] leading-none tracking-wide">1.238</p>
+                      <img
+                          src="/review.png"
+                          alt="Star"
+                          className="w-6 h-6 object-contain mb-0.5 shrink-0"
+                        />
                     </div>
                   </div>
-                  <div className="text-white flex flex-col justify-center">
-                  <p className="font-bold text-[18px] leading-none mb-1.5 tracking-wide">{isOwnProfile ? t("yourPoints") : `@${username}`}</p>
-                  <div className="flex items-center gap-1.5 mt-1">
-                    <p className="font-extrabold text-[22px] leading-none tracking-wide">1.238</p>
-                    <img
-                        src="/review.png"
-                        alt="Star"
-                        className="w-6 h-6 object-contain mb-0.5 shrink-0"
-                      />
-                  </div>
                 </div>
-              </div>
 
-              <div className="space-y-3 mt-6">
-                <div className="flex gap-2">
-                  <button className="flex-1 bg-gray-600 hover:bg-gray-500 text-white font-semibold py-1.5 rounded-full text-[13px] transition-colors">
-                    {isOwnProfile ? t("howItWorks") : t("check")}
-                  </button>
-                  {isOwnProfile ? (
-                    <div className="flex-1 flex items-center justify-center border border-red-500/70 rounded-full py-1.5">
-                      <span className="text-red-500 font-medium text-[13px]">{t("notActive")}</span>
-                    </div>
-                  ) : (
-                    <button className="flex-1 bg-gradient-to-b from-red-600 to-red-900 hover:from-red-500 hover:to-red-800 border-t border-red-500 text-white font-semibold py-1.5 rounded-full text-[13px] shadow-sm transition-colors">
-                      {t("report")}
+                <div className="space-y-3 mt-6">
+                  <div className="flex gap-2">
+                    <button className="flex-1 bg-gray-600 hover:bg-gray-500 text-white font-semibold py-1.5 rounded-full text-[13px] transition-colors">
+                      {isOwnProfile ? t("howItWorks") : t("check")}
                     </button>
-                  )}
-                </div>
-                <ShinyButton
-                  variant={isOwnProfile ? "green" : "reputation"}
-                  hoverText={
-                    isOwnProfile ? (
-                      t("activateNow")
+                    {isOwnProfile ? (
+                      <div className="flex-1 flex items-center justify-center border border-red-500/70 rounded-full py-1.5">
+                        <span className="text-red-500 font-medium text-[13px]">{t("notActive")}</span>
+                      </div>
                     ) : (
-                      <span className="inline-flex items-center gap-1.5">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                        </svg>
-                        <span>{t("addReputation")}</span>
-                      </span>
-                    )
-                  }
-                >
-                  {isOwnProfile ? t("activate") : t("reputation")}
-                </ShinyButton>
-              </div>
-              </div>
+                      <button className="flex-1 bg-gradient-to-b from-red-600 to-red-900 hover:from-red-500 hover:to-red-800 border-t border-red-500 text-white font-semibold py-1.5 rounded-full text-[13px] shadow-sm transition-colors">
+                        {t("report")}
+                      </button>
+                    )}
+                  </div>
+                  <ShinyButton
+                    variant={isOwnProfile ? "green" : "reputation"}
+                    hoverText={
+                      isOwnProfile ? (
+                        t("activateNow")
+                      ) : (
+                        <span className="inline-flex items-center gap-1.5">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                          </svg>
+                          <span>{t("addReputation")}</span>
+                        </span>
+                      )
+                    }
+                  >
+                    {isOwnProfile ? t("activate") : t("reputation")}
+                  </ShinyButton>
+                </div>
+                </div>
+              )}
 
               {/* View Details Button */}
               <button 
