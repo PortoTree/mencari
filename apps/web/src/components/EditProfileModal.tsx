@@ -642,18 +642,18 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   ];
 
   const privacySettings = [
-    { label: t("privacyAccount"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyAccount, setState: setPrivacyAccount },
-    { label: t("privacyDob"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyBirth, setState: setPrivacyBirth },
-    { label: t("privacyLoc"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyLoc, setState: setPrivacyLoc },
-    { label: t("privacyFriendList"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyFriendList, setState: setPrivacyFriendList },
-    { label: t("privacyFollowers"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyFollowers, setState: setPrivacyFollowers },
-    { label: t("privacyComment"), options: [t("public"), t("friendsOnly"), t("turnOff")], state: privacyComment, setState: setPrivacyComment },
-    { label: t("privacyDM"), options: [t("allow"), t("disallow")], state: privacyDM, setState: setPrivacyDM },
-    { label: t("privacyTag"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyTag, setState: setPrivacyTag },
-    { label: t("privacyOnline"), options: [t("public"), t("friendsOnly"), t("turnOff")], state: privacyOnline, setState: setPrivacyOnline },
-    { label: t("privacyActivity"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyActivity, setState: setPrivacyActivity },
-    { label: t("privacyOwnedGroups"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyOwnedGroups, setState: setPrivacyOwnedGroups },
-    { label: t("privacyJoinedGroups"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyJoinedGroups, setState: setPrivacyJoinedGroups },
+    { label: t("privacyAccount"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyAccount, setState: setPrivacyAccount, key: "profileVisibility" },
+    { label: t("privacyDob"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyBirth, setState: setPrivacyBirth, key: "privacyBirth" },
+    { label: t("privacyLoc"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyLoc, setState: setPrivacyLoc, key: "privacyLoc" },
+    { label: t("privacyFriendList"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyFriendList, setState: setPrivacyFriendList, key: "privacyFriendList" },
+    { label: t("privacyFollowers"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyFollowers, setState: setPrivacyFollowers, key: "privacyFollowers" },
+    { label: t("privacyComment"), options: [t("public"), t("friendsOnly"), t("turnOff")], state: privacyComment, setState: setPrivacyComment, key: "privacyComment" },
+    { label: t("privacyDM"), options: [t("allow"), t("disallow")], state: privacyDM, setState: setPrivacyDM, key: "privacyDM" },
+    { label: t("privacyTag"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyTag, setState: setPrivacyTag, key: "privacyTag" },
+    { label: t("privacyOnline"), options: [t("public"), t("friendsOnly"), t("turnOff")], state: privacyOnline, setState: setPrivacyOnline, key: "privacyOnline" },
+    { label: t("privacyActivity"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyActivity, setState: setPrivacyActivity, key: "privacyActivity" },
+    { label: t("privacyOwnedGroups"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyOwnedGroups, setState: setPrivacyOwnedGroups, key: "privacyOwnedGroups" },
+    { label: t("privacyJoinedGroups"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyJoinedGroups, setState: setPrivacyJoinedGroups, key: "privacyJoinedGroups" },
   ];
 
   return (
@@ -1451,15 +1451,27 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                 {privacySettings.map((item, idx) => (
                   <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-gray-50 dark:bg-[#3A3B3C]/40 border border-gray-100 dark:border-gray-700/50 hover:border-[#10B981]/30 transition-colors">
                     <label className="text-sm font-semibold text-gray-700 dark:text-gray-200">{item.label}</label>
-                    <CustomSelect className="w-full sm:w-[160px]" options={item.options} value={item.state} onChange={item.setState} getIcon={getPrivacyIcon} />
+                    <CustomSelect 
+                      className="w-full sm:w-[160px]" 
+                      options={item.options} 
+                      value={item.state} 
+                      onChange={(val) => {
+                        item.setState(val);
+                        let mappedVal: string | boolean = "PUBLIC";
+                        if (val === t("private")) mappedVal = "PRIVATE";
+                        else if (val === t("friendsOnly")) mappedVal = "FRIENDS";
+                        else if (val === t("turnOff")) mappedVal = "TURN_OFF";
+                        
+                        if (item.key === "privacyDM") {
+                          mappedVal = val === t("allow") ? true : false;
+                        }
+                        
+                        handleSaveInfo(() => {}, { [item.key]: mappedVal });
+                      }} 
+                      getIcon={getPrivacyIcon} 
+                    />
                   </div>
                 ))}
-
-                <div className="flex justify-end pt-4">
-                  <button onClick={() => handleSaveInfo(() => {})} disabled={isUpdatingInfo} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm disabled:opacity-50 flex gap-2">
-                    {isUpdatingInfo ? "..." : t("save")}
-                  </button>
-                </div>
 
                 <div className="mt-8 border-t border-gray-200 dark:border-gray-700 pt-6">
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t("blockedAccounts", { fallback: "Akun yang Diblokir" })}</h3>
