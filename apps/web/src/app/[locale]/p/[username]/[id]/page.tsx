@@ -171,11 +171,13 @@ export default function ProfilePage({
   }, [isDarkMode, themeLoaded]);
 
   useEffect(() => {
+    let currentId: string | null = null;
     const token = localStorage.getItem("token");
     if (token) {
       try {
         const payload = JSON.parse(atob(token.split(".")[1]));
         const userId = payload.sub || payload.id || payload._id || payload.userId || "1";
+        currentId = userId;
         if (payload.username || payload.name) {
           setCurrentUser({
             id: userId,
@@ -191,28 +193,21 @@ export default function ProfilePage({
     
     // Fetch real profile data to populate initial images and details
     // We use `id` from the URL, NOT `userId` from the token!
-    getProfile(id).then(res => {
+    const profilePromise = getProfile(id);
+    const connectionPromise = currentId 
+      ? getConnectionStatus(currentId, id) 
+      : Promise.resolve({ friendshipStatus: null, isFollowing: false, isBlocked: false });
+
+    Promise.all([profilePromise, connectionPromise]).then(([res, status]) => {
       if (res.success && res.profile) {
         if (res.profile.avatarUrl) setAvatarPreview(res.profile.avatarUrl);
         if (res.profile.coverUrl) setCoverPreview(res.profile.coverUrl);
         if (res.profile.displayName) setDisplayName(res.profile.displayName);
         setProfileData(res.profile);
       }
+      setConnectionStatus(status);
       setIsLoadingProfile(false);
     });
-
-    const checkConnection = async (currentId: string) => {
-      const status = await getConnectionStatus(currentId, id);
-      setConnectionStatus(status);
-    };
-
-    if (token) {
-      try {
-        const payload = JSON.parse(atob(token.split(".")[1]));
-        const currentId = payload.sub || payload.id || payload._id || payload.userId || "1";
-        checkConnection(currentId);
-      } catch (e) {}
-    }
 
     setThemeLoaded(true);
   }, [id]);
@@ -783,6 +778,12 @@ export default function ProfilePage({
                     </svg>
                     {t("editProfile")}
                   </button>
+                ) : isLoadingProfile ? (
+                  <>
+                    <div className="w-[100px] h-9 bg-gray-200 dark:bg-[#3A3B3C] rounded-full animate-pulse"></div>
+                    <div className="w-[80px] h-9 bg-gray-200 dark:bg-[#3A3B3C] rounded-full animate-pulse"></div>
+                    <div className="w-9 h-9 bg-gray-200 dark:bg-[#3A3B3C] rounded-full animate-pulse"></div>
+                  </>
                 ) : (
                   <>
                     {!isProfileInaccessible && (
