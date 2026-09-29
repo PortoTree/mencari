@@ -204,6 +204,13 @@ export default function ProfilePage({
         newStatus.friendshipStatus = null;
         newStatus.isFollowing = false;
         newFollowers = Math.max(0, newFollowers - 1);
+        if (newProfile?.user?._count) {
+          if ((newProfile.user._count.friendshipsAsUser || 0) > 0) {
+            newProfile.user._count.friendshipsAsUser -= 1;
+          } else if ((newProfile.user._count.friendshipsAsFriend || 0) > 0) {
+            newProfile.user._count.friendshipsAsFriend -= 1;
+          }
+        }
       } else if (connectionStatus.friendshipStatus === "PENDING") {
         if (connectionStatus.friendshipRequestedBy !== currentUser.id) {
           // 2. Accept Request
@@ -211,6 +218,9 @@ export default function ProfilePage({
           if (!connectionStatus.isFollowing) {
             newStatus.isFollowing = true;
             newFollowers += 1;
+          }
+          if (newProfile?.user?._count) {
+            newProfile.user._count.friendshipsAsFriend = (newProfile.user._count.friendshipsAsFriend || 0) + 1;
           }
         } else {
           // 3. Cancel Request
