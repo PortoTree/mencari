@@ -2,8 +2,20 @@
 
 import { PrismaClient } from "@prisma/client";
 import { revalidateTag } from "next/cache";
+import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
+
+const verifyToken = (token: string, expectedUserId: string) => {
+  if (!token) return false;
+  try {
+    const secret = process.env.JWT_SECRET || 'mencari-online-secret-key-dev';
+    const decoded = jwt.verify(token, secret) as any;
+    return decoded.sub === expectedUserId;
+  } catch (error) {
+    return false;
+  }
+};
 
 import { unstable_cache } from "next/cache";
 
@@ -42,7 +54,8 @@ export const getProfile = async (userId: string) => {
   }
 };
 
-export async function updateDisplayName(userId: string, newDisplayName: string) {
+export async function updateDisplayName(token: string, userId: string, newDisplayName: string) {
+  if (!verifyToken(token, userId)) return { success: false, error: "Unauthorized" };
   try {
     const profile = await prisma.profile.findUnique({
       where: { userId },
@@ -81,7 +94,8 @@ export async function updateDisplayName(userId: string, newDisplayName: string) 
   }
 }
 
-export async function updateProfileMedia(userId: string, type: "avatar" | "cover", url: string) {
+export async function updateProfileMedia(token: string, userId: string, type: "avatar" | "cover", url: string) {
+  if (!verifyToken(token, userId)) return { success: false, error: "Unauthorized" };
   try {
     if (type === "avatar") {
       await prisma.profile.update({
@@ -105,7 +119,8 @@ export async function updateProfileMedia(userId: string, type: "avatar" | "cover
   }
 }
 
-export async function updateProfileInfo(userId: string, data: any) {
+export async function updateProfileInfo(token: string, userId: string, data: any) {
+  if (!verifyToken(token, userId)) return { success: false, error: "Unauthorized" };
   try {
     const { bio, locationName, websiteUrl, externalLinks, socialLinks, education, profession, gender, birthDate, softSkills, hardSkills, softwareSkills, hobbies, music, tvShows, movies, games, sports, type } = data;
     

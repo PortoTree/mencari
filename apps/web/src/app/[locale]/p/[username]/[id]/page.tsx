@@ -81,7 +81,8 @@ export default function ProfilePage({
     try {
       const cloudinaryUrl = await uploadToCloudinary(croppedUrl);
       if (currentUser?.id) {
-        await updateProfileMedia(currentUser.id, cropType, cloudinaryUrl);
+        const token = localStorage.getItem("token") || "";
+        await updateProfileMedia(token, currentUser.id, cropType, cloudinaryUrl);
       }
     } catch (error) {
       console.error("Failed to save image:", error);

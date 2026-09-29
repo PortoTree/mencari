@@ -289,7 +289,8 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
     }
     
     setIsUpdatingName(true);
-    const res = await updateDisplayName(currentUser.id, draftDisplayName);
+    const token = localStorage.getItem("token") || "";
+    const res = await updateDisplayName(token, currentUser.id, draftDisplayName);
     setIsUpdatingName(false);
     
     if (res.success) {
@@ -335,7 +336,8 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
     const validLinks = externalLinks.filter(l => l.url.trim() !== "");
     const validSocials = socialLinks.filter(s => s.url.trim() !== "");
     
-    const res = await updateProfileInfo(currentUser.id, {
+    const token = localStorage.getItem("token") || "";
+    const res = await updateProfileInfo(token, currentUser.id, {
       bio: bioText,
       locationName,
       websiteUrl: validLinks.length > 0 ? validLinks[0].url : "",
@@ -443,7 +445,8 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
     try {
       const cloudinaryUrl = await uploadToCloudinary(croppedUrl);
       if (currentUser?.id) {
-        await updateProfileMedia(currentUser.id, cropType, cloudinaryUrl);
+        const token = localStorage.getItem("token") || "";
+        await updateProfileMedia(token, currentUser.id, cropType, cloudinaryUrl);
       }
     } catch (error) {
       console.error("Failed to save image:", error);
