@@ -871,9 +871,9 @@ export default function ProfilePage({
               {/* Main Profile Content Area */}
               {!isProfileInaccessible ? (
                 <>
-                  <div className="w-full max-w-[590px] mx-auto mt-4 mb-2">
+                  <div className="w-full max-w-[590px] mx-auto mt-4 mb-2 min-h-[480px] flex flex-col">
                     {activeStatTab ? (
-                      <div>
+                      <div className="flex flex-col flex-1">
                         <div className="flex items-center justify-between mb-4 px-1 sticky top-0 bg-[#F3F2EF] dark:bg-[#18191A] z-10 py-1">
                           <div className="relative flex-1 max-w-[240px]">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -902,30 +902,30 @@ export default function ProfilePage({
                           ))}
                         </div>
                         {dummyStatsUsers.length > 8 && (
-                          <div className="flex justify-between items-center mt-6 px-2">
+                          <div className="flex justify-center items-center mt-auto pt-6 px-2 gap-4">
                             <button 
                               disabled={statPage === 1}
                               onClick={() => setStatPage(p => p - 1)}
-                              className="px-4 py-2 rounded-full bg-gray-200 dark:bg-[#3A3B3C] text-gray-700 dark:text-gray-200 text-sm font-semibold hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                              className="p-2 rounded-full bg-gray-200 dark:bg-[#3A3B3C] text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                              Kembali
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
                             </button>
                             <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">Halaman {statPage}</span>
                             <button 
                               disabled={statPage * 8 >= dummyStatsUsers.length}
                               onClick={() => setStatPage(p => p + 1)}
-                              className="px-4 py-2 rounded-full bg-gray-200 dark:bg-[#3A3B3C] text-gray-700 dark:text-gray-200 text-sm font-semibold hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                              className="p-2 rounded-full bg-gray-200 dark:bg-[#3A3B3C] text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                              Lanjut
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
                             </button>
                           </div>
                         )}
                       </div>
                     ) : (
-                      <div className="flex flex-col gap-6">
+                      <div className="flex flex-col gap-6 flex-1">
                         {/* 1. Grup yang kamu buat */}
                         {(!expandedGroupTab || expandedGroupTab === 'managed') && (
-                          <div>
+                          <div className="flex flex-col flex-1">
                             <div className="flex items-center justify-between mb-3 px-1">
                               <h3 className="text-[15px] font-bold text-black dark:text-white flex items-center gap-2">
                                 <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
@@ -936,13 +936,13 @@ export default function ProfilePage({
                                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                                 </button>
                               ) : (
-                                dummyManagedGroups.length > 3 && (
+                                dummyManagedGroups.length > 2 && (
                                   <button onClick={() => { setExpandedGroupTab('managed'); setGroupPage(1); }} className="text-[13px] font-bold text-[#10B981] hover:text-emerald-700 transition-colors">{t("seeAll") || "Lihat Semua"}</button>
                                 )
                               )}
                             </div>
                             <div className="flex flex-col gap-2">
-                              {dummyManagedGroups.slice(expandedGroupTab === 'managed' ? (groupPage - 1) * 6 : 0, expandedGroupTab === 'managed' ? groupPage * 6 : 3).map((group, idx) => (
+                              {dummyManagedGroups.slice(expandedGroupTab === 'managed' ? (groupPage - 1) * 6 : 0, expandedGroupTab === 'managed' ? groupPage * 6 : 2).map((group, idx) => (
                                 <div key={idx} className="flex items-center justify-between p-3 rounded-2xl bg-white/40 dark:bg-[#242526]/40 border border-gray-100 dark:border-white/5 hover:bg-white dark:hover:bg-[#2A2B2C] hover:shadow-sm transition-all cursor-pointer group">
                                   <div className="flex items-center gap-3">
                                     <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${group.color} flex items-center justify-center text-white font-bold shadow-sm group-hover:scale-105 transition-transform`}>
@@ -991,21 +991,21 @@ export default function ProfilePage({
                               ))}
                             </div>
                             {expandedGroupTab === 'managed' && dummyManagedGroups.length > 6 && (
-                              <div className="flex justify-between items-center mt-6 px-2">
+                              <div className="flex justify-center items-center mt-auto pt-6 px-2 gap-4">
                                 <button 
                                   disabled={groupPage === 1}
                                   onClick={() => setGroupPage(p => p - 1)}
-                                  className="px-4 py-2 rounded-full bg-gray-200 dark:bg-[#3A3B3C] text-gray-700 dark:text-gray-200 text-sm font-semibold hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                  className="p-2 rounded-full bg-gray-200 dark:bg-[#3A3B3C] text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                  Kembali
+                                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
                                 </button>
                                 <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">Halaman {groupPage}</span>
                                 <button 
                                   disabled={groupPage * 6 >= dummyManagedGroups.length}
                                   onClick={() => setGroupPage(p => p + 1)}
-                                  className="px-4 py-2 rounded-full bg-gray-200 dark:bg-[#3A3B3C] text-gray-700 dark:text-gray-200 text-sm font-semibold hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                  className="p-2 rounded-full bg-gray-200 dark:bg-[#3A3B3C] text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                  Lanjut
+                                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
                                 </button>
                               </div>
                             )}
@@ -1014,7 +1014,7 @@ export default function ProfilePage({
 
                         {/* 2. Komunitas yang diikuti */}
                         {(!expandedGroupTab || expandedGroupTab === 'joined') && (
-                          <div className={expandedGroupTab ? "" : "w-full mt-2"}>
+                          <div className={`flex flex-col flex-1 ${expandedGroupTab ? "" : "w-full mt-2"}`}>
                             <div className="flex items-center justify-between mb-3 px-1">
                               <h3 className="text-[15px] font-bold text-black dark:text-white flex items-center gap-2">
                                 <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
@@ -1025,14 +1025,14 @@ export default function ProfilePage({
                                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                                 </button>
                               ) : (
-                                dummyJoinedGroups.length > 3 && (
+                                dummyJoinedGroups.length > 2 && (
                                   <button onClick={() => { setExpandedGroupTab('joined'); setGroupPage(1); }} className="text-[13px] font-bold text-[#10B981] hover:text-emerald-700 transition-colors">{t("seeAll") || "Lihat Semua"}</button>
                                 )
                               )}
                             </div>
                             
                             <div className="flex flex-col gap-2">
-                              {dummyJoinedGroups.slice(expandedGroupTab === 'joined' ? (groupPage - 1) * 6 : 0, expandedGroupTab === 'joined' ? groupPage * 6 : 3).map((group, idx) => (
+                              {dummyJoinedGroups.slice(expandedGroupTab === 'joined' ? (groupPage - 1) * 6 : 0, expandedGroupTab === 'joined' ? groupPage * 6 : 2).map((group, idx) => (
                                 <div key={idx} className="flex items-center justify-between p-3 rounded-2xl bg-white/40 dark:bg-[#242526]/40 border border-gray-100 dark:border-white/5 hover:bg-white dark:hover:bg-[#2A2B2C] hover:shadow-sm transition-all cursor-pointer group">
                                   <div className="flex items-center gap-3">
                                     <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${group.color} flex items-center justify-center text-white font-bold shadow-sm group-hover:scale-105 transition-transform`}>
@@ -1072,21 +1072,21 @@ export default function ProfilePage({
                               ))}
                             </div>
                             {expandedGroupTab === 'joined' && dummyJoinedGroups.length > 6 && (
-                              <div className="flex justify-between items-center mt-6 px-2">
+                              <div className="flex justify-center items-center mt-auto pt-6 px-2 gap-4">
                                 <button 
                                   disabled={groupPage === 1}
                                   onClick={() => setGroupPage(p => p - 1)}
-                                  className="px-4 py-2 rounded-full bg-gray-200 dark:bg-[#3A3B3C] text-gray-700 dark:text-gray-200 text-sm font-semibold hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                  className="p-2 rounded-full bg-gray-200 dark:bg-[#3A3B3C] text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                  Kembali
+                                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
                                 </button>
                                 <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">Halaman {groupPage}</span>
                                 <button 
                                   disabled={groupPage * 6 >= dummyJoinedGroups.length}
                                   onClick={() => setGroupPage(p => p + 1)}
-                                  className="px-4 py-2 rounded-full bg-gray-200 dark:bg-[#3A3B3C] text-gray-700 dark:text-gray-200 text-sm font-semibold hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                  className="p-2 rounded-full bg-gray-200 dark:bg-[#3A3B3C] text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                  Lanjut
+                                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
                                 </button>
                               </div>
                             )}
