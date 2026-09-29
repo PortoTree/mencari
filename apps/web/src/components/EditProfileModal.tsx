@@ -1455,6 +1455,12 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                   </div>
                 ))}
 
+                <div className="flex justify-end pt-4">
+                  <button onClick={() => handleSaveInfo(() => {})} disabled={isUpdatingInfo} className="px-5 py-2 rounded-xl bg-gray-800 dark:bg-gray-600 text-white font-bold hover:bg-gray-900 dark:hover:bg-gray-500 transition-colors text-sm disabled:opacity-50 flex gap-2">
+                    {isUpdatingInfo ? "..." : t("save")}
+                  </button>
+                </div>
+
                 <div className="mt-8 border-t border-gray-200 dark:border-gray-700 pt-6">
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{t("blockedAccounts", { fallback: "Akun yang Diblokir" })}</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{t("blockedAccountsDesc", { fallback: "Daftar pengguna yang telah Anda blokir. Mereka tidak dapat melihat profil Anda atau berinteraksi dengan Anda." })}</p>
