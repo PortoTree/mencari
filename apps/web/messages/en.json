@@ -424,7 +424,12 @@
     "friendsHidden": "Friends list is hidden",
     "followersHidden": "Followers list is hidden",
     "friendsHiddenDesc": "This user hides their friends list.",
-    "followersHiddenDesc": "This user hides their followers list."
+    "followersHiddenDesc": "This user hides their followers list.",
+    "viewProfile": "View profile",
+    "removeFriend": "Remove friend",
+    "removeFollower": "Remove follower",
+    "reportAccount": "Report account",
+    "blockAccount": "Block account"
   },
   "editProfile": {
     "title": "Edit Profile",

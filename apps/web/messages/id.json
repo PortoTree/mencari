@@ -430,7 +430,12 @@
     "friendsHidden": "Daftar teman disembunyikan",
     "followersHidden": "Daftar followers disembunyikan",
     "friendsHiddenDesc": "Pengguna ini menyembunyikan daftar temannya.",
-    "followersHiddenDesc": "Pengguna ini menyembunyikan daftar pengikutnya."
+    "followersHiddenDesc": "Pengguna ini menyembunyikan daftar pengikutnya.",
+    "viewProfile": "Lihat profil",
+    "removeFriend": "Hapus pertemanan",
+    "removeFollower": "Hapus pengikut",
+    "reportAccount": "Laporkan akun",
+    "blockAccount": "Blokir akun"
   },
   "editProfile": {
     "title": "Edit Profil",
