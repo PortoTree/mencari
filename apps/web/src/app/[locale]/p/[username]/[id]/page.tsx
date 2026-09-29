@@ -772,39 +772,39 @@ export default function ProfilePage({
               <div className="flex items-center gap-6 sm:gap-10">
                   <div 
                     onClick={() => { 
-                      if (!isProfileInaccessible && isVisible(settings?.privacyFollowers)) {
+                      if (!isProfileInaccessible) {
                         setActiveStatTab(activeStatTab === 'followers' ? null : 'followers'); 
                         setStatPage(1); 
                         setStatSearchQuery(""); 
                       }
                     }}
-                    className={`flex flex-col items-center ${!isProfileInaccessible && isVisible(settings?.privacyFollowers) ? 'cursor-pointer group' : ''}`}
+                    className={`flex flex-col items-center ${!isProfileInaccessible ? 'cursor-pointer group' : ''}`}
                   >
-                    <span className={`text-[14px] font-medium transition-colors ${activeStatTab === 'followers' ? 'text-black dark:text-white' : 'text-gray-500 dark:text-gray-400'} ${!isProfileInaccessible && isVisible(settings?.privacyFollowers) ? 'group-hover:text-black dark:group-hover:text-white' : ''}`}>{t("followers")}</span>
+                    <span className={`text-[14px] font-medium transition-colors ${activeStatTab === 'followers' ? 'text-black dark:text-white' : 'text-gray-500 dark:text-gray-400'} ${!isProfileInaccessible ? 'group-hover:text-black dark:group-hover:text-white' : ''}`}>{t("followers")}</span>
                     {isLoadingProfile ? (
                       <div className="w-6 h-6 bg-gray-300 dark:bg-[#3E4042] rounded animate-pulse mt-0.5"></div>
                     ) : (
                       <span className="text-[18px] font-bold mt-0.5 text-black dark:text-white">
-                        {isProfileInaccessible || !isVisible(settings?.privacyFollowers) ? "-" : profileData?.user?._count?.followers || 0}
+                        {isProfileInaccessible ? "-" : profileData?.user?._count?.followers || 0}
                       </span>
                     )}
                   </div>
                   <div 
                     onClick={() => { 
-                      if (!isProfileInaccessible && isVisible(settings?.privacyFriendList)) {
+                      if (!isProfileInaccessible) {
                         setActiveStatTab(activeStatTab === 'friends' ? null : 'friends'); 
                         setStatPage(1); 
                         setStatSearchQuery(""); 
                       }
                     }}
-                    className={`flex flex-col items-center ${!isProfileInaccessible && isVisible(settings?.privacyFriendList) ? 'cursor-pointer group' : ''}`}
+                    className={`flex flex-col items-center ${!isProfileInaccessible ? 'cursor-pointer group' : ''}`}
                   >
-                    <span className={`text-[14px] font-medium transition-colors ${activeStatTab === 'friends' ? 'text-black dark:text-white' : 'text-gray-500 dark:text-gray-400'} ${!isProfileInaccessible && isVisible(settings?.privacyFriendList) ? 'group-hover:text-black dark:group-hover:text-white' : ''}`}>{t("friends")}</span>
+                    <span className={`text-[14px] font-medium transition-colors ${activeStatTab === 'friends' ? 'text-black dark:text-white' : 'text-gray-500 dark:text-gray-400'} ${!isProfileInaccessible ? 'group-hover:text-black dark:group-hover:text-white' : ''}`}>{t("friends")}</span>
                     {isLoadingProfile ? (
                       <div className="w-6 h-6 bg-gray-300 dark:bg-[#3E4042] rounded animate-pulse mt-0.5"></div>
                     ) : (
                       <span className="text-[18px] font-bold mt-0.5 text-black dark:text-white">
-                        {isProfileInaccessible || !isVisible(settings?.privacyFriendList) ? "-" : (profileData?.user?._count?.friendshipsAsUser || 0) + (profileData?.user?._count?.friendshipsAsFriend || 0)}
+                        {isProfileInaccessible ? "-" : (profileData?.user?._count?.friendshipsAsUser || 0) + (profileData?.user?._count?.friendshipsAsFriend || 0)}
                       </span>
                     )}
                   </div>
@@ -928,14 +928,24 @@ export default function ProfilePage({
                           </button>
                         </div>
                         
-                        {statsUsers.length === 0 ? (
+                        {(activeStatTab === 'friends' && !isVisible(settings?.privacyFriendList)) || (activeStatTab === 'followers' && !isVisible(settings?.privacyFollowers)) ? (
+                          <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
+                            <svg className="w-16 h-16 text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                            <p className="text-[15px] font-bold text-gray-800 dark:text-gray-200 mb-1">
+                              {activeStatTab === 'friends' ? (t("friendsHidden") || "Daftar teman disembunyikan") : (t("followersHidden") || "Daftar followers disembunyikan")}
+                            </p>
+                            <p className="text-[13px] text-gray-500 dark:text-gray-400 max-w-[280px]">
+                              {activeStatTab === 'friends' ? (t("friendsHiddenDesc") || "Pengguna ini menyembunyikan daftar temannya.") : (t("followersHiddenDesc") || "Pengguna ini menyembunyikan daftar pengikutnya.")}
+                            </p>
+                          </div>
+                        ) : statsUsers.length === 0 ? (
                           <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
                             <svg className="w-16 h-16 text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                             <p className="text-[15px] font-bold text-gray-800 dark:text-gray-200 mb-1">
                               {activeStatTab === 'friends' ? (t("noFriends") || "Tidak ada daftar pertemanan") : (t("noFollowers") || "Tidak ada daftar pengikut")}
                             </p>
                             <p className="text-[13px] text-gray-500 dark:text-gray-400 max-w-[280px]">
-                              {activeStatTab === 'friends' ? "Pengguna ini belum memiliki teman atau pertemanan belum disetujui." : "Pengguna ini belum memiliki pengikut saat ini."}
+                              {activeStatTab === 'friends' ? (t("noFriendsDesc") || "Pengguna ini belum memiliki teman atau pertemanan belum disetujui.") : (t("noFollowersDesc") || "Pengguna ini belum memiliki pengikut saat ini.")}
                             </p>
                           </div>
                         ) : (

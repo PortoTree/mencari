@@ -426,7 +426,11 @@
     "noFriends": "Tidak ada daftar pertemanan",
     "noFollowers": "Tidak ada daftar pengikut",
     "noFriendsDesc": "Pengguna ini belum memiliki teman atau pertemanan belum disetujui.",
-    "noFollowersDesc": "Pengguna ini belum memiliki pengikut saat ini."
+    "noFollowersDesc": "Pengguna ini belum memiliki pengikut saat ini.",
+    "friendsHidden": "Daftar teman disembunyikan",
+    "followersHidden": "Daftar followers disembunyikan",
+    "friendsHiddenDesc": "Pengguna ini menyembunyikan daftar temannya.",
+    "followersHiddenDesc": "Pengguna ini menyembunyikan daftar pengikutnya."
   },
   "editProfile": {
     "title": "Edit Profil",

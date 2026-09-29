@@ -420,7 +420,11 @@
     "noFriends": "No friends list",
     "noFollowers": "No followers list",
     "noFriendsDesc": "This user does not have any friends or friendship requests haven't been accepted.",
-    "noFollowersDesc": "This user currently has no followers."
+    "noFollowersDesc": "This user currently has no followers.",
+    "friendsHidden": "Friends list is hidden",
+    "followersHidden": "Followers list is hidden",
+    "friendsHiddenDesc": "This user hides their friends list.",
+    "followersHiddenDesc": "This user hides their followers list."
   },
   "editProfile": {
     "title": "Edit Profile",
