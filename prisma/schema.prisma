@@ -30,6 +30,8 @@ model User {
   profile             Profile?
   profileSettings     ProfileSettings?
   socialLinks         UserSocialLink[]
+  notificationsReceived Notification[] @relation("NotificationRecipient")
+  notificationsSent     Notification[] @relation("NotificationSender")
 }
 
 model PendingUser {
@@ -153,7 +155,25 @@ model Post {
   author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
 
-
+model Notification {
+  id        String           @id @default(uuid())
+  type      NotificationType
+  isRead    Boolean          @default(false)
+  
+  // The user who receives the notification
+  userId    String
+  user      User             @relation("NotificationRecipient", fields: [userId], references: [id], onDelete: Cascade)
+  
+  // The user who triggered the notification (optional)
+  senderId  String?
+  sender    User?            @relation("NotificationSender", fields: [senderId], references: [id], onDelete: Cascade)
+  
+  // Optional relations to other entities (e.g. Post, Comment) when they exist
+  postId    String?
+  // post      Post?         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime         @default(now())
+}
 
 enum ProfileType {
   PERSONAL
@@ -180,4 +200,13 @@ enum PostType {
   QUESTION
   POLL
   ANNOUNCEMENT
+}
+
+enum NotificationType {
+  FOLLOW
+  FRIEND_REQUEST
+  FRIEND_ACCEPT
+  POST_LIKE
+  POST_COMMENT
+  COMMENT_REPLY
 }

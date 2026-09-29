@@ -17,36 +17,27 @@ const verifyToken = (token: string, expectedUserId: string) => {
   }
 };
 
-import { unstable_cache } from "next/cache";
-
 export const getProfile = async (userId: string) => {
-  const getCachedProfile = unstable_cache(
-    async (id: string) => {
-      return prisma.profile.findUnique({
-        where: { userId: id },
-        include: {
-          user: {
-            include: {
-              socialLinks: true,
-              _count: {
-                select: {
-                  followers: true,
-                  following: true,
-                  friendshipsAsUser: { where: { status: 'ACCEPTED' } },
-                  friendshipsAsFriend: { where: { status: 'ACCEPTED' } }
-                }
+  try {
+    const profile = await prisma.profile.findUnique({
+      where: { userId: userId },
+      include: {
+        user: {
+          include: {
+            socialLinks: true,
+            _count: {
+              select: {
+                followers: true,
+                following: true,
+                friendshipsAsUser: { where: { status: 'ACCEPTED' } },
+                friendshipsAsFriend: { where: { status: 'ACCEPTED' } }
               }
             }
           }
         }
-      });
-    },
-    [`profile-${userId}`],
-    { tags: [`profile-${userId}`], revalidate: 604800 } // 7 days
-  );
+      }
+    });
 
-  try {
-    const profile = await getCachedProfile(userId);
     return { success: true, profile };
   } catch (error) {
     console.error("Error fetching profile:", error);
@@ -122,7 +113,7 @@ export async function updateProfileMedia(token: string, userId: string, type: "a
 export async function updateProfileInfo(token: string, userId: string, data: any) {
   if (!verifyToken(token, userId)) return { success: false, error: "Unauthorized" };
   try {
-    const { bio, locationName, websiteUrl, externalLinks, socialLinks, education, profession, gender, birthDate, softSkills, hardSkills, softwareSkills, hobbies, music, tvShows, movies, games, sports, type } = data;
+    const { bio, locationName, websiteUrl, externalLinks, socialLinks, education, profession, gender, birthDate, softSkills, hardSkills, softwareSkills, hobbies, music, tvShows, movies, games, sports, type, profileVisibility } = data;
     
     // Validate platform and url for socialLinks
     let formattedSocialLinks: any[] = [];
@@ -165,9 +156,16 @@ export async function updateProfileInfo(token: string, userId: string, data: any
             }
           }
         } : {}),
-
       },
     });
+
+    if (profileVisibility) {
+      await prisma.profileSettings.upsert({
+        where: { userId },
+        create: { userId, profileVisibility },
+        update: { profileVisibility }
+      });
+    }
 
     // @ts-ignore
     revalidateTag(`profile-${userId}`);

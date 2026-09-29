@@ -12,9 +12,14 @@ Sebelum masuk ke fitur baru yang kompleks, kita wajib membereskan fondasi keaman
 
 ## Phase 1: Koneksi Sosial & Moderasi
 Fondasi dari *social network* adalah hubungan antar pengguna. Ini dikerjakan duluan agar fitur lain (seperti *timeline* postingan atau *chat*) punya landasan data.
-- [ ] **Follow / Friendship user to user**: Logika API dan UI untuk follow atau tambah teman.
-- [ ] **Block user to user**: Fitur keamanan bagi user untuk memblokir interaksi dengan user lain.
-- [ ] **Pengaturan privasi user**: Fitur di dalam edit profil modal pada setiap user agar user dapat mengatur privasi akunnya (misal: public, hanya teman, private).
+- [x] **Follow / Friendship user to user**: Logika API dan UI untuk follow atau tambah teman.
+- [x] **Block user to user**: Fitur keamanan bagi user untuk memblokir interaksi dengan user lain.
+- [x] **Pengaturan privasi user**: Fitur di dalam edit profil modal pada setiap user agar user dapat mengatur privasi akunnya (misal: public, hanya teman, private).
+
+## Phase 1.5: Sistem Notifikasi Global
+Karena user sudah bisa saling follow, mereka butuh pemberitahuan secara real-time.
+- [x] **Database Notifikasi**: Skema Prisma untuk menampung notifikasi (Follow, Like, Komen, dll).
+- [x] **UI/UX Dropdown Notifikasi**: Tampilan *bell icon* di Navbar beserta daftar notifikasinya.
 
 ## Phase 2: Sistem Konten Utama (Core)
 Setelah user saling terkoneksi, mereka butuh media untuk berinteraksi dan berbagi.

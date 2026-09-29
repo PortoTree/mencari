@@ -357,6 +357,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
       games: selectedGame,
       sports: selectedSport,
       type: accountType,
+      profileVisibility: privacyAccount === t("private") ? "PRIVATE" : (privacyAccount === t("friendsOnly") ? "FRIENDS" : "PUBLIC"),
 
       ...overrides
     });
@@ -472,6 +473,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [privacyFollowers, setPrivacyFollowers] = useState(t("public"));
   const [privacyFollowing, setPrivacyFollowing] = useState(t("public"));
   const [privacyActivity, setPrivacyActivity] = useState(t("public"));
+  const [privacyAccount, setPrivacyAccount] = useState(t("public"));
   const [privacyExternalLink, setPrivacyExternalLink] = useState(t("public"));
 
   useEffect(() => {
@@ -584,6 +586,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   ];
 
   const privacySettings = [
+    { label: t("privacyAccount"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyAccount, setState: setPrivacyAccount },
     { label: t("privacyDob"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyBirth, setState: setPrivacyBirth },
     { label: t("privacyLoc"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyLoc, setState: setPrivacyLoc },
     { label: t("privacyFriendList"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyFriendList, setState: setPrivacyFriendList },

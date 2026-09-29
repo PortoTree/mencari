@@ -391,7 +391,11 @@
     "workExperience": "Work Experience",
     "activity": "Account Activity",
     "reportCommunity": "Report community",
-    "joinOnly": "Join"
+    "joinOnly": "Join",
+    "friendBtn": "Friend",
+    "acceptRequestBtn": "Accept Request",
+    "cancelRequestBtn": "Cancel Request",
+    "followBtn": "+ Follow"
   },
   "editProfile": {
     "title": "Edit Profile",
@@ -478,6 +482,7 @@
     "privacyFollowers": "Who can see your followers list?",
     "privacyFollowing": "Who can see your following list?",
     "privacyActivity": "Who can see your activity?",
+    "privacyAccount": "Account Privacy (Public / Friends Only / Private)",
     "privacySocialLinks": "Social Media Links",
     "privacyExternalLink": "External Link Field",
     "public": "Public",

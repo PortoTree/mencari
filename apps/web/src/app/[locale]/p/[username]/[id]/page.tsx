@@ -10,6 +10,7 @@ import ImagePreviewModal from "@/components/ImagePreviewModal";
 import { ShinyButton } from "@/components/ui/shiny-button";
 import { uploadToCloudinary } from "@/utils/uploadImage";
 import { updateProfileMedia, getProfile } from "@/app/actions/profile";
+import { getConnectionStatus, handlePrimaryConnectionAction, toggleBlock } from "@/app/actions/connections";
 import { getOptimizedUrl } from "@/utils/cloudinary";
 
 export default function ProfilePage({
@@ -39,6 +40,14 @@ export default function ProfilePage({
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
   const [displayName, setDisplayName] = useState<string | null>(null);
   const [profileData, setProfileData] = useState<any>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState<any>({
+    isFollowing: false,
+    friendshipStatus: null,
+    friendshipRequestedBy: null,
+    isBlocked: false,
+    hasBlockedYou: false
+  });
   const avatarInputRef = React.useRef<HTMLInputElement>(null);
   const coverInputRef = React.useRef<HTMLInputElement>(null);
   const contentRef = React.useRef<HTMLDivElement>(null);
@@ -161,8 +170,87 @@ export default function ProfilePage({
       }
     });
 
+    const checkConnection = async (currentId: string) => {
+      const status = await getConnectionStatus(currentId, id);
+      setConnectionStatus(status);
+    };
+
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        const currentId = payload.sub || payload.id || payload._id || payload.userId || "1";
+        checkConnection(currentId);
+      } catch (e) {}
+    }
+
     setThemeLoaded(true);
   }, [id]);
+
+  const handlePrimaryAction = async () => {
+    if (!currentUser || isProcessing) return;
+    setIsProcessing(true);
+    const token = localStorage.getItem("token") || "";
+
+    const res = await handlePrimaryConnectionAction(token, currentUser.id, id);
+    if (res.success) {
+      // Manual component update to bypass ANY Next.js caching issues
+      const newStatus = { ...connectionStatus };
+      const newProfile = profileData ? JSON.parse(JSON.stringify(profileData)) : null;
+
+      let newFollowers = newProfile?.user?._count?.followers || 0;
+
+      if (connectionStatus.friendshipStatus === "ACCEPTED") {
+        // 1. Remove Friend
+        newStatus.friendshipStatus = null;
+        newStatus.isFollowing = false;
+        newFollowers = Math.max(0, newFollowers - 1);
+      } else if (connectionStatus.friendshipStatus === "PENDING") {
+        if (connectionStatus.friendshipRequestedBy !== currentUser.id) {
+          // 2. Accept Request
+          newStatus.friendshipStatus = "ACCEPTED";
+          if (!connectionStatus.isFollowing) {
+            newStatus.isFollowing = true;
+            newFollowers += 1;
+          }
+        } else {
+          // 3. Cancel Request
+          newStatus.friendshipStatus = null;
+          newStatus.isFollowing = false;
+          newFollowers = Math.max(0, newFollowers - 1);
+        }
+      } else {
+        if (connectionStatus.isFollowing) {
+          // 4. Unfollow
+          newStatus.isFollowing = false;
+          newFollowers = Math.max(0, newFollowers - 1);
+        } else {
+          // 5. Follow & Send Request
+          newStatus.isFollowing = true;
+          newStatus.friendshipStatus = "PENDING";
+          newStatus.friendshipRequestedBy = currentUser.id;
+          newFollowers += 1;
+        }
+      }
+
+      setConnectionStatus(newStatus);
+      if (newProfile?.user) {
+        newProfile.user._count.followers = newFollowers;
+        setProfileData(newProfile);
+      }
+    }
+    setIsProcessing(false);
+  };
+
+  const handleToggleBlock = async () => {
+    if (!currentUser) return;
+    const token = localStorage.getItem("token") || "";
+    const res = await toggleBlock(token, currentUser.id, id);
+    if (res.success) {
+      const status = await getConnectionStatus(currentUser.id, id);
+      setConnectionStatus(status);
+    }
+    setIsProfileOptionsOpen(false);
+  };
 
   useEffect(() => {
     if (isDetailModalOpen) {
@@ -190,6 +278,25 @@ export default function ProfilePage({
   return (
     <main className="min-h-screen bg-[#F3F2EF] dark:bg-[#18191A] text-black dark:text-[#E4E6EB] pb-20 pt-[56px] font-sans">
       <Navbar activeTab={null} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} themeLoaded={themeLoaded} currentUser={currentUser} />
+
+      {/* TOP LOADING BAR (YOUTUBE STYLE) */}
+      {isProcessing && (
+        <div className="fixed top-[56px] left-0 w-full h-[3px] bg-transparent z-50 overflow-hidden">
+          <div className="h-full bg-blue-500 animate-[loadingBar_1s_ease-in-out_infinite]" style={{
+            width: '30%',
+            position: 'absolute',
+            left: '-30%'
+          }}></div>
+        </div>
+      )}
+      
+      <style>{`
+        @keyframes loadingBar {
+          0% { left: -30%; width: 30%; }
+          50% { left: 50%; width: 50%; }
+          100% { left: 100%; width: 30%; }
+        }
+      `}</style>
 
       <div className="max-w-[1100px] mx-auto px-4 md:px-8">
         
@@ -525,12 +632,33 @@ export default function ProfilePage({
                   </button>
                 ) : (
                   <>
-                    <button className="bg-[#10B981] hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-full text-sm shadow-sm transition-colors">
-                      {"+ " + t("addFriend")}
-                    </button>
-                    <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full text-sm shadow-sm transition-colors">
-                      {t("sendMessage")}
-                    </button>
+                    {!connectionStatus.hasBlockedYou && !connectionStatus.isBlocked && (
+                      <>
+                        <button 
+                          onClick={handlePrimaryAction}
+                          disabled={isProcessing}
+                          className={`${
+                            connectionStatus.friendshipStatus === "ACCEPTED" ? "bg-gray-200 hover:bg-red-500 text-black hover:text-white" :
+                            connectionStatus.friendshipStatus === "PENDING" && connectionStatus.friendshipRequestedBy !== currentUser?.id ? "bg-yellow-500 hover:bg-yellow-600 text-white" :
+                            (connectionStatus.friendshipStatus === "PENDING" || connectionStatus.isFollowing) ? "bg-transparent border border-gray-300 dark:border-[#4E4F50] text-black dark:text-[#E4E6EB] hover:bg-red-50 hover:border-red-500 hover:text-red-500 dark:hover:bg-red-500/10 dark:hover:border-red-500 dark:hover:text-red-400" :
+                            "bg-[#10B981] hover:bg-emerald-600 text-white"
+                          } font-bold py-2 px-4 rounded-full text-sm shadow-sm transition-colors ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                          {connectionStatus.friendshipStatus === "ACCEPTED" ? t("friendBtn") :
+                           connectionStatus.friendshipStatus === "PENDING" && connectionStatus.friendshipRequestedBy !== currentUser?.id ? t("acceptRequestBtn") :
+                           (connectionStatus.friendshipStatus === "PENDING" || connectionStatus.isFollowing) ? t("following") :
+                           t("followBtn")}
+                        </button>
+                        
+                        <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full text-sm shadow-sm transition-colors">
+                          {t("sendMessage") || "Pesan"}
+                        </button>
+                      </>
+                    )}
+                    
+                    {connectionStatus.isBlocked && (
+                      <span className="text-red-500 font-bold text-sm bg-red-100 py-2 px-4 rounded-full">Anda telah memblokir user ini</span>
+                    )}
+
                     <div className="relative">
                       <button 
                         onClick={() => setIsProfileOptionsOpen(!isProfileOptionsOpen)}
@@ -551,12 +679,15 @@ export default function ProfilePage({
                               <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                               {t("reportAccount")}
                             </button>
-                            <button className="w-full px-4 py-3 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/10 flex items-center gap-3 transition-colors">
+                            <button 
+                              onClick={handleToggleBlock}
+                              className="w-full px-4 py-3 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/10 flex items-center gap-3 transition-colors">
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
-                              {t("blockAccount")}
+                              {connectionStatus.isBlocked ? "Buka Blokir (Unblock)" : (t("blockAccount") || "Blokir Akun")}
                             </button>
                           </div>
                         </>
+
                       )}
                     </div>
                   </>

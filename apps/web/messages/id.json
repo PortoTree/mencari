@@ -391,7 +391,11 @@
     "workExperience": "Pengalaman kerja",
     "activity": "Aktifitas akun",
     "reportCommunity": "Laporkan komunitas",
-    "joinOnly": "Gabung"
+    "joinOnly": "Gabung",
+    "friendBtn": "Teman",
+    "acceptRequestBtn": "Terima Permintaan",
+    "cancelRequestBtn": "Batal Request",
+    "followBtn": "+ Ikuti"
   },
   "editProfile": {
     "title": "Edit Profil",
@@ -478,6 +482,7 @@
     "privacyFollowers": "Siapa yang dapat melihat daftar pengikut Anda?",
     "privacyFollowing": "Siapa yang dapat melihat daftar yang Anda ikuti?",
     "privacyActivity": "Siapa yang dapat melihat aktifitas Anda?",
+    "privacyAccount": "Privasi Akun (Public / Hanya Teman / Private)",
     "privacySocialLinks": "Tautan Sosial Media",
     "privacyExternalLink": "Kolom Tautan Eksternal",
     "public": "Public",
