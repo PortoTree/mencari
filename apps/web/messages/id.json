@@ -433,9 +433,7 @@
     "followersHiddenDesc": "Pengguna ini menyembunyikan daftar pengikutnya.",
     "viewProfile": "Lihat profil",
     "removeFriend": "Hapus pertemanan",
-    "removeFollower": "Hapus pengikut",
-    "reportAccount": "Laporkan akun",
-    "blockAccount": "Blokir akun"
+    "removeFollower": "Hapus pengikut"
   },
   "editProfile": {
     "title": "Edit Profil",

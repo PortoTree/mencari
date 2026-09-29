@@ -14,6 +14,10 @@ import { updateProfileMedia, getProfile } from "@/app/actions/profile";
 import { getConnectionStatus, handlePrimaryConnectionAction, toggleBlock } from "@/app/actions/connections";
 import { getOptimizedUrl } from "@/utils/cloudinary";
 
+// In-memory cache to prevent excessive loading states when navigating
+const profileCache = new Map<string, any>();
+const connectionCache = new Map<string, any>();
+
 export default function ProfilePage({
   params,
 }: {
@@ -38,12 +42,15 @@ export default function ProfilePage({
   const [isProfileExpanded, setIsProfileExpanded] = useState(false);
   const [isProfileOptionsOpen, setIsProfileOptionsOpen] = useState(false);
   
+  // Use cache to initialize states if available
+  const cachedProfile = profileCache.get(id);
+  
   // Media states
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-  const [coverPreview, setCoverPreview] = useState<string | null>(null);
-  const [displayName, setDisplayName] = useState<string | null>(null);
-  const [profileData, setProfileData] = useState<any>(null);
-  const [isLoadingProfile, setIsLoadingProfile] = useState(true);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(cachedProfile?.avatarUrl || null);
+  const [coverPreview, setCoverPreview] = useState<string | null>(cachedProfile?.coverUrl || null);
+  const [displayName, setDisplayName] = useState<string | null>(cachedProfile?.displayName || null);
+  const [profileData, setProfileData] = useState<any>(cachedProfile || null);
+  const [isLoadingProfile, setIsLoadingProfile] = useState(!cachedProfile);
   const [isProcessing, setIsProcessing] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState<any>({
     isFollowing: false,
@@ -203,6 +210,22 @@ export default function ProfilePage({
       }
     }
     
+    // Check connection cache immediately if we have currentId
+    const connectionCacheKey = currentId ? `${currentId}-${id}` : null;
+    if (connectionCacheKey && connectionCache.has(connectionCacheKey)) {
+      setConnectionStatus(connectionCache.get(connectionCacheKey));
+    }
+    
+    // Check profile cache
+    if (profileCache.has(id)) {
+      const cachedProf = profileCache.get(id);
+      setProfileData(cachedProf);
+      if (cachedProf.avatarUrl) setAvatarPreview(cachedProf.avatarUrl);
+      if (cachedProf.coverUrl) setCoverPreview(cachedProf.coverUrl);
+      if (cachedProf.displayName) setDisplayName(cachedProf.displayName);
+      setIsLoadingProfile(false);
+    }
+    
     // Fetch real profile data to populate initial images and details
     // We use `id` from the URL, NOT `userId` from the token!
     const profilePromise = getProfile(id);
@@ -212,10 +235,14 @@ export default function ProfilePage({
 
     Promise.all([profilePromise, connectionPromise]).then(([res, status]) => {
       if (res.success && res.profile) {
+        profileCache.set(id, res.profile);
         if (res.profile.avatarUrl) setAvatarPreview(res.profile.avatarUrl);
         if (res.profile.coverUrl) setCoverPreview(res.profile.coverUrl);
         if (res.profile.displayName) setDisplayName(res.profile.displayName);
         setProfileData(res.profile);
+      }
+      if (connectionCacheKey) {
+        connectionCache.set(connectionCacheKey, status);
       }
       setConnectionStatus(status);
       setIsLoadingProfile(false);
