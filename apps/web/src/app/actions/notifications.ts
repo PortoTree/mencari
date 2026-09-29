@@ -76,3 +76,18 @@ export async function markAsRead(token: string, userId: string, notificationId?:
     return { success: false, error: "Database error" };
   }
 }
+
+export async function deleteNotification(token: string, userId: string, notificationId: string) {
+  if (!verifyToken(token, userId)) return { success: false, error: "Unauthorized" };
+
+  try {
+    await prisma.notification.deleteMany({
+      where: { id: notificationId, userId }
+    });
+    revalidateTag(`notifications-${userId}`);
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting notification:", error);
+    return { success: false, error: "Database error" };
+  }
+}

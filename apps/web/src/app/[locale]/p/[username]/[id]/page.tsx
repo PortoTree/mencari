@@ -285,6 +285,38 @@ export default function ProfilePage({
     }
   }, [profileData]);
 
+  // Listen for friend-accepted event dispatched from Navbar notification panel
+  useEffect(() => {
+    const handleFriendAccepted = async (e: Event) => {
+      const event = e as CustomEvent<{ senderId: string; currentUserId: string }>;
+      const { senderId, currentUserId } = event.detail;
+
+      // Update if we're on the sender's profile OR on our own profile
+      const isOnSenderProfile = senderId === id;
+      const isOnOwnProfile = currentUserId === id;
+      if (!isOnSenderProfile && !isOnOwnProfile) return;
+
+      // Re-fetch fresh data from server for accurate counts
+      const [freshProfile, freshStatus] = await Promise.all([
+        getProfile(id),
+        getConnectionStatus(currentUserId, id),
+      ]);
+
+      if (freshProfile.success && freshProfile.profile) {
+        setProfileData(freshProfile.profile);
+        if (freshProfile.profile.avatarUrl) setAvatarPreview(freshProfile.profile.avatarUrl);
+        if (freshProfile.profile.coverUrl) setCoverPreview(freshProfile.profile.coverUrl);
+        if (freshProfile.profile.displayName) setDisplayName(freshProfile.profile.displayName);
+      }
+      if (freshStatus) {
+        setConnectionStatus(freshStatus);
+      }
+    };
+
+    window.addEventListener("friend-accepted", handleFriendAccepted);
+    return () => window.removeEventListener("friend-accepted", handleFriendAccepted);
+  }, [id]);
+
   const hasExpandableInfo = profileData?.websiteUrl || profileData?.education || profileData?.profession || profileData?.gender || profileData?.birthDate;
   const hasAnyInfo = profileData?.bio || profileData?.locationName || hasExpandableInfo;
 

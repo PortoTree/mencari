@@ -10,7 +10,7 @@ import { Lottie } from "lottie-react";
 import animationDataLight from "../../../../public/search-bar.json";
 // @ts-ignore
 import animationDataDark from "../../../../public/search-bar-putih.json";
-import { getNotifications, markAsRead } from "@/app/actions/notifications";
+import { getNotifications, markAsRead, deleteNotification } from "@/app/actions/notifications";
 import { handlePrimaryConnectionAction } from "@/app/actions/connections";
 
 export default function Navbar({
@@ -46,6 +46,8 @@ export default function Navbar({
   const [unreadCount, setUnreadCount] = useState(0);
   const [isShowingAllNotifs, setIsShowingAllNotifs] = useState(false);
   const [isLoadingMoreNotifs, setIsLoadingMoreNotifs] = useState(false);
+  const [openNotifMenuId, setOpenNotifMenuId] = useState<string | null>(null);
+  const [processingNotifId, setProcessingNotifId] = useState<string | null>(null);
 
   useEffect(() => { setIsMounted(true); }, []);
 
@@ -69,7 +71,11 @@ export default function Navbar({
   const handleMarkAsRead = async () => {
     if (!currentUser) return;
     const token = localStorage.getItem("token") || "";
-    await markAsRead(token, currentUser.id);
+    // Only mark the IDs that are currently visible/loaded — not future ones
+    const unreadIds = notifications.filter(n => !n.isRead).map(n => n.id);
+    if (unreadIds.length === 0) return;
+    // Mark each one individually so new DB notifications aren't affected
+    await Promise.all(unreadIds.map(id => markAsRead(token, currentUser.id, id)));
     setUnreadCount(0);
     setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
   };
@@ -82,16 +88,33 @@ export default function Navbar({
     }, 800); // 800ms skeleton effect
   };
 
-  const handleAcceptFriend = async (e: React.MouseEvent, senderId: string) => {
+  const handleAcceptFriend = async (e: React.MouseEvent, senderId: string, notifId: string) => {
     e.stopPropagation();
+    if (!currentUser || processingNotifId === notifId) return;
+    setProcessingNotifId(notifId);
+    const token = localStorage.getItem("token") || "";
+    const res = await handlePrimaryConnectionAction(token, currentUser.id, senderId);
+    if (res.success) {
+      // Delete the FRIEND_REQUEST notification from DB so it doesn't reappear on refresh
+      await deleteNotification(token, currentUser.id, notifId);
+      // Remove it from local state
+      setNotifications(prev => prev.filter(n => n.id !== notifId));
+      setUnreadCount(prev => Math.max(0, prev - 1));
+      // Dispatch custom event so profile page can update counts without reload
+      window.dispatchEvent(new CustomEvent("friend-accepted", { detail: { senderId, currentUserId: currentUser.id } }));
+    }
+    setProcessingNotifId(null);
+  };
+
+  const handleMarkOneRead = async (notifId: string) => {
     if (!currentUser) return;
     const token = localStorage.getItem("token") || "";
-    await handlePrimaryConnectionAction(token, currentUser.id, senderId);
-    setNotifications(prev => prev.map(n => 
-      n.senderId === senderId && n.type === "FRIEND_REQUEST" 
-        ? { ...n, type: "FRIEND_ACCEPT" } 
-        : n
+    setNotifications(prev => prev.map(n =>
+      n.id === notifId ? { ...n, isRead: true } : n
     ));
+    setUnreadCount(prev => Math.max(0, prev - 1));
+    // Pass the specific ID — only THIS notification gets marked in DB
+    await markAsRead(token, currentUser.id, notifId);
   };
 
   const formatTimeAgo = (dateStr: string) => {
@@ -862,11 +885,12 @@ export default function Navbar({
               {notifications.slice(0, isShowingAllNotifs ? notifications.length : 6).map((notif) => (
                 <div 
                   key={notif.id}
-                  onClick={() => {
+                  onClick={async () => {
+                    if (!notif.isRead) await handleMarkOneRead(notif.id);
                     setIsNotifPanelOpen(false);
                     router.push(`/${locale}/p/${notif.sender?.username}/${notif.senderId}`);
                   }}
-                  className={`flex flex-col gap-2 px-3 py-3 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors rounded-xl mx-1 ${!notif.isRead ? '' : 'opacity-70'}`}
+                  className={`relative flex flex-col gap-2 px-3 py-3 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors rounded-xl mx-1 ${!notif.isRead ? '' : 'opacity-70'}`}
                 >
                   <div className="flex items-start gap-3">
                     <div className="relative shrink-0">
@@ -901,28 +925,92 @@ export default function Navbar({
                         {formatTimeAgo(notif.createdAt)}
                       </p>
                     </div>
-                    {!notif.isRead && (
-                      <div className="w-3 h-3 rounded-full bg-[#00B47A] shrink-0 mt-3 mr-1"></div>
-                    )}
-                  </div>
-                  {/* Action Buttons */}
-                  {(notif.type === "FRIEND_REQUEST" || notif.type === "FOLLOW") && (
-                    <div className="flex gap-2 pl-[68px] pr-2 pt-1">
-                      {notif.type === "FRIEND_REQUEST" && (
-                        <button 
-                          onClick={(e) => handleAcceptFriend(e, notif.senderId)}
-                          className="flex-1 bg-[#2D88FF] hover:bg-[#1A6ED8] text-white text-[14px] font-semibold py-1.5 rounded-lg transition-colors"
-                        >
-                          Terima
-                        </button>
+                    <div className="flex items-center gap-1.5 shrink-0 mt-1">
+                      {!notif.isRead && (
+                        <div className="w-3 h-3 rounded-full bg-[#00B47A] shrink-0"></div>
                       )}
+                      {/* 3-dot menu button */}
+                      <div className="relative">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setOpenNotifMenuId(openNotifMenuId === notif.id ? null : notif.id);
+                          }}
+                          className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-300 dark:hover:bg-[#4E4F50] text-gray-500 dark:text-gray-400 transition-colors"
+                        >
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0zm6 0a2 2 0 11-4 0 2 2 0 014 0z" />
+                          </svg>
+                        </button>
+                        {openNotifMenuId === notif.id && (
+                          <>
+                            <div className="fixed inset-0 z-40" onClick={(e) => { e.stopPropagation(); setOpenNotifMenuId(null); }} />
+                            <div className="absolute right-0 top-8 w-44 bg-white dark:bg-[#242526] rounded-xl shadow-lg border border-gray-100 dark:border-white/10 z-50 overflow-hidden">
+                              {!notif.isRead && (
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleMarkOneRead(notif.id);
+                                    setOpenNotifMenuId(null);
+                                  }}
+                                  className="w-full px-4 py-2.5 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-2 transition-colors"
+                                >
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                                  Tandai dibaca
+                                </button>
+                              )}
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setNotifications(prev => prev.filter(n => n.id !== notif.id));
+                                  setOpenNotifMenuId(null);
+                                }}
+                                className="w-full px-4 py-2.5 text-left text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] flex items-center gap-2 transition-colors"
+                              >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                Hapus notifikasi
+                              </button>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  {/* Action Buttons - only show for FRIEND_REQUEST (not FRIEND_ACCEPT) */}
+                  {notif.type === "FRIEND_REQUEST" && (
+                    <div className="flex gap-2 pl-[68px] pr-2 pt-1">
+                      <button 
+                        onClick={(e) => handleAcceptFriend(e, notif.senderId, notif.id)}
+                        disabled={processingNotifId === notif.id}
+                        className="flex-1 bg-[#2D88FF] hover:bg-[#1A6ED8] disabled:opacity-70 disabled:cursor-not-allowed text-white text-[14px] font-semibold py-1.5 rounded-lg transition-colors flex items-center justify-center gap-2"
+                      >
+                        {processingNotifId === notif.id ? (
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        ) : (
+                          "Terima"
+                        )}
+                      </button>
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
                           setIsNotifPanelOpen(false);
                           router.push(`/${locale}/p/${notif.sender?.username}/${notif.senderId}`);
                         }}
-                        className={`flex-1 ${notif.type === "FRIEND_REQUEST" ? "bg-gray-200 dark:bg-[#4E4F50] text-black dark:text-white hover:bg-gray-300 dark:hover:bg-[#5E5F60]" : "bg-[#2D88FF] hover:bg-[#1A6ED8] text-white"} text-[14px] font-semibold py-1.5 rounded-lg transition-colors`}
+                        className="flex-1 bg-gray-200 dark:bg-[#4E4F50] text-black dark:text-white hover:bg-gray-300 dark:hover:bg-[#5E5F60] text-[14px] font-semibold py-1.5 rounded-lg transition-colors"
+                      >
+                        Lihat
+                      </button>
+                    </div>
+                  )}
+                  {notif.type === "FOLLOW" && (
+                    <div className="flex gap-2 pl-[68px] pr-2 pt-1">
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsNotifPanelOpen(false);
+                          router.push(`/${locale}/p/${notif.sender?.username}/${notif.senderId}`);
+                        }}
+                        className="flex-1 bg-[#2D88FF] hover:bg-[#1A6ED8] text-white text-[14px] font-semibold py-1.5 rounded-lg transition-colors"
                       >
                         Lihat
                       </button>
