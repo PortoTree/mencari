@@ -15,6 +15,9 @@ import { handlePrimaryConnectionAction } from "@/app/actions/connections";
 import { getProfile } from "@/app/actions/profile";
 import { getOptimizedUrl } from "@/utils/cloudinary";
 
+const navProfileCache = new Map<string, { avatarUrl: string | null, displayName: string | null }>();
+let globalNotifsCache: { list: any[], unread: number, userId: string } | null = null;
+
 export default function Navbar({
   activeTab = "home",
   setActiveTab = () => {},
@@ -50,19 +53,30 @@ export default function Navbar({
   const [isLoadingMoreNotifs, setIsLoadingMoreNotifs] = useState(false);
   const [openNotifMenuId, setOpenNotifMenuId] = useState<string | null>(null);
   const [processingNotifId, setProcessingNotifId] = useState<string | null>(null);
-  const [navAvatar, setNavAvatar] = useState<string | null>(null);
-  const [navDisplayName, setNavDisplayName] = useState<string | null>(null);
-  const [isLoadingNotifs, setIsLoadingNotifs] = useState(true);
+  const [navAvatar, setNavAvatar] = useState<string | null>(navProfileCache.get(currentUser?.id)?.avatarUrl || null);
+  const [navDisplayName, setNavDisplayName] = useState<string | null>(navProfileCache.get(currentUser?.id)?.displayName || null);
+  const [isLoadingNotifs, setIsLoadingNotifs] = useState(!globalNotifsCache || globalNotifsCache.userId !== currentUser?.id);
 
   useEffect(() => { setIsMounted(true); }, []);
 
   // Fetch avatar + displayName from DB when currentUser is ready
   useEffect(() => {
     if (!currentUser?.id) return;
+    
+    if (navProfileCache.has(currentUser.id)) {
+      const cached = navProfileCache.get(currentUser.id)!;
+      setNavAvatar(cached.avatarUrl);
+      setNavDisplayName(cached.displayName);
+      return; // Skip fetching if already in cache
+    }
+
     getProfile(currentUser.id).then((res) => {
       if (res.success && res.profile) {
-        setNavAvatar(res.profile.avatarUrl || null);
-        setNavDisplayName(res.profile.displayName || null);
+        const avatarUrl = res.profile.avatarUrl || null;
+        const displayName = res.profile.displayName || null;
+        setNavAvatar(avatarUrl);
+        setNavDisplayName(displayName);
+        navProfileCache.set(currentUser.id, { avatarUrl, displayName });
       }
     });
   }, [currentUser?.id]);
@@ -79,24 +93,38 @@ export default function Navbar({
     return () => window.removeEventListener("avatar-updated", handleAvatarUpdated);
   }, []);
 
-  const fetchNotifs = async () => {
+  const fetchNotifs = async (isBackground = false) => {
     const token = localStorage.getItem("token") || "";
     if (!token || !currentUser?.id) return;
-    setIsLoadingNotifs(true);
+    
+    if (!isBackground) setIsLoadingNotifs(true);
+    
     const res = await getNotifications(token, currentUser.id);
     if (res.success) {
       setNotifications(res.notifications || []);
       setUnreadCount(res.unreadCount || 0);
+      globalNotifsCache = { list: res.notifications || [], unread: res.unreadCount || 0, userId: currentUser.id };
     }
     setIsLoadingNotifs(false);
   };
+
+  // Initial load
+  useEffect(() => {
+    if (currentUser?.id && globalNotifsCache?.userId === currentUser.id) {
+      setNotifications(globalNotifsCache.list);
+      setUnreadCount(globalNotifsCache.unread);
+      // Fetch in background to check for delta
+      fetchNotifs(true);
+    } else {
+      fetchNotifs(false);
+    }
+  }, [currentUser?.id]);
 
   // Poll every 60s
   useEffect(() => {
     const token = localStorage.getItem("token") || "";
     if (!token || !currentUser?.id) return;
-    fetchNotifs();
-    const interval = setInterval(fetchNotifs, 60000);
+    const interval = setInterval(() => fetchNotifs(true), 60000);
     return () => clearInterval(interval);
   }, [currentUser?.id]);
 
