@@ -401,7 +401,9 @@
     "friendBtn": "Friend",
     "acceptRequestBtn": "Accept Request",
     "cancelRequestBtn": "Cancel Request",
-    "followBtn": "+ Follow"
+    "followBtn": "+ Follow",
+    "see": "See",
+    "search": "Search"
   },
   "editProfile": {
     "title": "Edit Profile",

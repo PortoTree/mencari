@@ -157,3 +157,21 @@ html.dark::-webkit-scrollbar-thumb:hover {
 .rich-editor .ProseMirror [style*="text-align: center"] { text-align: center; }
 .rich-editor .ProseMirror [style*="text-align: right"] { text-align: right; }
 .rich-editor .ProseMirror [style*="text-align: justify"] { text-align: justify; }
+
+/* Custom Profile Scrollbar (Overlay-like) */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 9999px;
+}
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+}
+.dark .custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: #4E4F50;
+}

@@ -401,7 +401,9 @@
     "friendBtn": "Teman",
     "acceptRequestBtn": "Terima Permintaan",
     "cancelRequestBtn": "Batal Request",
-    "followBtn": "+ Ikuti"
+    "followBtn": "+ Ikuti",
+    "see": "Lihat",
+    "search": "Cari"
   },
   "editProfile": {
     "title": "Edit Profil",
