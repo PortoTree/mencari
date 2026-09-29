@@ -101,9 +101,6 @@ export async function handlePrimaryConnectionAction(token: string, currentUserId
         await prisma.follow.create({
           data: { followerId: currentUserId, followingId: targetUserId }
         });
-        await prisma.notification.create({
-          data: { userId: targetUserId, senderId: currentUserId, type: "FOLLOW" }
-        });
         await prisma.friendship.create({
           data: { userId: currentUserId, friendId: targetUserId, requestedBy: currentUserId, status: "PENDING" }
         });

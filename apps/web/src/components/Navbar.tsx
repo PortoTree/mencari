@@ -98,11 +98,34 @@ export default function Navbar({
     const date = new Date(dateStr);
     const now = new Date();
     const diff = Math.floor((now.getTime() - date.getTime()) / 1000);
-    if (diff < 60) return `${diff}s`;
-    if (diff < 3600) return `${Math.floor(diff / 60)}m`;
-    if (diff < 86400) return `${Math.floor(diff / 3600)}h`;
-    if (diff < 604800) return `${Math.floor(diff / 86400)}d`;
-    return date.toLocaleDateString();
+    const diffMinutes = Math.floor(diff / 60);
+    const diffHours = Math.floor(diff / 3600);
+
+    if (diffHours < 1) {
+      if (diffMinutes === 0) return t("notif.timeMinutes", { min: 1 });
+      return t("notif.timeMinutes", { min: diffMinutes });
+    }
+    
+    if (diffHours < 3) {
+      return t("notif.timeHours", { hour: diffHours });
+    }
+
+    // Is it today?
+    const isToday = date.getDate() === now.getDate() && date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
+    if (isToday) {
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }).replace('.', ':');
+    }
+
+    // Is it yesterday?
+    const yesterday = new Date(now);
+    yesterday.setDate(now.getDate() - 1);
+    const isYesterday = date.getDate() === yesterday.getDate() && date.getMonth() === yesterday.getMonth() && date.getFullYear() === yesterday.getFullYear();
+    if (isYesterday) {
+      return `${t("notif.timeYesterday")} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }).replace('.', ':')}`;
+    }
+
+    // Older than yesterday
+    return date.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
   };
 
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -868,11 +891,11 @@ export default function Navbar({
                     <div className="flex-1 min-w-0 flex flex-col justify-center">
                       <p className="text-[14px] text-black dark:text-[#E4E6EB] leading-snug">
                         <span className="font-semibold">{notif.sender?.profile?.displayName || notif.sender?.username}</span>
-                        {notif.type === "FOLLOW" && " mulai mengikuti Anda."}
-                        {notif.type === "FRIEND_REQUEST" && " mengirimkan permintaan pertemanan."}
-                        {notif.type === "FRIEND_ACCEPT" && " menerima permintaan pertemanan Anda."}
-                        {notif.type === "POST_LIKE" && " menyukai postingan Anda."}
-                        {notif.type === "POST_COMMENT" && " mengomentari postingan Anda."}
+                        {notif.type === "FOLLOW" && ` ${t("notif.typeFollow")}`}
+                        {notif.type === "FRIEND_REQUEST" && ` ${t("notif.typeFriendRequest")}`}
+                        {notif.type === "FRIEND_ACCEPT" && ` ${t("notif.typeFriendAccept")}`}
+                        {notif.type === "POST_LIKE" && ` ${t("notif.typePostLike")}`}
+                        {notif.type === "POST_COMMENT" && ` ${t("notif.typePostComment")}`}
                       </p>
                       <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] font-semibold mt-1">
                         {formatTimeAgo(notif.createdAt)}

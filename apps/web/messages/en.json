@@ -618,6 +618,14 @@
     "settings": "Settings",
     "filterMessage": "Filter by messages",
     "filterFriend": "Filter by friends",
-    "filterGroup": "Filter by groups"
+    "filterGroup": "Filter by groups",
+    "typeFollow": "started following you.",
+    "typeFriendRequest": "Started following you and sent a friend request.",
+    "typeFriendAccept": "accepted your friend request.",
+    "typePostLike": "liked your post.",
+    "typePostComment": "commented on your post.",
+    "timeMinutes": "{min} minutes ago",
+    "timeHours": "{hour} hours ago",
+    "timeYesterday": "Yesterday"
   }
 }

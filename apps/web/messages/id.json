@@ -618,6 +618,14 @@
     "settings": "Pengaturan",
     "filterMessage": "Filter pesan",
     "filterFriend": "Filter pertemanan",
-    "filterGroup": "Filter grup"
+    "filterGroup": "Filter grup",
+    "typeFollow": "mulai mengikuti Anda.",
+    "typeFriendRequest": "Mulai mengikuti dan mengirimkan permintaan pertemanan.",
+    "typeFriendAccept": "menerima permintaan pertemanan Anda.",
+    "typePostLike": "menyukai postingan Anda.",
+    "typePostComment": "mengomentari postingan Anda.",
+    "timeMinutes": "{min} menit yang lalu",
+    "timeHours": "{hour} jam yang lalu",
+    "timeYesterday": "Kemarin"
   }
 }
