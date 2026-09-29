@@ -608,5 +608,16 @@
     "ulasan_pembeli": "Ulasan Pembeli",
     "selengkapnya": "Selengkapnya",
     "tambah_ulasan_kamu": "+Ulasan kamu"
+  },
+  "notif": {
+    "title": "Notifikasi",
+    "all": "Semua",
+    "unread": "Belum dibaca",
+    "empty": "Belum ada notifikasi",
+    "markAllRead": "Tandai semua telah dibaca",
+    "settings": "Pengaturan",
+    "filterMessage": "Filter pesan",
+    "filterFriend": "Filter pertemanan",
+    "filterGroup": "Filter grup"
   }
 }

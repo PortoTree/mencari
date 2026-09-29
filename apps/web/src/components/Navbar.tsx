@@ -11,6 +11,7 @@ import animationDataLight from "../../../../public/search-bar.json";
 // @ts-ignore
 import animationDataDark from "../../../../public/search-bar-putih.json";
 import { getNotifications, markAsRead } from "@/app/actions/notifications";
+import { handlePrimaryConnectionAction } from "@/app/actions/connections";
 
 export default function Navbar({
   activeTab = "home",
@@ -43,6 +44,8 @@ export default function Navbar({
   const [isMounted, setIsMounted] = useState(false);
   const [notifications, setNotifications] = useState<any[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [isShowingAllNotifs, setIsShowingAllNotifs] = useState(false);
+  const [isLoadingMoreNotifs, setIsLoadingMoreNotifs] = useState(false);
 
   useEffect(() => { setIsMounted(true); }, []);
 
@@ -69,6 +72,37 @@ export default function Navbar({
     await markAsRead(token, currentUser.id);
     setUnreadCount(0);
     setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
+  };
+
+  const handleShowAllNotifs = () => {
+    setIsLoadingMoreNotifs(true);
+    setTimeout(() => {
+      setIsLoadingMoreNotifs(false);
+      setIsShowingAllNotifs(true);
+    }, 800); // 800ms skeleton effect
+  };
+
+  const handleAcceptFriend = async (e: React.MouseEvent, senderId: string) => {
+    e.stopPropagation();
+    if (!currentUser) return;
+    const token = localStorage.getItem("token") || "";
+    await handlePrimaryConnectionAction(token, currentUser.id, senderId);
+    setNotifications(prev => prev.map(n => 
+      n.senderId === senderId && n.type === "FRIEND_REQUEST" 
+        ? { ...n, type: "FRIEND_ACCEPT" } 
+        : n
+    ));
+  };
+
+  const formatTimeAgo = (dateStr: string) => {
+    const date = new Date(dateStr);
+    const now = new Date();
+    const diff = Math.floor((now.getTime() - date.getTime()) / 1000);
+    if (diff < 60) return `${diff}s`;
+    if (diff < 3600) return `${Math.floor(diff / 60)}m`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)}h`;
+    if (diff < 604800) return `${Math.floor(diff / 86400)}d`;
+    return date.toLocaleDateString();
   };
 
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -711,7 +745,7 @@ export default function Navbar({
                 className="absolute right-0 top-11 w-[240px] bg-white dark:bg-[#3A3B3C] rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.2)] border border-gray-100 dark:border-[#4E4F50] overflow-hidden z-10"
               >
                 <button
-                  onClick={() => setIsNotifMenuOpen(false)}
+                  onClick={(e) => { e.stopPropagation(); handleMarkAsRead(); setIsNotifMenuOpen(false); }}
                   className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-200 dark:hover:bg-[#4E4F50] transition-colors text-left text-[14px] text-black dark:text-[#E4E6EB]"
                 >
                   <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-[#4E4F50] flex items-center justify-center shrink-0">
@@ -797,52 +831,108 @@ export default function Navbar({
         {/* Notification List */}
         <div className="flex-1 overflow-y-auto sidebar-scrollbar overscroll-none py-1">
           {notifications.length === 0 ? (
-            <div className="p-8 text-center text-gray-500 dark:text-gray-400">
-              Belum ada notifikasi
+            <div className="p-8 text-center text-gray-500 dark:text-[#B0B3B8]">
+              {t("notif.empty")}
             </div>
           ) : (
-            notifications.map((notif) => (
-              <div 
-                key={notif.id}
-                className={`flex items-start gap-3 px-3 py-2.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors rounded-xl mx-1 ${!notif.isRead ? '' : 'opacity-60'}`}
-              >
-                <div className="relative shrink-0">
-                  <img src={notif.sender?.profile?.avatarUrl || "/default-avatar.svg"} className="w-14 h-14 rounded-full border border-gray-200 dark:border-[#3E4042] object-cover" />
-                  <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center border-2 border-white dark:border-[#242526] ${
-                    notif.type === "FOLLOW" ? "bg-emerald-500" :
-                    notif.type === "FRIEND_REQUEST" || notif.type === "FRIEND_ACCEPT" ? "bg-blue-500" :
-                    notif.type === "POST_LIKE" ? "bg-red-500" :
-                    "bg-[#2D88FF]"
-                  }`}>
-                    {notif.type === "FOLLOW" && (
-                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
-                    )}
-                    {(notif.type === "FRIEND_REQUEST" || notif.type === "FRIEND_ACCEPT") && (
-                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" /></svg>
-                    )}
-                    {notif.type === "POST_LIKE" && (
-                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" /></svg>
+            <>
+              {notifications.slice(0, isShowingAllNotifs ? notifications.length : 6).map((notif) => (
+                <div 
+                  key={notif.id}
+                  onClick={() => {
+                    setIsNotifPanelOpen(false);
+                    router.push(`/${locale}/p/${notif.sender?.username}/${notif.senderId}`);
+                  }}
+                  className={`flex flex-col gap-2 px-3 py-3 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] cursor-pointer transition-colors rounded-xl mx-1 ${!notif.isRead ? '' : 'opacity-70'}`}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="relative shrink-0">
+                      <img src={notif.sender?.profile?.avatarUrl || "/default-avatar.svg"} className="w-14 h-14 rounded-full border border-gray-200 dark:border-[#3E4042] object-cover" />
+                      <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center border-2 border-white dark:border-[#242526] ${
+                        notif.type === "FOLLOW" ? "bg-emerald-500" :
+                        notif.type === "FRIEND_REQUEST" || notif.type === "FRIEND_ACCEPT" ? "bg-blue-500" :
+                        notif.type === "POST_LIKE" ? "bg-red-500" :
+                        "bg-[#2D88FF]"
+                      }`}>
+                        {notif.type === "FOLLOW" && (
+                          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
+                        )}
+                        {(notif.type === "FRIEND_REQUEST" || notif.type === "FRIEND_ACCEPT") && (
+                          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" /></svg>
+                        )}
+                        {notif.type === "POST_LIKE" && (
+                          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" /></svg>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex-1 min-w-0 flex flex-col justify-center">
+                      <p className="text-[14px] text-black dark:text-[#E4E6EB] leading-snug">
+                        <span className="font-semibold">{notif.sender?.profile?.displayName || notif.sender?.username}</span>
+                        {notif.type === "FOLLOW" && " mulai mengikuti Anda."}
+                        {notif.type === "FRIEND_REQUEST" && " mengirimkan permintaan pertemanan."}
+                        {notif.type === "FRIEND_ACCEPT" && " menerima permintaan pertemanan Anda."}
+                        {notif.type === "POST_LIKE" && " menyukai postingan Anda."}
+                        {notif.type === "POST_COMMENT" && " mengomentari postingan Anda."}
+                      </p>
+                      <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] font-semibold mt-1">
+                        {formatTimeAgo(notif.createdAt)}
+                      </p>
+                    </div>
+                    {!notif.isRead && (
+                      <div className="w-3 h-3 rounded-full bg-[#00B47A] shrink-0 mt-3 mr-1"></div>
                     )}
                   </div>
+                  {/* Action Buttons */}
+                  {(notif.type === "FRIEND_REQUEST" || notif.type === "FOLLOW") && (
+                    <div className="flex gap-2 pl-[68px] pr-2 pt-1">
+                      {notif.type === "FRIEND_REQUEST" && (
+                        <button 
+                          onClick={(e) => handleAcceptFriend(e, notif.senderId)}
+                          className="flex-1 bg-[#2D88FF] hover:bg-[#1A6ED8] text-white text-[14px] font-semibold py-1.5 rounded-lg transition-colors"
+                        >
+                          Terima
+                        </button>
+                      )}
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsNotifPanelOpen(false);
+                          router.push(`/${locale}/p/${notif.sender?.username}/${notif.senderId}`);
+                        }}
+                        className={`flex-1 ${notif.type === "FRIEND_REQUEST" ? "bg-gray-200 dark:bg-[#4E4F50] text-black dark:text-white hover:bg-gray-300 dark:hover:bg-[#5E5F60]" : "bg-[#2D88FF] hover:bg-[#1A6ED8] text-white"} text-[14px] font-semibold py-1.5 rounded-lg transition-colors`}
+                      >
+                        Lihat
+                      </button>
+                    </div>
+                  )}
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[14px] text-black dark:text-[#E4E6EB] leading-snug">
-                    <span className="font-semibold">{notif.sender?.profile?.displayName || notif.sender?.username}</span>
-                    {notif.type === "FOLLOW" && " mulai mengikuti Anda."}
-                    {notif.type === "FRIEND_REQUEST" && " mengirimkan permintaan pertemanan."}
-                    {notif.type === "FRIEND_ACCEPT" && " menerima permintaan pertemanan Anda."}
-                    {notif.type === "POST_LIKE" && " menyukai postingan Anda."}
-                    {notif.type === "POST_COMMENT" && " mengomentari postingan Anda."}
-                  </p>
-                  <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] font-semibold mt-1">
-                    {new Date(notif.createdAt).toLocaleDateString()}
-                  </p>
+              ))}
+              
+              {isLoadingMoreNotifs && (
+                <div className="px-4 py-4 space-y-4">
+                  {[1, 2, 3].map(i => (
+                    <div key={i} className="animate-pulse flex items-center gap-3">
+                      <div className="w-14 h-14 bg-gray-300 dark:bg-[#3E4042] rounded-full shrink-0"></div>
+                      <div className="flex-1 space-y-2">
+                        <div className="h-3 bg-gray-300 dark:bg-[#3E4042] rounded w-3/4"></div>
+                        <div className="h-3 bg-gray-300 dark:bg-[#3E4042] rounded w-1/2"></div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                {!notif.isRead && (
-                  <div className="w-3 h-3 rounded-full bg-[#00B47A] shrink-0 mt-1"></div>
-                )}
-              </div>
-            ))
+              )}
+
+              {!isShowingAllNotifs && notifications.length > 6 && !isLoadingMoreNotifs && (
+                <div className="px-4 py-3">
+                  <button 
+                    onClick={handleShowAllNotifs}
+                    className="w-full py-2 bg-gray-100 hover:bg-gray-200 dark:bg-[#3A3B3C] dark:hover:bg-[#4E4F50] text-black dark:text-white rounded-xl font-semibold text-[14px] transition-colors"
+                  >
+                    See all
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
