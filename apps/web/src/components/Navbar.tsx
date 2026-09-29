@@ -12,6 +12,8 @@ import animationDataLight from "../../../../public/search-bar.json";
 import animationDataDark from "../../../../public/search-bar-putih.json";
 import { getNotifications, markAsRead, deleteNotification } from "@/app/actions/notifications";
 import { handlePrimaryConnectionAction } from "@/app/actions/connections";
+import { getProfile } from "@/app/actions/profile";
+import { getOptimizedUrl } from "@/utils/cloudinary";
 
 export default function Navbar({
   activeTab = "home",
@@ -48,25 +50,63 @@ export default function Navbar({
   const [isLoadingMoreNotifs, setIsLoadingMoreNotifs] = useState(false);
   const [openNotifMenuId, setOpenNotifMenuId] = useState<string | null>(null);
   const [processingNotifId, setProcessingNotifId] = useState<string | null>(null);
+  const [navAvatar, setNavAvatar] = useState<string | null>(null);
+  const [navDisplayName, setNavDisplayName] = useState<string | null>(null);
+  const [isLoadingNotifs, setIsLoadingNotifs] = useState(true);
 
   useEffect(() => { setIsMounted(true); }, []);
 
+  // Fetch avatar + displayName from DB when currentUser is ready
   useEffect(() => {
-    async function fetchNotifs() {
-      if (!currentUser) return;
-      const token = localStorage.getItem("token") || "";
-      const res = await getNotifications(token, currentUser.id);
-      if (res.success) {
-        setNotifications(res.notifications || []);
-        setUnreadCount(res.unreadCount || 0);
+    if (!currentUser?.id) return;
+    getProfile(currentUser.id).then((res) => {
+      if (res.success && res.profile) {
+        setNavAvatar(res.profile.avatarUrl || null);
+        setNavDisplayName(res.profile.displayName || null);
       }
+    });
+  }, [currentUser?.id]);
+
+  // Listen for avatar-updated event dispatched from profile page after crop/upload
+  useEffect(() => {
+    const handleAvatarUpdated = (e: Event) => {
+      const event = e as CustomEvent<{ url: string; type: string }>;
+      if (event.detail.type === "avatar") {
+        setNavAvatar(event.detail.url);
+      }
+    };
+    window.addEventListener("avatar-updated", handleAvatarUpdated);
+    return () => window.removeEventListener("avatar-updated", handleAvatarUpdated);
+  }, []);
+
+  const fetchNotifs = async () => {
+    const token = localStorage.getItem("token") || "";
+    if (!token || !currentUser?.id) return;
+    setIsLoadingNotifs(true);
+    const res = await getNotifications(token, currentUser.id);
+    if (res.success) {
+      setNotifications(res.notifications || []);
+      setUnreadCount(res.unreadCount || 0);
     }
+    setIsLoadingNotifs(false);
+  };
+
+  // Poll every 60s
+  useEffect(() => {
+    const token = localStorage.getItem("token") || "";
+    if (!token || !currentUser?.id) return;
     fetchNotifs();
-    // In a real app with WebSockets, we would listen for events here.
-    // For now we just poll every 1 minute (60000ms)
     const interval = setInterval(fetchNotifs, 60000);
     return () => clearInterval(interval);
-  }, [currentUser]);
+  }, [currentUser?.id]);
+
+  // When panel opens, always re-fetch + show skeleton
+  useEffect(() => {
+    if (isNotifPanelOpen) {
+      setIsLoadingNotifs(true);
+      fetchNotifs();
+    }
+  }, [isNotifPanelOpen]);
 
   const handleMarkAsRead = async () => {
     if (!currentUser) return;
@@ -557,7 +597,7 @@ export default function Navbar({
             >
               <button className="w-10 h-10 rounded-full hover:brightness-95 transition-all flex items-center justify-center overflow-hidden border border-emerald-600 dark:border-emerald-400 shrink-0">
                 <img
-                  src="/default-avatar.svg"
+                  src={navAvatar ? getOptimizedUrl(navAvatar, "avatar") : "/default-avatar.svg"}
                   alt="Profile"
                   className="w-full h-full object-cover"
                 />
@@ -584,20 +624,25 @@ export default function Navbar({
             {/* Dropdown Profile Panel */}
             {isDropdownOpen && (
               <div className="absolute right-0 mt-3 w-[340px] bg-white dark:bg-[#242526] rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.15)] border border-gray-200 dark:border-[#3E4042] p-4 z-[10200]">
-                <div className="bg-[#F2F2F2] dark:bg-[#3A3B3C] rounded-xl p-3 flex items-center gap-3 mb-2 hover:bg-[#E4E6EB] dark:hover:bg-[#4E4F50] cursor-pointer transition-colors shadow-sm border border-gray-100 dark:border-[#3E4042]">
+                <div className="bg-[#F2F2F2] dark:bg-[#3A3B3C] rounded-xl p-3 flex items-center gap-3 mb-2 hover:bg-[#E4E6EB] dark:hover:bg-[#4E4F50] cursor-pointer transition-colors shadow-sm border border-gray-100 dark:border-[#3E4042]"
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    router.push(`/${locale}/p/${currentUser.username}/${currentUser.id}`);
+                  }}
+                >
                   <div className="w-[40px] h-[40px] rounded-full flex items-center justify-center overflow-hidden shrink-0 border border-emerald-600 dark:border-emerald-400">
                     <img
-                      src="/default-avatar.svg"
+                      src={navAvatar ? getOptimizedUrl(navAvatar, "avatar") : "/default-avatar.svg"}
                       alt="Profile"
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <div>
                     <h3 className="font-bold text-[16px] text-black dark:text-[#E4E6EB] leading-tight">
-                      {currentUser.username}
+                      {navDisplayName || currentUser.displayName || currentUser.username}
                     </h3>
-                    <p className="text-[14px] text-gray-500 dark:text-[#B0B3B8]">
-                      {t("dropdown.viewAllProfiles")}
+                    <p className="text-[13px] text-gray-500 dark:text-[#B0B3B8]">
+                      @{currentUser.username}
                     </p>
                   </div>
                 </div>
@@ -769,7 +814,7 @@ export default function Navbar({
       {/* Popup Panel */}
       <div
         ref={notifPanelRef}
-        className={`fixed top-[56px] right-4 w-[380px] max-w-[calc(100vw-2rem)] max-h-[calc(100vh-72px)] bg-white dark:bg-[#242526] rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.25)] z-[10201] flex flex-col overflow-hidden transition-all duration-200 origin-top-right ${isNotifPanelOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"}`}
+        className={`fixed top-[56px] right-4 w-[380px] max-w-[calc(100vw-2rem)] min-h-[560px] max-h-[calc(100vh-72px)] bg-white dark:bg-[#242526] rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.25)] z-[10201] flex flex-col overflow-hidden transition-all duration-200 origin-top-right ${isNotifPanelOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"}`}
       >
         {/* Header */}
         <div className="flex items-center justify-between px-5 pt-4 pb-3 shrink-0">
@@ -876,7 +921,38 @@ export default function Navbar({
         </div>
         {/* Notification List */}
         <div className="flex-1 overflow-y-auto sidebar-scrollbar overscroll-none py-1">
-          {notifications.length === 0 ? (
+          {isLoadingNotifs ? (
+            // Skeleton loading - matches real notif layout
+            <div className="px-1 space-y-1 py-1">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="flex flex-col gap-2 px-3 py-3 rounded-xl mx-1">
+                  {/* Top row: avatar + text + dot */}
+                  <div className="flex items-start gap-3">
+                    {/* Avatar circle with badge */}
+                    <div className="relative shrink-0">
+                      <div className="w-14 h-14 rounded-full bg-gray-200 dark:bg-[#3A3B3C] animate-pulse" />
+                      <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-gray-300 dark:bg-[#4E4F50] border-2 border-white dark:border-[#242526] animate-pulse" />
+                    </div>
+                    {/* Text lines */}
+                    <div className="flex-1 min-w-0 flex flex-col justify-center gap-2 pt-1">
+                      <div className="h-3.5 bg-gray-200 dark:bg-[#3A3B3C] rounded-full animate-pulse w-4/5" />
+                      <div className="h-3 bg-gray-200 dark:bg-[#3A3B3C] rounded-full animate-pulse w-3/5" />
+                      <div className="h-2.5 bg-gray-200 dark:bg-[#3A3B3C] rounded-full animate-pulse w-1/4" />
+                    </div>
+                    {/* Unread dot placeholder */}
+                    <div className="w-3 h-3 rounded-full bg-gray-200 dark:bg-[#3A3B3C] animate-pulse shrink-0 mt-2" />
+                  </div>
+                  {/* Action buttons skeleton (show on first 2 items) */}
+                  {i <= 2 && (
+                    <div className="flex gap-2 pl-[68px] pr-2 pt-1">
+                      <div className="flex-1 h-8 bg-gray-200 dark:bg-[#3A3B3C] rounded-lg animate-pulse" />
+                      <div className="flex-1 h-8 bg-gray-200 dark:bg-[#3A3B3C] rounded-lg animate-pulse" />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : notifications.length === 0 ? (
             <div className="p-8 text-center text-gray-500 dark:text-[#B0B3B8]">
               {t("notif.empty")}
             </div>

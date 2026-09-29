@@ -106,6 +106,14 @@ export default function ProfilePage({
         const res = await updateProfileMedia(token, userId, cropType, cloudinaryUrl);
         if (!res.success) {
           console.error("updateProfileMedia failed:", res.error);
+        } else {
+          // Dispatch event so Navbar avatar updates instantly without re-fetch
+          window.dispatchEvent(new CustomEvent("avatar-updated", {
+            detail: { url: cloudinaryUrl, type: cropType }
+          }));
+          // Also update local preview with the final Cloudinary URL
+          if (cropType === "avatar") setAvatarPreview(cloudinaryUrl);
+          else setCoverPreview(cloudinaryUrl);
         }
       }
     } catch (error) {
