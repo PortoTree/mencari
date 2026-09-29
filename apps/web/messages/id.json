@@ -286,7 +286,22 @@
     "settings": "Pengaturan notifikasi",
     "filterMessage": "Permintaan pesan",
     "filterFriend": "Permintaan pertemanan",
-    "filterGroup": "Permintaan gabung grup"
+    "filterMention": "Filter sebutan",
+    "filterFollower": "Filter pengikut",
+    "filterGroup": "Permintaan gabung grup",
+    "filterNews": "Filter berita",
+    "noFriendRequest": "Tidak ada permintaan pertemanan",
+    "viewAll": "Lihat Semua",
+    "justNow": "baru saja",
+    "empty": "Belum ada notifikasi",
+    "typeFollow": "mulai mengikuti Anda.",
+    "typeFriendRequest": "Mulai mengikuti dan mengirimkan permintaan pertemanan.",
+    "typeFriendAccept": "menerima permintaan pertemanan Anda.",
+    "typePostLike": "menyukai postingan Anda.",
+    "typePostComment": "mengomentari postingan Anda.",
+    "timeMinutes": "{min} menit yang lalu",
+    "timeHours": "{hour} jam yang lalu",
+    "timeYesterday": "Kemarin"
   },
   "search": {
     "recent": "Pencarian Terakhir",
@@ -330,6 +345,10 @@
     }
   },
   "profile": {
+    "accountIsPrivate": "Akun Ini Bersifat Privat",
+    "accountIsFriendsOnly": "Akun Ini Hanya Untuk Teman",
+    "privateDesc": "Akun ini dikunci rapat-rapat oleh pemiliknya.",
+    "friendsOnlyDesc": "Bertemanlah dengan akun ini untuk melihat info lengkapnya.",
     "reputation": "Reputasi",
     "points": "poin",
     "pointsDesc": "Semakin lengkap profil Anda, semakin tinggi reputasi yang didapat.",
@@ -403,7 +422,11 @@
     "cancelRequestBtn": "Batal Request",
     "followBtn": "+ Ikuti",
     "see": "Lihat",
-    "search": "Cari"
+    "search": "Cari",
+    "noFriends": "Tidak ada daftar pertemanan",
+    "noFollowers": "Tidak ada daftar pengikut",
+    "noFriendsDesc": "Pengguna ini belum memiliki teman atau pertemanan belum disetujui.",
+    "noFollowersDesc": "Pengguna ini belum memiliki pengikut saat ini."
   },
   "editProfile": {
     "title": "Edit Profil",
@@ -452,7 +475,6 @@
     "profNow": "Profesi saat ini",
     "addProf": "Tambahkan profesi",
     "profPlaceholder": "Misal: Web Developer, UI/UX Designer...",
-
     "education": "Pendidikan",
     "eduNow": "Pendidikan saat ini",
     "addEdu": "Tambahkan pendidikan",
@@ -529,7 +551,6 @@
       "nov": "November",
       "dec": "Desember"
     },
-
     "monthsShort": {
       "jan": "Jan.",
       "feb": "Feb.",
@@ -620,24 +641,5 @@
     "ulasan_pembeli": "Ulasan Pembeli",
     "selengkapnya": "Selengkapnya",
     "tambah_ulasan_kamu": "+Ulasan kamu"
-  },
-  "notif": {
-    "title": "Notifikasi",
-    "all": "Semua",
-    "unread": "Belum dibaca",
-    "empty": "Belum ada notifikasi",
-    "markAllRead": "Tandai semua telah dibaca",
-    "settings": "Pengaturan",
-    "filterMessage": "Filter pesan",
-    "filterFriend": "Filter pertemanan",
-    "filterGroup": "Filter grup",
-    "typeFollow": "mulai mengikuti Anda.",
-    "typeFriendRequest": "Mulai mengikuti dan mengirimkan permintaan pertemanan.",
-    "typeFriendAccept": "menerima permintaan pertemanan Anda.",
-    "typePostLike": "menyukai postingan Anda.",
-    "typePostComment": "mengomentari postingan Anda.",
-    "timeMinutes": "{min} menit yang lalu",
-    "timeHours": "{hour} jam yang lalu",
-    "timeYesterday": "Kemarin"
   }
 }

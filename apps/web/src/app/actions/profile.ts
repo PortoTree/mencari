@@ -11,7 +11,9 @@ const verifyToken = (token: string, expectedUserId: string) => {
   try {
     const secret = process.env.JWT_SECRET || 'mencari-online-secret-key-dev';
     const decoded = jwt.verify(token, secret) as any;
-    return decoded.sub === expectedUserId;
+    // Support various JWT claim formats
+    const tokenUserId = decoded.sub || decoded.id || decoded._id || decoded.userId;
+    return tokenUserId === expectedUserId;
   } catch (error) {
     return false;
   }
@@ -24,9 +26,25 @@ export const getProfile = async (userId: string) => {
       include: {
         user: {
           include: {
+            profileSettings: true,
             socialLinks: true,
+            followers: {
+              include: { follower: { include: { profile: true } } }
+            },
+            following: {
+              include: { following: { include: { profile: true } } }
+            },
+            friendshipsAsUser: {
+              where: { status: 'ACCEPTED' },
+              include: { friend: { include: { profile: true } } }
+            },
+            friendshipsAsFriend: {
+              where: { status: 'ACCEPTED' },
+              include: { user: { include: { profile: true } } }
+            },
             _count: {
               select: {
+                posts: true,
                 followers: true,
                 following: true,
                 friendshipsAsUser: { where: { status: 'ACCEPTED' } },
@@ -113,7 +131,7 @@ export async function updateProfileMedia(token: string, userId: string, type: "a
 export async function updateProfileInfo(token: string, userId: string, data: any) {
   if (!verifyToken(token, userId)) return { success: false, error: "Unauthorized" };
   try {
-    const { bio, locationName, websiteUrl, externalLinks, socialLinks, education, profession, gender, birthDate, softSkills, hardSkills, softwareSkills, hobbies, music, tvShows, movies, games, sports, type, profileVisibility } = data;
+    const { bio, locationName, websiteUrl, externalLinks, socialLinks, education, profession, gender, birthDate, softSkills, hardSkills, softwareSkills, hobbies, music, tvShows, movies, games, sports, type, profileVisibility, privacyGender, privacyBirth, privacyLoc, privacyProf, privacySosmed, privacyFriendList, privacyFollowers, privacyFollowing, privacyActivity, privacyOwnedGroups, privacyJoinedGroups, privacyExternalLink, privacyTag, privacyComment, privacyOnline, privacyDM } = data;
     
     // Validate platform and url for socialLinks
     let formattedSocialLinks: any[] = [];
@@ -159,13 +177,18 @@ export async function updateProfileInfo(token: string, userId: string, data: any
       },
     });
 
-    if (profileVisibility) {
       await prisma.profileSettings.upsert({
         where: { userId },
-        create: { userId, profileVisibility },
-        update: { profileVisibility }
+        create: { 
+          userId, 
+          profileVisibility,
+          privacyGender, privacyBirth, privacyLoc, privacyProf, privacySosmed, privacyFriendList, privacyFollowers, privacyFollowing, privacyActivity, privacyOwnedGroups, privacyJoinedGroups, privacyExternalLink, privacyTag, privacyComment, privacyOnline, privacyDM
+        },
+        update: { 
+          profileVisibility,
+          privacyGender, privacyBirth, privacyLoc, privacyProf, privacySosmed, privacyFriendList, privacyFollowers, privacyFollowing, privacyActivity, privacyOwnedGroups, privacyJoinedGroups, privacyExternalLink, privacyTag, privacyComment, privacyOnline, privacyDM
+        }
       });
-    }
 
     // @ts-ignore
     revalidateTag(`profile-${userId}`);

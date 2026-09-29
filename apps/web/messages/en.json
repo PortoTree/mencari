@@ -286,7 +286,16 @@
     "settings": "Notification settings",
     "filterMessage": "Message requests",
     "filterFriend": "Friend requests",
-    "filterGroup": "Group join requests"
+    "filterGroup": "Group join requests",
+    "empty": "No notifications yet",
+    "typeFollow": "started following you.",
+    "typeFriendRequest": "Started following you and sent a friend request.",
+    "typeFriendAccept": "accepted your friend request.",
+    "typePostLike": "liked your post.",
+    "typePostComment": "commented on your post.",
+    "timeMinutes": "{min} minutes ago",
+    "timeHours": "{hour} hours ago",
+    "timeYesterday": "Yesterday"
   },
   "search": {
     "recent": "Recent Searches",
@@ -330,6 +339,10 @@
     }
   },
   "profile": {
+    "accountIsPrivate": "This Account is Private",
+    "accountIsFriendsOnly": "This Account is Friends Only",
+    "privateDesc": "This account is tightly locked by its owner.",
+    "friendsOnlyDesc": "Become friends with this account to see full info.",
     "reputation": "Reputation",
     "points": "points",
     "pointsDesc": "The more complete your profile, the higher your reputation.",
@@ -403,7 +416,11 @@
     "cancelRequestBtn": "Cancel Request",
     "followBtn": "+ Follow",
     "see": "See",
-    "search": "Search"
+    "search": "Search",
+    "noFriends": "No friends list",
+    "noFollowers": "No followers list",
+    "noFriendsDesc": "This user does not have any friends or friendship requests haven't been accepted.",
+    "noFollowersDesc": "This user currently has no followers."
   },
   "editProfile": {
     "title": "Edit Profile",
@@ -620,24 +637,5 @@
     "ulasan_pembeli": "Customer Reviews",
     "selengkapnya": "See All",
     "tambah_ulasan_kamu": "+Your review"
-  },
-  "notif": {
-    "title": "Notifications",
-    "all": "All",
-    "unread": "Unread",
-    "empty": "No notifications yet",
-    "markAllRead": "Mark all as read",
-    "settings": "Settings",
-    "filterMessage": "Filter by messages",
-    "filterFriend": "Filter by friends",
-    "filterGroup": "Filter by groups",
-    "typeFollow": "started following you.",
-    "typeFriendRequest": "Started following you and sent a friend request.",
-    "typeFriendAccept": "accepted your friend request.",
-    "typePostLike": "liked your post.",
-    "typePostComment": "commented on your post.",
-    "timeMinutes": "{min} minutes ago",
-    "timeHours": "{hour} hours ago",
-    "timeYesterday": "Yesterday"
   }
 }

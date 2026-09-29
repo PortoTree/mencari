@@ -80,14 +80,30 @@ model Profile {
 }
 
 model ProfileSettings {
-  userId             String            @id
-  profileVisibility  ProfileVisibility @default(PUBLIC)
-  showBirthDate      Boolean           @default(true)
-  showLocation       Boolean           @default(true)
-  allowFollow        Boolean           @default(true)
-  allowFriendRequest Boolean           @default(true)
-  searchable         Boolean           @default(true)
-  user               User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                 String             @id
+  profileVisibility      ProfileVisibility  @default(PUBLIC)
+  privacyGender          ProfileVisibility  @default(PUBLIC)
+  privacyBirth           ProfileVisibility  @default(PUBLIC)
+  privacyLoc             ProfileVisibility  @default(PUBLIC)
+  privacyProf            ProfileVisibility  @default(PUBLIC)
+  privacySosmed          ProfileVisibility  @default(PUBLIC)
+  privacyFriendList      ProfileVisibility  @default(PUBLIC)
+  privacyFollowers       ProfileVisibility  @default(PUBLIC)
+  privacyFollowing       ProfileVisibility  @default(PUBLIC)
+  privacyActivity        ProfileVisibility  @default(PUBLIC)
+  privacyOwnedGroups     ProfileVisibility  @default(PUBLIC)
+  privacyJoinedGroups    ProfileVisibility  @default(PUBLIC)
+  privacyExternalLink    ProfileVisibility  @default(PUBLIC)
+  privacyTag             ProfileVisibility  @default(PUBLIC)
+  privacyComment         InteractionPrivacy @default(PUBLIC)
+  privacyOnline          InteractionPrivacy @default(PUBLIC)
+  privacyDM              Boolean            @default(true)
+  showBirthDate          Boolean            @default(true) // Deprecated: replaced by privacyBirth
+  showLocation           Boolean            @default(true) // Deprecated: replaced by privacyLoc
+  allowFollow            Boolean            @default(true)
+  allowFriendRequest     Boolean            @default(true)
+  searchable             Boolean            @default(true)
+  user                   User               @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model UserSocialLink {
@@ -184,6 +200,12 @@ enum ProfileVisibility {
   PUBLIC
   FRIENDS
   PRIVATE
+}
+
+enum InteractionPrivacy {
+  PUBLIC
+  FRIENDS
+  TURN_OFF
 }
 
 enum FriendshipStatus {

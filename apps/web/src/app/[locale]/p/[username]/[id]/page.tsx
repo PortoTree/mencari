@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect, use } from "react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import EditProfileModal from "@/components/EditProfileModal";
 import CropModal from "@/components/CropModal";
@@ -24,6 +25,8 @@ export default function ProfilePage({
   const unwrappedParams = use(params);
   const username = unwrappedParams.username ? decodeURIComponent(unwrappedParams.username) : "pampam";
   const id = unwrappedParams.id || "123";
+  const locale = unwrappedParams.locale || "en";
+  const router = useRouter();
 
   const [activeTab, setActiveTab] = useState("posts");
   const [currentUser, setCurrentUser] = useState<any>({ username: "Guest", id: "1" });
@@ -124,6 +127,7 @@ export default function ProfilePage({
     const [activeAlbumIdx, setActiveAlbumIdx] = useState<number | null>(null);
     const [albumGridCols, setAlbumGridCols] = useState<number>(3);
     const [activeStatTab, setActiveStatTab] = useState<'friends' | 'followers' | null>(null);
+    const [statSearchQuery, setStatSearchQuery] = useState("");
     const [expandedGroupTab, setExpandedGroupTab] = useState<'managed' | 'joined' | null>(null);
     const [statPage, setStatPage] = useState(1);
     const [groupPage, setGroupPage] = useState(1);
@@ -145,6 +149,14 @@ export default function ProfilePage({
     };
 
   const isOwnProfile = currentUser && currentUser.id === id;
+  
+  const isVisible = (privacy?: string) => {
+    if (isOwnProfile) return true;
+    if (!privacy || privacy === "PUBLIC") return true;
+    if (privacy === "PRIVATE") return false;
+    if (privacy === "FRIENDS") return connectionStatus?.friendshipStatus === "ACCEPTED";
+    return true;
+  };
 
 
 
@@ -340,47 +352,62 @@ export default function ProfilePage({
     return () => window.removeEventListener("friend-accepted", handleFriendAccepted);
   }, [id]);
 
-  const hasExpandableInfo = profileData?.websiteUrl || profileData?.education || profileData?.profession || profileData?.gender || profileData?.birthDate;
-  const hasAnyInfo = profileData?.bio || profileData?.locationName || hasExpandableInfo;
+  const settings = profileData?.user?.profileSettings;
+  const showLoc = profileData?.locationName && isVisible(settings?.privacyLoc);
+  const showExtLink = (profileData?.externalLinks || profileData?.websiteUrl) && isVisible(settings?.privacyExternalLink);
+  const showProf = profileData?.profession && isVisible(settings?.privacyProf);
+  const showEdu = profileData?.education && isVisible(settings?.privacyProf);
+  const showGender = profileData?.gender && isVisible(settings?.privacyGender);
+  const showBirth = profileData?.birthDate && isVisible(settings?.privacyBirth);
+  
+  const hasExpandableInfo = showExtLink || showEdu || showProf || showGender || showBirth;
+  const hasAnyInfo = profileData?.bio || showLoc || hasExpandableInfo;
 
   const isBlockedByMe = connectionStatus?.isBlocked;
   const isBlockedByThem = connectionStatus?.hasBlockedYou;
   const isProfileInaccessible = isBlockedByMe || isBlockedByThem;
 
-  const dummyStatsUsers = [
-    { name: 'John Doe', username: 'johndoe', isFriend: true, avatar: '/default-avatar.svg' },
-    { name: 'Jane Smith', username: 'janesmith', isFriend: false, avatar: '/default-avatar.svg' },
-    { name: 'Alice', username: 'alice', isFriend: true, avatar: '/default-avatar.svg' },
-    { name: 'Bob', username: 'bob', isFriend: false, avatar: '/default-avatar.svg' },
-    { name: 'Charlie', username: 'charlie', isFriend: true, avatar: '/default-avatar.svg' },
-    { name: 'Dave', username: 'dave', isFriend: false, avatar: '/default-avatar.svg' },
-    { name: 'Eve', username: 'eve', isFriend: true, avatar: '/default-avatar.svg' },
-    { name: 'Frank', username: 'frank', isFriend: false, avatar: '/default-avatar.svg' },
-    { name: 'Grace', username: 'grace', isFriend: true, avatar: '/default-avatar.svg' },
-    { name: 'Heidi', username: 'heidi', isFriend: false, avatar: '/default-avatar.svg' },
-    { name: 'Ivan', username: 'ivan', isFriend: true, avatar: '/default-avatar.svg' },
-    { name: 'Judy', username: 'judy', isFriend: false, avatar: '/default-avatar.svg' }
-  ];
+  let statsUsers: any[] = [];
+  if (profileData?.user) {
+    if (activeStatTab === 'friends') {
+      const friends1 = (profileData.user.friendshipsAsUser || []).map((f: any) => ({
+        id: f.friend.id,
+        name: f.friend.profile?.displayName || f.friend.username,
+        username: f.friend.username,
+        isFriend: true,
+        avatar: f.friend.profile?.avatarUrl || '/default-avatar.svg'
+      }));
+      const friends2 = (profileData.user.friendshipsAsFriend || []).map((f: any) => ({
+        id: f.user.id,
+        name: f.user.profile?.displayName || f.user.username,
+        username: f.user.username,
+        isFriend: true,
+        avatar: f.user.profile?.avatarUrl || '/default-avatar.svg'
+      }));
+      statsUsers = [...friends1, ...friends2];
+    } else if (activeStatTab === 'followers') {
+      statsUsers = (profileData.user.followers || []).map((f: any) => ({
+        id: f.follower.id,
+        name: f.follower.profile?.displayName || f.follower.username,
+        username: f.follower.username,
+        isFriend: false, // We'd need to check actual friendship status, but setting false for now or omit
+        avatar: f.follower.profile?.avatarUrl || '/default-avatar.svg'
+      }));
+    }
+  }
 
-  const dummyManagedGroups = [
-    { name: 'Developer Indo', members: '12.5k', role: 'Owner', color: 'from-blue-500 to-cyan-400', initial: 'DI' },
-    { name: 'UI/UX Enthusiast', members: '8.2k', role: 'Admin', color: 'from-purple-500 to-pink-500', initial: 'UX' },
-    { name: 'Front-End Masters', members: '24k', role: 'Admin', color: 'from-orange-400 to-red-500', initial: 'FE' },
-    { name: 'Backend Geeks', members: '15k', role: 'Owner', color: 'from-gray-600 to-gray-800', initial: 'BG' },
-    { name: 'Data Science Id', members: '10k', role: 'Admin', color: 'from-green-400 to-emerald-600', initial: 'DS' },
-    { name: 'Cyber Security', members: '5k', role: 'Owner', color: 'from-purple-600 to-purple-800', initial: 'CS' },
-    { name: 'DevOps Indonesia', members: '18k', role: 'Admin', color: 'from-blue-600 to-indigo-600', initial: 'DO' }
-  ];
+  // Filter based on search query
+  if (statSearchQuery.trim()) {
+    const q = statSearchQuery.toLowerCase();
+    statsUsers = statsUsers.filter(u => 
+      u.name.toLowerCase().includes(q) || 
+      u.username.toLowerCase().includes(q)
+    );
+  }
 
-  const dummyJoinedGroups = [
-    { name: 'Next.js Masters', members: '45k', color: 'from-gray-800 to-black dark:from-gray-200 dark:to-gray-400', initial: 'NM' },
-    { name: 'Tailwind CSS', members: '92k', color: 'from-teal-400 to-emerald-500', initial: 'TW' },
-    { name: 'Framer Motion', members: '18k', color: 'from-fuchsia-500 to-pink-500', initial: 'FM' },
-    { name: 'React Native', members: '32k', color: 'from-blue-500 to-blue-600', initial: 'RN' },
-    { name: 'Vue.js Indo', members: '21k', color: 'from-emerald-400 to-green-500', initial: 'VJ' },
-    { name: 'GraphQL Enthusiast', members: '14k', color: 'from-pink-500 to-rose-500', initial: 'GQ' },
-    { name: 'Docker Users', members: '28k', color: 'from-blue-400 to-blue-600', initial: 'DU' }
-  ];
+  const managedGroups: any[] = [];
+  const joinedGroups: any[] = [];
+
 
   return (
     <main className="min-h-screen bg-[#F3F2EF] dark:bg-[#18191A] text-black dark:text-[#E4E6EB] pb-20 pt-[56px] font-sans">
@@ -485,7 +512,7 @@ export default function ProfilePage({
               </>
             )}
             {/* Social Media Icons */}
-            {!isProfileInaccessible && profileData?.user?.socialLinks && profileData.user.socialLinks.length > 0 && (
+            {!isProfileInaccessible && isVisible(settings?.privacySosmed) && profileData?.user?.socialLinks && profileData.user.socialLinks.length > 0 && (
               <div className="flex flex-wrap items-center justify-center gap-2.5 mb-8 px-4">
                 {profileData.user.socialLinks.map((social: any) => {
                   const getSocialUrl = (platform: string, username: string) => {
@@ -555,7 +582,7 @@ export default function ProfilePage({
                     )}
 
                     {/* 2. Lokasi */}
-                    {profileData?.locationName && (
+                    {showLoc && (
                       <div className="flex items-center gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
                         <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                         {profileData.locationName}
@@ -563,7 +590,7 @@ export default function ProfilePage({
                     )}
 
                     {/* 3. Link web (External Links) */}
-                  {(() => {
+                  {showExtLink && (() => {
                     let links: {label: string, url: string}[] = [];
                     if (profileData?.externalLinks) {
                       try {
@@ -603,7 +630,7 @@ export default function ProfilePage({
                   })()}
 
                   {/* 4. Profesi */}
-                  {profileData?.profession && (
+                  {showProf && (
                     <div className="flex items-center gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
                       <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                       <span>{profileData.profession}</span>
@@ -611,7 +638,7 @@ export default function ProfilePage({
                   )}
 
                   {/* 4.5 Pendidikan */}
-                  {profileData?.education && (
+                  {showEdu && (
                     <div className="flex items-center gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
                       <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
@@ -623,7 +650,7 @@ export default function ProfilePage({
                   )}
 
                   {/* 5. Gender */}
-                  {profileData?.gender && (
+                  {showGender && (
                     <div className="flex items-center gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
                       <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                       {profileData.gender}
@@ -631,7 +658,7 @@ export default function ProfilePage({
                   )}
 
                   {/* 6. Tanggal lahir */}
-                  {profileData?.birthDate && (
+                  {showBirth && (
                     <div className="flex items-center gap-3 text-sm text-gray-800 dark:text-gray-200 font-semibold">
                       <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                       {new Date(profileData.birthDate).toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' })}
@@ -744,28 +771,40 @@ export default function ProfilePage({
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-gray-300 dark:border-gray-700 pb-4">
               <div className="flex items-center gap-6 sm:gap-10">
                   <div 
-                    onClick={() => { setActiveStatTab(activeStatTab === 'followers' ? null : 'followers'); setStatPage(1); }}
-                    className="flex flex-col items-center cursor-pointer group"
+                    onClick={() => { 
+                      if (!isProfileInaccessible && isVisible(settings?.privacyFollowers)) {
+                        setActiveStatTab(activeStatTab === 'followers' ? null : 'followers'); 
+                        setStatPage(1); 
+                        setStatSearchQuery(""); 
+                      }
+                    }}
+                    className={`flex flex-col items-center ${!isProfileInaccessible && isVisible(settings?.privacyFollowers) ? 'cursor-pointer group' : ''}`}
                   >
-                    <span className={`text-[14px] font-medium transition-colors ${activeStatTab === 'followers' ? 'text-black dark:text-white' : 'text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white'}`}>{t("followers")}</span>
+                    <span className={`text-[14px] font-medium transition-colors ${activeStatTab === 'followers' ? 'text-black dark:text-white' : 'text-gray-500 dark:text-gray-400'} ${!isProfileInaccessible && isVisible(settings?.privacyFollowers) ? 'group-hover:text-black dark:group-hover:text-white' : ''}`}>{t("followers")}</span>
                     {isLoadingProfile ? (
                       <div className="w-6 h-6 bg-gray-300 dark:bg-[#3E4042] rounded animate-pulse mt-0.5"></div>
                     ) : (
                       <span className="text-[18px] font-bold mt-0.5 text-black dark:text-white">
-                        {isProfileInaccessible ? "-" : profileData?.user?._count?.followers || 0}
+                        {isProfileInaccessible || !isVisible(settings?.privacyFollowers) ? "-" : profileData?.user?._count?.followers || 0}
                       </span>
                     )}
                   </div>
                   <div 
-                    onClick={() => { setActiveStatTab(activeStatTab === 'friends' ? null : 'friends'); setStatPage(1); }}
-                    className="flex flex-col items-center cursor-pointer group"
+                    onClick={() => { 
+                      if (!isProfileInaccessible && isVisible(settings?.privacyFriendList)) {
+                        setActiveStatTab(activeStatTab === 'friends' ? null : 'friends'); 
+                        setStatPage(1); 
+                        setStatSearchQuery(""); 
+                      }
+                    }}
+                    className={`flex flex-col items-center ${!isProfileInaccessible && isVisible(settings?.privacyFriendList) ? 'cursor-pointer group' : ''}`}
                   >
-                    <span className={`text-[14px] font-medium transition-colors ${activeStatTab === 'friends' ? 'text-black dark:text-white' : 'text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white'}`}>{t("friends")}</span>
+                    <span className={`text-[14px] font-medium transition-colors ${activeStatTab === 'friends' ? 'text-black dark:text-white' : 'text-gray-500 dark:text-gray-400'} ${!isProfileInaccessible && isVisible(settings?.privacyFriendList) ? 'group-hover:text-black dark:group-hover:text-white' : ''}`}>{t("friends")}</span>
                     {isLoadingProfile ? (
                       <div className="w-6 h-6 bg-gray-300 dark:bg-[#3E4042] rounded animate-pulse mt-0.5"></div>
                     ) : (
                       <span className="text-[18px] font-bold mt-0.5 text-black dark:text-white">
-                        {isProfileInaccessible ? "-" : (profileData?.user?._count?.friendshipsAsUser || 0) + (profileData?.user?._count?.friendshipsAsFriend || 0)}
+                        {isProfileInaccessible || !isVisible(settings?.privacyFriendList) ? "-" : (profileData?.user?._count?.friendshipsAsUser || 0) + (profileData?.user?._count?.friendshipsAsFriend || 0)}
                       </span>
                     )}
                   </div>
@@ -882,29 +921,42 @@ export default function ProfilePage({
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                               <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                             </div>
-                            <input type="text" placeholder={t("search") || "Cari..."} className="w-full pl-9 pr-4 py-1.5 bg-white dark:bg-[#242526] border border-gray-200 dark:border-gray-700 rounded-full text-[13px] text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-shadow" />
+                            <input type="text" value={statSearchQuery} onChange={(e) => { setStatSearchQuery(e.target.value); setStatPage(1); }} placeholder={t("search") || "Cari..."} className="w-full pl-9 pr-4 py-1.5 bg-white dark:bg-[#242526] border border-gray-200 dark:border-gray-700 rounded-full text-[13px] text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-shadow" />
                           </div>
-                          <button onClick={() => { setActiveStatTab(null); setStatPage(1); }} className="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-gray-500 transition-colors ml-2">
+                          <button onClick={() => { setActiveStatTab(null); setStatPage(1); setStatSearchQuery(""); }} className="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-gray-500 transition-colors ml-2">
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                           </button>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          {dummyStatsUsers.slice((statPage - 1) * 8, statPage * 8).map((user, idx) => (
-                            <div key={idx} className="flex items-center justify-between p-3 rounded-2xl bg-white/40 dark:bg-[#242526]/40 border border-gray-100 dark:border-white/5 hover:bg-white dark:hover:bg-[#2A2B2C] hover:shadow-sm transition-all cursor-pointer group">
-                              <div className="flex items-center gap-3">
-                                <img src={user.avatar} alt={user.name} className="w-10 h-10 rounded-full object-cover border border-gray-200 dark:border-gray-700" />
-                                <div className="flex flex-col">
-                                  <span className="text-[14px] font-bold text-gray-900 dark:text-white leading-tight">{user.name}</span>
-                                  <span className="text-[12px] text-gray-500 dark:text-gray-400 mt-0.5">@{user.username}</span>
+                        
+                        {statsUsers.length === 0 ? (
+                          <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
+                            <svg className="w-16 h-16 text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                            <p className="text-[15px] font-bold text-gray-800 dark:text-gray-200 mb-1">
+                              {activeStatTab === 'friends' ? (t("noFriends") || "Tidak ada daftar pertemanan") : (t("noFollowers") || "Tidak ada daftar pengikut")}
+                            </p>
+                            <p className="text-[13px] text-gray-500 dark:text-gray-400 max-w-[280px]">
+                              {activeStatTab === 'friends' ? "Pengguna ini belum memiliki teman atau pertemanan belum disetujui." : "Pengguna ini belum memiliki pengikut saat ini."}
+                            </p>
+                          </div>
+                        ) : (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {statsUsers.slice((statPage - 1) * 8, statPage * 8).map((user, idx) => (
+                              <div key={idx} className="flex items-center justify-between p-3 rounded-2xl bg-white/40 dark:bg-[#242526]/40 border border-gray-100 dark:border-white/5 hover:bg-white dark:hover:bg-[#2A2B2C] hover:shadow-sm transition-all cursor-pointer group">
+                                <div className="flex items-center gap-3" onClick={() => router.push(`/${locale}/p/${user.username}/${user.id}`)}>
+                                  <img src={user.avatar} alt={user.name} className="w-10 h-10 rounded-full object-cover border border-gray-200 dark:border-gray-700" />
+                                  <div className="flex flex-col">
+                                    <span className="text-[14px] font-bold text-gray-900 dark:text-white leading-tight group-hover:text-emerald-600 transition-colors">{user.name}</span>
+                                    <span className="text-[12px] text-gray-500 dark:text-gray-400 mt-0.5">@{user.username}</span>
+                                  </div>
                                 </div>
+                                <button className="flex items-center justify-center px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 font-semibold text-[13px] transition-colors">
+                                  {isOwnProfile || user.isFriend ? (t("see") || "Lihat") : (t("followBtn") || "+ Follow")}
+                                </button>
                               </div>
-                              <button className="flex items-center justify-center px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 font-semibold text-[13px] transition-colors">
-                                {isOwnProfile || user.isFriend ? (t("see") || "Lihat") : (t("followBtn") || "+ Follow")}
-                              </button>
-                            </div>
-                          ))}
-                        </div>
-                        {dummyStatsUsers.length > 8 && (
+                            ))}
+                          </div>
+                        )}
+                        {statsUsers.length > 8 && (
                           <div className="flex justify-center items-center mt-auto pt-6 px-2 gap-4">
                             <button 
                               disabled={statPage === 1}
@@ -915,7 +967,7 @@ export default function ProfilePage({
                             </button>
                             <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">Halaman {statPage}</span>
                             <button 
-                              disabled={statPage * 8 >= dummyStatsUsers.length}
+                              disabled={statPage * 8 >= statsUsers.length}
                               onClick={() => setStatPage(p => p + 1)}
                               className="p-2 rounded-full bg-gray-200 dark:bg-[#3A3B3C] text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             >
@@ -927,7 +979,7 @@ export default function ProfilePage({
                     ) : (
                       <div className="flex flex-col gap-6 flex-1">
                         {/* 1. Grup yang kamu buat */}
-                        {(!expandedGroupTab || expandedGroupTab === 'managed') && (
+                        {(!expandedGroupTab || expandedGroupTab === 'managed') && isVisible(settings?.privacyOwnedGroups) && (
                           <div className="flex flex-col flex-1">
                             <div className="flex items-center justify-between mb-3 px-1">
                               <h3 className="text-[15px] font-bold text-black dark:text-white flex items-center gap-2">
@@ -939,13 +991,21 @@ export default function ProfilePage({
                                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                                 </button>
                               ) : (
-                                dummyManagedGroups.length > 2 && (
+                                managedGroups.length > 2 && (
                                   <button onClick={() => { setExpandedGroupTab('managed'); setGroupPage(1); }} className="text-[13px] font-bold text-[#10B981] hover:text-emerald-700 transition-colors">{t("seeAll") || "Lihat Semua"}</button>
                                 )
                               )}
                             </div>
-                            <div className="flex flex-col gap-2">
-                              {dummyManagedGroups.slice(expandedGroupTab === 'managed' ? (groupPage - 1) * 5 : 0, expandedGroupTab === 'managed' ? groupPage * 5 : 2).map((group, idx) => (
+                            
+                            {managedGroups.length === 0 ? (
+                              <div className="flex flex-col items-center justify-center py-6 text-center border-t border-gray-100 dark:border-[#3A3B3C] mt-2 pt-8">
+                                <svg className="w-12 h-12 text-gray-300 dark:text-gray-600 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                                <p className="text-[14px] font-bold text-gray-700 dark:text-gray-300">Tidak ada grup</p>
+                                <p className="text-[12px] text-gray-500 mt-1 max-w-[200px]">Pengguna ini belum membuat grup apa pun.</p>
+                              </div>
+                            ) : (
+                              <div className="flex flex-col gap-2">
+                                {managedGroups.slice(expandedGroupTab === 'managed' ? (groupPage - 1) * 5 : 0, expandedGroupTab === 'managed' ? groupPage * 5 : 2).map((group, idx) => (
                                 <div key={idx} className="flex items-center justify-between p-3 rounded-2xl bg-white/40 dark:bg-[#242526]/40 border border-gray-100 dark:border-white/5 hover:bg-white dark:hover:bg-[#2A2B2C] hover:shadow-sm transition-all cursor-pointer group">
                                   <div className="flex items-center gap-3">
                                     <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${group.color} flex items-center justify-center text-white font-bold shadow-sm group-hover:scale-105 transition-transform`}>
@@ -993,7 +1053,8 @@ export default function ProfilePage({
                                 </div>
                               ))}
                             </div>
-                            {expandedGroupTab === 'managed' && dummyManagedGroups.length > 5 && (
+                            )}
+                            {expandedGroupTab === 'managed' && managedGroups.length > 5 && (
                               <div className="flex justify-center items-center mt-auto pt-6 px-2 gap-4">
                                 <button 
                                   disabled={groupPage === 1}
@@ -1004,7 +1065,7 @@ export default function ProfilePage({
                                 </button>
                                 <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">Halaman {groupPage}</span>
                                 <button 
-                                  disabled={groupPage * 5 >= dummyManagedGroups.length}
+                                  disabled={groupPage * 5 >= managedGroups.length}
                                   onClick={() => setGroupPage(p => p + 1)}
                                   className="p-2 rounded-full bg-gray-200 dark:bg-[#3A3B3C] text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
@@ -1016,7 +1077,7 @@ export default function ProfilePage({
                         )}
 
                         {/* 2. Komunitas yang diikuti */}
-                        {(!expandedGroupTab || expandedGroupTab === 'joined') && (
+                        {(!expandedGroupTab || expandedGroupTab === 'joined') && isVisible(settings?.privacyJoinedGroups) && (
                           <div className={`flex flex-col flex-1 ${expandedGroupTab ? "" : "w-full mt-2"}`}>
                             <div className="flex items-center justify-between mb-3 px-1">
                               <h3 className="text-[15px] font-bold text-black dark:text-white flex items-center gap-2">
@@ -1028,14 +1089,21 @@ export default function ProfilePage({
                                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                                 </button>
                               ) : (
-                                dummyJoinedGroups.length > 2 && (
+                                joinedGroups.length > 2 && (
                                   <button onClick={() => { setExpandedGroupTab('joined'); setGroupPage(1); }} className="text-[13px] font-bold text-[#10B981] hover:text-emerald-700 transition-colors">{t("seeAll") || "Lihat Semua"}</button>
                                 )
                               )}
                             </div>
                             
-                            <div className="flex flex-col gap-2">
-                              {dummyJoinedGroups.slice(expandedGroupTab === 'joined' ? (groupPage - 1) * 5 : 0, expandedGroupTab === 'joined' ? groupPage * 5 : 2).map((group, idx) => (
+                            {joinedGroups.length === 0 ? (
+                              <div className="flex flex-col items-center justify-center py-6 text-center border-t border-gray-100 dark:border-[#3A3B3C] mt-2 pt-8">
+                                <svg className="w-12 h-12 text-gray-300 dark:text-gray-600 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
+                                <p className="text-[14px] font-bold text-gray-700 dark:text-gray-300">Tidak ada grup</p>
+                                <p className="text-[12px] text-gray-500 mt-1 max-w-[200px]">Pengguna ini belum bergabung dengan grup apa pun.</p>
+                              </div>
+                            ) : (
+                              <div className="flex flex-col gap-2">
+                                {joinedGroups.slice(expandedGroupTab === 'joined' ? (groupPage - 1) * 5 : 0, expandedGroupTab === 'joined' ? groupPage * 5 : 2).map((group, idx) => (
                                 <div key={idx} className="flex items-center justify-between p-3 rounded-2xl bg-white/40 dark:bg-[#242526]/40 border border-gray-100 dark:border-white/5 hover:bg-white dark:hover:bg-[#2A2B2C] hover:shadow-sm transition-all cursor-pointer group">
                                   <div className="flex items-center gap-3">
                                     <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${group.color} flex items-center justify-center text-white font-bold shadow-sm group-hover:scale-105 transition-transform`}>
@@ -1074,7 +1142,8 @@ export default function ProfilePage({
                                 </div>
                               ))}
                             </div>
-                            {expandedGroupTab === 'joined' && dummyJoinedGroups.length > 5 && (
+                            )}
+                            {expandedGroupTab === 'joined' && joinedGroups.length > 5 && (
                               <div className="flex justify-center items-center mt-auto pt-6 px-2 gap-4">
                                 <button 
                                   disabled={groupPage === 1}
@@ -1085,7 +1154,7 @@ export default function ProfilePage({
                                 </button>
                                 <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">Halaman {groupPage}</span>
                                 <button 
-                                  disabled={groupPage * 5 >= dummyJoinedGroups.length}
+                                  disabled={groupPage * 5 >= joinedGroups.length}
                                   onClick={() => setGroupPage(p => p + 1)}
                                   className="p-2 rounded-full bg-gray-200 dark:bg-[#3A3B3C] text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
@@ -1476,7 +1545,17 @@ export default function ProfilePage({
 
       <EditProfileModal 
         isOpen={isEditModalOpen} 
-        onClose={() => setIsEditModalOpen(false)} 
+        onClose={async () => {
+          setIsEditModalOpen(false);
+          // Re-fetch profile so privacy changes take effect immediately
+          const res = await getProfile(id);
+          if (res.success && res.profile) {
+            setProfileData(res.profile);
+            if (res.profile.avatarUrl) setAvatarPreview(res.profile.avatarUrl);
+            if (res.profile.coverUrl) setCoverPreview(res.profile.coverUrl);
+            if (res.profile.displayName) setDisplayName(res.profile.displayName);
+          }
+        }} 
         currentUser={currentUser} 
       />
       

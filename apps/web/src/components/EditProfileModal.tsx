@@ -243,6 +243,31 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
           } else {
             setSocialLinks([{platform: "Instagram", url: ""}]);
           }
+
+          if (res.profile.user?.profileSettings) {
+            const settings = res.profile.user.profileSettings;
+            const mapVis = (val: string) => val === "PRIVATE" ? t("private") : (val === "FRIENDS" ? t("friendsOnly") : t("public"));
+            const mapInt = (val: string) => val === "TURN_OFF" ? t("turnOff") : (val === "FRIENDS" ? t("friendsOnly") : t("public"));
+            
+            if (settings.profileVisibility) setPrivacyAccount(mapVis(settings.profileVisibility));
+            if (settings.privacyGender) setPrivacyGender(mapVis(settings.privacyGender));
+            if (settings.privacyBirth) setPrivacyBirth(mapVis(settings.privacyBirth));
+            if (settings.privacyLoc) setPrivacyLoc(mapVis(settings.privacyLoc));
+            if (settings.privacyProf) setPrivacyProf(mapVis(settings.privacyProf));
+            if (settings.privacySosmed) setPrivacySosmed(mapVis(settings.privacySosmed));
+            if (settings.privacyFriendList) setPrivacyFriendList(mapVis(settings.privacyFriendList));
+            if (settings.privacyFollowers) setPrivacyFollowers(mapVis(settings.privacyFollowers));
+            if (settings.privacyFollowing) setPrivacyFollowing(mapVis(settings.privacyFollowing));
+            if (settings.privacyActivity) setPrivacyActivity(mapVis(settings.privacyActivity));
+            if (settings.privacyOwnedGroups) setPrivacyOwnedGroups(mapVis(settings.privacyOwnedGroups));
+            if (settings.privacyJoinedGroups) setPrivacyJoinedGroups(mapVis(settings.privacyJoinedGroups));
+            if (settings.privacyExternalLink) setPrivacyExternalLink(mapVis(settings.privacyExternalLink));
+            if (settings.privacyTag) setPrivacyTag(mapVis(settings.privacyTag));
+            if (settings.privacyComment) setPrivacyComment(mapInt(settings.privacyComment));
+            if (settings.privacyOnline) setPrivacyOnline(mapInt(settings.privacyOnline));
+            if (settings.privacyDM !== undefined) setPrivacyDM(settings.privacyDM ? t("allow") : t("disallow"));
+          }
+
           if (res.profile.gender) setGender(res.profile.gender); else setGender(t("selectPlaceholder"));
           if (res.profile.birthDate) {
             const d = new Date(res.profile.birthDate);
@@ -359,7 +384,22 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
       sports: selectedSport,
       type: accountType,
       profileVisibility: privacyAccount === t("private") ? "PRIVATE" : (privacyAccount === t("friendsOnly") ? "FRIENDS" : "PUBLIC"),
-
+      privacyGender: privacyGender === t("private") ? "PRIVATE" : (privacyGender === t("friendsOnly") ? "FRIENDS" : "PUBLIC"),
+      privacyBirth: privacyBirth === t("private") ? "PRIVATE" : (privacyBirth === t("friendsOnly") ? "FRIENDS" : "PUBLIC"),
+      privacyLoc: privacyLoc === t("private") ? "PRIVATE" : (privacyLoc === t("friendsOnly") ? "FRIENDS" : "PUBLIC"),
+      privacyProf: privacyProf === t("private") ? "PRIVATE" : (privacyProf === t("friendsOnly") ? "FRIENDS" : "PUBLIC"),
+      privacySosmed: privacySosmed === t("private") ? "PRIVATE" : (privacySosmed === t("friendsOnly") ? "FRIENDS" : "PUBLIC"),
+      privacyFriendList: privacyFriendList === t("private") ? "PRIVATE" : (privacyFriendList === t("friendsOnly") ? "FRIENDS" : "PUBLIC"),
+      privacyFollowers: privacyFollowers === t("private") ? "PRIVATE" : (privacyFollowers === t("friendsOnly") ? "FRIENDS" : "PUBLIC"),
+      privacyFollowing: privacyFollowing === t("private") ? "PRIVATE" : (privacyFollowing === t("friendsOnly") ? "FRIENDS" : "PUBLIC"),
+      privacyActivity: privacyActivity === t("private") ? "PRIVATE" : (privacyActivity === t("friendsOnly") ? "FRIENDS" : "PUBLIC"),
+      privacyOwnedGroups: privacyOwnedGroups === t("private") ? "PRIVATE" : (privacyOwnedGroups === t("friendsOnly") ? "FRIENDS" : "PUBLIC"),
+      privacyJoinedGroups: privacyJoinedGroups === t("private") ? "PRIVATE" : (privacyJoinedGroups === t("friendsOnly") ? "FRIENDS" : "PUBLIC"),
+      privacyExternalLink: privacyExternalLink === t("private") ? "PRIVATE" : (privacyExternalLink === t("friendsOnly") ? "FRIENDS" : "PUBLIC"),
+      privacyTag: privacyTag === t("private") ? "PRIVATE" : (privacyTag === t("friendsOnly") ? "FRIENDS" : "PUBLIC"),
+      privacyComment: privacyComment === t("turnOff") ? "TURN_OFF" : (privacyComment === t("friendsOnly") ? "FRIENDS" : "PUBLIC"),
+      privacyOnline: privacyOnline === t("turnOff") ? "TURN_OFF" : (privacyOnline === t("friendsOnly") ? "FRIENDS" : "PUBLIC"),
+      privacyDM: privacyDM === t("allow"),
       ...overrides
     });
     setIsUpdatingInfo(false);
@@ -607,7 +647,6 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
     { label: t("privacyLoc"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyLoc, setState: setPrivacyLoc },
     { label: t("privacyFriendList"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyFriendList, setState: setPrivacyFriendList },
     { label: t("privacyFollowers"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyFollowers, setState: setPrivacyFollowers },
-    { label: t("privacyFollowing"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyFollowing, setState: setPrivacyFollowing },
     { label: t("privacyComment"), options: [t("public"), t("friendsOnly"), t("turnOff")], state: privacyComment, setState: setPrivacyComment },
     { label: t("privacyDM"), options: [t("allow"), t("disallow")], state: privacyDM, setState: setPrivacyDM },
     { label: t("privacyTag"), options: [t("public"), t("friendsOnly"), t("private")], state: privacyTag, setState: setPrivacyTag },
