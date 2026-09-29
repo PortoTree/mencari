@@ -874,6 +874,11 @@ export default function ProfilePage({
                   <div className="w-full max-w-[590px] mx-auto mt-4 mb-2 min-h-[480px] flex flex-col">
                     {activeStatTab ? (
                       <div className="flex flex-col flex-1">
+                        <div className="flex items-center px-1 mb-3">
+                          <h3 className="text-[15px] font-bold text-black dark:text-white">
+                            {activeStatTab === 'friends' ? (t("friends") || "Teman") : activeStatTab === 'followers' ? (t("followers") || "Pengikut") : (t("following") || "Diikuti")}
+                          </h3>
+                        </div>
                         <div className="flex items-center justify-between mb-4 px-1 sticky top-0 bg-[#F3F2EF] dark:bg-[#18191A] z-10 py-1">
                           <div className="relative flex-1 max-w-[240px]">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -942,7 +947,7 @@ export default function ProfilePage({
                               )}
                             </div>
                             <div className="flex flex-col gap-2">
-                              {dummyManagedGroups.slice(expandedGroupTab === 'managed' ? (groupPage - 1) * 6 : 0, expandedGroupTab === 'managed' ? groupPage * 6 : 2).map((group, idx) => (
+                              {dummyManagedGroups.slice(expandedGroupTab === 'managed' ? (groupPage - 1) * 5 : 0, expandedGroupTab === 'managed' ? groupPage * 5 : 2).map((group, idx) => (
                                 <div key={idx} className="flex items-center justify-between p-3 rounded-2xl bg-white/40 dark:bg-[#242526]/40 border border-gray-100 dark:border-white/5 hover:bg-white dark:hover:bg-[#2A2B2C] hover:shadow-sm transition-all cursor-pointer group">
                                   <div className="flex items-center gap-3">
                                     <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${group.color} flex items-center justify-center text-white font-bold shadow-sm group-hover:scale-105 transition-transform`}>
@@ -990,7 +995,7 @@ export default function ProfilePage({
                                 </div>
                               ))}
                             </div>
-                            {expandedGroupTab === 'managed' && dummyManagedGroups.length > 6 && (
+                            {expandedGroupTab === 'managed' && dummyManagedGroups.length > 5 && (
                               <div className="flex justify-center items-center mt-auto pt-6 px-2 gap-4">
                                 <button 
                                   disabled={groupPage === 1}
@@ -1001,7 +1006,7 @@ export default function ProfilePage({
                                 </button>
                                 <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">Halaman {groupPage}</span>
                                 <button 
-                                  disabled={groupPage * 6 >= dummyManagedGroups.length}
+                                  disabled={groupPage * 5 >= dummyManagedGroups.length}
                                   onClick={() => setGroupPage(p => p + 1)}
                                   className="p-2 rounded-full bg-gray-200 dark:bg-[#3A3B3C] text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
@@ -1032,7 +1037,7 @@ export default function ProfilePage({
                             </div>
                             
                             <div className="flex flex-col gap-2">
-                              {dummyJoinedGroups.slice(expandedGroupTab === 'joined' ? (groupPage - 1) * 6 : 0, expandedGroupTab === 'joined' ? groupPage * 6 : 2).map((group, idx) => (
+                              {dummyJoinedGroups.slice(expandedGroupTab === 'joined' ? (groupPage - 1) * 5 : 0, expandedGroupTab === 'joined' ? groupPage * 5 : 2).map((group, idx) => (
                                 <div key={idx} className="flex items-center justify-between p-3 rounded-2xl bg-white/40 dark:bg-[#242526]/40 border border-gray-100 dark:border-white/5 hover:bg-white dark:hover:bg-[#2A2B2C] hover:shadow-sm transition-all cursor-pointer group">
                                   <div className="flex items-center gap-3">
                                     <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${group.color} flex items-center justify-center text-white font-bold shadow-sm group-hover:scale-105 transition-transform`}>
@@ -1071,7 +1076,7 @@ export default function ProfilePage({
                                 </div>
                               ))}
                             </div>
-                            {expandedGroupTab === 'joined' && dummyJoinedGroups.length > 6 && (
+                            {expandedGroupTab === 'joined' && dummyJoinedGroups.length > 5 && (
                               <div className="flex justify-center items-center mt-auto pt-6 px-2 gap-4">
                                 <button 
                                   disabled={groupPage === 1}
@@ -1082,7 +1087,7 @@ export default function ProfilePage({
                                 </button>
                                 <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">Halaman {groupPage}</span>
                                 <button 
-                                  disabled={groupPage * 6 >= dummyJoinedGroups.length}
+                                  disabled={groupPage * 5 >= dummyJoinedGroups.length}
                                   onClick={() => setGroupPage(p => p + 1)}
                                   className="p-2 rounded-full bg-gray-200 dark:bg-[#3A3B3C] text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
