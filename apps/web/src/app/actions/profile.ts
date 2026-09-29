@@ -19,43 +19,52 @@ const verifyToken = (token: string, expectedUserId: string) => {
   }
 };
 
+import { unstable_cache } from "next/cache";
+
 export const getProfile = async (userId: string) => {
   try {
-    const profile = await prisma.profile.findUnique({
-      where: { userId: userId },
-      include: {
-        user: {
+    const getCachedProfile = unstable_cache(
+      async () => {
+        return await prisma.profile.findUnique({
+          where: { userId: userId },
           include: {
-            profileSettings: true,
-            socialLinks: true,
-            followers: {
-              include: { follower: { include: { profile: true } } }
-            },
-            following: {
-              include: { following: { include: { profile: true } } }
-            },
-            friendshipsAsUser: {
-              where: { status: 'ACCEPTED' },
-              include: { friend: { include: { profile: true } } }
-            },
-            friendshipsAsFriend: {
-              where: { status: 'ACCEPTED' },
-              include: { user: { include: { profile: true } } }
-            },
-            _count: {
-              select: {
-                posts: true,
-                followers: true,
-                following: true,
-                friendshipsAsUser: { where: { status: 'ACCEPTED' } },
-                friendshipsAsFriend: { where: { status: 'ACCEPTED' } }
+            user: {
+              include: {
+                profileSettings: true,
+                socialLinks: true,
+                followers: {
+                  include: { follower: { include: { profile: true } } }
+                },
+                following: {
+                  include: { following: { include: { profile: true } } }
+                },
+                friendshipsAsUser: {
+                  where: { status: 'ACCEPTED' },
+                  include: { friend: { include: { profile: true } } }
+                },
+                friendshipsAsFriend: {
+                  where: { status: 'ACCEPTED' },
+                  include: { user: { include: { profile: true } } }
+                },
+                _count: {
+                  select: {
+                    posts: true,
+                    followers: true,
+                    following: true,
+                    friendshipsAsUser: { where: { status: 'ACCEPTED' } },
+                    friendshipsAsFriend: { where: { status: 'ACCEPTED' } }
+                  }
+                }
               }
             }
           }
-        }
-      }
-    });
+        });
+      },
+      [`profile-data-${userId}`],
+      { tags: [`profile-${userId}`], revalidate: 86400 } // Cache for 1 day
+    );
 
+    const profile = await getCachedProfile();
     return { success: true, profile };
   } catch (error) {
     console.error("Error fetching profile:", error);
