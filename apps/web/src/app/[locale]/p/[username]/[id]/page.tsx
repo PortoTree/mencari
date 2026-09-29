@@ -744,6 +744,19 @@ export default function ProfilePage({
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-gray-300 dark:border-gray-700 pb-4">
               <div className="flex items-center gap-6 sm:gap-10">
                   <div 
+                    onClick={() => { setActiveStatTab(activeStatTab === 'followers' ? null : 'followers'); setStatPage(1); }}
+                    className="flex flex-col items-center cursor-pointer group"
+                  >
+                    <span className={`text-[14px] font-medium transition-colors ${activeStatTab === 'followers' ? 'text-black dark:text-white' : 'text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white'}`}>{t("followers")}</span>
+                    {isLoadingProfile ? (
+                      <div className="w-6 h-6 bg-gray-300 dark:bg-[#3E4042] rounded animate-pulse mt-0.5"></div>
+                    ) : (
+                      <span className="text-[18px] font-bold mt-0.5 text-black dark:text-white">
+                        {isProfileInaccessible ? "-" : profileData?.user?._count?.followers || 0}
+                      </span>
+                    )}
+                  </div>
+                  <div 
                     onClick={() => { setActiveStatTab(activeStatTab === 'friends' ? null : 'friends'); setStatPage(1); }}
                     className="flex flex-col items-center cursor-pointer group"
                   >
@@ -756,16 +769,13 @@ export default function ProfilePage({
                       </span>
                     )}
                   </div>
-                  <div 
-                    onClick={() => { setActiveStatTab(activeStatTab === 'followers' ? null : 'followers'); setStatPage(1); }}
-                    className="flex flex-col items-center cursor-pointer group"
-                  >
-                    <span className={`text-[14px] font-medium transition-colors ${activeStatTab === 'followers' ? 'text-black dark:text-white' : 'text-gray-500 dark:text-gray-400 group-hover:text-black dark:group-hover:text-white'}`}>{t("followers")}</span>
+                  <div className="flex flex-col items-center">
+                    <span className="text-[14px] font-medium text-gray-500 dark:text-gray-400">{t("posts") || "Postingan"}</span>
                     {isLoadingProfile ? (
                       <div className="w-6 h-6 bg-gray-300 dark:bg-[#3E4042] rounded animate-pulse mt-0.5"></div>
                     ) : (
                       <span className="text-[18px] font-bold mt-0.5 text-black dark:text-white">
-                        {isProfileInaccessible ? "-" : profileData?.user?._count?.followers || 0}
+                        {isProfileInaccessible ? "-" : profileData?.user?._count?.posts || 0}
                       </span>
                     )}
                   </div>
