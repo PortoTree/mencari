@@ -59,13 +59,15 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
 
   useEffect(() => {
     if (isMediaModalOpen) {
+      const originalBodyOverflow = document.body.style.overflow;
+      const originalHtmlOverflow = document.documentElement.style.overflow;
       document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
+      document.documentElement.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = originalBodyOverflow;
+        document.documentElement.style.overflow = originalHtmlOverflow;
+      };
     }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
   }, [isMediaModalOpen]);
 
   // Fallbacks
@@ -355,8 +357,8 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
       
       {isMediaModalOpen && (
         <div className="fixed inset-0 z-[100000] bg-black/95 flex flex-col">
-          {/* Header overlay so it doesn't push the image down */}
-          <div className="absolute top-0 inset-x-0 flex justify-between items-center p-4 z-10 bg-gradient-to-b from-black/80 to-transparent">
+          {/* Header */}
+          <div className={`${modalViewMode === "CAROUSEL" ? "absolute top-0 inset-x-0 z-10 bg-gradient-to-b from-black/80 to-transparent" : "bg-black/95 shrink-0"} flex justify-between items-center p-4`}>
             <div className="text-white font-medium">{post.author?.displayName}</div>
             {post.mediaLayout === "GRID" && modalViewMode === "CAROUSEL" && post.mediaUrls.length > 1 ? (
               <button onClick={() => setModalViewMode("GRID")} className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors" title="Kembali ke Grid">
@@ -369,7 +371,7 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
             )}
           </div>
           
-          <div className="flex-1 w-full h-full flex flex-col">
+          <div className="flex-1 w-full h-full flex flex-col min-h-0">
             {modalViewMode === "CAROUSEL" ? (
               <div className="flex flex-col h-full w-full">
                 {/* Main Carousel View */}
@@ -413,8 +415,8 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
               </div>
             ) : (
               /* Modal Grid View */
-              <div className="flex-1 w-full flex items-center justify-center overflow-y-auto pt-20 pb-10 px-4">
-                <div className={`grid gap-3 w-full max-w-xl mx-auto ${post.mediaUrls.length <= 4 ? 'grid-cols-2' : 'grid-cols-3 md:grid-cols-4'}`}>
+              <div className="flex-1 w-full overflow-y-auto py-10 px-4">
+                <div className="grid gap-3 w-full max-w-xl mx-auto grid-cols-2">
                   {post.mediaUrls.map((url: string, idx: number) => (
                     <div 
                       key={idx} 
