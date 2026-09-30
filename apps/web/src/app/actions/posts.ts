@@ -116,3 +116,53 @@ export async function updatePost(postId: string, authorId: string, content: stri
     return { success: false, error: error.message };
   }
 }
+
+export async function getExplorePosts() {
+  try {
+    const posts = await prisma.post.findMany({
+      where: {
+        label: "MENCARI",
+        visibility: "PUBLIC",
+      },
+      include: {
+        author: {
+          include: {
+            profile: true,
+          }
+        },
+        _count: {
+          select: { likes: true, comments: true }
+        }
+      },
+      orderBy: {
+        createdAt: "desc"
+      },
+      take: 50
+    });
+    return { success: true, posts };
+  } catch (error: any) {
+    console.error("Error fetching explore posts:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+export async function getPostById(postId: string) {
+  try {
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+      include: {
+        author: {
+          include: { profile: true }
+        },
+        _count: {
+          select: { likes: true, comments: true }
+        }
+      }
+    });
+    if (!post) return { success: false, error: "Post not found" };
+    return { success: true, post };
+  } catch (error: any) {
+    console.error("Error fetching post by ID:", error);
+    return { success: false, error: error.message };
+  }
+}

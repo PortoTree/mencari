@@ -1,17 +1,20 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import { getFeedPosts } from "@/app/actions/posts";
+import { useEffect, useState, useCallback, Suspense } from "react";
+import { getFeedPosts, getPostById } from "@/app/actions/posts";
 import PostCard from "./PostCard";
 import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
 
 interface PostFeedProps {
   currentUser: any;
   onProfileClick?: (user: any) => void;
 }
 
-export default function PostFeed({ currentUser, onProfileClick }: PostFeedProps) {
+function PostFeedContent({ currentUser, onProfileClick }: PostFeedProps) {
   const t = useTranslations();
+  const searchParams = useSearchParams();
+  const highlightedPostId = searchParams.get("postId");
   const [posts, setPosts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -21,8 +24,26 @@ export default function PostFeed({ currentUser, onProfileClick }: PostFeedProps)
     try {
       setIsLoading(true);
       const res = await getFeedPosts(currentUser.id);
-      if (res.success && res.posts) {
-        setPosts(res.posts);
+      let loadedPosts = res.posts || [];
+
+      if (highlightedPostId) {
+        // Cek kalau udah ada di feed
+        const existingIdx = loadedPosts.findIndex((p: any) => p.id === highlightedPostId);
+        if (existingIdx !== -1) {
+          // Pindah ke paling atas
+          const [p] = loadedPosts.splice(existingIdx, 1);
+          loadedPosts.unshift(p);
+        } else {
+          // Fetch manual kalau gak ada
+          const highlightedRes = await getPostById(highlightedPostId);
+          if (highlightedRes.success && highlightedRes.post) {
+            loadedPosts.unshift(highlightedRes.post);
+          }
+        }
+      }
+
+      if (res.success && loadedPosts) {
+        setPosts(loadedPosts);
       } else {
         setError(res.error || "Failed to load posts");
       }
@@ -31,7 +52,7 @@ export default function PostFeed({ currentUser, onProfileClick }: PostFeedProps)
     } finally {
       setIsLoading(false);
     }
-  }, [currentUser?.id]);
+  }, [currentUser?.id, highlightedPostId]);
 
   useEffect(() => {
     fetchPosts();
@@ -105,8 +126,22 @@ export default function PostFeed({ currentUser, onProfileClick }: PostFeedProps)
   return (
     <div className="flex flex-col gap-4">
       {posts.map((post) => (
-        <PostCard key={post.id} post={post} currentUser={currentUser} onProfileClick={onProfileClick} />
+        <PostCard 
+          key={post.id} 
+          post={post} 
+          currentUser={currentUser} 
+          onProfileClick={onProfileClick} 
+          isHighlighted={post.id === highlightedPostId}
+        />
       ))}
     </div>
+  );
+}
+
+export default function PostFeed(props: PostFeedProps) {
+  return (
+    <Suspense fallback={<div className="animate-pulse h-32 bg-gray-200 dark:bg-[#242526] rounded-xl"></div>}>
+      <PostFeedContent {...props} />
+    </Suspense>
   );
 }

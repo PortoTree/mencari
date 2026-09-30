@@ -1,9 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
-export default function Login() {
+function LoginForm() {
   const [formData, setFormData] = useState({ identifier: "", password: "" });
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   
@@ -53,9 +55,16 @@ export default function Login() {
         
         showToast("Login berhasil! Mengalihkan...", true);
         setTimeout(() => {
-          // Redirect ke dashboard atau halaman utama setelah login
-          console.log("[Login] Redirecting to beranda...");
-          window.location.href = "/home";
+          // Cek kalau ada url redirect (misal balikan dari SEO explore)
+          const redirectUrl = searchParams.get("redirect");
+          
+          if (redirectUrl) {
+            console.log(`[Login] Redirecting back to ${redirectUrl}...`);
+            window.location.href = redirectUrl;
+          } else {
+            console.log("[Login] Redirecting to beranda...");
+            window.location.href = "/id/home";
+          }
         }, 1500);
       } else {
         console.log("[Login] Failed:", data.message);
@@ -147,5 +156,13 @@ export default function Login() {
         )}
       </div>
     </main>
+  );
+}
+
+export default function Login() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-gray-100">Loading...</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }

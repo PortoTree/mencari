@@ -33,7 +33,7 @@ export function formatPostTime(timestamp: number | Date, t: any, locale: string)
   }
 }
 
-export default function PostCard({ post, currentUser, onProfileClick }: { post: any; currentUser: any; onProfileClick?: (user: any) => void }) {
+export default function PostCard({ post, currentUser, onProfileClick, isHighlighted = false }: { post: any; currentUser: any; onProfileClick?: (user: any) => void; isHighlighted?: boolean }) {
   const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
@@ -58,11 +58,50 @@ export default function PostCard({ post, currentUser, onProfileClick }: { post: 
   // Fallbacks
   const authorName = post.author?.profile?.displayName || post.author?.username || "Pengguna";
   const authorAvatar = post.author?.profile?.avatarUrl || "/default-avatar.svg";
-  const authorRole = post.author?.profile?.profession || "Member";
+  
+  // Custom Post Subtitle based on Label
+  let postSubtitle = null;
+  if (post.label === "MENCARI") {
+    postSubtitle = (
+      <span className="font-bold flex items-center gap-1">
+        <svg className="w-3 h-3 text-emerald-700 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+        <span className="bg-gradient-to-r from-emerald-800 to-emerald-500 dark:from-emerald-400 dark:to-emerald-200 bg-clip-text text-transparent">
+          Mencari...
+        </span>
+      </span>
+    );
+  } else if (post.label === "LOKASI" && post.author?.profile?.locationName) {
+    postSubtitle = (
+      <span className="flex items-center gap-1">
+        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" /></svg>
+        {post.author.profile.locationName}
+      </span>
+    );
+  } else if (post.label === "PROFESI" && post.author?.profile?.profession) {
+    postSubtitle = (
+      <span className="flex items-center gap-1">
+        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" /><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" /></svg>
+        {post.author.profile.profession}
+      </span>
+    );
+  } else if (post.label === "SEKOLAH" && post.author?.profile?.school) {
+    postSubtitle = (
+      <span className="flex items-center gap-1">
+        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" /></svg>
+        {post.author.profile.school}
+      </span>
+    );
+  }
 
   return (
     <>
-    <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] pt-4 px-0">
+    <div className={`bg-white dark:bg-[#242526] rounded-xl shadow-sm border pt-4 px-0 transition-all duration-1000 ${isHighlighted ? "border-yellow-400 dark:border-yellow-500 shadow-[0_0_15px_rgba(250,204,21,0.4)]" : "border-gray-100 dark:border-[#3E4042]"}`}>
+      {isHighlighted && (
+        <div className="px-4 pb-2 mb-2 border-b border-gray-100 dark:border-[#3E4042] text-xs font-bold text-yellow-600 dark:text-yellow-400 flex items-center gap-1">
+          <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" /><path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" /></svg>
+          Postingan yang Anda cari
+        </div>
+      )}
       <div className="flex items-center justify-between pb-2 px-4 relative">
         <div
           className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
@@ -86,8 +125,12 @@ export default function PostCard({ post, currentUser, onProfileClick }: { post: 
               {authorName}
             </h3>
             <div className="text-[12px] text-gray-500 dark:text-[#B0B3B8] flex items-center gap-1">
-              <span>{authorRole}</span>
-              <span>·</span>
+              {postSubtitle && (
+                <>
+                  {postSubtitle}
+                  <span>·</span>
+                </>
+              )}
               <span>
                 {formatPostTime(post.createdAt, t, locale)}
               </span>

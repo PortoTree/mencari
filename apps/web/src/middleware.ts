@@ -15,29 +15,50 @@ export function middleware(request: NextRequest) {
   const localePattern = /^\/(id|en)(\/|$)/;
   const pathWithoutLocale = pathname.replace(localePattern, '/');
 
+  const isExploreRoute = pathWithoutLocale.startsWith('/explore');
+
   // Daftar path publik yang tidak boleh menggunakan prefix /id atau /en
-  const isPublicRoute =
+  const isStrictPublicRoute =
     pathWithoutLocale === '/' ||
     pathWithoutLocale.startsWith('/login') ||
     pathWithoutLocale.startsWith('/register') ||
     pathWithoutLocale.startsWith('/forgot-password') ||
     pathWithoutLocale.startsWith('/secure');
 
-  if (isPublicRoute) {
-    // Kalau sudah login tapi akses halaman publik (kecuali secure) -> lempar ke beranda
+  if (isStrictPublicRoute || isExploreRoute) {
+    // Kalau sudah login tapi akses halaman strict public (seperti login/register) -> lempar ke beranda
     if (token && !pathWithoutLocale.startsWith('/secure')) {
-      console.log(`[Middleware] Authenticated user on public route, redirecting to /id/home`);
-      return NextResponse.redirect(new URL('/id/home', request.url));
+      if (isExploreRoute && pathWithoutLocale.startsWith('/explore/post/')) {
+        const slug = pathWithoutLocale.split('/explore/post/')[1];
+        if (slug) {
+          const postId = slug.slice(-36);
+          console.log(`[Middleware] Authenticated user on explore post, redirecting to home with postId=${postId}`);
+          // Default redirect to /id/home
+          const redirectUrl = new URL(`/id/home?postId=${postId}`, request.url);
+          return NextResponse.redirect(redirectUrl);
+        }
+      } else if (isStrictPublicRoute) {
+        console.log(`[Middleware] Authenticated user on strict public route, redirecting to /id/home`);
+        return NextResponse.redirect(new URL('/id/home', request.url));
+      }
+      // If it's just /explore, let them see it even if logged in!
     }
     
-    // Kalau user maksa masuk ke /id/login, redirect balik ke /login (tanpa locale)
-    if (pathname.match(localePattern)) {
-      console.log(`[Middleware] Removing locale prefix from public route`);
-      return NextResponse.redirect(new URL(pathWithoutLocale, request.url));
+    // Kalau user maksa masuk ke /id/login (Strict Public Route), redirect balik ke /login (tanpa locale)
+    if (isStrictPublicRoute && pathname.match(localePattern)) {
+      console.log(`[Middleware] Removing locale prefix from strict public route`);
+      const redirectUrl = new URL(pathWithoutLocale, request.url);
+      redirectUrl.search = request.nextUrl.search; // Bawa query params nya!
+      return NextResponse.redirect(redirectUrl);
     }
     
-    // Bebaskan akses tanpa locale (nanti di-handle bawaan browser translate)
-    return NextResponse.next();
+    // Bebaskan akses
+    if (isExploreRoute && !pathname.match(localePattern)) {
+      // Explore route BUTUH locale, jalankan next-intl middleware
+      return intlMiddleware(request);
+    }
+    
+    return isStrictPublicRoute ? NextResponse.next() : intlMiddleware(request);
   }
 
   // Jika ini BUKAN public route (berarti halaman yang butuh login seperti /home)
