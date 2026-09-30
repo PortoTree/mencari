@@ -31,7 +31,8 @@ Setelah user saling terkoneksi, mereka butuh media untuk berinteraksi dan berbag
 note: nanti akan ada postingan khusus only komunitas, apakah di kerjakan logikanya sekalian atau mau terpisah nanti bareng dengan pengerjaan komunitas saja?
 
 ## Phase 2.1
-- [ ]   optimasi navbar untuk refactor ke dalam file layout.tsx, fungsinya supaya setiap kali pindah halaman navbar ini nggak ngerender ulang terus menerus
+- [ ] **Optimasi Navbar**: Refactor Navbar ke dalam file `layout.tsx` supaya setiap kali pindah halaman, navbar tidak perlu merender ulang terus-menerus.
+- [ ] **Pecah Kode (Code Splitting) Halaman Utama**: Refactor file raksasa `app/[locale]/home/page.tsx` (5000+ baris) menjadi komponen-komponen kecil yang terpisah (seperti komponen tab, modal, dan helper) agar *maintenance* jauh lebih mudah tanpa merubah alur routing.
 
 ## Phase 3: Portofolio & Etalase
 Melengkapi profil pengguna dengan tempat unjuk karya.
