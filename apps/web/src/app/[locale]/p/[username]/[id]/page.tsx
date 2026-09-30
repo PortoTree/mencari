@@ -15,9 +15,7 @@ import { updateProfileMedia, getProfile } from "@/app/actions/profile";
 import { getConnectionStatus, handlePrimaryConnectionAction, toggleBlock, removeFollower } from "@/app/actions/connections";
 import { getOptimizedUrl } from "@/utils/cloudinary";
 
-// In-memory cache to prevent excessive loading states when navigating
-const profileCache = new Map<string, any>();
-const connectionCache = new Map<string, any>();
+import { profileCache, connectionCache } from "@/utils/profileCache";
 
 export default function ProfilePage({
   params,
