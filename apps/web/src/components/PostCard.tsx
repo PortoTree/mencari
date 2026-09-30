@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations, useLocale } from "next-intl";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { deletePost } from "@/app/actions/posts";
 import CreatePostModal from "./CreatePostModal";
@@ -56,6 +56,17 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
     setIsDeleting(false);
     setIsDeleteModalOpen(false);
   };
+
+  useEffect(() => {
+    if (isMediaModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isMediaModalOpen]);
 
   // Fallbacks
   const authorName = post.author?.profile?.displayName || post.author?.username || "Pengguna";
@@ -347,9 +358,15 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
           {/* Header overlay so it doesn't push the image down */}
           <div className="absolute top-0 inset-x-0 flex justify-between items-center p-4 z-10 bg-gradient-to-b from-black/80 to-transparent">
             <div className="text-white font-medium">{post.author?.displayName}</div>
-            <button onClick={() => setIsMediaModalOpen(false)} className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
+            {post.mediaLayout === "GRID" && modalViewMode === "CAROUSEL" && post.mediaUrls.length > 1 ? (
+              <button onClick={() => setModalViewMode("GRID")} className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors" title="Kembali ke Grid">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+              </button>
+            ) : (
+              <button onClick={() => setIsMediaModalOpen(false)} className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors" title="Tutup Modal">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            )}
           </div>
           
           <div className="flex-1 w-full h-full flex flex-col">
@@ -397,11 +414,11 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
             ) : (
               /* Modal Grid View */
               <div className="flex-1 w-full flex items-center justify-center overflow-y-auto pt-20 pb-10 px-4">
-                <div className={`grid gap-2 w-full max-w-4xl mx-auto ${post.mediaUrls.length <= 4 ? 'grid-cols-2' : 'grid-cols-3 md:grid-cols-4'}`}>
+                <div className={`grid gap-3 w-full max-w-xl mx-auto ${post.mediaUrls.length <= 4 ? 'grid-cols-2' : 'grid-cols-3 md:grid-cols-4'}`}>
                   {post.mediaUrls.map((url: string, idx: number) => (
                     <div 
                       key={idx} 
-                      className="relative aspect-square bg-white/5 flex items-center justify-center rounded-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
+                      className="relative aspect-square bg-white/5 flex items-center justify-center rounded-xl overflow-hidden cursor-pointer hover:scale-[1.03] transition-transform shadow-sm"
                       onClick={() => {
                         setCurrentCarouselIndex(idx);
                         setModalViewMode("CAROUSEL");
