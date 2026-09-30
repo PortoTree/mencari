@@ -203,7 +203,13 @@
   "postMenu": {
     "savePost": "Simpan postingan",
     "reportPost": "Laporkan postingan",
-    "showProfile": "Lihat profil"
+    "showProfile": "Lihat profil",
+    "editPost": "Edit Postingan",
+    "deletePost": "Hapus Postingan",
+    "confirmDelete": "Apakah Anda yakin ingin menghapus postingan ini?",
+    "cancel": "Batal",
+    "delete": "Hapus",
+    "deleting": "Menghapus..."
   },
   "profileSidebar": {
     "title": "Profil Pengguna",
@@ -433,7 +439,8 @@
     "followersHiddenDesc": "Pengguna ini menyembunyikan daftar pengikutnya.",
     "viewProfile": "Lihat profil",
     "removeFriend": "Hapus pertemanan",
-    "removeFollower": "Hapus pengikut"
+    "removeFollower": "Hapus pengikut",
+    "noLocation": "Belum ada lokasi"
   },
   "editProfile": {
     "title": "Edit Profil",

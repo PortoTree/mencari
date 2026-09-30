@@ -32,6 +32,9 @@ model User {
   socialLinks         UserSocialLink[]
   notificationsReceived Notification[] @relation("NotificationRecipient")
   notificationsSent     Notification[] @relation("NotificationSender")
+  comments            Comment[]
+  likes               Like[]
+  savedPosts          SavedPost[]
 }
 
 model PendingUser {
@@ -162,13 +165,68 @@ model Block {
 }
 
 model Post {
+  id           String         @id @default(uuid())
+  content      String
+  mediaUrls    String[]       @default([])
+  type         PostType       @default(NORMAL)
+  visibility   PostVisibility @default(PUBLIC)
+  authorId     String
+  communityId  String?        // Prepared for community phase
+  sharedPostId String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  
+  author       User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  sharedPost   Post?          @relation("PostShares", fields: [sharedPostId], references: [id], onDelete: SetNull)
+  shares       Post[]         @relation("PostShares")
+  comments     Comment[]
+  likes        Like[]
+  savedBy      SavedPost[]
+  notifications Notification[]
+}
+
+model Comment {
   id        String   @id @default(uuid())
   content   String
-  type      PostType @default(NORMAL)
+  postId    String
   authorId  String
+  parentId  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   Comment[] @relation("CommentReplies")
+  likes     Like[]
+  notifications Notification[]
+}
+
+model Like {
+  id        String   @id @default(uuid())
+  userId    String
+  postId    String?
+  commentId String?
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  // Ensure a user can only like a specific post or comment once
+  @@unique([userId, postId, commentId])
+}
+
+model SavedPost {
+  id        String   @id @default(uuid())
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
 }
 
 model Notification {
@@ -186,7 +244,10 @@ model Notification {
   
   // Optional relations to other entities (e.g. Post, Comment) when they exist
   postId    String?
-  // post      Post?         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  post      Post?            @relation(fields: [postId], references: [id], onDelete: Cascade)
+  
+  commentId String?
+  comment   Comment?         @relation(fields: [commentId], references: [id], onDelete: Cascade)
   
   createdAt DateTime         @default(now())
 }
@@ -200,6 +261,13 @@ enum ProfileVisibility {
   PUBLIC
   FRIENDS
   PRIVATE
+}
+
+enum PostVisibility {
+  PUBLIC
+  FRIENDS
+  PRIVATE
+  COMMUNITY_ONLY
 }
 
 enum InteractionPrivacy {
@@ -231,4 +299,5 @@ enum NotificationType {
   POST_LIKE
   POST_COMMENT
   COMMENT_REPLY
+  POST_SHARE
 }
