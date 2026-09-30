@@ -170,6 +170,7 @@ model Post {
   mediaUrls    String[]       @default([])
   type         PostType       @default(NORMAL)
   visibility   PostVisibility @default(PUBLIC)
+  label        PostLabel      @default(DEFAULT)
   authorId     String
   communityId  String?        // Prepared for community phase
   sharedPostId String?
@@ -268,6 +269,14 @@ enum PostVisibility {
   FRIENDS
   PRIVATE
   COMMUNITY_ONLY
+}
+
+enum PostLabel {
+  DEFAULT
+  MENCARI
+  LOKASI
+  PROFESI
+  SEKOLAH
 }
 
 enum InteractionPrivacy {

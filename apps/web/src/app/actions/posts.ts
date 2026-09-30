@@ -9,6 +9,7 @@ export async function createPost(data: {
   authorId: string;
   content: string;
   visibility: "PUBLIC" | "FRIENDS" | "PRIVATE" | "COMMUNITY_ONLY";
+  label?: "DEFAULT" | "MENCARI" | "LOKASI" | "PROFESI" | "SEKOLAH";
 }) {
   try {
     const newPost = await prisma.post.create({
@@ -16,6 +17,7 @@ export async function createPost(data: {
         content: data.content,
         authorId: data.authorId,
         visibility: data.visibility,
+        label: data.label || "DEFAULT",
       },
     });
 
@@ -95,7 +97,7 @@ export async function deletePost(postId: string, authorId: string) {
   }
 }
 
-export async function updatePost(postId: string, authorId: string, content: string, visibility: "PUBLIC" | "FRIENDS" | "PRIVATE" | "COMMUNITY_ONLY") {
+export async function updatePost(postId: string, authorId: string, content: string, visibility: "PUBLIC" | "FRIENDS" | "PRIVATE" | "COMMUNITY_ONLY", label?: "DEFAULT" | "MENCARI" | "LOKASI" | "PROFESI" | "SEKOLAH") {
   try {
     const post = await prisma.post.findUnique({ where: { id: postId } });
     if (!post || post.authorId !== authorId) {
@@ -103,7 +105,7 @@ export async function updatePost(postId: string, authorId: string, content: stri
     }
     const updatedPost = await prisma.post.update({
       where: { id: postId },
-      data: { content, visibility },
+      data: { content, visibility, label },
     });
     
     revalidateTag("feed_posts", "page");

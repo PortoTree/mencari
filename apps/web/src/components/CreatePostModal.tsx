@@ -20,12 +20,16 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
   
   const [postContent, setPostContent] = useState(initialPost?.content || "");
   const [isPosting, setIsPosting] = useState(false);
+  const [postLabel, setPostLabel] = useState<"DEFAULT" | "MENCARI" | "LOKASI" | "PROFESI" | "SEKOLAH">("DEFAULT");
+  const [isLabelDropdownOpen, setIsLabelDropdownOpen] = useState(false);
+  const labelDropdownRef = useRef<HTMLDivElement>(null);
 
 
   useEffect(() => {
     if (isOpen) {
       setPostContent(initialPost?.content || "");
       setPostPrivacy(initialPost?.visibility || "PUBLIC");
+      setPostLabel(initialPost?.label || "DEFAULT");
     }
   }, [isOpen, initialPost]);
 
@@ -35,6 +39,9 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
     function handleClickOutside(event: MouseEvent) {
       if (privacyDropdownRef.current && !privacyDropdownRef.current.contains(event.target as Node)) {
         setIsPrivacyDropdownOpen(false);
+      }
+      if (labelDropdownRef.current && !labelDropdownRef.current.contains(event.target as Node)) {
+        setIsLabelDropdownOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -50,12 +57,13 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
     try {
       let res;
       if (initialPost) {
-        res = await updatePost(initialPost.id, currentUser.id, postContent, postPrivacy);
+        res = await updatePost(initialPost.id, currentUser.id, postContent, postPrivacy, postLabel);
       } else {
         res = await createPost({
           authorId: currentUser.id,
           content: postContent,
           visibility: postPrivacy,
+          label: postLabel,
         });
       }
 
@@ -95,8 +103,44 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
             <div>
               <h3 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{currentUser?.profile?.displayName || currentUser?.username}</h3>
               <div className="flex items-center gap-2 mt-0.5">
+                <div className="relative" ref={labelDropdownRef}>
+                  <button onClick={() => setIsLabelDropdownOpen(!isLabelDropdownOpen)} className="flex items-center gap-1 bg-gray-200 dark:bg-[#3A3B3C] px-2 py-0.5 rounded-md text-[12px] font-semibold text-gray-700 dark:text-[#E4E6EB]">
+                    <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" /></svg>
+                    {postLabel === "DEFAULT" ? "Label" : postLabel === "MENCARI" ? "Mencari" : postLabel === "LOKASI" ? "Lokasi" : postLabel === "PROFESI" ? "Profesi" : "Sekolah"}
+                    <svg className="w-3.5 h-3.5 ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+                  </button>
+                  {isLabelDropdownOpen && (
+                    <div className="absolute top-full left-0 mt-1 w-40 bg-white dark:bg-[#242526] rounded-lg shadow-xl border border-gray-200 dark:border-[#3E4042] py-2 z-50">
+                      <button onClick={() => { setPostLabel("DEFAULT"); setIsLabelDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left">
+                        <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">Default</span>
+                      </button>
+                      <button onClick={() => { setPostLabel("MENCARI"); setPostPrivacy("PUBLIC"); setIsLabelDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left">
+                        <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">Mencari (Public)</span>
+                      </button>
+                      {currentUser?.profile?.locationName && (
+                        <button onClick={() => { setPostLabel("LOKASI"); setIsLabelDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left">
+                          <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">Lokasi</span>
+                        </button>
+                      )}
+                      {currentUser?.profile?.profession && (
+                        <button onClick={() => { setPostLabel("PROFESI"); setIsLabelDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left">
+                          <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">Profesi</span>
+                        </button>
+                      )}
+                      {currentUser?.profile?.school && (
+                        <button onClick={() => { setPostLabel("SEKOLAH"); setIsLabelDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left">
+                          <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">Sekolah</span>
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
+
                 <div className="relative" ref={privacyDropdownRef}>
-                  <button onClick={() => setIsPrivacyDropdownOpen(!isPrivacyDropdownOpen)} className="flex items-center gap-1 bg-gray-200 dark:bg-[#3A3B3C] px-2 py-0.5 rounded-md text-[12px] font-semibold text-gray-700 dark:text-[#E4E6EB]">
+                  <button 
+                    onClick={() => postLabel !== "MENCARI" && setIsPrivacyDropdownOpen(!isPrivacyDropdownOpen)} 
+                    className={`flex items-center gap-1 bg-gray-200 dark:bg-[#3A3B3C] px-2 py-0.5 rounded-md text-[12px] font-semibold text-gray-700 dark:text-[#E4E6EB] ${postLabel === "MENCARI" ? "opacity-50 cursor-not-allowed" : ""}`}
+                  >
                     {postPrivacy === "PUBLIC" ? (
                       <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clipRule="evenodd" /></svg>
                     ) : (
