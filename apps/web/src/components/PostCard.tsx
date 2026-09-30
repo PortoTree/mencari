@@ -33,7 +33,7 @@ export function formatPostTime(timestamp: number | Date, t: any, locale: string)
   }
 }
 
-export default function PostCard({ post, currentUser }: { post: any; currentUser: any }) {
+export default function PostCard({ post, currentUser, onProfileClick }: { post: any; currentUser: any; onProfileClick?: (user: any) => void }) {
   const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
@@ -67,7 +67,11 @@ export default function PostCard({ post, currentUser }: { post: any; currentUser
         <div
           className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
           onClick={() => {
-            router.push(`/${locale}/p/${post.author?.username}/${post.authorId}`);
+            if (onProfileClick) {
+              onProfileClick(post.author);
+            } else {
+              router.push(`/${locale}/p/${post.author?.username}/${post.authorId}`);
+            }
           }}
         >
           <div className="w-[40px] h-[40px] rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-emerald-600 dark:border-emerald-400">

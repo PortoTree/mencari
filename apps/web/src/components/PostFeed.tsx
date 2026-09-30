@@ -7,9 +7,10 @@ import { useTranslations } from "next-intl";
 
 interface PostFeedProps {
   currentUser: any;
+  onProfileClick?: (user: any) => void;
 }
 
-export default function PostFeed({ currentUser }: PostFeedProps) {
+export default function PostFeed({ currentUser, onProfileClick }: PostFeedProps) {
   const t = useTranslations();
   const [posts, setPosts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -76,7 +77,7 @@ export default function PostFeed({ currentUser }: PostFeedProps) {
   return (
     <div className="flex flex-col gap-4">
       {posts.map((post) => (
-        <PostCard key={post.id} post={post} currentUser={currentUser} />
+        <PostCard key={post.id} post={post} currentUser={currentUser} onProfileClick={onProfileClick} />
       ))}
     </div>
   );

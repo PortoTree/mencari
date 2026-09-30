@@ -253,7 +253,9 @@
     "alreadyFriend": "Friends",
     "accept": "Accept",
     "confirm": "Confirm",
-    "delete": "Delete"
+    "delete": "Delete",
+    "pending": "Pending",
+    "following": "Following"
   },
   "group": {
     "searchTitle": "Search Communities",

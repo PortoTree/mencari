@@ -253,7 +253,9 @@
     "alreadyFriend": "Teman",
     "accept": "Terima",
     "confirm": "Konfirmasi",
-    "delete": "Hapus"
+    "delete": "Hapus",
+    "pending": "Diminta",
+    "following": "Mengikuti"
   },
   "group": {
     "searchTitle": "Cari Komunitas",
