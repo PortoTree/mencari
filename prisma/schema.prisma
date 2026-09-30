@@ -9,32 +9,32 @@ datasource db {
 }
 
 model User {
-  id                  String           @id @default(uuid())
-  username            String           @unique
-  email               String           @unique
-  passwordHash        String
-  status              String           @default("ACTIVE")
-  createdAt           DateTime         @default(now())
-  updatedAt           DateTime         @updatedAt
-  resetOtpCode        String?          @db.VarChar(6)
-  resetOtpExpiresAt   DateTime?
-  phone               String?
-  blocksReceived      Block[]          @relation("BlockBlockedUser")
-  blocksSent          Block[]          @relation("BlockUser")
-  following           Follow[]         @relation("UserFollowing")
-  followers           Follow[]         @relation("UserFollowers")
-  friendshipsAsFriend Friendship[]     @relation("FriendshipFriend")
-  friendRequestsSent  Friendship[]     @relation("FriendshipRequester")
-  friendshipsAsUser   Friendship[]     @relation("FriendshipUser")
-  posts               Post[]
-  profile             Profile?
-  profileSettings     ProfileSettings?
-  socialLinks         UserSocialLink[]
-  notificationsReceived Notification[] @relation("NotificationRecipient")
-  notificationsSent     Notification[] @relation("NotificationSender")
-  comments            Comment[]
-  likes               Like[]
-  savedPosts          SavedPost[]
+  id                    String           @id @default(uuid())
+  username              String           @unique
+  email                 String           @unique
+  passwordHash          String
+  status                String           @default("ACTIVE")
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @updatedAt
+  resetOtpCode          String?          @db.VarChar(6)
+  resetOtpExpiresAt     DateTime?
+  phone                 String?
+  blocksReceived        Block[]          @relation("BlockBlockedUser")
+  blocksSent            Block[]          @relation("BlockUser")
+  following             Follow[]         @relation("UserFollowing")
+  followers             Follow[]         @relation("UserFollowers")
+  friendshipsAsFriend   Friendship[]     @relation("FriendshipFriend")
+  friendRequestsSent    Friendship[]     @relation("FriendshipRequester")
+  friendshipsAsUser     Friendship[]     @relation("FriendshipUser")
+  posts                 Post[]
+  profile               Profile?
+  profileSettings       ProfileSettings?
+  socialLinks           UserSocialLink[]
+  notificationsReceived Notification[]   @relation("NotificationRecipient")
+  notificationsSent     Notification[]   @relation("NotificationSender")
+  comments              Comment[]
+  likes                 Like[]
+  savedPosts            SavedPost[]
 }
 
 model PendingUser {
@@ -47,66 +47,65 @@ model PendingUser {
 }
 
 model Profile {
-  id                     String           @id @default(uuid())
-  userId                 String           @unique
+  id                     String      @id @default(uuid())
+  userId                 String      @unique
   displayName            String
   bio                    String?
   avatarUrl              String?
   coverUrl               String?
   birthDate              DateTime?
   community              String?
-  createdAt              DateTime         @default(now())
+  createdAt              DateTime    @default(now())
   gender                 String?
   groupChat              String?
   locationId             String?
   socialMedia            String?
-  type                   ProfileType      @default(PERSONAL)
-  updatedAt              DateTime         @default(now()) @updatedAt
+  type                   ProfileType @default(PERSONAL)
+  updatedAt              DateTime    @default(now()) @updatedAt
   websiteUrl             String?
-  displayNameChangeDates DateTime[]       @default(dbgenerated("(ARRAY[]::timestamp without time zone[])::timestamp(3) without time zone[]"))
+  displayNameChangeDates DateTime[]  @default(dbgenerated("(ARRAY[]::timestamp without time zone[])::timestamp(3) without time zone[]"))
   education              String?
   locationName           String?
   profession             String?
-  externalLinks          Json?            @default("[]")
-  games                  String[]         @default([])
-  hardSkills             String[]         @default([])
-  hobbies                String[]         @default([])
-  movies                 String[]         @default([])
-  music                  String[]         @default([])
-  softSkills             String[]         @default([])
-  softwareSkills         String[]         @default([])
-  sports                 String[]         @default([])
-  tvShows                String[]         @default([])
-  location               Location?        @relation(fields: [locationId], references: [id])
-  user                   User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-
+  externalLinks          Json?       @default("[]")
+  games                  String[]    @default([])
+  hardSkills             String[]    @default([])
+  hobbies                String[]    @default([])
+  movies                 String[]    @default([])
+  music                  String[]    @default([])
+  softSkills             String[]    @default([])
+  softwareSkills         String[]    @default([])
+  sports                 String[]    @default([])
+  tvShows                String[]    @default([])
+  location               Location?   @relation(fields: [locationId], references: [id])
+  user                   User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model ProfileSettings {
-  userId                 String             @id
-  profileVisibility      ProfileVisibility  @default(PUBLIC)
-  privacyGender          ProfileVisibility  @default(PUBLIC)
-  privacyBirth           ProfileVisibility  @default(PUBLIC)
-  privacyLoc             ProfileVisibility  @default(PUBLIC)
-  privacyProf            ProfileVisibility  @default(PUBLIC)
-  privacySosmed          ProfileVisibility  @default(PUBLIC)
-  privacyFriendList      ProfileVisibility  @default(PUBLIC)
-  privacyFollowers       ProfileVisibility  @default(PUBLIC)
-  privacyFollowing       ProfileVisibility  @default(PUBLIC)
-  privacyActivity        ProfileVisibility  @default(PUBLIC)
-  privacyOwnedGroups     ProfileVisibility  @default(PUBLIC)
-  privacyJoinedGroups    ProfileVisibility  @default(PUBLIC)
-  privacyExternalLink    ProfileVisibility  @default(PUBLIC)
-  privacyTag             ProfileVisibility  @default(PUBLIC)
-  privacyComment         InteractionPrivacy @default(PUBLIC)
-  privacyOnline          InteractionPrivacy @default(PUBLIC)
-  privacyDM              Boolean            @default(true)
-  showBirthDate          Boolean            @default(true) // Deprecated: replaced by privacyBirth
-  showLocation           Boolean            @default(true) // Deprecated: replaced by privacyLoc
-  allowFollow            Boolean            @default(true)
-  allowFriendRequest     Boolean            @default(true)
-  searchable             Boolean            @default(true)
-  user                   User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId              String             @id
+  profileVisibility   ProfileVisibility  @default(PUBLIC)
+  privacyGender       ProfileVisibility  @default(PUBLIC)
+  privacyBirth        ProfileVisibility  @default(PUBLIC)
+  privacyLoc          ProfileVisibility  @default(PUBLIC)
+  privacyProf         ProfileVisibility  @default(PUBLIC)
+  privacySosmed       ProfileVisibility  @default(PUBLIC)
+  privacyFriendList   ProfileVisibility  @default(PUBLIC)
+  privacyFollowers    ProfileVisibility  @default(PUBLIC)
+  privacyFollowing    ProfileVisibility  @default(PUBLIC)
+  privacyActivity     ProfileVisibility  @default(PUBLIC)
+  privacyOwnedGroups  ProfileVisibility  @default(PUBLIC)
+  privacyJoinedGroups ProfileVisibility  @default(PUBLIC)
+  privacyExternalLink ProfileVisibility  @default(PUBLIC)
+  privacyTag          ProfileVisibility  @default(PUBLIC)
+  privacyComment      InteractionPrivacy @default(PUBLIC)
+  privacyOnline       InteractionPrivacy @default(PUBLIC)
+  privacyDM           Boolean            @default(true)
+  showBirthDate       Boolean            @default(true) // Deprecated: replaced by privacyBirth
+  showLocation        Boolean            @default(true) // Deprecated: replaced by privacyLoc
+  allowFollow         Boolean            @default(true)
+  allowFriendRequest  Boolean            @default(true)
+  searchable          Boolean            @default(true)
+  user                User               @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model UserSocialLink {
@@ -172,17 +171,17 @@ model Post {
   visibility   PostVisibility @default(PUBLIC)
   label        PostLabel      @default(DEFAULT)
   authorId     String
-  communityId  String?        // Prepared for community phase
+  communityId  String? // Prepared for community phase
   sharedPostId String?
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
-  
-  author       User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  sharedPost   Post?          @relation("PostShares", fields: [sharedPostId], references: [id], onDelete: SetNull)
-  shares       Post[]         @relation("PostShares")
-  comments     Comment[]
-  likes        Like[]
-  savedBy      SavedPost[]
+
+  author        User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  sharedPost    Post?          @relation("PostShares", fields: [sharedPostId], references: [id], onDelete: SetNull)
+  shares        Post[]         @relation("PostShares")
+  comments      Comment[]
+  likes         Like[]
+  savedBy       SavedPost[]
   notifications Notification[]
 }
 
@@ -195,11 +194,11 @@ model Comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
-  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
-  replies   Comment[] @relation("CommentReplies")
-  likes     Like[]
+  post          Post           @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author        User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  parent        Comment?       @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies       Comment[]      @relation("CommentReplies")
+  likes         Like[]
   notifications Notification[]
 }
 
@@ -210,9 +209,9 @@ model Like {
   commentId String?
   createdAt DateTime @default(now())
 
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
-  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post    Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  comment Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
 
   // Ensure a user can only like a specific post or comment once
   @@unique([userId, postId, commentId])
@@ -224,33 +223,33 @@ model SavedPost {
   postId    String
   createdAt DateTime @default(now())
 
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@unique([userId, postId])
 }
 
 model Notification {
-  id        String           @id @default(uuid())
-  type      NotificationType
-  isRead    Boolean          @default(false)
-  
+  id     String           @id @default(uuid())
+  type   NotificationType
+  isRead Boolean          @default(false)
+
   // The user who receives the notification
-  userId    String
-  user      User             @relation("NotificationRecipient", fields: [userId], references: [id], onDelete: Cascade)
-  
+  userId String
+  user   User   @relation("NotificationRecipient", fields: [userId], references: [id], onDelete: Cascade)
+
   // The user who triggered the notification (optional)
-  senderId  String?
-  sender    User?            @relation("NotificationSender", fields: [senderId], references: [id], onDelete: Cascade)
-  
+  senderId String?
+  sender   User?   @relation("NotificationSender", fields: [senderId], references: [id], onDelete: Cascade)
+
   // Optional relations to other entities (e.g. Post, Comment) when they exist
-  postId    String?
-  post      Post?            @relation(fields: [postId], references: [id], onDelete: Cascade)
-  
+  postId String?
+  post   Post?   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
   commentId String?
-  comment   Comment?         @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  
-  createdAt DateTime         @default(now())
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
 }
 
 enum ProfileType {

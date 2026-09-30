@@ -19,22 +19,22 @@ function PostFeedContent({ currentUser, onProfileClick }: PostFeedProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchPosts = useCallback(async () => {
+  // Simple global cache for stale-while-revalidate
+  const cacheKey = currentUser?.id || "anonymous";
+
+  const fetchPosts = useCallback(async (isBackground = false) => {
     if (!currentUser?.id) return;
     try {
-      setIsLoading(true);
+      if (!isBackground) setIsLoading(true);
       const res = await getFeedPosts(currentUser.id);
       let loadedPosts = res.posts || [];
 
       if (highlightedPostId) {
-        // Cek kalau udah ada di feed
         const existingIdx = loadedPosts.findIndex((p: any) => p.id === highlightedPostId);
         if (existingIdx !== -1) {
-          // Pindah ke paling atas
           const [p] = loadedPosts.splice(existingIdx, 1);
           loadedPosts.unshift(p);
         } else {
-          // Fetch manual kalau gak ada
           const highlightedRes = await getPostById(highlightedPostId);
           if (highlightedRes.success && highlightedRes.post) {
             loadedPosts.unshift(highlightedRes.post);
@@ -44,19 +44,29 @@ function PostFeedContent({ currentUser, onProfileClick }: PostFeedProps) {
 
       if (res.success && loadedPosts) {
         setPosts(loadedPosts);
+        window.__POST_FEED_CACHE = window.__POST_FEED_CACHE || {};
+        window.__POST_FEED_CACHE[cacheKey] = loadedPosts;
       } else {
-        setError(res.error || "Failed to load posts");
+        if (!isBackground) setError(res.error || "Failed to load posts");
       }
     } catch (err: any) {
-      setError(err.message);
+      if (!isBackground) setError(err.message);
     } finally {
-      setIsLoading(false);
+      if (!isBackground) setIsLoading(false);
     }
-  }, [currentUser?.id, highlightedPostId]);
+  }, [currentUser?.id, highlightedPostId, cacheKey]);
 
   useEffect(() => {
-    fetchPosts();
-  }, [fetchPosts]);
+    const cachedPosts = (window as any).__POST_FEED_CACHE?.[cacheKey];
+    if (cachedPosts && cachedPosts.length > 0) {
+      setPosts(cachedPosts);
+      setIsLoading(false);
+      // Revalidate in background
+      fetchPosts(true);
+    } else {
+      fetchPosts(false);
+    }
+  }, [fetchPosts, cacheKey]);
 
   // Optionally listen for a custom event if we want to refresh when a post is created from the modal
   useEffect(() => {
