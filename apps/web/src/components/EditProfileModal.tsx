@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import React, { useState, useEffect, useRef } from "react";
 import CropModal from "@/components/CropModal";
 import { uploadToCloudinary } from "@/utils/uploadImage";
+import { profileCache } from "@/utils/profileCache";
 import { updateProfileMedia, getProfile, updateDisplayName, updateProfileInfo } from "@/app/actions/profile";
 import { getBlockedUsers, handlePrimaryConnectionAction } from "@/app/actions/connections";
 import { getOptimizedUrl } from "@/utils/cloudinary";
@@ -485,10 +486,28 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
     }
 
     try {
-      const cloudinaryUrl = await uploadToCloudinary(croppedUrl);
+      const cloudinaryUrl = await uploadToCloudinary(croppedUrl, "profile-image");
       if (currentUser?.id) {
         const token = localStorage.getItem("token") || "";
         await updateProfileMedia(token, currentUser.id, cropType, cloudinaryUrl);
+        
+        // Update local cache for immediate navigation feedback
+        if (profileCache.has(currentUser.id)) {
+           const cached = profileCache.get(currentUser.id);
+           if (cropType === 'avatar') cached.avatarUrl = cloudinaryUrl;
+           else cached.coverUrl = cloudinaryUrl;
+           profileCache.set(currentUser.id, cached);
+        }
+
+        // Notify Navbar
+        window.dispatchEvent(new CustomEvent("avatar-updated", {
+          detail: { type: cropType, url: cloudinaryUrl }
+        }));
+        
+        // Notify Home & Profile Pages
+        window.dispatchEvent(new CustomEvent("profile_updated", {
+          detail: { type: cropType, url: cloudinaryUrl }
+        }));
       }
     } catch (error) {
       console.error("Failed to save image:", error);

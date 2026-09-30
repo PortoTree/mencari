@@ -634,31 +634,62 @@ export default function Beranda() {
   }, [isCreatePostModalOpen]);
 
   useEffect(() => {
+    const fetchProfile = (userId: string) => {
+      import("@/app/actions/profile").then(({ getProfile }) => {
+        getProfile(userId).then(res => {
+          if (res.success && res.profile) {
+            setCurrentUser((prev: any) => ({ ...prev, profile: res.profile }));
+            profileCache.set(userId, res.profile);
+          }
+          setIsProfileLoading(false);
+        });
+      });
+    };
+
+    let globalUserId = "";
     const token = localStorage.getItem("token");
     if (token) {
       try {
         const payload = JSON.parse(atob(token.split(".")[1]));
         if (payload.username || payload.name) {
-          const userId = payload.sub || payload.id || payload._id || payload.userId || "1";
+          globalUserId = payload.sub || payload.id || payload._id || payload.userId || "1";
           setCurrentUser({
-            id: userId,
+            id: globalUserId,
             username: payload.username || payload.name || "User",
             displayName:
               payload.displayName || payload.username || payload.name || "User",
           });
-          import("@/app/actions/profile").then(({ getProfile }) => {
-            getProfile(userId).then(res => {
-              if (res.success && res.profile) {
-                setCurrentUser((prev: any) => ({ ...prev, profile: res.profile }));
-              }
-              setIsProfileLoading(false);
-            });
-          });
+          fetchProfile(globalUserId);
         }
       } catch (e) {
         console.error("Failed to parse token");
       }
     }
+
+    const handleProfileUpdated = (e: any) => {
+      if (globalUserId) {
+        if (e.detail && e.detail.type && e.detail.url) {
+          // Optimistically update the avatar/cover in the state
+          setCurrentUser((prev: any) => {
+            if (!prev.profile) return prev;
+            const newProfile = { ...prev.profile };
+            if (e.detail.type === 'avatar') newProfile.avatarUrl = e.detail.url;
+            if (e.detail.type === 'cover') newProfile.coverUrl = e.detail.url;
+            
+            // Also update the cache so if they navigate away and back, it's correct
+            profileCache.set(globalUserId, newProfile);
+            return { ...prev, profile: newProfile };
+          });
+        } else {
+          profileCache.delete(globalUserId);
+        }
+        // Still fetch to ensure all other data is completely synced
+        fetchProfile(globalUserId);
+      }
+    };
+    
+    window.addEventListener("profile_updated", handleProfileUpdated);
+    return () => window.removeEventListener("profile_updated", handleProfileUpdated);
   }, []);
 
   return (

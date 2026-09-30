@@ -87,11 +87,17 @@ export default function Navbar({
       const event = e as CustomEvent<{ url: string; type: string }>;
       if (event.detail.type === "avatar") {
         setNavAvatar(event.detail.url);
+        if (currentUser?.id) {
+          navProfileCache.set(currentUser.id, { 
+            avatarUrl: event.detail.url, 
+            displayName: navDisplayName || navProfileCache.get(currentUser.id)?.displayName || null 
+          });
+        }
       }
     };
     window.addEventListener("avatar-updated", handleAvatarUpdated);
     return () => window.removeEventListener("avatar-updated", handleAvatarUpdated);
-  }, []);
+  }, [currentUser?.id, navDisplayName]);
 
   const fetchNotifs = async (isBackground = false) => {
     const token = localStorage.getItem("token") || "";

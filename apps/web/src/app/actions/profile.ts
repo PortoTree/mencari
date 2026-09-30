@@ -102,8 +102,7 @@ export async function updateDisplayName(token: string, userId: string, newDispla
       },
     });
 
-    // @ts-ignore
-    revalidateTag(`profile-${userId}`, "page");
+    revalidateTag(`profile-${userId}`);
 
     return { success: true, displayName: newDisplayName, remainingChanges: 2 - recentChanges.length };
   } catch (error) {
@@ -127,8 +126,7 @@ export async function updateProfileMedia(token: string, userId: string, type: "a
       });
     }
     
-    // @ts-ignore
-    revalidateTag(`profile-${userId}`, "page");
+    revalidateTag(`profile-${userId}`);
 
     return { success: true, url };
   } catch (error) {
@@ -199,8 +197,7 @@ export async function updateProfileInfo(token: string, userId: string, data: any
         }
       });
 
-    // @ts-ignore
-    revalidateTag(`profile-${userId}`, "page");
+    revalidateTag(`profile-${userId}`);
     return { success: true };
   } catch (error) {
     console.error("Error updating profile info:", error);

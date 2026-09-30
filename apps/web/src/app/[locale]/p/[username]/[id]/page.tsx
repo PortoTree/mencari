@@ -98,7 +98,7 @@ export default function ProfilePage({
     }
 
     try {
-      const cloudinaryUrl = await uploadToCloudinary(croppedUrl);
+      const cloudinaryUrl = await uploadToCloudinary(croppedUrl, "profile-image");
       const token = localStorage.getItem("token") || "";
       if (!token) return;
 
@@ -118,6 +118,9 @@ export default function ProfilePage({
         } else {
           // Dispatch event so Navbar avatar updates instantly without re-fetch
           window.dispatchEvent(new CustomEvent("avatar-updated", {
+            detail: { url: cloudinaryUrl, type: cropType }
+          }));
+          window.dispatchEvent(new CustomEvent("profile_updated", {
             detail: { url: cloudinaryUrl, type: cropType }
           }));
           // Also update local preview with the final Cloudinary URL
@@ -246,8 +249,28 @@ export default function ProfilePage({
       setConnectionStatus(status);
       setIsLoadingProfile(false);
     });
+    
+    const handleProfileUpdated = (e: any) => {
+      if (e.detail && e.detail.type && e.detail.url) {
+        if (e.detail.type === 'avatar') setAvatarPreview(e.detail.url);
+        if (e.detail.type === 'cover') setCoverPreview(e.detail.url);
+        
+        setProfileData((prev: any) => {
+          if (!prev) return prev;
+          const newProfile = { ...prev };
+          if (e.detail.type === 'avatar') newProfile.avatarUrl = e.detail.url;
+          if (e.detail.type === 'cover') newProfile.coverUrl = e.detail.url;
+          return newProfile;
+        });
+      }
+    };
+    window.addEventListener("profile_updated", handleProfileUpdated);
 
     setThemeLoaded(true);
+    
+    return () => {
+      window.removeEventListener("profile_updated", handleProfileUpdated);
+    };
   }, [id]);
 
   const handlePrimaryAction = async () => {

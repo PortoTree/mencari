@@ -109,7 +109,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
       const finalMediaUrls: string[] = [];
       for (const media of mediaPreviewList) {
         if (media.type === 'file' && media.url) {
-          const cloudUrl = await uploadToCloudinary(media.url);
+          const cloudUrl = await uploadToCloudinary(media.url, "post-image");
           finalMediaUrls.push(cloudUrl);
         } else if (media.type === 'url') {
           finalMediaUrls.push(media.url);

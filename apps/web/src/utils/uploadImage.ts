@@ -1,4 +1,4 @@
-export async function uploadToCloudinary(blobUrl: string): Promise<string> {
+export async function uploadToCloudinary(blobUrl: string, preset: string = "mencari_assets"): Promise<string> {
   // Fetch the blob from the local blob URL
   const response = await fetch(blobUrl);
   const blob = await response.blob();
@@ -6,7 +6,7 @@ export async function uploadToCloudinary(blobUrl: string): Promise<string> {
   // Prepare FormData for Cloudinary
   const formData = new FormData();
   formData.append("file", blob);
-  formData.append("upload_preset", "mencari_assets");
+  formData.append("upload_preset", preset);
   
   // Cloudinary unauthenticated upload endpoint
   const cloudName = "ecdhyrfa";

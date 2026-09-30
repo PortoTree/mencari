@@ -5,6 +5,21 @@ import { revalidateTag } from "next/cache";
 
 const prisma = new PrismaClient();
 
+// Helper to map DB post to frontend expected post structure
+function mapPost(post: any) {
+  if (!post) return post;
+  const mapped = { ...post };
+  if (post.postMedia) {
+    mapped.mediaUrls = post.postMedia
+      .sort((a: any, b: any) => a.order - b.order)
+      .map((pm: any) => pm.media.originalUrl);
+    delete mapped.postMedia;
+  } else {
+    mapped.mediaUrls = [];
+  }
+  return mapped;
+}
+
 export async function createPost(data: {
   authorId: string;
   content: string;
@@ -19,15 +34,32 @@ export async function createPost(data: {
         authorId: data.authorId,
         visibility: data.visibility,
         label: data.label || "DEFAULT",
-        mediaUrls: data.mediaUrls || [],
+        postMedia: data.mediaUrls && data.mediaUrls.length > 0 ? {
+          create: data.mediaUrls.map((url, idx) => ({
+            order: idx,
+            media: {
+              create: {
+                userId: data.authorId,
+                type: "IMAGE",
+                provider: "cloudinary",
+                publicId: url.split('/').pop()?.split('.')[0] || url,
+                originalUrl: url,
+              }
+            }
+          }))
+        } : undefined
       },
+      include: {
+        postMedia: {
+          include: { media: true }
+        }
+      }
     });
 
-    // Invalidate caches so the UI updates
     revalidateTag("feed_posts", "page");
     revalidateTag(`profile_posts_${data.authorId}`, "page");
 
-    return { success: true, post: newPost };
+    return { success: true, post: mapPost(newPost) };
   } catch (error: any) {
     console.error("Error creating post:", error);
     return { success: false, error: error.message };
@@ -36,7 +68,6 @@ export async function createPost(data: {
 
 export async function getFeedPosts(userId: string) {
   try {
-    // 1. Get list of friend IDs
     const friendships = await prisma.friendship.findMany({
       where: {
         OR: [
@@ -61,20 +92,20 @@ export async function getFeedPosts(userId: string) {
       },
       include: {
         author: {
-          include: {
-            profile: true
-          }
+          include: { profile: true }
+        },
+        postMedia: {
+          include: { media: true },
+          orderBy: { order: 'asc' }
         },
         _count: {
           select: { likes: true, comments: true }
         }
       },
-      orderBy: {
-        createdAt: "desc"
-      }
+      orderBy: { createdAt: "desc" }
     });
 
-    return { success: true, posts };
+    return { success: true, posts: posts.map(mapPost) };
   } catch (error: any) {
     console.error("Error fetching feed:", error);
     return { success: false, error: error.message };
@@ -108,12 +139,15 @@ export async function updatePost(postId: string, authorId: string, content: stri
     const updatedPost = await prisma.post.update({
       where: { id: postId },
       data: { content, visibility, label },
+      include: {
+        postMedia: { include: { media: true } }
+      }
     });
     
     revalidateTag("feed_posts", "page");
     revalidateTag(`profile_posts_${authorId}`, "page");
     
-    return { success: true, post: updatedPost };
+    return { success: true, post: mapPost(updatedPost) };
   } catch (error: any) {
     return { success: false, error: error.message };
   }
@@ -128,20 +162,20 @@ export async function getExplorePosts() {
       },
       include: {
         author: {
-          include: {
-            profile: true,
-          }
+          include: { profile: true }
+        },
+        postMedia: {
+          include: { media: true },
+          orderBy: { order: 'asc' }
         },
         _count: {
           select: { likes: true, comments: true }
         }
       },
-      orderBy: {
-        createdAt: "desc"
-      },
+      orderBy: { createdAt: "desc" },
       take: 50
     });
-    return { success: true, posts };
+    return { success: true, posts: posts.map(mapPost) };
   } catch (error: any) {
     console.error("Error fetching explore posts:", error);
     return { success: false, error: error.message };
@@ -156,13 +190,17 @@ export async function getPostById(postId: string) {
         author: {
           include: { profile: true }
         },
+        postMedia: {
+          include: { media: true },
+          orderBy: { order: 'asc' }
+        },
         _count: {
           select: { likes: true, comments: true }
         }
       }
     });
     if (!post) return { success: false, error: "Post not found" };
-    return { success: true, post };
+    return { success: true, post: mapPost(post) };
   } catch (error: any) {
     console.error("Error fetching post by ID:", error);
     return { success: false, error: error.message };

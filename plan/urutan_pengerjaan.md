@@ -30,6 +30,9 @@ Setelah user saling terkoneksi, mereka butuh media untuk berinteraksi dan berbag
 
 note: nanti akan ada postingan khusus only komunitas, apakah di kerjakan logikanya sekalian atau mau terpisah nanti bareng dengan pengerjaan komunitas saja?
 
+## Phase 2.1
+- [ ]   optimasi navbar untuk refactor ke dalam file layout.tsx, fungsinya supaya setiap kali pindah halaman navbar ini nggak ngerender ulang terus menerus
+
 ## Phase 3: Portofolio & Etalase
 Melengkapi profil pengguna dengan tempat unjuk karya.
 - [ ] **Database Gallery**: Logika untuk menyimpan dan menampilkan koleksi gambar/galeri user.
