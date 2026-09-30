@@ -368,6 +368,7 @@ export default function Beranda() {
   const [activeMessageDropdown, setActiveMessageDropdown] = useState<number | null>(null);
   const messageDropdownRef = useRef<HTMLDivElement>(null);
   const [isProfileSidebarOpen, setIsProfileSidebarOpen] = useState(false);
+  const [isProfileSidebarLoading, setIsProfileSidebarLoading] = useState(false);
   const [isProfileSidebarOptionsOpen, setIsProfileSidebarOptionsOpen] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState<any>(null);
   const postMenuRef = useRef<HTMLDivElement>(null);
@@ -1697,7 +1698,7 @@ export default function Beranda() {
                   setSelectedProfile({
                     id: author.id,
                     username: author.username,
-                    name: author.displayName || author.username,
+                    name: author.profile?.displayName || author.username,
                     role: author.profile?.profession || "Member",
                     avatar: author.profile?.avatarUrl || "/default-avatar.svg",
                     cover: author.profile?.coverUrl || undefined,
@@ -1711,6 +1712,7 @@ export default function Beranda() {
                   });
                   setIsProfileSidebarOpen(true);
                   
+                  setIsProfileSidebarLoading(true);
                   Promise.all([
                     import("@/app/actions/profile").then(m => m.getProfile(author.id)),
                     import("@/app/actions/connections").then(m => m.getConnectionStatus(currentUser?.id, author.id))
@@ -1730,6 +1732,7 @@ export default function Beranda() {
                       
                       setSelectedProfile((prev: any) => ({
                         ...prev,
+                        name: p.displayName || user.username || prev?.name,
                         bio: p.bio || prev?.bio,
                         education: p.education || prev?.education,
                         role: p.profession || prev?.role,
@@ -1744,6 +1747,8 @@ export default function Beranda() {
                         }
                       }));
                     }
+                  }).finally(() => {
+                    setIsProfileSidebarLoading(false);
                   });
                 }}
               />
@@ -2175,7 +2180,7 @@ export default function Beranda() {
                   setSelectedProfile({
                     id: author.id,
                     username: author.username,
-                    name: author.displayName || author.username,
+                    name: author.profile?.displayName || author.username,
                     role: author.profile?.profession || "Member",
                     avatar: author.profile?.avatarUrl || "/default-avatar.svg",
                     cover: author.profile?.coverUrl || undefined,
@@ -2189,6 +2194,7 @@ export default function Beranda() {
                   });
                   setIsProfileSidebarOpen(true);
                   
+                  setIsProfileSidebarLoading(true);
                   Promise.all([
                     import("@/app/actions/profile").then(m => m.getProfile(author.id)),
                     import("@/app/actions/connections").then(m => m.getConnectionStatus(currentUser?.id, author.id))
@@ -2208,6 +2214,7 @@ export default function Beranda() {
                       
                       setSelectedProfile((prev: any) => ({
                         ...prev,
+                        name: p.displayName || user.username || prev?.name,
                         bio: p.bio || prev?.bio,
                         education: p.education || prev?.education,
                         role: p.profession || prev?.role,
@@ -2222,6 +2229,8 @@ export default function Beranda() {
                         }
                       }));
                     }
+                  }).finally(() => {
+                    setIsProfileSidebarLoading(false);
                   });
                 }}
               />
@@ -3655,7 +3664,12 @@ export default function Beranda() {
 
               {/* ── Action Buttons ───────────────────────────────────────── */}
               <div className="px-4 pb-4 flex flex-col gap-2 border-b border-gray-100 dark:border-white/5">
-                {selectedProfile.id === currentUser?.id ? (
+                {isProfileSidebarLoading ? (
+                  <div className="flex gap-2 animate-pulse">
+                    <div className="h-10 bg-gray-200 dark:bg-white/10 rounded-xl flex-[1.5]"></div>
+                    <div className="h-10 bg-gray-200 dark:bg-white/10 rounded-xl flex-1"></div>
+                  </div>
+                ) : selectedProfile.id === currentUser?.id ? (
                   <div className="flex justify-center">
                     <button onClick={() => router.push(`/${locale}/p/${selectedProfile.username}/${selectedProfile.id}`)} className="w-[50%] flex items-center justify-center bg-gray-100 dark:bg-white/[0.07] hover:bg-gray-200 dark:hover:bg-white/[0.12] text-gray-800 dark:text-white font-semibold py-2.5 rounded-xl text-[13px] transition-all">
                       {t("profileSidebar.openProfile") || "Open Profile"}
