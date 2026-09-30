@@ -22,6 +22,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
   const [postContent, setPostContent] = useState(initialPost?.content || "");
   const [isPosting, setIsPosting] = useState(false);
   const [postLabel, setPostLabel] = useState<"DEFAULT" | "MENCARI" | "LOKASI" | "PROFESI" | "SEKOLAH">("DEFAULT");
+  const [mediaLayout, setMediaLayout] = useState<"GRID" | "CAROUSEL">("GRID");
   const [isLabelDropdownOpen, setIsLabelDropdownOpen] = useState(false);
   const labelDropdownRef = useRef<HTMLDivElement>(null);
 
@@ -38,6 +39,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
       setPostContent(initialPost?.content || "");
       setPostPrivacy(initialPost?.visibility || "PUBLIC");
       setPostLabel(initialPost?.label || "DEFAULT");
+      setMediaLayout(initialPost?.mediaLayout || "GRID");
       setMediaPreviewList(initialPost?.mediaUrls?.map((url: string) => ({ type: 'url', url })) || []);
       setIsMediaModalOpen(false);
     }
@@ -62,7 +64,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
-    const newPreviews: { url: string; file: File }[] = [];
+    let newPreviews: { url: string; file: File }[] = [];
     const validTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
 
     for (let i = 0; i < files.length; i++) {
@@ -78,6 +80,13 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
       newPreviews.push({ url: URL.createObjectURL(file), file });
     }
 
+    const totalAfterUpload = mediaPreviewList.length + tempFilePreviews.length + newPreviews.length;
+    if (totalAfterUpload > 8) {
+      alert(`Maksimal 8 gambar yang diperbolehkan! Sisa kuota Anda: ${Math.max(0, 8 - (mediaPreviewList.length + tempFilePreviews.length))} gambar.`);
+      const remainingSlots = 8 - (mediaPreviewList.length + tempFilePreviews.length);
+      newPreviews = newPreviews.slice(0, Math.max(0, remainingSlots));
+    }
+
     setTempFilePreviews([...tempFilePreviews, ...newPreviews]);
   };
 
@@ -86,6 +95,10 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
       const newMedia = tempFilePreviews.map(p => ({ type: 'file' as const, url: p.url, file: p.file }));
       setMediaPreviewList([...mediaPreviewList, ...newMedia]);
     } else if (mediaTab === "url" && mediaUrlInput.trim()) {
+      if (mediaPreviewList.length >= 8) {
+        alert("Maksimal 8 gambar yang diperbolehkan!");
+        return;
+      }
       setMediaPreviewList([...mediaPreviewList, { type: 'url', url: mediaUrlInput.trim() }]);
     }
     setTempFilePreviews([]);
@@ -118,7 +131,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
 
       let res;
       if (initialPost) {
-        res = await updatePost(initialPost.id, currentUser.id, postContent, postPrivacy, postLabel); 
+        res = await updatePost(initialPost.id, currentUser.id, postContent, postPrivacy, postLabel, mediaLayout); 
         // Update function doesn't support mediaUrls yet, but we will fix later
       } else {
         res = await createPost({
@@ -127,6 +140,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
           visibility: postPrivacy,
           label: postLabel,
           mediaUrls: finalMediaUrls,
+          mediaLayout: mediaLayout,
         });
       }
 
@@ -247,6 +261,26 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
                     </button>
                   </div>
                 ))}
+              </div>
+            )}
+            
+            {mediaPreviewList.length > 1 && (
+              <div className="mb-4">
+                <label className="text-[13px] font-semibold text-gray-500 dark:text-[#B0B3B8] mb-2 block">Layout Gambar</label>
+                <div className="flex gap-2">
+                  <button 
+                    onClick={() => setMediaLayout("GRID")}
+                    className={`flex-1 py-2 rounded-lg font-semibold text-[14px] transition-colors border ${mediaLayout === 'GRID' ? 'bg-[#E7F3FF] dark:bg-[#263951] text-[#1877F2] border-[#1877F2]/20' : 'bg-transparent text-gray-600 dark:text-[#B0B3B8] border-gray-300 dark:border-[#3E4042] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]'}`}
+                  >
+                    Grid (Kolase)
+                  </button>
+                  <button 
+                    onClick={() => setMediaLayout("CAROUSEL")}
+                    className={`flex-1 py-2 rounded-lg font-semibold text-[14px] transition-colors border ${mediaLayout === 'CAROUSEL' ? 'bg-[#E7F3FF] dark:bg-[#263951] text-[#1877F2] border-[#1877F2]/20' : 'bg-transparent text-gray-600 dark:text-[#B0B3B8] border-gray-300 dark:border-[#3E4042] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]'}`}
+                  >
+                    Carousel (Geser)
+                  </button>
+                </div>
               </div>
             )}
           </div>

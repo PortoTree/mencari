@@ -41,7 +41,9 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
+  const [isMediaModalOpen, setIsMediaModalOpen] = useState(false);
+  const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
+  const [modalViewMode, setModalViewMode] = useState<"GRID" | "CAROUSEL">("GRID");
 
   const handleDelete = async () => {
     setIsDeleting(true);
@@ -226,12 +228,63 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
 
       {/* Media (If any) */}
       {post.mediaUrls && post.mediaUrls.length > 0 && (
-        <div className={`w-full mb-2 grid gap-1 ${post.mediaUrls.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
-          {post.mediaUrls.map((url: string, idx: number) => (
-            <div key={idx} className={`relative bg-[#F0F2F5] dark:bg-[#3A3B3C] flex items-center justify-center overflow-hidden ${post.mediaUrls.length === 1 ? 'max-h-[500px]' : 'aspect-square'}`}>
-              <img src={url} alt={`Post media ${idx+1}`} className="w-full h-full object-cover" />
+        <div className="w-full mb-2">
+          {post.mediaLayout === "CAROUSEL" && post.mediaUrls.length > 1 ? (
+            <div className="relative w-full aspect-square bg-black flex items-center justify-center overflow-hidden">
+              <img 
+                src={post.mediaUrls[currentCarouselIndex]} 
+                alt={`Post media ${currentCarouselIndex + 1}`} 
+                className="w-full h-full object-contain cursor-pointer"
+                onClick={() => {
+                  setModalViewMode("CAROUSEL");
+                  setIsMediaModalOpen(true);
+                }}
+              />
+              {currentCarouselIndex > 0 && (
+                <button 
+                  onClick={(e) => { e.stopPropagation(); setCurrentCarouselIndex(prev => prev - 1); }}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center transition-colors hover:bg-black/70"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+                </button>
+              )}
+              {currentCarouselIndex < post.mediaUrls.length - 1 && (
+                <button 
+                  onClick={(e) => { e.stopPropagation(); setCurrentCarouselIndex(prev => prev + 1); }}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center transition-colors hover:bg-black/70"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                </button>
+              )}
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                {post.mediaUrls.map((_: any, idx: number) => (
+                  <div key={idx} className={`w-1.5 h-1.5 rounded-full ${idx === currentCarouselIndex ? 'bg-white' : 'bg-white/50'}`} />
+                ))}
+              </div>
             </div>
-          ))}
+          ) : (
+            /* Grid Layout (Default) */
+            <div className={`grid gap-1 ${post.mediaUrls.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
+              {post.mediaUrls.slice(0, 2).map((url: string, idx: number) => (
+                <div 
+                  key={idx} 
+                  className={`relative bg-[#F0F2F5] dark:bg-[#3A3B3C] flex items-center justify-center overflow-hidden cursor-pointer ${post.mediaUrls.length === 1 ? 'max-h-[500px]' : 'aspect-square'}`}
+                  onClick={() => {
+                    setModalViewMode(post.mediaUrls.length === 1 ? "CAROUSEL" : "GRID");
+                    setCurrentCarouselIndex(idx);
+                    setIsMediaModalOpen(true);
+                  }}
+                >
+                  <img src={url} alt={`Post media ${idx+1}`} className="w-full h-full object-cover" />
+                  {idx === 1 && post.mediaUrls.length > 2 && (
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center hover:bg-black/50 transition-colors">
+                      <span className="text-white text-3xl font-bold">+{post.mediaUrls.length - 2}</span>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
@@ -288,6 +341,81 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
         </div>
       )}
       <CreatePostModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} currentUser={currentUser} initialPost={post} />
+      
+      {isMediaModalOpen && (
+        <div className="fixed inset-0 z-[100000] bg-black/95 flex flex-col">
+          {/* Header overlay so it doesn't push the image down */}
+          <div className="absolute top-0 inset-x-0 flex justify-between items-center p-4 z-10 bg-gradient-to-b from-black/80 to-transparent">
+            <div className="text-white font-medium">{post.author?.displayName}</div>
+            <button onClick={() => setIsMediaModalOpen(false)} className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+          </div>
+          
+          <div className="flex-1 w-full h-full flex flex-col">
+            {modalViewMode === "CAROUSEL" ? (
+              <div className="flex flex-col h-full w-full">
+                {/* Main Carousel View */}
+                <div className="relative flex-1 flex items-center justify-center min-h-0 w-full">
+                  <img 
+                    src={post.mediaUrls[currentCarouselIndex]} 
+                    alt={`Modal media ${currentCarouselIndex + 1}`} 
+                    className="w-full h-full object-contain"
+                  />
+                  {currentCarouselIndex > 0 && (
+                    <button 
+                      onClick={() => setCurrentCarouselIndex(prev => prev - 1)}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-white/30 text-white flex items-center justify-center transition-colors"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+                    </button>
+                  )}
+                  {currentCarouselIndex < post.mediaUrls.length - 1 && (
+                    <button 
+                      onClick={() => setCurrentCarouselIndex(prev => prev + 1)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-white/30 text-white flex items-center justify-center transition-colors"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                    </button>
+                  )}
+                </div>
+                {/* Thumbnails below the main image (if > 1) */}
+                {post.mediaUrls.length > 1 && (
+                  <div className="h-24 min-h-[96px] bg-black/50 p-2 flex items-center justify-center gap-2 overflow-x-auto">
+                    {post.mediaUrls.map((url: string, idx: number) => (
+                      <button 
+                        key={idx}
+                        onClick={() => setCurrentCarouselIndex(idx)}
+                        className={`relative w-16 h-16 rounded-md overflow-hidden flex-shrink-0 transition-all ${idx === currentCarouselIndex ? 'ring-2 ring-white scale-105' : 'opacity-50 hover:opacity-100'}`}
+                      >
+                        <img src={url} className="w-full h-full object-cover" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              /* Modal Grid View */
+              <div className="flex-1 w-full flex items-center justify-center overflow-y-auto pt-20 pb-10 px-4">
+                <div className={`grid gap-2 w-full max-w-4xl mx-auto ${post.mediaUrls.length <= 4 ? 'grid-cols-2' : 'grid-cols-3 md:grid-cols-4'}`}>
+                  {post.mediaUrls.map((url: string, idx: number) => (
+                    <div 
+                      key={idx} 
+                      className="relative aspect-square bg-white/5 flex items-center justify-center rounded-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
+                      onClick={() => {
+                        setCurrentCarouselIndex(idx);
+                        setModalViewMode("CAROUSEL");
+                      }}
+                    >
+                      <img src={url} alt={`Modal media ${idx+1}`} className="w-full h-full object-cover" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -26,6 +26,7 @@ export async function createPost(data: {
   visibility: "PUBLIC" | "FRIENDS" | "PRIVATE" | "COMMUNITY_ONLY";
   label?: "DEFAULT" | "MENCARI" | "LOKASI" | "PROFESI" | "SEKOLAH";
   mediaUrls?: string[];
+  mediaLayout?: "GRID" | "CAROUSEL";
 }) {
   try {
     const newPost = await prisma.post.create({
@@ -34,6 +35,7 @@ export async function createPost(data: {
         authorId: data.authorId,
         visibility: data.visibility,
         label: data.label || "DEFAULT",
+        mediaLayout: data.mediaLayout || "GRID",
         postMedia: data.mediaUrls && data.mediaUrls.length > 0 ? {
           create: data.mediaUrls.map((url, idx) => ({
             order: idx,
@@ -130,7 +132,7 @@ export async function deletePost(postId: string, authorId: string) {
   }
 }
 
-export async function updatePost(postId: string, authorId: string, content: string, visibility: "PUBLIC" | "FRIENDS" | "PRIVATE" | "COMMUNITY_ONLY", label?: "DEFAULT" | "MENCARI" | "LOKASI" | "PROFESI" | "SEKOLAH") {
+export async function updatePost(postId: string, authorId: string, content: string, visibility: "PUBLIC" | "FRIENDS" | "PRIVATE" | "COMMUNITY_ONLY", label?: "DEFAULT" | "MENCARI" | "LOKASI" | "PROFESI" | "SEKOLAH", mediaLayout?: "GRID" | "CAROUSEL") {
   try {
     const post = await prisma.post.findUnique({ where: { id: postId } });
     if (!post || post.authorId !== authorId) {
@@ -138,7 +140,7 @@ export async function updatePost(postId: string, authorId: string, content: stri
     }
     const updatedPost = await prisma.post.update({
       where: { id: postId },
-      data: { content, visibility, label },
+      data: { content, visibility, label, mediaLayout: mediaLayout || undefined },
       include: {
         postMedia: { include: { media: true } }
       }

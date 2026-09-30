@@ -170,6 +170,7 @@ model Post {
   type         PostType       @default(NORMAL)
   visibility   PostVisibility @default(PUBLIC)
   label        PostLabel      @default(DEFAULT)
+  mediaLayout  String         @default("GRID") // "GRID" or "CAROUSEL"
   authorId     String
   communityId  String? // Prepared for community phase
   sharedPostId String?
