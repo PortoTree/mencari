@@ -44,8 +44,8 @@ function PostFeedContent({ currentUser, onProfileClick }: PostFeedProps) {
 
       if (res.success && loadedPosts) {
         setPosts(loadedPosts);
-        window.__POST_FEED_CACHE = window.__POST_FEED_CACHE || {};
-        window.__POST_FEED_CACHE[cacheKey] = loadedPosts;
+        (window as any).__POST_FEED_CACHE = (window as any).__POST_FEED_CACHE || {};
+        (window as any).__POST_FEED_CACHE[cacheKey] = loadedPosts;
       } else {
         if (!isBackground) setError(res.error || "Failed to load posts");
       }
@@ -116,7 +116,7 @@ function PostFeedContent({ currentUser, onProfileClick }: PostFeedProps) {
     return (
       <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-red-100 dark:border-red-900/30 py-8 flex flex-col items-center justify-center text-center">
         <p className="text-[14px] text-red-500">{t("feed.loadError")} {error}</p>
-        <button onClick={fetchPosts} className="mt-2 text-blue-500 hover:underline text-[14px]">{t("feed.tryAgain")}</button>
+        <button onClick={() => fetchPosts()} className="mt-2 text-blue-500 hover:underline text-[14px]">{t("feed.tryAgain")}</button>
       </div>
     );
   }
