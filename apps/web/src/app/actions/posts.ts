@@ -10,6 +10,7 @@ export async function createPost(data: {
   content: string;
   visibility: "PUBLIC" | "FRIENDS" | "PRIVATE" | "COMMUNITY_ONLY";
   label?: "DEFAULT" | "MENCARI" | "LOKASI" | "PROFESI" | "SEKOLAH";
+  mediaUrls?: string[];
 }) {
   try {
     const newPost = await prisma.post.create({
@@ -18,6 +19,7 @@ export async function createPost(data: {
         authorId: data.authorId,
         visibility: data.visibility,
         label: data.label || "DEFAULT",
+        mediaUrls: data.mediaUrls || [],
       },
     });
 

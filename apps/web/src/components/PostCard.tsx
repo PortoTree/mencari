@@ -226,8 +226,12 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
 
       {/* Media (If any) */}
       {post.mediaUrls && post.mediaUrls.length > 0 && (
-        <div className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] max-h-[500px] mb-2 flex items-center justify-center overflow-hidden">
-          <img src={post.mediaUrls[0]} alt="Post media" className="w-full h-full object-cover" />
+        <div className={`w-full mb-2 grid gap-1 ${post.mediaUrls.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
+          {post.mediaUrls.map((url: string, idx: number) => (
+            <div key={idx} className={`relative bg-[#F0F2F5] dark:bg-[#3A3B3C] flex items-center justify-center overflow-hidden ${post.mediaUrls.length === 1 ? 'max-h-[500px]' : 'aspect-square'}`}>
+              <img src={url} alt={`Post media ${idx+1}`} className="w-full h-full object-cover" />
+            </div>
+          ))}
         </div>
       )}
 
