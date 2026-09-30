@@ -21,7 +21,7 @@ export async function createPost(data: {
 
     // Invalidate caches so the UI updates
     revalidateTag("feed_posts");
-    revalidateTag(`profile_posts_${data.authorId}`);
+    revalidateTag(`profile_posts_${data.authorId}`, "page");
 
     return { success: true, post: newPost };
   } catch (error: any) {
@@ -87,7 +87,7 @@ export async function deletePost(postId: string, authorId: string) {
     await prisma.post.delete({ where: { id: postId } });
     
     revalidateTag("feed_posts");
-    revalidateTag(`profile_posts_${authorId}`);
+    revalidateTag(`profile_posts_${authorId}`, "page");
     
     return { success: true };
   } catch (error: any) {
@@ -107,7 +107,7 @@ export async function updatePost(postId: string, authorId: string, content: stri
     });
     
     revalidateTag("feed_posts");
-    revalidateTag(`profile_posts_${authorId}`);
+    revalidateTag(`profile_posts_${authorId}`, "page");
     
     return { success: true, post: updatedPost };
   } catch (error: any) {

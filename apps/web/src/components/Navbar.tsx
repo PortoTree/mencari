@@ -110,9 +110,9 @@ export default function Navbar({
 
   // Initial load
   useEffect(() => {
-    if (currentUser?.id && globalNotifsCache?.userId === currentUser.id) {
-      setNotifications(globalNotifsCache.list);
-      setUnreadCount(globalNotifsCache.unread);
+    if (currentUser?.id && globalNotifsCache !== null && globalNotifsCache?.userId === currentUser.id) {
+      setNotifications(globalNotifsCache!.list);
+      setUnreadCount(globalNotifsCache!.unread);
       // Fetch in background to check for delta
       fetchNotifs(true);
     } else {

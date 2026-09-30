@@ -69,7 +69,7 @@ export async function markAsRead(token: string, userId: string, notificationId?:
       });
     }
 
-    revalidateTag(`notifications-${userId}`);
+    revalidateTag(`notifications-${userId}`, "page");
     return { success: true };
   } catch (error) {
     console.error("Error marking notifications as read:", error);
@@ -84,7 +84,7 @@ export async function deleteNotification(token: string, userId: string, notifica
     await prisma.notification.deleteMany({
       where: { id: notificationId, userId }
     });
-    revalidateTag(`notifications-${userId}`);
+    revalidateTag(`notifications-${userId}`, "page");
     return { success: true };
   } catch (error) {
     console.error("Error deleting notification:", error);
