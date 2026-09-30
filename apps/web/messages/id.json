@@ -186,7 +186,11 @@
     "more": "Lainnya",
     "like": "Suka",
     "comment": "Komentar",
-    "share": "Bagikan"
+    "share": "Bagikan",
+    "noPosts": "Belum ada postingan",
+    "noPostsDesc": "Belum ada postingan untuk ditampilkan saat ini.",
+    "loadError": "Gagal memuat postingan:",
+    "tryAgain": "Coba Lagi"
   },
   "filter": {
     "favorite": "Favorit",
@@ -309,7 +313,8 @@
     "typePostComment": "mengomentari postingan Anda.",
     "timeMinutes": "{min} menit yang lalu",
     "timeHours": "{hour} jam yang lalu",
-    "timeYesterday": "Kemarin"
+    "timeYesterday": "Kemarin",
+    "typeFriendNow": "Kamu sekarang berteman."
   },
   "search": {
     "recent": "Pencarian Terakhir",

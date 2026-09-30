@@ -186,7 +186,11 @@
     "more": "More",
     "like": "Like",
     "comment": "Comment",
-    "share": "Share"
+    "share": "Share",
+    "noPosts": "No posts yet",
+    "noPostsDesc": "There are no posts to show right now.",
+    "loadError": "Failed to load posts:",
+    "tryAgain": "Try Again"
   },
   "filter": {
     "favorite": "Favorites",
@@ -303,7 +307,8 @@
     "typePostComment": "commented on your post.",
     "timeMinutes": "{min} minutes ago",
     "timeHours": "{hour} hours ago",
-    "timeYesterday": "Yesterday"
+    "timeYesterday": "Yesterday",
+    "typeFriendNow": "You are now friends."
   },
   "search": {
     "recent": "Recent Searches",

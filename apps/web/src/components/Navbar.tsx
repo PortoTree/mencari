@@ -1001,14 +1001,14 @@ export default function Navbar({
                       <img src={notif.sender?.profile?.avatarUrl || "/default-avatar.svg"} className="w-14 h-14 rounded-full border border-gray-200 dark:border-[#3E4042] object-cover" />
                       <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center border-2 border-white dark:border-[#242526] ${
                         notif.type === "FOLLOW" ? "bg-emerald-500" :
-                        notif.type === "FRIEND_REQUEST" || notif.type === "FRIEND_ACCEPT" ? "bg-blue-500" :
+                        notif.type === "FRIEND_REQUEST" || notif.type === "FRIEND_ACCEPT" || notif.type === "FRIEND_NOW" ? "bg-blue-500" :
                         notif.type === "POST_LIKE" ? "bg-red-500" :
                         "bg-[#2D88FF]"
                       }`}>
                         {notif.type === "FOLLOW" && (
                           <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
                         )}
-                        {(notif.type === "FRIEND_REQUEST" || notif.type === "FRIEND_ACCEPT") && (
+                        {(notif.type === "FRIEND_REQUEST" || notif.type === "FRIEND_ACCEPT" || notif.type === "FRIEND_NOW") && (
                           <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" /></svg>
                         )}
                         {notif.type === "POST_LIKE" && (
@@ -1022,6 +1022,7 @@ export default function Navbar({
                         {notif.type === "FOLLOW" && ` ${t("notif.typeFollow")}`}
                         {notif.type === "FRIEND_REQUEST" && ` ${t("notif.typeFriendRequest")}`}
                         {notif.type === "FRIEND_ACCEPT" && ` ${t("notif.typeFriendAccept")}`}
+                        {notif.type === "FRIEND_NOW" && ` ${t("notif.typeFriendNow")}`}
                         {notif.type === "POST_LIKE" && ` ${t("notif.typePostLike")}`}
                         {notif.type === "POST_COMMENT" && ` ${t("notif.typePostComment")}`}
                       </p>

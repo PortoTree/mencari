@@ -1742,6 +1742,7 @@ export default function Beranda() {
                         cover: p.coverUrl || prev?.cover,
                         relation: relation,
                         isFollowing: conn.isFollowing,
+                        requestedBy: conn.friendshipRequestedBy,
                         stats: {
                           friends: friendsCount,
                           followers: user._count?.followers || 0,
@@ -1793,6 +1794,7 @@ export default function Beranda() {
                         cover: p.coverUrl || prev?.cover,
                         relation: relation,
                         isFollowing: conn.isFollowing,
+                        requestedBy: conn.friendshipRequestedBy,
                         stats: {
                           friends: friendsCount,
                           followers: user._count?.followers || 0,
@@ -2276,6 +2278,7 @@ export default function Beranda() {
                         cover: p.coverUrl || prev?.cover,
                         relation: relation,
                         isFollowing: conn.isFollowing,
+                        requestedBy: conn.friendshipRequestedBy,
                         stats: {
                           friends: friendsCount,
                           followers: user._count?.followers || 0,
@@ -2327,6 +2330,7 @@ export default function Beranda() {
                         cover: p.coverUrl || prev?.cover,
                         relation: relation,
                         isFollowing: conn.isFollowing,
+                        requestedBy: conn.friendshipRequestedBy,
                         stats: {
                           friends: friendsCount,
                           followers: user._count?.followers || 0,
@@ -3652,6 +3656,7 @@ export default function Beranda() {
           {selectedProfile && (
             <>
               <div className="sticky top-3 z-50 flex justify-end px-3 w-full gap-2" style={{ height: 0, pointerEvents: 'none' }}>
+                {selectedProfile.id !== currentUser?.id && (
                 <div className="relative pointer-events-auto">
                   <button
                     onClick={() => setIsProfileSidebarOptionsOpen(!isProfileSidebarOptionsOpen)}
@@ -3677,6 +3682,7 @@ export default function Beranda() {
                     </>
                   )}
                 </div>
+                )}
                 <button
                   onClick={() => setIsProfileSidebarOpen(false)}
                   className="w-8 h-8 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-sm text-white flex items-center justify-center transition-all hover:scale-110 pointer-events-auto shadow-md"
@@ -3797,12 +3803,48 @@ export default function Beranda() {
                            let relation = "none";
                            if (conn.friendshipStatus === "ACCEPTED") relation = "friend";
                            else if (conn.friendshipStatus === "PENDING") relation = "request";
-                           setSelectedProfile((prev: any) => ({ ...prev, relation, isFollowing: conn.isFollowing }));
+                           
+                           setSelectedProfile((prev: any) => {
+                             let newFriends = prev.stats?.friends || 0;
+                             let newFollowers = prev.stats?.followers || 0;
+                             
+                             if (typeof newFriends === 'number' && typeof newFollowers === 'number') {
+                               if (prev.relation === "friend" && relation !== "friend") {
+                                 newFriends = Math.max(0, newFriends - 1);
+                               } else if (prev.relation !== "friend" && relation === "friend") {
+                                 newFriends += 1;
+                               }
+                               
+                               if (prev.isFollowing && !conn.isFollowing) {
+                                 newFollowers = Math.max(0, newFollowers - 1);
+                               } else if (!prev.isFollowing && conn.isFollowing) {
+                                 newFollowers += 1;
+                               }
+                             }
+                             
+                             return { 
+                               ...prev, 
+                               relation, 
+                               isFollowing: conn.isFollowing, 
+                               requestedBy: conn.friendshipRequestedBy,
+                               stats: { ...prev.stats, friends: newFriends, followers: newFollowers }
+                             };
+                           });
+                           connectionCache.set(selectedProfile.id, conn); // update cache so next open is fresh
+                           
+                           // Also trigger custom event so other components (like feed) can update if necessary
+                           window.dispatchEvent(new CustomEvent("friend-accepted", { 
+                             detail: { senderId: selectedProfile.id, currentUserId: currentUser.id }
+                           }));
                         }
                       }}
                       className={`flex-[1.5] flex items-center justify-center gap-1.5 font-semibold py-2.5 rounded-xl text-[13px] transition-all shadow-sm active:scale-[0.98] ${
-                        selectedProfile.relation === "friend" || selectedProfile.relation === "request" || selectedProfile.isFollowing
+                        selectedProfile.relation === "friend"
                         ? "bg-gray-100 dark:bg-white/[0.07] hover:bg-gray-200 dark:hover:bg-white/[0.12] text-gray-800 dark:text-white"
+                        : selectedProfile.relation === "request" && selectedProfile.requestedBy !== currentUser?.id
+                        ? "bg-yellow-500 hover:bg-yellow-600 text-white"
+                        : (selectedProfile.relation === "request" || selectedProfile.isFollowing)
+                        ? "bg-transparent border border-gray-300 dark:border-[#4E4F50] text-black dark:text-[#E4E6EB] hover:bg-red-50 hover:border-red-500 hover:text-red-500 dark:hover:bg-red-500/10 dark:hover:border-red-500 dark:hover:text-red-400"
                         : "bg-emerald-500 hover:bg-emerald-600 text-white shadow-emerald-500/20"
                       }`}
                     >
@@ -3811,9 +3853,9 @@ export default function Beranda() {
                       )}
                       {selectedProfile.relation === "friend" 
                         ? (t("friend.alreadyFriend") || "Friends") 
-                        : selectedProfile.relation === "request"
-                        ? (t("friend.following") || "Mengikuti")
-                        : selectedProfile.isFollowing
+                        : selectedProfile.relation === "request" && selectedProfile.requestedBy !== currentUser?.id
+                        ? (t("profile.acceptRequestBtn") || "Terima Permintaan")
+                        : (selectedProfile.relation === "request" || selectedProfile.isFollowing)
                         ? (t("friend.following") || "Mengikuti")
                         : "Follow"}
                     </button>

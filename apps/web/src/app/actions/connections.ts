@@ -50,15 +50,30 @@ export async function handlePrimaryConnectionAction(token: string, currentUserId
     });
 
     if (existingFriendship?.status === "ACCEPTED") {
-      // 1. UNFOLLOW & REMOVE FRIEND
-      await prisma.$transaction([
-        prisma.friendship.delete({ where: { id: existingFriendship.id } }),
-        prisma.follow.deleteMany({
-          where: { followerId: currentUserId, followingId: targetUserId }
-        }),
-        // Optional: Do we also remove targetUserId following currentUserId? 
-        // For now, let's just break the friendship and currentUserId unfollows targetUserId.
-      ]);
+      // 1. UNFRIEND & UNFOLLOW
+      // Check if target is still following current. If so, revert to PENDING request from target.
+      const targetFollowingCurrent = await prisma.follow.findUnique({
+        where: { followerId_followingId: { followerId: targetUserId, followingId: currentUserId } }
+      });
+      
+      if (targetFollowingCurrent) {
+        await prisma.$transaction([
+          prisma.friendship.update({
+            where: { id: existingFriendship.id },
+            data: { status: "PENDING", requestedBy: targetUserId }
+          }),
+          prisma.follow.deleteMany({
+            where: { followerId: currentUserId, followingId: targetUserId }
+          })
+        ]);
+      } else {
+        await prisma.$transaction([
+          prisma.friendship.delete({ where: { id: existingFriendship.id } }),
+          prisma.follow.deleteMany({
+            where: { followerId: currentUserId, followingId: targetUserId }
+          })
+        ]);
+      }
     } else if (existingFriendship?.status === "PENDING") {
       if (existingFriendship.requestedBy === targetUserId) {
         // 2. ACCEPT REQUEST (Target requested Current)
@@ -78,6 +93,17 @@ export async function handlePrimaryConnectionAction(token: string, currentUserId
               userId: targetUserId,
               senderId: currentUserId,
               type: "FRIEND_ACCEPT"
+            }
+          }),
+          // Update the current user's original FRIEND_REQUEST notification to FRIEND_NOW
+          prisma.notification.updateMany({
+            where: {
+              userId: currentUserId,
+              senderId: targetUserId,
+              type: "FRIEND_REQUEST"
+            },
+            data: {
+              type: "FRIEND_NOW"
             }
           })
         ]);
