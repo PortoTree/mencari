@@ -221,6 +221,7 @@ export default function Beranda() {
     username: "User",
     displayName: "",
   });
+  const [isProfileLoading, setIsProfileLoading] = useState(true);
   const [isChatExpanded, setIsChatExpanded] = useState(false);
   const [isShortcutModalOpen, setIsShortcutModalOpen] = useState(false);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
@@ -650,6 +651,7 @@ export default function Beranda() {
               if (res.success && res.profile) {
                 setCurrentUser((prev: any) => ({ ...prev, profile: res.profile }));
               }
+              setIsProfileLoading(false);
             });
           });
         }
@@ -988,58 +990,85 @@ export default function Beranda() {
                 </div>
               ) : activeTab !== "product" ? (
                 <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] overflow-hidden">
-                  <div 
-                    className="h-20 bg-gray-200 dark:bg-[#3A3B3C] w-full relative bg-cover bg-center"
-                    style={currentUser?.profile?.coverUrl ? { backgroundImage: `url(${currentUser.profile.coverUrl})` } : {}}
-                  >
-                    {/* Profile image overlapping */}
-                    <div className="absolute -bottom-8 left-4 w-[72px] h-[72px] bg-white dark:bg-[#242526] rounded-full p-1 shadow-sm">
-                      <div className="w-full h-full rounded-full flex items-center justify-center overflow-hidden">
-                        <img
-                          src={currentUser?.profile?.avatarUrl || "/default-avatar.svg"}
-                          alt="Profile"
-                          className="w-full h-full object-cover"
-                        />
+                  {isProfileLoading ? (
+                    <>
+                      {/* Cover skeleton */}
+                      <div className="h-20 bg-gray-200 dark:bg-[#3A3B3C] animate-pulse w-full relative">
+                        {/* Avatar skeleton overlapping */}
+                        <div className="absolute -bottom-8 left-4 w-[72px] h-[72px] bg-white dark:bg-[#242526] rounded-full p-1 shadow-sm">
+                          <div className="w-full h-full rounded-full bg-gray-300 dark:bg-[#4E4F50] animate-pulse" />
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div className="pt-10 pb-4 px-4 text-left">
-                    <h3 className="font-bold text-[17px] text-black dark:text-[#E4E6EB]">
-                      {currentUser.profile?.displayName || currentUser.username}
-                    </h3>
-
-                    <div className="mt-1.5 mb-4 flex flex-col gap-1.5">
-                      <div className="flex items-center gap-2 text-gray-500 dark:text-[#B0B3B8] text-[13px]">
-                        <svg
-                          className="w-[16px] h-[16px] shrink-0"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                          />
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                          />
-                        </svg>
-                        <span className="truncate">{currentUser?.profile?.locationName || (t("profile.noLocation") || "Belum ada lokasi")}</span>
+                      <div className="pt-10 pb-4 px-4">
+                        {/* Display name skeleton */}
+                        <div className="h-4 w-3/5 bg-gray-200 dark:bg-[#3A3B3C] rounded-full animate-pulse mb-3" />
+                        {/* Location skeleton */}
+                        <div className="flex items-center gap-2 mb-4">
+                          <div className="w-4 h-4 rounded-full bg-gray-200 dark:bg-[#3A3B3C] animate-pulse shrink-0" />
+                          <div className="h-3 w-2/5 bg-gray-200 dark:bg-[#3A3B3C] rounded-full animate-pulse" />
+                        </div>
+                        {/* Button skeleton */}
+                        <div className="flex justify-center">
+                          <div className="h-7 w-[70%] bg-gray-200 dark:bg-[#3A3B3C] rounded-full animate-pulse" />
+                        </div>
                       </div>
-                    </div>
+                    </>
+                  ) : (
+                    <>
+                      <div 
+                        className="h-20 bg-gray-200 dark:bg-[#3A3B3C] w-full relative bg-cover bg-center"
+                        style={currentUser?.profile?.coverUrl ? { backgroundImage: `url(${currentUser.profile.coverUrl})` } : {}}
+                      >
+                        {/* Profile image overlapping */}
+                        <div className="absolute -bottom-8 left-4 w-[72px] h-[72px] bg-white dark:bg-[#242526] rounded-full p-1 shadow-sm">
+                          <div className="w-full h-full rounded-full flex items-center justify-center overflow-hidden">
+                            <img
+                              src={currentUser?.profile?.avatarUrl || "/default-avatar.svg"}
+                              alt="Profile"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="pt-10 pb-4 px-4 text-left">
+                        <h3 className="font-bold text-[17px] text-black dark:text-[#E4E6EB]">
+                          {currentUser.profile?.displayName || currentUser.username}
+                        </h3>
 
-                    {/* View Profile Badge */}
-                    <div className="flex justify-center w-full mt-2">
-                      <button onClick={() => router.push(`/${locale}/p/${currentUser?.username || "user"}/${currentUser?.id || "1"}`)} className="w-[70%] py-1.5 px-3 bg-gray-100 dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold text-[13.5px] rounded-full transition-colors truncate">
-                        {t("sidebar.viewProfile")}
-                      </button>
-                    </div>
-                  </div>
+                        <div className="mt-1.5 mb-4 flex flex-col gap-1.5">
+                          <div className="flex items-center gap-2 text-gray-500 dark:text-[#B0B3B8] text-[13px]">
+                            <svg
+                              className="w-[16px] h-[16px] shrink-0"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                              />
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                              />
+                            </svg>
+                            <span className="truncate">{currentUser?.profile?.locationName || (t("profile.noLocation") || "Belum ada lokasi")}</span>
+                          </div>
+                        </div>
+
+                        {/* View Profile Badge */}
+                        <div className="flex justify-center w-full mt-2">
+                          <button onClick={() => router.push(`/${locale}/p/${currentUser?.username || "user"}/${currentUser?.id || "1"}`)} className="w-[70%] py-1.5 px-3 bg-gray-100 dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold text-[13.5px] rounded-full transition-colors truncate">
+                            {t("sidebar.viewProfile")}
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               ) : activeTab === "product" ? (
                 <div className="space-y-4">
