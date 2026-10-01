@@ -33,6 +33,63 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
   const [mediaUrlInputs, setMediaUrlInputs] = useState<string[]>([""]);
   const [tempFilePreviews, setTempFilePreviews] = useState<{ url: string; file: File }[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  const [linkPreviewData, setLinkPreviewData] = useState<any>(initialPost?.linkMetadata || null);
+  const [isFetchingLink, setIsFetchingLink] = useState(false);
+
+  const handleContentChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const text = e.target.value;
+    setPostContent(text);
+
+    setLinkPreviewData((prev: any) => {
+      if (prev && !text.includes(prev.url)) {
+        return null;
+      }
+      return prev;
+    });
+
+    // Regex to find URL
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const matches = text.match(urlRegex);
+
+    if (matches && matches.length > 0) {
+      const url = matches[0];
+      
+      // Check if it's a media URL
+      const isMedia = !!url.match(/\.(mp4|webm|ogg|jpg|jpeg|png|webp|gif)$/i) || 
+                      !!url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i) ||
+                      !!url.match(/tiktok\.com\/@.*\/video\/(\d+)/i) ||
+                      !!url.match(/instagram\.com\/(?:p|reel|tv)\/([^\/?#&]+)/i);
+
+      if (isMedia) {
+        if (!mediaPreviewList.some((m: any) => m.url === url) && mediaPreviewList.length < 8) {
+          setMediaPreviewList(prev => [...prev, { type: 'url', url }]);
+        }
+      } else {
+        if (!linkPreviewData && !isFetchingLink) {
+          setIsFetchingLink(true);
+          try {
+            const res = await fetch(`/api/link-preview?url=${encodeURIComponent(url)}`);
+            if (res.ok) {
+              const data = await res.json();
+              if (data.title || data.image) {
+                setLinkPreviewData((current: any) => {
+                  // Only set if the url is still in the text (in case they deleted it while fetching)
+                  // We can't access latest text easily, but if they deleted it, 
+                  // another onChange will fire and clear it. So just set it.
+                  return data;
+                });
+              }
+            }
+          } catch (e) {
+            console.error(e);
+          } finally {
+            setIsFetchingLink(false);
+          }
+        }
+      }
+    }
+  };
 
 
   useEffect(() => {
@@ -146,6 +203,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
           label: postLabel,
           mediaUrls: finalMediaUrls,
           mediaLayout: mediaLayout,
+          linkMetadata: linkPreviewData,
         });
       }
 
@@ -254,7 +312,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
               placeholder={`What's on your mind, ${currentUser?.username}?`} 
               className="w-full bg-transparent border-none outline-none text-[24px] text-black dark:text-[#E4E6EB] placeholder-gray-500 min-h-[120px] resize-none"
               value={postContent}
-              onChange={(e) => setPostContent(e.target.value)}
+              onChange={handleContentChange}
             />
             {mediaPreviewList.length > 0 && (
               <div className={`grid gap-2 mb-4 ${mediaPreviewList.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
@@ -290,6 +348,34 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
                     {t("feed.layoutCarousel")}
                   </button>
                 </div>
+              </div>
+            )}
+
+            {/* Link Preview Card */}
+            {isFetchingLink && (
+              <div className="flex items-center justify-center p-4 border border-gray-200 dark:border-gray-700 rounded-xl mb-4 bg-gray-50 dark:bg-[#242526]">
+                <div className="animate-spin rounded-full h-6 w-6 border-2 border-[#1877F2] border-t-transparent"></div>
+              </div>
+            )}
+            {!isFetchingLink && linkPreviewData && (
+              <div className="relative mb-4 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-gray-50 dark:bg-[#242526] hover:bg-gray-100 dark:hover:bg-[#3A3B3C] transition-colors cursor-pointer">
+                <button onClick={() => setLinkPreviewData(null)} className="absolute top-2 right-2 w-8 h-8 bg-black/60 hover:bg-black/80 text-white rounded-full flex items-center justify-center z-10 transition-opacity opacity-0 hover:opacity-100">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+                <a href={linkPreviewData.url} target="_blank" rel="noopener noreferrer" className="block">
+                  {linkPreviewData.image && (
+                    <div className="w-full h-48 bg-gray-200 dark:bg-[#3A3B3C] border-b border-gray-200 dark:border-gray-700">
+                      <img src={linkPreviewData.image} alt={linkPreviewData.title} className="w-full h-full object-cover" />
+                    </div>
+                  )}
+                  <div className="p-4">
+                    <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] uppercase tracking-wider mb-1 truncate">{linkPreviewData.domain}</p>
+                    <h3 className="font-semibold text-[16px] text-black dark:text-[#E4E6EB] leading-tight mb-1 line-clamp-2">{linkPreviewData.title}</h3>
+                    {linkPreviewData.description && (
+                      <p className="text-[14px] text-gray-600 dark:text-[#B0B3B8] line-clamp-2">{linkPreviewData.description}</p>
+                    )}
+                  </div>
+                </a>
               </div>
             )}
           </div>

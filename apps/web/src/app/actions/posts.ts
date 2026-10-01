@@ -27,6 +27,7 @@ export async function createPost(data: {
   label?: "DEFAULT" | "MENCARI" | "LOKASI" | "PROFESI" | "SEKOLAH";
   mediaUrls?: string[];
   mediaLayout?: "GRID" | "CAROUSEL";
+  linkMetadata?: any;
 }) {
   try {
     const newPost = await prisma.post.create({
@@ -36,6 +37,7 @@ export async function createPost(data: {
         visibility: data.visibility,
         label: data.label || "DEFAULT",
         mediaLayout: data.mediaLayout || "GRID",
+        linkMetadata: data.linkMetadata || null,
         postMedia: data.mediaUrls && data.mediaUrls.length > 0 ? {
           create: data.mediaUrls.map((url, idx) => ({
             order: idx,

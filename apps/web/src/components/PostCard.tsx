@@ -240,6 +240,26 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
         {post.content}
       </p>
 
+      {/* Link Preview (If any) */}
+      {post.linkMetadata && (
+        <div className="px-4 mb-3">
+          <a href={post.linkMetadata.url} target="_blank" rel="noopener noreferrer" className="block border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-gray-50 dark:bg-[#242526] hover:bg-gray-100 dark:hover:bg-[#3A3B3C] transition-colors">
+            {post.linkMetadata.image && (
+              <div className="w-full h-48 bg-gray-200 dark:bg-[#3A3B3C] border-b border-gray-200 dark:border-gray-700">
+                <img src={post.linkMetadata.image} alt={post.linkMetadata.title} className="w-full h-full object-cover" />
+              </div>
+            )}
+            <div className="p-4">
+              <p className="text-[12px] text-gray-500 dark:text-[#B0B3B8] uppercase tracking-wider mb-1 truncate">{post.linkMetadata.domain}</p>
+              <h3 className="font-semibold text-[16px] text-black dark:text-[#E4E6EB] leading-tight mb-1 line-clamp-2">{post.linkMetadata.title}</h3>
+              {post.linkMetadata.description && (
+                <p className="text-[14px] text-gray-600 dark:text-[#B0B3B8] line-clamp-2">{post.linkMetadata.description}</p>
+              )}
+            </div>
+          </a>
+        </div>
+      )}
+
       {/* Media (If any) */}
       {post.mediaUrls && post.mediaUrls.length > 0 && (
         <div className="w-full mb-2">
