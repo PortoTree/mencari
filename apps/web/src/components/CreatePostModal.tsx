@@ -309,7 +309,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
           {/* Textarea */}
           <div className="overflow-y-auto max-h-[300px] mt-2 mb-2">
             <textarea 
-              placeholder={`What's on your mind, ${currentUser?.username}?`} 
+              placeholder={t("feed.whatsOnYourMind", { name: currentUser?.profile?.displayName || currentUser?.username })}
               className="w-full bg-transparent border-none outline-none text-[24px] text-black dark:text-[#E4E6EB] placeholder-gray-500 min-h-[120px] resize-none"
               value={postContent}
               onChange={handleContentChange}

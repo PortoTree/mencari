@@ -206,7 +206,8 @@
     "confirm": "Konfirmasi",
     "mediaLayoutTitle": "Layout media",
     "layoutGrid": "Grid",
-    "layoutCarousel": "Carousel"
+    "layoutCarousel": "Carousel",
+    "whatsOnYourMind": "Apa yang Anda pikirkan, {name}?"
   },
   "filter": {
     "favorite": "Favorit",

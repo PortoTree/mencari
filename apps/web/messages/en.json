@@ -206,7 +206,8 @@
     "confirm": "Confirm",
     "mediaLayoutTitle": "Media layout",
     "layoutGrid": "Grid",
-    "layoutCarousel": "Carousel"
+    "layoutCarousel": "Carousel",
+    "whatsOnYourMind": "What's on your mind, {name}?"
   },
   "filter": {
     "favorite": "Favorites",
