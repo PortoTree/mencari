@@ -202,6 +202,7 @@
     "chooseImage": "Pilih gambar",
     "mediaUrlPlaceholder": "Masukkan link URL media",
     "mediaUrlHelper": "Kelebihan menggunakan URL media: kamu tidak perlu khawatir tentang batas ukuran media yang di upload.",
+    "addUrl": "+ Tambah URL",
     "confirm": "Konfirmasi"
   },
   "filter": {

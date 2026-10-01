@@ -29,7 +29,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false);
   const [mediaPreviewList, setMediaPreviewList] = useState<{ type: 'file' | 'url'; url: string; file?: File }[]>([]);
   const [mediaTab, setMediaTab] = useState<"file" | "url">("file");
-  const [mediaUrlInput, setMediaUrlInput] = useState("");
+  const [mediaUrlInputs, setMediaUrlInputs] = useState<string[]>([""]);
   const [tempFilePreviews, setTempFilePreviews] = useState<{ url: string; file: File }[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -94,15 +94,19 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
     if (mediaTab === "file" && tempFilePreviews.length > 0) {
       const newMedia = tempFilePreviews.map(p => ({ type: 'file' as const, url: p.url, file: p.file }));
       setMediaPreviewList([...mediaPreviewList, ...newMedia]);
-    } else if (mediaTab === "url" && mediaUrlInput.trim()) {
-      if (mediaPreviewList.length >= 8) {
-        alert("Maksimal 8 gambar yang diperbolehkan!");
-        return;
+    } else if (mediaTab === "url") {
+      const validUrls = mediaUrlInputs.map(u => u.trim()).filter(Boolean);
+      if (validUrls.length > 0) {
+        if (mediaPreviewList.length + validUrls.length > 8) {
+          alert(`Maksimal 8 gambar yang diperbolehkan! Sisa kuota Anda: ${Math.max(0, 8 - mediaPreviewList.length)} gambar.`);
+          return;
+        }
+        const newUrls = validUrls.map(url => ({ type: 'url' as const, url }));
+        setMediaPreviewList([...mediaPreviewList, ...newUrls]);
       }
-      setMediaPreviewList([...mediaPreviewList, { type: 'url', url: mediaUrlInput.trim() }]);
     }
     setTempFilePreviews([]);
-    setMediaUrlInput("");
+    setMediaUrlInputs([""]);
     setIsMediaModalOpen(false);
   };
   
@@ -380,20 +384,60 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
                   </div>
                 )
               ) : (
-                <div className="flex-1 min-h-0">
-                  <input type="text" placeholder={t("feed.mediaUrlPlaceholder")} value={mediaUrlInput} onChange={(e) => setMediaUrlInput(e.target.value)} className="w-full bg-gray-100 dark:bg-[#3A3B3C] text-black dark:text-white rounded-lg px-4 py-3 mb-1 outline-none" />
+                <div className="flex-1 min-h-0 overflow-y-auto sidebar-scrollbar pr-2 pb-4">
                   <p className="text-xs text-gray-500 dark:text-gray-400 mb-4 px-1">{t("feed.mediaUrlHelper")}</p>
-                  {mediaUrlInput.match(/^https?:\/\/.*/i) && (
-                    <div className="w-full h-[180px] rounded-xl overflow-hidden bg-gray-100 dark:bg-black/50 border border-gray-200 dark:border-gray-700">
-                      <img src={mediaUrlInput} alt="Preview" className="w-full h-full object-contain" onError={(e) => (e.currentTarget.style.display = 'none')} />
-                    </div>
+                  
+                  <div className="space-y-4">
+                    {mediaUrlInputs.map((urlInput, index) => (
+                      <div key={index} className="space-y-2">
+                        <div className="flex gap-2">
+                          <input 
+                            type="text" 
+                            placeholder={t("feed.mediaUrlPlaceholder")} 
+                            value={urlInput} 
+                            onChange={(e) => {
+                              const newInputs = [...mediaUrlInputs];
+                              newInputs[index] = e.target.value;
+                              setMediaUrlInputs(newInputs);
+                            }} 
+                            className="flex-1 min-w-0 bg-gray-100 dark:bg-[#3A3B3C] text-black dark:text-white rounded-lg px-4 py-3 outline-none" 
+                          />
+                          {mediaUrlInputs.length > 1 && (
+                            <button 
+                              onClick={() => {
+                                const newInputs = [...mediaUrlInputs];
+                                newInputs.splice(index, 1);
+                                setMediaUrlInputs(newInputs);
+                              }}
+                              className="px-3 shrink-0 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500/20 transition-colors"
+                            >
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                            </button>
+                          )}
+                        </div>
+                        {urlInput.match(/^https?:\/\/.*/i) && (
+                          <div className="w-full h-[140px] rounded-xl overflow-hidden bg-gray-100 dark:bg-black/50 border border-gray-200 dark:border-gray-700 shrink-0">
+                            <img src={urlInput} alt="Preview" className="w-full h-full object-contain" onError={(e) => (e.currentTarget.style.display = 'none')} />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+
+                  {mediaUrlInputs.length + mediaPreviewList.length < 8 && (
+                    <button 
+                      onClick={() => setMediaUrlInputs([...mediaUrlInputs, ""])}
+                      className="mt-4 w-full py-2.5 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg text-gray-500 dark:text-gray-400 font-medium hover:bg-gray-50 dark:hover:bg-[#3A3B3C] hover:text-[#1877F2] dark:hover:text-[#1877F2] transition-colors"
+                    >
+                      {t("feed.addUrl")}
+                    </button>
                   )}
                 </div>
               )}
               
               <button 
                 onClick={confirmMedia}
-                disabled={mediaTab === 'file' ? tempFilePreviews.length === 0 : !mediaUrlInput.trim()}
+                disabled={mediaTab === 'file' ? tempFilePreviews.length === 0 : !mediaUrlInputs.some(u => u.trim())}
                 className="w-full mt-4 shrink-0 bg-[#1877F2] hover:bg-blue-600 disabled:bg-gray-200 disabled:dark:bg-[#4E4F50] text-white disabled:text-gray-400 disabled:dark:text-gray-500 font-semibold py-2 rounded-lg transition-colors"
               >
                 {t("feed.confirm")}

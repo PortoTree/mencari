@@ -202,6 +202,7 @@
     "chooseImage": "Choose image",
     "mediaUrlPlaceholder": "Enter media URL link",
     "mediaUrlHelper": "Advantage of using media URL: you do not need to worry about the upload media size limit.",
+    "addUrl": "+ Add URL",
     "confirm": "Confirm"
   },
   "filter": {

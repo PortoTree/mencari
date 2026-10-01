@@ -16,6 +16,8 @@ export const metadata: Metadata = {
   },
 };
 
+import SplashScreen from "@/components/SplashScreen";
+
 export default async function LocaleLayout({
   children,
   params
@@ -35,6 +37,7 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider messages={messages}>
+      <SplashScreen />
       {children}
     </NextIntlClientProvider>
   );
