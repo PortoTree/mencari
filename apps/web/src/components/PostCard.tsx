@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { deletePost } from "@/app/actions/posts";
 import CreatePostModal from "./CreatePostModal";
+import { MediaRenderer } from "./MediaRenderer";
 
 export function formatPostTime(timestamp: number | Date, t: any, locale: string) {
   const ts = new Date(timestamp).getTime();
@@ -244,15 +245,19 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
         <div className="w-full mb-2">
           {post.mediaLayout === "CAROUSEL" && post.mediaUrls.length > 1 ? (
             <div className="relative w-full aspect-square bg-black flex items-center justify-center overflow-hidden">
-              <img 
-                src={post.mediaUrls[currentCarouselIndex]} 
-                alt={`Post media ${currentCarouselIndex + 1}`} 
-                className="w-full h-full object-contain cursor-pointer"
+              <div 
+                className="w-full h-full cursor-pointer flex items-center justify-center"
                 onClick={() => {
                   setModalViewMode("CAROUSEL");
                   setIsMediaModalOpen(true);
                 }}
-              />
+              >
+                <MediaRenderer 
+                  url={post.mediaUrls[currentCarouselIndex]} 
+                  alt={`Post media ${currentCarouselIndex + 1}`} 
+                  className="w-full h-full object-contain"
+                />
+              </div>
               {currentCarouselIndex > 0 && (
                 <button 
                   onClick={(e) => { e.stopPropagation(); setCurrentCarouselIndex(prev => prev - 1); }}
@@ -288,7 +293,9 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
                     setIsMediaModalOpen(true);
                   }}
                 >
-                  <img src={url} alt={`Post media ${idx+1}`} className="w-full h-full object-cover" />
+                  <div className="w-full h-full pointer-events-none">
+                    <MediaRenderer url={url} alt={`Post media ${idx+1}`} className="w-full h-full object-cover" />
+                  </div>
                   {idx === 1 && post.mediaUrls.length > 2 && (
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center hover:bg-black/50 transition-colors">
                       <span className="text-white text-3xl font-bold">+{post.mediaUrls.length - 2}</span>
@@ -376,8 +383,8 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
               <div className="flex flex-col h-full w-full">
                 {/* Main Carousel View */}
                 <div className="relative flex-1 flex items-center justify-center min-h-0 w-full">
-                  <img 
-                    src={post.mediaUrls[currentCarouselIndex]} 
+                  <MediaRenderer 
+                    url={post.mediaUrls[currentCarouselIndex]} 
                     alt={`Modal media ${currentCarouselIndex + 1}`} 
                     className="w-full h-full object-contain"
                   />
@@ -407,7 +414,9 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
                         onClick={() => setCurrentCarouselIndex(idx)}
                         className={`relative w-16 h-16 rounded-md overflow-hidden flex-shrink-0 transition-all ${idx === currentCarouselIndex ? 'ring-2 ring-white scale-105' : 'opacity-50 hover:opacity-100'}`}
                       >
-                        <img src={url} className="w-full h-full object-cover" />
+                        <div className="w-full h-full pointer-events-none">
+                          <MediaRenderer url={url} className="w-full h-full object-cover" />
+                        </div>
                       </button>
                     ))}
                   </div>
@@ -426,7 +435,9 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
                         setModalViewMode("CAROUSEL");
                       }}
                     >
-                      <img src={url} alt={`Modal media ${idx+1}`} className="w-full h-full object-cover" />
+                      <div className="w-full h-full pointer-events-none">
+                        <MediaRenderer url={url} alt={`Modal media ${idx+1}`} className="w-full h-full object-cover" />
+                      </div>
                     </div>
                   ))}
                 </div>

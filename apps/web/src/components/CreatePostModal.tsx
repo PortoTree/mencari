@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { createPost, updatePost } from "@/app/actions/posts";
 import { uploadToCloudinary } from "@/utils/uploadImage";
+import { MediaRenderer } from "./MediaRenderer";
 
 interface CreatePostModalProps {
   isOpen: boolean;
@@ -256,11 +257,13 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
               onChange={(e) => setPostContent(e.target.value)}
             />
             {mediaPreviewList.length > 0 && (
-              <div className="grid grid-cols-2 gap-2 mb-4">
+              <div className={`grid gap-2 mb-4 ${mediaPreviewList.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
                 {mediaPreviewList.map((media, idx) => (
                   <div key={idx} className="relative group rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 aspect-video">
-                    <img src={media.url} alt="preview" className="w-full h-full object-cover" />
-                    <button onClick={() => removeMedia(idx)} className="absolute top-2 right-2 w-8 h-8 bg-black/60 hover:bg-black/80 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="w-full h-full pointer-events-none">
+                      <MediaRenderer url={media.url} alt="preview" className="w-full h-full object-cover" />
+                    </div>
+                    <button onClick={() => removeMedia(idx)} className="absolute top-2 right-2 w-8 h-8 bg-black/60 hover:bg-black/80 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                     </button>
                   </div>
@@ -270,19 +273,21 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
             
             {mediaPreviewList.length > 1 && (
               <div className="mb-4">
-                <label className="text-[13px] font-semibold text-gray-500 dark:text-[#B0B3B8] mb-2 block">Layout Gambar</label>
+                <label className="text-[13px] font-semibold text-gray-500 dark:text-[#B0B3B8] mb-2 block">{t("feed.mediaLayoutTitle")}</label>
                 <div className="flex gap-2">
                   <button 
                     onClick={() => setMediaLayout("GRID")}
-                    className={`flex-1 py-2 rounded-lg font-semibold text-[14px] transition-colors border ${mediaLayout === 'GRID' ? 'bg-[#E7F3FF] dark:bg-[#263951] text-[#1877F2] border-[#1877F2]/20' : 'bg-transparent text-gray-600 dark:text-[#B0B3B8] border-gray-300 dark:border-[#3E4042] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]'}`}
+                    className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg font-semibold text-[14px] transition-colors border ${mediaLayout === 'GRID' ? 'bg-[#E7F3FF] dark:bg-[#263951] text-[#1877F2] border-[#1877F2]/20' : 'bg-transparent text-gray-600 dark:text-[#B0B3B8] border-gray-300 dark:border-[#3E4042] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]'}`}
                   >
-                    Grid (Kolase)
+                    <div className="w-4 h-4 bg-current" style={{ maskImage: "url('/grid.svg')", WebkitMaskImage: "url('/grid.svg')", maskSize: "contain", WebkitMaskSize: "contain", maskRepeat: "no-repeat", WebkitMaskRepeat: "no-repeat", maskPosition: "center", WebkitMaskPosition: "center" }} />
+                    {t("feed.layoutGrid")}
                   </button>
                   <button 
                     onClick={() => setMediaLayout("CAROUSEL")}
-                    className={`flex-1 py-2 rounded-lg font-semibold text-[14px] transition-colors border ${mediaLayout === 'CAROUSEL' ? 'bg-[#E7F3FF] dark:bg-[#263951] text-[#1877F2] border-[#1877F2]/20' : 'bg-transparent text-gray-600 dark:text-[#B0B3B8] border-gray-300 dark:border-[#3E4042] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]'}`}
+                    className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg font-semibold text-[14px] transition-colors border ${mediaLayout === 'CAROUSEL' ? 'bg-[#E7F3FF] dark:bg-[#263951] text-[#1877F2] border-[#1877F2]/20' : 'bg-transparent text-gray-600 dark:text-[#B0B3B8] border-gray-300 dark:border-[#3E4042] hover:bg-gray-50 dark:hover:bg-[#3A3B3C]'}`}
                   >
-                    Carousel (Geser)
+                    <div className="w-4 h-4 bg-current" style={{ maskImage: "url('/carousel.svg')", WebkitMaskImage: "url('/carousel.svg')", maskSize: "contain", WebkitMaskSize: "contain", maskRepeat: "no-repeat", WebkitMaskRepeat: "no-repeat", maskPosition: "center", WebkitMaskPosition: "center" }} />
+                    {t("feed.layoutCarousel")}
                   </button>
                 </div>
               </div>
@@ -385,8 +390,6 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
                 )
               ) : (
                 <div className="flex-1 min-h-0 overflow-y-auto sidebar-scrollbar pr-2 pb-4">
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-4 px-1">{t("feed.mediaUrlHelper")}</p>
-                  
                   <div className="space-y-4">
                     {mediaUrlInputs.map((urlInput, index) => (
                       <div key={index} className="space-y-2">
@@ -417,7 +420,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
                         </div>
                         {urlInput.match(/^https?:\/\/.*/i) && (
                           <div className="w-full h-[140px] rounded-xl overflow-hidden bg-gray-100 dark:bg-black/50 border border-gray-200 dark:border-gray-700 shrink-0">
-                            <img src={urlInput} alt="Preview" className="w-full h-full object-contain" onError={(e) => (e.currentTarget.style.display = 'none')} />
+                            <MediaRenderer url={urlInput} className="w-full h-full object-contain" onError={(e) => (e.currentTarget.style.display = 'none')} />
                           </div>
                         )}
                       </div>
@@ -432,6 +435,10 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
                       {t("feed.addUrl")}
                     </button>
                   )}
+
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-4 px-1 whitespace-pre-line leading-relaxed">
+                    {t("feed.mediaUrlHelper")}
+                  </p>
                 </div>
               )}
               

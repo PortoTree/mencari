@@ -201,9 +201,12 @@
     "imageFormatInfo": "Format: JPG, PNG, WEBP. Max: 3MB per photo.",
     "chooseImage": "Choose image",
     "mediaUrlPlaceholder": "Enter media URL link",
-    "mediaUrlHelper": "Advantage of using media URL: you do not need to worry about the upload media size limit.",
+    "mediaUrlHelper": "Advantages of using media URLs:\n- You can create video posts\n- No media upload size limit\n- No maximum media upload limit",
     "addUrl": "+ Add URL",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "mediaLayoutTitle": "Media layout",
+    "layoutGrid": "Grid",
+    "layoutCarousel": "Carousel"
   },
   "filter": {
     "favorite": "Favorites",

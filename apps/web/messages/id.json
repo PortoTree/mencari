@@ -201,9 +201,12 @@
     "imageFormatInfo": "Format: JPG, PNG, WEBP. Maks: 3MB per foto.",
     "chooseImage": "Pilih gambar",
     "mediaUrlPlaceholder": "Masukkan link URL media",
-    "mediaUrlHelper": "Kelebihan menggunakan URL media: kamu tidak perlu khawatir tentang batas ukuran media yang di upload.",
+    "mediaUrlHelper": "Keuntungan menggunakan URL media:\n- Anda dapat membuat postingan vidio\n- Tidak ada batas ukuran media upload\n- Tidak ada batas maximal upload media",
     "addUrl": "+ Tambah URL",
-    "confirm": "Konfirmasi"
+    "confirm": "Konfirmasi",
+    "mediaLayoutTitle": "Layout media",
+    "layoutGrid": "Grid",
+    "layoutCarousel": "Carousel"
   },
   "filter": {
     "favorite": "Favorit",
