@@ -314,6 +314,7 @@ enum NotificationType {
   POST_COMMENT
   COMMENT_REPLY
   POST_SHARE
+  POST_TAG
 }
 
 model Media {

@@ -329,7 +329,8 @@
     "timeMinutes": "{min} minutes ago",
     "timeHours": "{hour} hours ago",
     "timeYesterday": "Yesterday",
-    "typeFriendNow": "You are now friends."
+    "typeFriendNow": "You are now friends.",
+    "typePostTag": "tagged you in a post. Click to view."
   },
   "product": {
     "buy_now": "Buy Now",

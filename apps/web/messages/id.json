@@ -335,7 +335,8 @@
     "timeMinutes": "{min} menit yang lalu",
     "timeHours": "{hour} jam yang lalu",
     "timeYesterday": "Kemarin",
-    "typeFriendNow": "Kamu sekarang berteman."
+    "typeFriendNow": "Kamu sekarang berteman.",
+    "typePostTag": "telah menandai Anda dalam postingan. Klik untuk melihat."
   },
   "product": {
     "buy_now": "Beli Sekarang",

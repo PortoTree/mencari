@@ -1,10 +1,9 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
 import { revalidateTag } from "next/cache";
 import jwt from "jsonwebtoken";
 
-const prisma = new PrismaClient();
+import prisma from "@/utils/prisma";
 
 const verifyToken = (token: string, expectedUserId: string) => {
   if (!token) return false;

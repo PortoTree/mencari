@@ -1,9 +1,8 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
 import { revalidateTag } from "next/cache";
 
-const prisma = new PrismaClient();
+import prisma from "@/utils/prisma";
 
 // Helper to map DB post to frontend expected post structure
 function mapPost(post: any) {
@@ -78,6 +77,21 @@ export async function createPost(data: {
         }
       }
     });
+
+    if (data.taggedUserIds && data.taggedUserIds.length > 0) {
+      await Promise.all(
+        data.taggedUserIds.map((taggedId: string) =>
+          prisma.notification.create({
+            data: {
+              type: "POST_TAG",
+              userId: taggedId,
+              senderId: data.authorId,
+              postId: newPost.id,
+            },
+          })
+        )
+      );
+    }
 
     revalidateTag("feed_posts", "page");
     revalidateTag(`profile_posts_${data.authorId}`, "page");
