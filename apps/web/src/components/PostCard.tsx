@@ -47,6 +47,20 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
   const [modalViewMode, setModalViewMode] = useState<"GRID" | "CAROUSEL">("GRID");
   const [isTagListModalOpen, setIsTagListModalOpen] = useState(false);
 
+  useEffect(() => {
+    if (isDeleteModalOpen || isMediaModalOpen || isTagListModalOpen || isEditModalOpen) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
+    };
+  }, [isDeleteModalOpen, isMediaModalOpen, isTagListModalOpen, isEditModalOpen]);
+
   const handleDelete = async () => {
     setIsDeleting(true);
     const res = await deletePost(post.id, currentUser.id);
@@ -57,6 +71,45 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
     }
     setIsDeleting(false);
     setIsDeleteModalOpen(false);
+  };
+
+  const renderContentWithLinks = (text: string) => {
+    if (!text) return null;
+    
+    // Split by URLs and @mentions
+    const regex = /(https?:\/\/[^\s]+|@\w+)/g;
+    const parts = text.split(regex);
+    
+    return parts.map((part, i) => {
+      if (part.match(/^https?:\/\/[^\s]+$/)) {
+        return (
+          <a key={i} href={part} target="_blank" rel="noopener noreferrer" className="bg-gradient-to-r from-green-500 to-emerald-400 bg-clip-text text-transparent font-medium hover:opacity-80 transition-opacity" onClick={(e) => e.stopPropagation()}>
+            {part}
+          </a>
+        );
+      } else if (part.match(/^@\w+$/)) {
+        const username = part.slice(1);
+        const taggedUser = post.taggedUsers?.find((u: any) => u.username === username);
+        if (taggedUser) {
+          return (
+            <span 
+              key={i} 
+              className="text-blue-500 hover:underline cursor-pointer font-semibold bg-blue-50 dark:bg-[#263951] px-1 rounded"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (onProfileClick) onProfileClick(taggedUser);
+                else router.push(`/${locale}/p/${taggedUser.username}/${taggedUser.id}`);
+              }}
+            >
+              {part}
+            </span>
+          );
+        } else {
+          return <span key={i} className="text-blue-500 font-semibold bg-blue-50 dark:bg-[#263951] px-1 rounded">{part}</span>;
+        }
+      }
+      return <span key={i}>{part}</span>;
+    });
   };
 
   useEffect(() => {
@@ -237,8 +290,8 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
       </div>
       
       {/* Content */}
-      <p className="text-black dark:text-[#E4E6EB] text-[15px] mb-3 px-4 whitespace-pre-wrap">
-        {post.content}
+      <p className="text-black dark:text-[#E4E6EB] text-[15px] mb-3 px-4 whitespace-pre-wrap break-words">
+        {renderContentWithLinks(post.content)}
       </p>
 
       {/* Link Preview (If any) */}

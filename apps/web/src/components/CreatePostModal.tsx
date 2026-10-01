@@ -189,6 +189,20 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
     }
   }, [isOpen, initialPost, startWithMediaModal]);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
+    };
+  }, [isOpen]);
+
   // Close dropdown on outside click
 
   useEffect(() => {
@@ -279,7 +293,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
 
       let res;
       if (initialPost) {
-        res = await updatePost(initialPost.id, currentUser.id, postContent, postPrivacy, postLabel, mediaLayout); 
+        res = await updatePost(initialPost.id, currentUser.id, postContent, postPrivacy, postLabel, mediaLayout, taggedUsers.map((u: any) => u.id)); 
         // Update function doesn't support mediaUrls yet, but we will fix later
       } else {
         res = await createPost({
