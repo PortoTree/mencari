@@ -132,8 +132,10 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
       setMediaLayout(initialPost?.mediaLayout || "GRID");
       setMediaPreviewList(initialPost?.mediaUrls?.map((url: string) => ({ type: 'url', url })) || []);
       setIsMediaModalOpen(startWithMediaModal || false);
+      setTaggedUsers(initialPost?.taggedUsers || []);
+      setLinkPreviewData(initialPost?.linkMetadata || null);
     }
-  }, [isOpen, initialPost]);
+  }, [isOpen, initialPost, startWithMediaModal]);
 
   // Close dropdown on outside click
 
@@ -242,6 +244,12 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
 
       if (res.success) {
         setPostContent("");
+        setTaggedUsers([]);
+        setMediaPreviewList([]);
+        setLinkPreviewData(null);
+        setPostLabel("DEFAULT");
+        setPostPrivacy("PUBLIC");
+        setMediaLayout("GRID");
         onClose();
         if (onSuccess) onSuccess();
         // Dispatch custom event to trigger feed refresh
@@ -622,6 +630,19 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
                 />
                 <svg className="w-5 h-5 absolute left-3 top-2.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
               </div>
+
+              {taggedUsers.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {taggedUsers.map((user, idx) => (
+                    <div key={idx} className="flex items-center gap-1.5 bg-blue-50 dark:bg-[#263951] text-[#1877F2] border border-blue-100 dark:border-[#1877F2]/20 rounded-lg px-2.5 py-1.5">
+                      <span className="text-[13px] font-semibold">{user.profile?.displayName || user.username}</span>
+                      <button onClick={() => setTaggedUsers(taggedUsers.filter((u: any) => u.id !== user.id))} className="text-[#1877F2]/70 hover:text-[#1877F2] transition-colors">
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-2">
