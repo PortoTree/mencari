@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { createPost, updatePost } from "@/app/actions/posts";
 import { uploadToCloudinary } from "@/utils/uploadImage";
 import { MediaRenderer } from "./MediaRenderer";
+import { getCaretCoordinates } from "@/utils/getCaretCoordinates";
 
 interface CreatePostModalProps {
   isOpen: boolean;
@@ -44,7 +45,10 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
   const [searchTagResults, setSearchTagResults] = useState<any[]>([]);
   const [isSearchingTags, setIsSearchingTags] = useState(false);
 
-
+  // Inline Mentions State
+  const [mentionQuery, setMentionQuery] = useState<{ query: string; position: number; top: number; left: number } | null>(null);
+  const [mentionResults, setMentionResults] = useState<any[]>([]);
+  const [inlineTaggedUsernames, setInlineTaggedUsernames] = useState<string[]>([]);
 
   useEffect(() => {
     if (!searchTagQuery.trim()) {
@@ -69,9 +73,51 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
     return () => clearTimeout(delayDebounceFn);
   }, [searchTagQuery, taggedUsers]);
 
+  useEffect(() => {
+    if (!mentionQuery) {
+      setMentionResults([]);
+      return;
+    }
+    const delayDebounceFn = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/users/search?q=${encodeURIComponent(mentionQuery.query)}`);
+        if (res.ok) {
+          const data = await res.json();
+          const filtered = data.users.filter((u: any) => u.id !== currentUser?.id);
+          setMentionResults(filtered.slice(0, 5));
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }, 300);
+    return () => clearTimeout(delayDebounceFn);
+  }, [mentionQuery?.query, currentUser?.id]);
+
   const handleContentChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const text = e.target.value;
     setPostContent(text);
+
+    // Filter out inline tags that were deleted from the text
+    setTaggedUsers((prev) => prev.filter(user => {
+      if (inlineTaggedUsernames.includes(user.username)) {
+        return text.includes(`@${user.username}`);
+      }
+      return true;
+    }));
+
+    // Check for @mention trigger
+    const cursor = e.target.selectionStart;
+    const textBeforeCursor = text.slice(0, cursor);
+    const words = textBeforeCursor.split(/\s/);
+    const lastWord = words[words.length - 1];
+
+    if (lastWord.startsWith("@")) {
+      const query = lastWord.slice(1);
+      const coords = getCaretCoordinates(e.target, cursor);
+      setMentionQuery({ query, position: cursor, top: coords.top + (coords.height || 24), left: coords.left });
+    } else {
+      setMentionQuery(null);
+    }
 
     setLinkPreviewData((prev: any) => {
       if (prev && !text.includes(prev.url)) {
@@ -134,6 +180,8 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
       setIsMediaModalOpen(startWithMediaModal || false);
       setTaggedUsers(initialPost?.taggedUsers || []);
       setLinkPreviewData(initialPost?.linkMetadata || null);
+      setInlineTaggedUsernames([]);
+      setMentionQuery(null);
     }
   }, [isOpen, initialPost, startWithMediaModal]);
 
@@ -250,6 +298,8 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
         setPostLabel("DEFAULT");
         setPostPrivacy("PUBLIC");
         setMediaLayout("GRID");
+        setInlineTaggedUsernames([]);
+        setMentionQuery(null);
         onClose();
         if (onSuccess) onSuccess();
         // Dispatch custom event to trigger feed refresh
@@ -348,13 +398,46 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
           </div>
 
           {/* Textarea */}
-          <div className="overflow-y-auto max-h-[300px] mt-2 mb-2">
+          <div className="overflow-y-auto max-h-[300px] mt-2 mb-2 relative">
             <textarea 
               placeholder={t("feed.whatsOnYourMind", { name: currentUser?.profile?.displayName || currentUser?.username })}
               className="w-full bg-transparent border-none outline-none text-[24px] text-black dark:text-[#E4E6EB] placeholder-gray-500 min-h-[120px] resize-none"
               value={postContent}
               onChange={handleContentChange}
             />
+            {mentionQuery && mentionResults.length > 0 && (
+              <div 
+                className="absolute z-10 bg-white dark:bg-[#3A3B3C] border border-gray-200 dark:border-[#4E4F50] rounded-xl shadow-xl w-[250px] max-h-48 overflow-y-auto"
+                style={{ top: mentionQuery.top, left: mentionQuery.left }}
+              >
+                {mentionResults.map((user) => (
+                  <button
+                    key={user.id}
+                    className="w-full flex items-center gap-3 p-2 hover:bg-gray-100 dark:hover:bg-[#4E4F50] transition-colors text-left"
+                    onClick={() => {
+                      const textBefore = postContent.slice(0, mentionQuery.position - mentionQuery.query.length - 1);
+                      const textAfter = postContent.slice(mentionQuery.position);
+                      const newContent = `${textBefore}@${user.username} ${textAfter}`;
+                      setPostContent(newContent);
+                      
+                      if (!inlineTaggedUsernames.includes(user.username)) {
+                        setInlineTaggedUsernames(prev => [...prev, user.username]);
+                      }
+                      if (!taggedUsers.find(tu => tu.id === user.id)) {
+                        setTaggedUsers(prev => [...prev, user]);
+                      }
+                      setMentionQuery(null);
+                    }}
+                  >
+                    <img src={user.profile?.avatarUrl || "/default-avatar.svg"} className="w-8 h-8 rounded-full object-cover" />
+                    <div className="flex flex-col">
+                      <span className="font-semibold text-[14px] dark:text-[#E4E6EB]">{user.profile?.displayName || user.username}</span>
+                      <span className="text-[12px] text-gray-500">@{user.username}</span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
             {mediaPreviewList.length > 0 && (
               <div className={`grid gap-2 mb-4 ${mediaPreviewList.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
                 {mediaPreviewList.map((media, idx) => (
