@@ -1669,8 +1669,8 @@ export default function MyDashPage() {
                           </svg>
                         </div>
                         <div>
-                          <h3 className="font-bold text-gray-800 dark:text-[#E4E6EB] text-[15px] leading-tight">Mencari Online</h3>
-                          <a href="https://mencari.online/{namatoko}" className="text-emerald-500 text-[13px] hover:underline">https://mencari.online/{"{namatoko}"}</a>
+                          <h3 className="font-bold text-gray-800 dark:text-[#E4E6EB] text-[15px] leading-tight">NetHubz</h3>
+                          <a href="https://nethubz.com/{namatoko}" className="text-emerald-500 text-[13px] hover:underline">https://nethubz.com/{"{namatoko}"}</a>
                         </div>
                       </div>
                       <button className="bg-white dark:bg-[#2A2B2C] border border-gray-200 dark:border-[#3E4042] text-emerald-500 px-4 py-1.5 rounded-full font-bold text-[13px] flex items-center gap-1.5 shadow-sm hover:bg-gray-50 dark:hover:bg-[#3A3B3C] transition-colors">

@@ -273,13 +273,13 @@ export default function Navbar({
           {/* Logo - dark text for light mode, white text for dark mode */}
           <img
             src="/logo-horizontal.png"
-            alt="Mencari"
-            className="h-[40px] w-auto object-contain dark:hidden"
+            alt="NetHubz"
+            className="h-[50px] w-auto object-contain dark:hidden"
           />
           <img
             src="/logo-horizontal2.png"
-            alt="Mencari"
-            className="h-[40px] w-auto object-contain hidden dark:block"
+            alt="NetHubz"
+            className="h-[50px] w-auto object-contain hidden dark:block"
           />
         </div>
 
@@ -370,7 +370,7 @@ export default function Navbar({
                 e.stopPropagation();
                 setIsSearchNavOpen(!isSearchNavOpen);
               }}
-              className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors overflow-hidden ${isSearchNavOpen || activeTab === "mencari" ? "bg-[#D8F0E2] dark:bg-[#203D2E] text-emerald-600 dark:text-emerald-400" : "bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#F3F2EF] dark:hover:bg-[#18191A] text-black dark:text-[#E4E6EB]"}`}
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors overflow-hidden ${isSearchNavOpen || activeTab === "search" ? "bg-[#D8F0E2] dark:bg-[#203D2E] text-emerald-600 dark:text-emerald-400" : "bg-[#E4E6EB] dark:bg-[#3A3B3C] hover:bg-[#F3F2EF] dark:hover:bg-[#18191A] text-black dark:text-[#E4E6EB]"}`}
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -379,7 +379,7 @@ export default function Navbar({
             
             {/* Tooltip */}
             <div className="absolute top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/80 text-white text-[13px] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap z-[60]">
-              Mencari
+              {t("tabs.search")}
             </div>
 
             {/* Search Dropdown */}
@@ -392,12 +392,12 @@ export default function Navbar({
                   <div className="flex items-center gap-3">
                     <div className="relative group/visit">
                       <button
-                        onClick={() => { setIsSearchNavOpen(false); handleTabNavigation("mencari", "mencari"); }}
+                        onClick={() => { setIsSearchNavOpen(false); handleTabNavigation("search", "search"); }}
                         className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 dark:bg-[#3A3B3C] hover:bg-emerald-50 dark:hover:bg-[#203D2E] transition-colors shrink-0 border border-gray-200 dark:border-[#4E4F50]"
                       >
                         <img
                           src="/icon-apk.png"
-                          alt="Mencari"
+                          alt="NetHubz"
                           className="w-7 h-7 object-contain group-hover/visit:scale-110 transition-transform"
                         />
                       </button>
@@ -416,9 +416,9 @@ export default function Navbar({
                         autoFocus
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
-                            setActiveTab("mencari");
+                            setActiveTab("search");
                             setIsSearchNavOpen(false);
-                            window.history.pushState(null, "", `/${locale}/mencari`);
+                            window.history.pushState(null, "", `/${locale}/search`);
                           }
                         }}
                       />

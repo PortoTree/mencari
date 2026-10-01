@@ -247,7 +247,7 @@ export default function WelcomePage() {
       <footer className="relative z-10 px-6 py-12 border-t border-slate-200 bg-white">
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-4 gap-8 mb-8">
           <div className="sm:col-span-2">
-            <img src="/logo-horizontal.png" alt="Mencari.online" className="h-10 object-contain mb-4 grayscale" />
+            <img src="/logo-horizontal.png" alt="Nethubz.com" className="h-10 object-contain mb-4 grayscale" />
             <p className="text-slate-500 text-sm max-w-sm leading-relaxed">
               Platform pencarian dan penawaran terintegrasi pertama di Indonesia yang mempertemukan kebutuhan dengan solusi secara real-time.
             </p>
@@ -270,7 +270,7 @@ export default function WelcomePage() {
           </div>
         </div>
         <div className="max-w-6xl mx-auto pt-8 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-slate-400">
-          <p>&copy; {new Date().getFullYear()} Mencari.online. Hak Cipta Dilindungi.</p>
+          <p>&copy; {new Date().getFullYear()} Nethubz.com. Hak Cipta Dilindungi.</p>
           <div className="flex gap-4">
             <span>Made with precision in Indonesia.</span>
           </div>

@@ -1,6 +1,6 @@
-# Rencana Media Infrastructure & Bandwidth Strategy — mencari.online
+# Rencana Media Infrastructure & Bandwidth Strategy — nethubz.com
 
-> Blueprint untuk menangani storage, bandwidth, transformations, CDN/cache, optimasi upload, video delivery, monitoring, dan scaling media `mencari.online`.
+> Blueprint untuk menangani storage, bandwidth, transformations, CDN/cache, optimasi upload, video delivery, monitoring, dan scaling media `nethubz.com`.
 
 ## 1. Tujuan
 
@@ -51,7 +51,7 @@ Jadi fokus utama social media adalah **bytes per view**, bukan storage saja.
 ## 4. Arsitektur Besar
 
 ```text
-MENCARI.ONLINE
+NETHUBZ.COM
       |
 Media Service
       |
@@ -105,7 +105,7 @@ Gunakan `media_id` sebagai identitas aplikasi.
 Idealnya frontend dapat memakai:
 
 ```text
-https://mencari.online/media/123
+https://nethubz.com/media/123
 ```
 
 dan Media Service menentukan provider/URL delivery.
@@ -752,7 +752,7 @@ https://cloudinary.com/documentation/image_transformations
 ## 27. Final Architecture MVP
 
 ```text
-                         MENCARI.ONLINE
+                         NETHUBZ.COM
                                 |
                          Application API
                                 |
@@ -781,7 +781,7 @@ https://cloudinary.com/documentation/image_transformations
 
 ## 28. Kesimpulan
 
-Strategi awal `mencari.online`:
+Strategi awal `nethubz.com`:
 
 ```text
 1. Cloudinary sebagai media engine MVP

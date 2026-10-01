@@ -11,6 +11,7 @@ import animationDataDark from "../../../../public/search-bar-putih.json";
 
 import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
+import { getOptimizedUrl } from "@/utils/cloudinary";
 import { profileCache, connectionCache } from "@/utils/profileCache";
 import React from "react";
 import Navbar from "@/components/Navbar";
@@ -265,10 +266,10 @@ export default function Beranda() {
   const [isPrivacyDropdownOpen, setIsPrivacyDropdownOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<
-    "home" | "mencari" | "friend" | "community" | "community" | "chat" | "product"
+    "home" | "search" | "friend" | "community" | "community" | "chat" | "product"
   >(() => {
     if (pathname.includes("/obrolan")) return "chat";
-    if (pathname.includes("/mencari")) return "mencari";
+    if (pathname.includes("/search")) return "mencari";
     if (pathname.includes("/friend")) return "friend";
     if (pathname.includes("/product")) return "product";
     if (pathname.includes("/community")) return "community";
@@ -743,7 +744,7 @@ export default function Beranda() {
           <div className="hidden lg:block fixed left-0 top-[56px] w-[280px] xl:w-[320px] overscroll-contain h-[calc(100vh-56px)] overflow-y-auto pt-6 px-4 pb-24 sidebar-scrollbar">
             <div className="space-y-4">
               {/* Profile Card / Bookmarks Area */}
-              {activeTab === "mencari" ? (
+              {activeTab === "search" ? (
                 <>
                   {/* CTA moved to center */}
 
@@ -751,7 +752,7 @@ export default function Beranda() {
                   <div className="mt-4 hidden">
                     <div className="flex items-center justify-between mb-2 px-2">
                       <h3 className="font-semibold text-gray-500 dark:text-[#B0B3B8] text-[15px]">
-                        {t("mencari.history")}
+                        {t("search.history")}
                       </h3>
                     </div>
                     <div className="space-y-1">
@@ -1048,13 +1049,13 @@ export default function Beranda() {
                     <>
                       <div 
                         className="h-20 bg-gray-200 dark:bg-[#3A3B3C] w-full relative bg-cover bg-center"
-                        style={currentUser?.profile?.coverUrl ? { backgroundImage: `url(${currentUser.profile.coverUrl})` } : {}}
+                        style={currentUser?.profile?.coverUrl ? { backgroundImage: `url(${getOptimizedUrl(currentUser.profile.coverUrl, "cover")})` } : {}}
                       >
                         {/* Profile image overlapping */}
                         <div className="absolute -bottom-8 left-4 w-[72px] h-[72px] bg-white dark:bg-[#242526] rounded-full p-1 shadow-sm">
                           <div className="w-full h-full rounded-full flex items-center justify-center overflow-hidden">
                             <img
-                              src={currentUser?.profile?.avatarUrl || "/default-avatar.svg"}
+                              src={currentUser?.profile?.avatarUrl ? getOptimizedUrl(currentUser.profile.avatarUrl, "avatar") : "/default-avatar.svg"}
                               alt="Profile"
                               className="w-full h-full object-cover"
                             />
@@ -1115,7 +1116,7 @@ export default function Beranda() {
                         Toko Digital Kreatif
                       </h3>
                       <div className="mt-1 flex items-center gap-1.5 text-gray-500 dark:text-[#B0B3B8] hover:text-emerald-500 transition-colors cursor-pointer group w-fit">
-                        <span className="text-[13px] truncate">mencari.online/toko</span>
+                        <span className="text-[13px] truncate">nethubz.com/toko</span>
                         <svg className="w-3.5 h-3.5 text-gray-400 group-hover:text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
                       </div>
                       <button className="mt-3.5 w-full py-1.5 bg-gray-100 dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-[#4E4F50] text-black dark:text-[#E4E6EB] font-semibold text-[13.5px] rounded-lg transition-colors">
@@ -1283,14 +1284,14 @@ export default function Beranda() {
                 <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-2 space-y-1">
                   <button
                     onClick={() => {
-                      setActiveTab("mencari");
-                      window.history.pushState(null, "", `/${locale}/mencari`);
+                      setActiveTab("search");
+                      window.history.pushState(null, "", `/${locale}/search`);
                     }}
                     className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors"
                   >
-                    <img src="/logo.png" alt="Mencari" className="w-6 h-6 object-contain" />
+                    <img src="/logo.png" alt="NetHubz" className="w-6 h-6 object-contain" />
                     <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
-                      Mencari
+                      {t("tabs.search")}
                     </span>
                   </button>
                   <button className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors">
@@ -1493,7 +1494,7 @@ export default function Beranda() {
               </div>
             )}
 
-            {activeTab === "mencari" && (
+            {activeTab === "search" && (
               <div className="w-full flex flex-col items-center pt-8 max-w-[680px]">
                 {/* Lottie Animation (Logo) */}
                 <div className="w-[400px] h-[140px] mb-4 flex items-center justify-center [&>div]:w-full [&>div]:h-full">
@@ -1620,7 +1621,7 @@ export default function Beranda() {
                       </svg>
                     </div>
                     <span className="text-[13px] font-medium text-black dark:text-[#E4E6EB]">
-                      {t("mencari.shortcut_add")}
+                      {t("search.shortcut_add")}
                     </span>
                   </div>
                 </div>
@@ -1639,14 +1640,14 @@ export default function Beranda() {
                           <img src="/visit.png" alt="Website" className="w-6 h-6 object-contain" />
                         </div>
                         <h3 className="font-bold text-[15px] leading-snug m-0">
-                          {t("mencari.cta_title")}
+                          {t("search.cta_title")}
                         </h3>
                       </div>
                       <p className="text-[13px] text-emerald-50 leading-relaxed opacity-90 m-0 mb-2 flex-grow">
-                        {t("mencari.cta_desc")}
+                        {t("search.cta_desc")}
                       </p>
                       <button onClick={() => router.push(`/${locale}/page`)} className="w-full mt-auto whitespace-nowrap bg-white text-emerald-600 hover:bg-emerald-700 hover:text-white font-bold text-[14px] py-2.5 px-4 rounded-lg transition-colors shadow-sm">
-                        {t("mencari.cta_button")}
+                        {t("search.cta_button")}
                       </button>
                     </div>
                   </div>
@@ -1663,14 +1664,14 @@ export default function Beranda() {
                           <img src="/navigasi/produk-aktif.svg" alt="Product" className="w-6 h-6 object-contain brightness-0 invert" />
                         </div>
                         <h3 className="font-bold text-[15px] leading-snug m-0">
-                          {t("mencari.product_cta_title")}
+                          {t("search.product_cta_title")}
                         </h3>
                       </div>
                       <p className="text-[13px] text-orange-50 leading-relaxed opacity-90 m-0 mb-2 flex-grow">
-                        {t("mencari.product_cta_desc")}
+                        {t("search.product_cta_desc")}
                       </p>
                       <button onClick={() => router.push(`/${locale}/product?create=true`)} className="w-full mt-auto whitespace-nowrap bg-white text-orange-700 hover:bg-orange-800 hover:text-white font-bold text-[14px] py-2.5 px-4 rounded-lg transition-colors shadow-sm">
-                        {t("mencari.product_cta_button")}
+                        {t("search.product_cta_button")}
                       </button>
                     </div>
                   </div>
@@ -1761,8 +1762,8 @@ export default function Beranda() {
                     username: author.username,
                     name: author.profile?.displayName || author.username,
                     role: null, // skeleton/privacy
-                    avatar: author.profile?.avatarUrl || "/default-avatar.svg",
-                    cover: author.profile?.coverUrl || undefined,
+                    avatar: author.profile?.avatarUrl ? getOptimizedUrl(author.profile.avatarUrl, "avatar") : "/default-avatar.svg",
+                    cover: author.profile?.coverUrl ? getOptimizedUrl(author.profile.coverUrl, "cover") : undefined,
                     bio: null, // skeleton/privacy
                     location: null, // skeleton/privacy
                     stats: null // skeleton
@@ -1798,8 +1799,8 @@ export default function Beranda() {
                         bio: p.bio || prev?.bio,
                         location: showLoc ? p.locationName : null,
                         role: showProf ? p.profession : null,
-                        avatar: p.avatarUrl || prev?.avatar,
-                        cover: p.coverUrl || prev?.cover,
+                        avatar: p.avatarUrl ? getOptimizedUrl(p.avatarUrl, "avatar") : prev?.avatar,
+                        cover: p.coverUrl ? getOptimizedUrl(p.coverUrl, "cover") : prev?.cover,
                         relation: relation,
                         isFollowing: conn.isFollowing,
                         requestedBy: conn.friendshipRequestedBy,
@@ -1850,8 +1851,8 @@ export default function Beranda() {
                         bio: p.bio || prev?.bio,
                         location: showLoc ? p.locationName : null,
                         role: showProf ? p.profession : null,
-                        avatar: p.avatarUrl || prev?.avatar,
-                        cover: p.coverUrl || prev?.cover,
+                        avatar: p.avatarUrl ? getOptimizedUrl(p.avatarUrl, "avatar") : prev?.avatar,
+                        cover: p.coverUrl ? getOptimizedUrl(p.coverUrl, "cover") : prev?.cover,
                         relation: relation,
                         isFollowing: conn.isFollowing,
                         requestedBy: conn.friendshipRequestedBy,
@@ -2297,8 +2298,8 @@ export default function Beranda() {
                     username: author.username,
                     name: author.profile?.displayName || author.username,
                     role: null, // skeleton/privacy
-                    avatar: author.profile?.avatarUrl || "/default-avatar.svg",
-                    cover: author.profile?.coverUrl || undefined,
+                    avatar: author.profile?.avatarUrl ? getOptimizedUrl(author.profile.avatarUrl, "avatar") : "/default-avatar.svg",
+                    cover: author.profile?.coverUrl ? getOptimizedUrl(author.profile.coverUrl, "cover") : undefined,
                     bio: null, // skeleton/privacy
                     location: null, // skeleton/privacy
                     stats: null // skeleton
@@ -2334,8 +2335,8 @@ export default function Beranda() {
                         bio: p.bio || prev?.bio,
                         location: showLoc ? p.locationName : null,
                         role: showProf ? p.profession : null,
-                        avatar: p.avatarUrl || prev?.avatar,
-                        cover: p.coverUrl || prev?.cover,
+                        avatar: p.avatarUrl ? getOptimizedUrl(p.avatarUrl, "avatar") : prev?.avatar,
+                        cover: p.coverUrl ? getOptimizedUrl(p.coverUrl, "cover") : prev?.cover,
                         relation: relation,
                         isFollowing: conn.isFollowing,
                         requestedBy: conn.friendshipRequestedBy,
@@ -2386,8 +2387,8 @@ export default function Beranda() {
                         bio: p.bio || prev?.bio,
                         location: showLoc ? p.locationName : null,
                         role: showProf ? p.profession : null,
-                        avatar: p.avatarUrl || prev?.avatar,
-                        cover: p.coverUrl || prev?.cover,
+                        avatar: p.avatarUrl ? getOptimizedUrl(p.avatarUrl, "avatar") : prev?.avatar,
+                        cover: p.coverUrl ? getOptimizedUrl(p.coverUrl, "cover") : prev?.cover,
                         relation: relation,
                         isFollowing: conn.isFollowing,
                         requestedBy: conn.friendshipRequestedBy,
@@ -2423,14 +2424,14 @@ export default function Beranda() {
                       <img src="/visit.png" alt="Website" className="w-6 h-6 object-contain" />
                     </div>
                     <h3 className="font-bold text-[15px] leading-snug m-0">
-                      {t("mencari.cta_title")}
+                      {t("search.cta_title")}
                     </h3>
                   </div>
                   <p className="text-[13px] text-emerald-50 leading-relaxed opacity-90 m-0">
-                    {t("mencari.cta_desc")}
+                    {t("search.cta_desc")}
                   </p>
                   <button onClick={() => router.push(`/${locale}/page`)} className="w-full mt-1 whitespace-nowrap bg-white text-emerald-600 hover:bg-emerald-700 hover:text-white font-bold text-[14px] py-2.5 px-4 rounded-lg transition-colors shadow-sm">
-                    {t("mencari.cta_button")}
+                    {t("search.cta_button")}
                   </button>
                 </div>
               </div>
@@ -2446,14 +2447,14 @@ export default function Beranda() {
                       <img src="/navigasi/komunitas-aktif.svg" alt="Community" className="w-6 h-6 object-contain brightness-0 invert" />
                     </div>
                     <h3 className="font-bold text-[15px] leading-snug m-0">
-                      {t("mencari.community_cta_title")}
+                      {t("search.community_cta_title")}
                     </h3>
                   </div>
                   <p className="text-[13px] text-indigo-50 leading-relaxed opacity-90 m-0">
-                    {t("mencari.community_cta_desc")}
+                    {t("search.community_cta_desc")}
                   </p>
                   <button onClick={() => router.push(`/${locale}/community?create=true`)} className="w-full mt-1 whitespace-nowrap bg-white text-indigo-600 hover:bg-indigo-700 hover:text-white font-bold text-[14px] py-2.5 px-4 rounded-lg transition-colors shadow-sm">
-                    {t("mencari.community_cta_button")}
+                    {t("search.community_cta_button")}
                   </button>
                 </div>
               </div>
@@ -2469,14 +2470,14 @@ export default function Beranda() {
                       <img src="/navigasi/produk-aktif.svg" alt="Product" className="w-6 h-6 object-contain brightness-0 invert" />
                     </div>
                     <h3 className="font-bold text-[15px] leading-snug m-0">
-                      {t("mencari.product_cta_title")}
+                      {t("search.product_cta_title")}
                     </h3>
                   </div>
                   <p className="text-[13px] text-orange-50 leading-relaxed opacity-90 m-0">
-                    {t("mencari.product_cta_desc")}
+                    {t("search.product_cta_desc")}
                   </p>
                   <button onClick={() => router.push(`/${locale}/product?create=true`)} className="w-full mt-1 whitespace-nowrap bg-white text-orange-700 hover:bg-orange-800 hover:text-white font-bold text-[14px] py-2.5 px-4 rounded-lg transition-colors shadow-sm">
-                    {t("mencari.product_cta_button")}
+                    {t("search.product_cta_button")}
                   </button>
                 </div>
               </div>
@@ -2484,7 +2485,7 @@ export default function Beranda() {
           )}
 
           {/* Right Sidebar: Ads (Mencari Tab) */}
-          {activeTab === "mencari" && (
+          {activeTab === "search" && (
             <div className="hidden">
               <div className="space-y-3">
                 <a
@@ -3391,7 +3392,7 @@ export default function Beranda() {
                           <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center shrink-0">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
                           </div>
-                          <span className="truncate group-hover/link:underline">https://github.com/mencari/web-app</span>
+                          <span className="truncate group-hover/link:underline">https://github.com/nethubz/web-app</span>
                         </a>
                       </div>
                     </div>
@@ -4006,13 +4007,13 @@ export default function Beranda() {
             <div className="bg-white dark:bg-[#242526] w-full max-w-[400px] rounded-lg shadow-xl overflow-hidden">
               <div className="px-5 py-4 border-b border-gray-200 dark:border-[#3E4042]">
                 <h2 className="text-[16px] font-semibold text-black dark:text-[#E4E6EB]">
-                  {t("mencari.shortcut_title")}
+                  {t("search.shortcut_title")}
                 </h2>
               </div>
               <div className="p-5 space-y-4">
                 <div>
                   <label className="block text-[13px] text-gray-600 dark:text-[#B0B3B8] mb-1">
-                    {t("mencari.name")}
+                    {t("search.name")}
                   </label>
                   <input
                     type="text"
@@ -4021,7 +4022,7 @@ export default function Beranda() {
                 </div>
                 <div>
                   <label className="block text-[13px] text-gray-600 dark:text-[#B0B3B8] mb-1">
-                    {t("mencari.url")}
+                    {t("search.url")}
                   </label>
                   <input
                     type="text"
@@ -4459,7 +4460,7 @@ export default function Beranda() {
                             <div className="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center shrink-0">
                               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
                             </div>
-                            <span className="truncate group-hover/link:underline">https://github.com/mencari/web-app</span>
+                            <span className="truncate group-hover/link:underline">https://github.com/nethubz/web-app</span>
                           </a>
                         </div>
                       </div>
@@ -5239,7 +5240,7 @@ export default function Beranda() {
                               <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center shrink-0">
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
                               </div>
-                              <span className="truncate group-hover/link:underline">https://github.com/mencari/web-app</span>
+                              <span className="truncate group-hover/link:underline">https://github.com/nethubz/web-app</span>
                             </a>
                           </div>
                         </div>

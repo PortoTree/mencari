@@ -15,10 +15,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const excerpt = post.content.slice(0, 150) + (post.content.length > 150 ? "..." : "");
   
   return {
-    title: `${excerpt} - mencari.online`,
+    title: `${excerpt} - nethubz.com`,
     description: excerpt,
     openGraph: {
-      title: `${excerpt} - mencari.online`,
+      title: `${excerpt} - nethubz.com`,
       description: excerpt,
       type: "article",
     },

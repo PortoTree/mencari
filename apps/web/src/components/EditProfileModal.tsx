@@ -5,6 +5,7 @@ import React, { useState, useEffect, useRef } from "react";
 import CropModal from "@/components/CropModal";
 import { uploadToCloudinary } from "@/utils/uploadImage";
 import { profileCache } from "@/utils/profileCache";
+import { useRouter } from "next/navigation";
 import { updateProfileMedia, getProfile, updateDisplayName, updateProfileInfo } from "@/app/actions/profile";
 import { getBlockedUsers, handlePrimaryConnectionAction } from "@/app/actions/connections";
 import { getOptimizedUrl } from "@/utils/cloudinary";
@@ -192,6 +193,7 @@ function SkillInput({ title, options, selected, onChange, tPlaceholder }: { titl
 
 export default function EditProfileModal({ isOpen, onClose, currentUser }: EditProfileModalProps) {
   const t = useTranslations("editProfile");
+  const router = useRouter();
     const [activeTab, setActiveTab] = useState("intro");
 
   const [displayNameChangesRemaining, setDisplayNameChangesRemaining] = useState(2);
@@ -498,6 +500,8 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
            else cached.coverUrl = cloudinaryUrl;
            profileCache.set(currentUser.id, cached);
         }
+
+        router.refresh();
 
         // Notify Navbar
         window.dispatchEvent(new CustomEvent("avatar-updated", {

@@ -1,9 +1,9 @@
-# Mencari.online — Product & Engineering Planning
+# Nethubz.com — Product & Engineering Planning
 
 > **Status:** Living planning document  
-> **Purpose:** Menjadi dokumen utama untuk perencanaan produk, UX, arsitektur software, database, infrastructure, development flow, dan roadmap Mencari.online.
+> **Purpose:** Menjadi dokumen utama untuk perencanaan produk, UX, arsitektur software, database, infrastructure, development flow, dan roadmap Nethubz.com.
 >
-> **Core principle:** Mencari.online adalah **social network terlebih dahulu**. Search/discovery adalah fitur penting dan DNA pembeda, tetapi bukan identitas visual utama produk.
+> **Core principle:** Nethubz.com adalah **social network terlebih dahulu**. Search/discovery adalah fitur penting dan DNA pembeda, tetapi bukan identitas visual utama produk.
 
 ---
 
@@ -11,7 +11,7 @@
 
 ## 1.1 Konsep utama
 
-Mencari.online adalah social network yang memungkinkan orang:
+Nethubz.com adalah social network yang memungkinkan orang:
 
 - membangun identitas digital,
 - terhubung dengan orang lain,
@@ -27,7 +27,7 @@ Konsep besarnya:
 
 **Social Network + Discovery + Opportunity**
 
-Mencari.online harus terasa seperti platform sosial ketika pertama kali digunakan, tetapi memiliki sistem discovery/search yang lebih kuat sebagai fondasi diferensiasi.
+Nethubz.com harus terasa seperti platform sosial ketika pertama kali digunakan, tetapi memiliki sistem discovery/search yang lebih kuat sebagai fondasi diferensiasi.
 
 ## 1.2 Prinsip produk
 
@@ -46,7 +46,7 @@ Mencari.online harus terasa seperti platform sosial ketika pertama kali digunaka
 
 # 2. Product Layers
 
-Mencari.online dibangun dengan beberapa layer utama.
+Nethubz.com dibangun dengan beberapa layer utama.
 
 ```text
 ┌─────────────────────────────────────────────┐
@@ -248,7 +248,7 @@ docker compose
 
 ## 4.1 Modular monolith
 
-Mencari.online **tidak dimulai sebagai microservices**.
+Nethubz.com **tidak dimulai sebagai microservices**.
 
 Backend menggunakan modular monolith:
 
@@ -2715,7 +2715,7 @@ MVP belum wajib memiliki:
 # 78. Long-Term Product Architecture
 
 ```text
-                         MENCARI.ONLINE
+                         NETHUBZ.COM
                                │
           ┌────────────────────┼────────────────────┐
           │                    │                    │
@@ -2860,9 +2860,9 @@ Setelah dokumen ini, pekerjaan engineering berikutnya:
 
 # 82. Core Product Rule
 
-**Mencari.online bukan search engine yang kebetulan punya social feature.**
+**Nethubz.com bukan search engine yang kebetulan punya social feature.**
 
-Mencari.online adalah:
+Nethubz.com adalah:
 
 > **Social network yang dibangun dengan discovery sebagai salah satu kemampuan inti, dan “Mencari” sebagai DNA yang nantinya dapat berkembang menjadi opportunity/marketplace ecosystem.**
 

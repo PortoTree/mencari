@@ -6,7 +6,7 @@
     "chat": "Obrolan",
     "menu": "Menu",
     "info": "Informasi",
-    "searchPlaceholder": "Mencari apa?....",
+    "searchPlaceholder": "Pencarian apa?....",
     "webpage": "Halaman kamu"
   },
   "tabs": {
@@ -16,7 +16,7 @@
     "marketplace": "Marketplace",
     "watch": "Watch",
     "product": "Produk",
-    "search": "Mencari"
+    "search": "Pencarian"
   },
   "sidebar": {
     "friends": "Teman",
@@ -125,7 +125,7 @@
   },
   "login": {
     "title": "Login akun",
-    "subtitle": "Selamat datang kembali! Yuk lanjut mencari.",
+    "subtitle": "Selamat datang kembali! Yuk lanjut pencarian.",
     "emailLabel": "Email/Username",
     "emailPlaceholder": "name@example.com atau username",
     "passwordLabel": "Password",
@@ -140,12 +140,12 @@
   },
   "register": {
     "title": "Daftarkan Bisnis Anda",
-    "subtitle": "Jangkau ribuan pengguna dengan memasukkan website atau profil bisnis Anda ke dalam mesin pencarian mencari.online secara gratis.",
+    "subtitle": "Jangkau ribuan pengguna dengan memasukkan website atau profil bisnis Anda ke dalam mesin pencarian nethubz.com secara gratis.",
     "type_label": "Tipe Pendaftaran",
     "type_website": "Sudah Punya Website",
     "type_website_desc": "Saya ingin menautkan domain website saya sendiri (misal: .com, .id).",
     "type_profile": "Belum Punya Website",
-    "type_profile_desc": "Buat profil landing page profesional langsung dari platform mencari.online.",
+    "type_profile_desc": "Buat profil landing page profesional langsung dari platform nethubz.com.",
     "url_label": "URL Website Asli",
     "name_label": "Nama Bisnis / Judul Halaman",
     "name_placeholder": "Misal: Toko Kopi Budi",
@@ -176,7 +176,7 @@
     "logout": "Keluar"
   },
   "feed": {
-    "createPost": "Posting dan buat orang mencarimu",
+    "createPost": "Posting dan buat orang menemukanmu",
     "photo": "Foto",
     "feeling": "Perasaan/aktivitas",
     "liveVideo": "Video langsung",
@@ -229,7 +229,10 @@
     "ownedGroups": "Pemilik Grup",
     "joinedGroups": "Grup yang diikuti"
   },
-  "mencari": {
+  "search": {
+    "recent": "Pencarian Terakhir",
+    "edit": "Edit",
+    "visit": "Kunjungi halaman pencarian",
     "shortcut_add": "Tambahkan pintasan",
     "shortcut_title": "Tambahkan pintasan",
     "name": "Nama",
@@ -316,11 +319,7 @@
     "timeYesterday": "Kemarin",
     "typeFriendNow": "Kamu sekarang berteman."
   },
-  "search": {
-    "recent": "Pencarian Terakhir",
-    "edit": "Edit",
-    "visit": "Kunjungi halaman mencari"
-  },
+
   "product": {
     "buy_now": "Beli Sekarang",
     "checkout_at": "Checkout dengan",
@@ -515,7 +514,7 @@
     "addSoft": "Tambahkan soft skill",
     "addHard": "Tambahkan hard skill",
     "addSoftware": "Tambahkan software skill",
-    "searchOrAdd": "Ketik untuk mencari atau tambah",
+    "searchOrAdd": "Ketik untuk pencarian atau tambah",
     "addHobby": "Tambahkan hobby",
     "interestTitle": "Kategori Minat",
     "interestDesc": "Pilih kategori yang Anda minati untuk ditampilkan di profil.",
@@ -632,7 +631,7 @@
     "judul_produk": "Judul/produk",
     "tooltip_payment": "Opsi ini sedang dalam proses payment gateaway",
     "bantuan_lynk": "Copy paste link checkout produk kamu dari LYNK kesini",
-    "tooltip_info_platform": "Bagikan produk digital kamu dari berbagai platfrom di mencari market",
+    "tooltip_info_platform": "Bagikan produk digital kamu dari berbagai platfrom di NetHubz market",
     "tooltip_info_video": "Tambahkan link vidio, kami akan menampilkan di halaman produk kamu",
     "produk_layout": "Produk layout",
     "layout_grid": "Kotak",

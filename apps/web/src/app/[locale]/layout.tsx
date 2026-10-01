@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 
 export const metadata: Metadata = {
-  title: "Mencari.online",
+  title: "NetHubz",
   description: "Platform untuk mencari semua kebutuhanmu",
   other: {
     google: "notranslate",

@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mencari.online",
+  title: "NetHubz",
   description: "Platform untuk mencari semua kebutuhanmu",
   other: {
     google: "notranslate",

@@ -1,7 +1,7 @@
-# Struktur Database Profile --- mencari.online
+# Struktur Database Profile --- nethubz.com
 
 Dokumen ini merangkum struktur database untuk sistem profile social
-media **mencari.online**. Struktur dibuat modular agar dapat berkembang
+media **nethubz.com**. Struktur dibuat modular agar dapat berkembang
 dari MVP hingga skala besar, tanpa mencampur data autentikasi, profile,
 relasi sosial, konten, dan media dalam satu tabel.
 
@@ -311,7 +311,7 @@ Dengan struktur ini satu post dapat mempunyai:
 
 # 19. Sistem Interaksi Postingan
 
-Untuk `mencari.online`, postingan sebaiknya menggunakan satu sistem
+Untuk `nethubz.com`, postingan sebaiknya menggunakan satu sistem
 `posts` universal yang dapat digunakan untuk:
 
 -   Postingan profile.
@@ -995,7 +995,7 @@ profiles
 
 # Rekomendasi MVP
 
-Untuk versi pertama **social media mencari.online**, prioritaskan:
+Untuk versi pertama **social media nethubz.com**, prioritaskan:
 
 ``` text
 users

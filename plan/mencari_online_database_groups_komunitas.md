@@ -1,7 +1,7 @@
-# mencari.online --- Database Groups / Komunitas
+# nethubz.com --- Database Groups / Komunitas
 
 Dokumen ini berisi rancangan struktur database lengkap untuk fitur
-**Groups / Komunitas** pada platform `mencari.online`.
+**Groups / Komunitas** pada platform `nethubz.com`.
 
 Struktur dibuat modular agar Groups dapat berkembang dari fitur
 komunitas sederhana menjadi salah satu sumber utama konten, interaksi,
@@ -11,7 +11,7 @@ discovery, event, dan moderation di platform.
 
 ## 1. Tujuan Arsitektur
 
-Fitur Groups / Komunitas di `mencari.online` dirancang untuk mendukung:
+Fitur Groups / Komunitas di `nethubz.com` dirancang untuk mendukung:
 
 -   Pembuatan komunitas oleh user.
 -   Komunitas public, private, dan hidden.
@@ -146,7 +146,7 @@ developer-indonesia
 URL:
 
 ``` text
-mencari.online/groups/fotografi-malang
+nethubz.com/groups/fotografi-malang
 ```
 
 Harus UNIQUE.
@@ -580,7 +580,7 @@ digunakan oleh siapa saja yang memenuhi syarat.
 Contoh:
 
 ``` text
-mencari.online/groups/fotografi-malang/invite/abc123
+nethubz.com/groups/fotografi-malang/invite/abc123
 ```
 
 ------------------------------------------------------------------------
@@ -1199,7 +1199,7 @@ jika satu group membutuhkan aturan pin yang lebih kompleks.
 
 # 26. Discovery Groups
 
-Karena nama platform adalah `mencari.online`, discovery group harus
+Karena nama platform adalah `nethubz.com`, discovery group harus
 menjadi bagian penting.
 
 Data yang dapat digunakan:
@@ -1313,7 +1313,7 @@ beban nyata.
 
 # 29. Struktur MVP
 
-Untuk versi pertama `mencari.online`, tabel yang benar-benar diperlukan:
+Untuk versi pertama `nethubz.com`, tabel yang benar-benar diperlukan:
 
 ``` text
 groups
@@ -1530,7 +1530,7 @@ USER
  └── participates in ──────── GROUP
 ```
 
-Dengan struktur ini, Groups `mencari.online` sudah punya fondasi
+Dengan struktur ini, Groups `nethubz.com` sudah punya fondasi
 database untuk berkembang dari komunitas sederhana menjadi **social
 community system** yang terintegrasi dengan Feed, Search/Discovery,
 Profile, Notifications, dan nantinya Messaging.

@@ -68,7 +68,7 @@ export default function Login() {
       {/* Header Mobile */}
       <div className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-50 flex justify-center py-4 border-b border-gray-100 sm:hidden">
         <div className="-ml-3 w-full flex justify-center">
-          <img src="/logo-horizontal.png" alt="Mencari.online" className="h-10 object-contain" />
+          <img src="/logo-horizontal.png" alt="Nethubz.com" className="h-10 object-contain" />
         </div>
       </div>
 
@@ -78,7 +78,7 @@ export default function Login() {
 
         <div className="relative z-10">
           <div className="hidden sm:flex justify-center mb-4 w-full -ml-4">
-            <img src="/logo-horizontal.png" alt="Mencari.online" className="h-14 object-contain" />
+            <img src="/logo-horizontal.png" alt="Nethubz.com" className="h-14 object-contain" />
           </div>
           
           <h2 className="text-center text-2xl font-extrabold text-gray-900 mb-1 tracking-tight">{t('title')}</h2>

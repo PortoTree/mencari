@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "username": "bro_naufal",
-  "email": "naufal@mencari.online",
+  "email": "naufal@nethubz.com",
   "password": "password123"
 }
 
@@ -13,7 +13,7 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-  "email": "naufal@mencari.online",
+  "email": "naufal@nethubz.com",
   "password": "password123"
 }
 
@@ -28,6 +28,6 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBhbXBhbSIsInN1YiI6IjY5NTk5YThjLWNkYjUtNGJjMi1hNzViLTVlMDM3NWY5ZjE0ZCIsImlhdCI6MTc4ODc2MDIyMywiZXhwIjoxNzg5MzY1MDIzfQ.vendnRvn1F_TqaLdqrZKvONQ6j5x1IUgNN2YsOJjpqY
 
 {
-  "content": "Halo dunia, ini postingan pertama gua di mencari.online!",
+  "content": "Halo dunia, ini postingan pertama gua di nethubz.com!",
   "type": "NORMAL"
 }

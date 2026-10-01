@@ -3,8 +3,8 @@ const fs = require('fs');
 let todo = fs.readFileSync('TODO.md', 'utf8');
 
 const conceptDocs = `
-## Konsep Pencarian & Pendaftaran Website (Mencari.online)
-- Sistem akan menggunakan **Slug/Username Custom** untuk pengguna yang mendaftar (Contoh: \`mencari.online/tokobudi\`).
+## Konsep Pencarian & Pendaftaran Website (Nethubz.com)
+- Sistem akan menggunakan **Slug/Username Custom** untuk pengguna yang mendaftar (Contoh: \`nethubz.com/tokobudi\`).
 - **Aturan URL Slug:**
   - Hanya boleh huruf kecil (\`a-z\`), angka (\`0-9\`), dan tanda strip (\`-\`) atau underscore (\`_\`).
   - Tidak boleh ada spasi atau karakter spesial (\`@, !, ?, .\`).
