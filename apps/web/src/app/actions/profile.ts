@@ -127,7 +127,7 @@ export async function updateProfileMedia(token: string, userId: string, type: "a
       });
     }
     
-    revalidateTag(`profile-${userId}`);
+    
     revalidatePath("/", "layout");
 
     return { success: true, url: finalUrl };

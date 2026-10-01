@@ -10,7 +10,7 @@ function LottiePlayer({ onComplete }: { onComplete: () => void }) {
     loop: false,
     autoplay: true,
     onComplete
-  });
+  } as any);
 
   return <div ref={lottie.setDisplayRef} style={{ width: '100%', height: '100%' }} />;
 }

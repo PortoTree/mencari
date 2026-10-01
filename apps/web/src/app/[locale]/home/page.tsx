@@ -270,7 +270,7 @@ export default function Beranda() {
     "home" | "search" | "friend" | "community" | "community" | "chat" | "product"
   >(() => {
     if (pathname.includes("/obrolan")) return "chat";
-    if (pathname.includes("/search")) return "mencari";
+    if (pathname.includes("/search")) return "search";
     if (pathname.includes("/friend")) return "friend";
     if (pathname.includes("/product")) return "product";
     if (pathname.includes("/community")) return "community";
