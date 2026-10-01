@@ -491,13 +491,14 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
       const cloudinaryUrl = await uploadToCloudinary(croppedUrl, "profile-image");
       if (currentUser?.id) {
         const token = localStorage.getItem("token") || "";
-        await updateProfileMedia(token, currentUser.id, cropType, cloudinaryUrl);
+        const res = await updateProfileMedia(token, currentUser.id, cropType, cloudinaryUrl);
+        const finalUrl = res.success && res.url ? res.url : cloudinaryUrl;
         
         // Update local cache for immediate navigation feedback
         if (profileCache.has(currentUser.id)) {
            const cached = profileCache.get(currentUser.id);
-           if (cropType === 'avatar') cached.avatarUrl = cloudinaryUrl;
-           else cached.coverUrl = cloudinaryUrl;
+           if (cropType === 'avatar') cached.avatarUrl = finalUrl;
+           else cached.coverUrl = finalUrl;
            profileCache.set(currentUser.id, cached);
         }
 
@@ -505,12 +506,12 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
         // Notify Navbar
         window.dispatchEvent(new CustomEvent("avatar-updated", {
-          detail: { type: cropType, url: cloudinaryUrl }
+          detail: { type: cropType, url: finalUrl }
         }));
         
         // Notify Home & Profile Pages
         window.dispatchEvent(new CustomEvent("profile_updated", {
-          detail: { type: cropType, url: cloudinaryUrl }
+          detail: { type: cropType, url: finalUrl }
         }));
       }
     } catch (error) {

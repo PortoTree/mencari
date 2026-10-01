@@ -654,12 +654,24 @@ export default function Beranda() {
         const payload = JSON.parse(atob(token.split(".")[1]));
         if (payload.username || payload.name) {
           globalUserId = payload.sub || payload.id || payload._id || payload.userId || "1";
-          setCurrentUser({
-            id: globalUserId,
-            username: payload.username || payload.name || "User",
-            displayName:
-              payload.displayName || payload.username || payload.name || "User",
-          });
+          
+          const cachedProfile = profileCache.get(globalUserId);
+          if (cachedProfile) {
+            setCurrentUser({
+              id: globalUserId,
+              username: payload.username || payload.name || "User",
+              displayName: payload.displayName || payload.username || payload.name || "User",
+              profile: cachedProfile
+            });
+            setIsProfileLoading(false);
+          } else {
+            setCurrentUser({
+              id: globalUserId,
+              username: payload.username || payload.name || "User",
+              displayName: payload.displayName || payload.username || payload.name || "User",
+            });
+          }
+          
           fetchProfile(globalUserId);
         }
       } catch (e) {
@@ -684,8 +696,8 @@ export default function Beranda() {
         } else {
           profileCache.delete(globalUserId);
         }
-        // Still fetch to ensure all other data is completely synced
-        fetchProfile(globalUserId);
+        // Do NOT fetchProfile here to prevent race conditions with server cache that overwrites the new image with stale data
+        // fetchProfile(globalUserId);
       }
     };
     
@@ -1686,7 +1698,7 @@ export default function Beranda() {
                   <div className="flex items-center gap-3 pb-4 border-b border-gray-100 dark:border-[#3E4042]">
                     <div className="w-[40px] h-[40px] rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-emerald-600 dark:border-emerald-400">
                       <img
-                        src="/default-avatar.svg"
+                        src={currentUser?.profile?.avatarUrl ? getOptimizedUrl(currentUser.profile.avatarUrl, "avatar") : "/default-avatar.svg"}
                         alt="Profile"
                         className="w-full h-full object-cover"
                       />
@@ -2216,7 +2228,7 @@ export default function Beranda() {
                 <div className="flex items-center gap-3 pb-4 border-b border-gray-100 dark:border-[#3E4042]">
                   <div className="w-[40px] h-[40px] rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-emerald-600 dark:border-emerald-400">
                     <img
-                      src="/default-avatar.svg"
+                      src={currentUser?.profile?.avatarUrl ? getOptimizedUrl(currentUser.profile.avatarUrl, "avatar") : "/default-avatar.svg"}
                       alt="Profile"
                       className="w-full h-full object-cover"
                     />

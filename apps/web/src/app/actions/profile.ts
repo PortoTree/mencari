@@ -1,7 +1,7 @@
 "use server";
 
 import { PrismaClient } from "@prisma/client";
-import { revalidateTag } from "next/cache";
+import { revalidateTag, revalidatePath } from "next/cache";
 import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
@@ -114,21 +114,23 @@ export async function updateDisplayName(token: string, userId: string, newDispla
 export async function updateProfileMedia(token: string, userId: string, type: "avatar" | "cover", url: string) {
   if (!verifyToken(token, userId)) return { success: false, error: "Unauthorized" };
   try {
+    const finalUrl = url + (url.includes('?') ? '&' : '?') + `t=${Date.now()}`;
     if (type === "avatar") {
       await prisma.profile.update({
         where: { userId },
-        data: { avatarUrl: url },
+        data: { avatarUrl: finalUrl },
       });
     } else if (type === "cover") {
       await prisma.profile.update({
         where: { userId },
-        data: { coverUrl: url },
+        data: { coverUrl: finalUrl },
       });
     }
     
-    revalidateTag(`profile-${userId}`, "page" as any);
+    revalidateTag(`profile-${userId}`);
+    revalidatePath("/", "layout");
 
-    return { success: true, url };
+    return { success: true, url: finalUrl };
   } catch (error) {
     console.error("Error updating profile media:", error);
     return { success: false, error: "Database error" };
