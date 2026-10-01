@@ -35,6 +35,7 @@ model User {
   comments              Comment[]
   likes                 Like[]
   savedPosts            SavedPost[]
+  taggedInPosts         Post[]           @relation("PostTags")
   Media                 Media[]
 }
 
@@ -186,6 +187,7 @@ model Post {
   savedBy       SavedPost[]
   notifications Notification[]
   postMedia     PostMedia[]
+  taggedUsers   User[]         @relation("PostTags")
 }
 
 model Comment {

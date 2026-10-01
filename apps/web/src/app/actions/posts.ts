@@ -17,6 +17,9 @@ function mapPost(post: any) {
   } else {
     mapped.mediaUrls = [];
   }
+  if (post.taggedUsers) {
+    mapped.taggedUsers = post.taggedUsers;
+  }
   return mapped;
 }
 
@@ -28,6 +31,7 @@ export async function createPost(data: {
   mediaUrls?: string[];
   mediaLayout?: "GRID" | "CAROUSEL";
   linkMetadata?: any;
+  taggedUserIds?: string[];
 }) {
   try {
     const newPost = await prisma.post.create({
@@ -51,11 +55,26 @@ export async function createPost(data: {
               }
             }
           }))
+        } : undefined,
+        taggedUsers: data.taggedUserIds && data.taggedUserIds.length > 0 ? {
+          connect: data.taggedUserIds.map(id => ({ id }))
         } : undefined
       },
       include: {
         postMedia: {
           include: { media: true }
+        },
+        taggedUsers: {
+          select: {
+            id: true,
+            username: true,
+            profile: {
+              select: {
+                displayName: true,
+                avatarUrl: true
+              }
+            }
+          }
         }
       }
     });
@@ -101,6 +120,18 @@ export async function getFeedPosts(userId: string) {
         postMedia: {
           include: { media: true },
           orderBy: { order: 'asc' }
+        },
+        taggedUsers: {
+          select: {
+            id: true,
+            username: true,
+            profile: {
+              select: {
+                displayName: true,
+                avatarUrl: true
+              }
+            }
+          }
         },
         _count: {
           select: { likes: true, comments: true }
@@ -172,6 +203,18 @@ export async function getExplorePosts() {
           include: { media: true },
           orderBy: { order: 'asc' }
         },
+        taggedUsers: {
+          select: {
+            id: true,
+            username: true,
+            profile: {
+              select: {
+                displayName: true,
+                avatarUrl: true
+              }
+            }
+          }
+        },
         _count: {
           select: { likes: true, comments: true }
         }
@@ -197,6 +240,18 @@ export async function getPostById(postId: string) {
         postMedia: {
           include: { media: true },
           orderBy: { order: 'asc' }
+        },
+        taggedUsers: {
+          select: {
+            id: true,
+            username: true,
+            profile: {
+              select: {
+                displayName: true,
+                avatarUrl: true
+              }
+            }
+          }
         },
         _count: {
           select: { likes: true, comments: true }
