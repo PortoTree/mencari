@@ -190,7 +190,19 @@
     "noPosts": "Belum ada postingan",
     "noPostsDesc": "Belum ada postingan untuk ditampilkan saat ini.",
     "loadError": "Gagal memuat postingan:",
-    "tryAgain": "Coba Lagi"
+    "tryAgain": "Coba Lagi",
+    "addPhoto": "Tambah Gambar",
+    "addAnotherPhoto": "+ Tambah Gambar Lain",
+    "comingSoon": "Segera hadir",
+    "addToYourPost": "Tambahkan ke postingan Anda",
+    "addMedia": "Tambahkan Media",
+    "uploadImage": "Upload Gambar",
+    "linkUrl": "Link URL",
+    "imageFormatInfo": "Format: JPG, PNG, WEBP. Maks: 3MB per foto.",
+    "chooseImage": "Pilih gambar",
+    "mediaUrlPlaceholder": "Masukkan link URL media",
+    "mediaUrlHelper": "Kelebihan menggunakan URL media: kamu tidak perlu khawatir tentang batas ukuran media yang di upload.",
+    "confirm": "Konfirmasi"
   },
   "filter": {
     "favorite": "Favorit",
@@ -319,7 +331,6 @@
     "timeYesterday": "Kemarin",
     "typeFriendNow": "Kamu sekarang berteman."
   },
-
   "product": {
     "buy_now": "Beli Sekarang",
     "checkout_at": "Checkout dengan",

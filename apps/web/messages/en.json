@@ -190,7 +190,19 @@
     "noPosts": "No posts yet",
     "noPostsDesc": "There are no posts to show right now.",
     "loadError": "Failed to load posts:",
-    "tryAgain": "Try Again"
+    "tryAgain": "Try Again",
+    "addPhoto": "Add Photo",
+    "addAnotherPhoto": "+ Add Another Photo",
+    "comingSoon": "Coming soon",
+    "addToYourPost": "Add to your post",
+    "addMedia": "Add Media",
+    "uploadImage": "Upload Image",
+    "linkUrl": "Link URL",
+    "imageFormatInfo": "Format: JPG, PNG, WEBP. Max: 3MB per photo.",
+    "chooseImage": "Choose image",
+    "mediaUrlPlaceholder": "Enter media URL link",
+    "mediaUrlHelper": "Advantage of using media URL: you do not need to worry about the upload media size limit.",
+    "confirm": "Confirm"
   },
   "filter": {
     "favorite": "Favorites",
@@ -313,7 +325,6 @@
     "timeYesterday": "Yesterday",
     "typeFriendNow": "You are now friends."
   },
-
   "product": {
     "buy_now": "Buy Now",
     "checkout_at": "Checkout via",

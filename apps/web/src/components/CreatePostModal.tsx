@@ -294,19 +294,31 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
 
           {/* Add to your post */}
           <div className="flex items-center justify-between border border-gray-300 dark:border-[#4E4F50] rounded-xl p-3 mb-4 shadow-sm">
-            <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">Add to your post</span>
+            <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{t("feed.addToYourPost")}</span>
             <div className="flex items-center gap-1">
-              <button onClick={() => setIsMediaModalOpen(true)} className="p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-colors" title="Tambah Gambar">
+              <button onClick={() => setIsMediaModalOpen(true)} className="group relative p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
                 <svg className="w-6 h-6 text-[#45BD62]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" /></svg>
+                <span className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/80 text-white text-xs px-2.5 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                  {t("feed.addPhoto")}
+                </span>
               </button>
-              <button className="p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-colors opacity-50 cursor-not-allowed" title="Coming soon">
+              <button className="group relative p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-colors opacity-50 cursor-not-allowed">
                 <svg className="w-6 h-6 text-[#1877F2]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" /></svg>
+                <span className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/80 text-white text-xs px-2.5 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                  {t("feed.comingSoon")}
+                </span>
               </button>
-              <button className="p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-colors opacity-50 cursor-not-allowed" title="Coming soon">
+              <button className="group relative p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-colors opacity-50 cursor-not-allowed">
                 <svg className="w-6 h-6 text-[#F97316]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" /></svg>
+                <span className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/80 text-white text-xs px-2.5 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                  {t("feed.comingSoon")}
+                </span>
               </button>
-              <button className="p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-colors opacity-50 cursor-not-allowed" title="Coming soon">
+              <button className="group relative p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-colors opacity-50 cursor-not-allowed">
                 <svg className="w-6 h-6 text-[#F5C33B]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" /></svg>
+                <span className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/80 text-white text-xs px-2.5 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                  {t("feed.comingSoon")}
+                </span>
               </button>
             </div>
           </div>
@@ -329,14 +341,14 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
                 <button onClick={() => setIsMediaModalOpen(false)} className="w-9 h-9 bg-gray-100 dark:bg-[#3A3B3C] rounded-full flex items-center justify-center hover:bg-gray-200 dark:hover:bg-[#4E4F50] transition-colors text-gray-600 dark:text-[#B0B3B8]">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                 </button>
-                <h2 className="text-[20px] font-bold text-black dark:text-[#E4E6EB]">Tambahkan Media</h2>
+                <h2 className="text-[20px] font-bold text-black dark:text-[#E4E6EB]">{t("feed.addMedia")}</h2>
               </div>
             </div>
             
             <div className="p-4 flex-1 flex flex-col overflow-y-auto">
               <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4 shrink-0">
-                <button onClick={() => setMediaTab('file')} className={`flex-1 pb-2 text-sm font-semibold transition-colors border-b-2 ${mediaTab === 'file' ? 'border-[#1877F2] text-[#1877F2]' : 'border-transparent text-gray-500'}`}>Upload Gambar</button>
-                <button onClick={() => setMediaTab('url')} className={`flex-1 pb-2 text-sm font-semibold transition-colors border-b-2 ${mediaTab === 'url' ? 'border-[#1877F2] text-[#1877F2]' : 'border-transparent text-gray-500'}`}>Link URL</button>
+                <button onClick={() => setMediaTab('file')} className={`flex-1 pb-2 text-sm font-semibold transition-colors border-b-2 ${mediaTab === 'file' ? 'border-[#1877F2] text-[#1877F2]' : 'border-transparent text-gray-500'}`}>{t("feed.uploadImage")}</button>
+                <button onClick={() => setMediaTab('url')} className={`flex-1 pb-2 text-sm font-semibold transition-colors border-b-2 ${mediaTab === 'url' ? 'border-[#1877F2] text-[#1877F2]' : 'border-transparent text-gray-500'}`}>{t("feed.linkUrl")}</button>
               </div>
 
               {mediaTab === 'file' ? (
@@ -353,23 +365,24 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
                       </div>
                     </div>
                     <div className="flex justify-center shrink-0">
-                      <button onClick={() => fileInputRef.current?.click()} className="text-sm text-[#1877F2] hover:underline font-semibold">+ Tambah Gambar Lain</button>
+                      <button onClick={() => fileInputRef.current?.click()} className="text-sm text-[#1877F2] hover:underline font-semibold">{t("feed.addAnotherPhoto")}</button>
                     </div>
                     <input type="file" accept="image/jpeg, image/png, image/webp" multiple className="hidden" ref={fileInputRef} onChange={handleFileChange} />
                   </div>
                 ) : (
                   <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-4 min-h-[250px]">
                     <svg className="w-12 h-12 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    <p className="text-sm text-gray-500 mb-4 text-center">Format: JPG, PNG, WEBP. Maks: 3MB per foto.</p>
+                    <p className="text-sm text-gray-500 mb-4 text-center">{t("feed.imageFormatInfo")}</p>
                     <input type="file" accept="image/jpeg, image/png, image/webp" multiple className="hidden" ref={fileInputRef} onChange={handleFileChange} />
                     <button onClick={() => fileInputRef.current?.click()} className="bg-gray-100 dark:bg-[#3A3B3C] text-black dark:text-white font-semibold px-4 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-[#4E4F50]">
-                      Pilih Gambar (Bisa lebih dari 1)
+                      {t("feed.chooseImage")}
                     </button>
                   </div>
                 )
               ) : (
                 <div className="flex-1 min-h-0">
-                  <input type="text" placeholder="Masukkan link URL (https://...)" value={mediaUrlInput} onChange={(e) => setMediaUrlInput(e.target.value)} className="w-full bg-gray-100 dark:bg-[#3A3B3C] text-black dark:text-white rounded-lg px-4 py-3 mb-4 outline-none" />
+                  <input type="text" placeholder={t("feed.mediaUrlPlaceholder")} value={mediaUrlInput} onChange={(e) => setMediaUrlInput(e.target.value)} className="w-full bg-gray-100 dark:bg-[#3A3B3C] text-black dark:text-white rounded-lg px-4 py-3 mb-1 outline-none" />
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-4 px-1">{t("feed.mediaUrlHelper")}</p>
                   {mediaUrlInput.match(/^https?:\/\/.*/i) && (
                     <div className="w-full h-[180px] rounded-xl overflow-hidden bg-gray-100 dark:bg-black/50 border border-gray-200 dark:border-gray-700">
                       <img src={mediaUrlInput} alt="Preview" className="w-full h-full object-contain" onError={(e) => (e.currentTarget.style.display = 'none')} />
@@ -383,7 +396,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
                 disabled={mediaTab === 'file' ? tempFilePreviews.length === 0 : !mediaUrlInput.trim()}
                 className="w-full mt-4 shrink-0 bg-[#1877F2] hover:bg-blue-600 disabled:bg-gray-200 disabled:dark:bg-[#4E4F50] text-white disabled:text-gray-400 disabled:dark:text-gray-500 font-semibold py-2 rounded-lg transition-colors"
               >
-                Konfirmasi
+                {t("feed.confirm")}
               </button>
             </div>
           </div>
