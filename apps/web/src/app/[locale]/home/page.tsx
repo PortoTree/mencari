@@ -262,6 +262,7 @@ export default function Beranda() {
     };
   }, [isProductModalOpen]);
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
+  const [startWithMediaModal, setStartWithMediaModal] = useState(false);
   const [postPrivacy, setPostPrivacy] = useState("public");
   const [isPrivacyDropdownOpen, setIsPrivacyDropdownOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
@@ -1708,7 +1709,7 @@ export default function Beranda() {
                       placeholder={t("feed.createPost")}
                       className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-[#E4E6EB] dark:hover:bg-[#4E4F50] transition-colors rounded-full px-4 py-2.5 focus:outline-none cursor-pointer text-gray-600 dark:text-[#B0B3B8] text-[17px]"
                       readOnly
-                      onClick={() => { setIsCreatePostModalOpen(true); setPostPrivacy(activeTab === "friend" ? "friends" : "public"); }}
+                    onClick={() => { setStartWithMediaModal(false); setIsCreatePostModalOpen(true); setPostPrivacy(activeTab === "friend" ? "friends" : "public"); }}
                     />
                   </div>
                   <div className="flex justify-between items-center pt-3 px-1">
@@ -1729,14 +1730,12 @@ export default function Beranda() {
                     <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
                       <svg
                         className="w-[24px] h-[24px] text-[#1877F2]"
-                        fill="none"
-                        stroke="currentColor"
+                        fill="currentColor"
                         viewBox="0 0 24 24"
-                        strokeWidth={2.5}
                       >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+                        <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
                       </svg>
-                      Link
+                      {t("feed.tagPeople")}
                     </button>
                     <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
                       <svg
@@ -2236,13 +2235,16 @@ export default function Beranda() {
                   <input
                     type="text"
                     placeholder={t("feed.createPost")}
-                    onClick={() => { setIsCreatePostModalOpen(true); setPostPrivacy(activeTab === "friend" ? "friends" : "public"); }}
+                    onClick={() => { setStartWithMediaModal(false); setIsCreatePostModalOpen(true); setPostPrivacy(activeTab === "friend" ? "friends" : "public"); }}
                     className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-[#E4E6EB] dark:hover:bg-[#4E4F50] transition-colors rounded-full px-4 py-2.5 focus:outline-none cursor-pointer text-gray-600 dark:text-[#B0B3B8] text-[17px]"
                     readOnly
                   />
                 </div>
                 <div className="flex justify-between items-center pt-3 px-1">
-                  <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
+                  <button 
+                    onClick={() => { setStartWithMediaModal(true); setIsCreatePostModalOpen(true); setPostPrivacy(activeTab === "friend" ? "friends" : "public"); }}
+                    className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors"
+                  >
                     <svg
                       className="w-[24px] h-[24px] text-[#45BD62]"
                       fill="currentColor"
@@ -2259,14 +2261,12 @@ export default function Beranda() {
                   <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
                     <svg
                       className="w-[24px] h-[24px] text-[#1877F2]"
-                      fill="none"
-                      stroke="currentColor"
+                      fill="currentColor"
                       viewBox="0 0 24 24"
-                      strokeWidth={2.5}
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+                      <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
                     </svg>
-                    Link
+                    {t("feed.tagPeople")}
                   </button>
                   <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
                     <svg
@@ -5557,6 +5557,7 @@ export default function Beranda() {
         isOpen={isCreatePostModalOpen}
         onClose={() => setIsCreatePostModalOpen(false)}
         currentUser={currentUser}
+        startWithMediaModal={startWithMediaModal}
       />
 
       {/* Product Modal */}

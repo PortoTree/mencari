@@ -12,9 +12,10 @@ interface CreatePostModalProps {
   currentUser: any;
   onSuccess?: () => void;
   initialPost?: any;
+  startWithMediaModal?: boolean;
 }
 
-export default function CreatePostModal({ isOpen, onClose, currentUser, onSuccess, initialPost }: CreatePostModalProps) {
+export default function CreatePostModal({ isOpen, onClose, currentUser, onSuccess, initialPost, startWithMediaModal }: CreatePostModalProps) {
   const t = useTranslations();
   const [postPrivacy, setPostPrivacy] = useState<"PUBLIC" | "FRIENDS" | "PRIVATE" | "COMMUNITY_ONLY">("PUBLIC");
   const [isPrivacyDropdownOpen, setIsPrivacyDropdownOpen] = useState(false);
@@ -99,7 +100,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
       setPostLabel(initialPost?.label || "DEFAULT");
       setMediaLayout(initialPost?.mediaLayout || "GRID");
       setMediaPreviewList(initialPost?.mediaUrls?.map((url: string) => ({ type: 'url', url })) || []);
-      setIsMediaModalOpen(false);
+      setIsMediaModalOpen(startWithMediaModal || false);
     }
   }, [isOpen, initialPost]);
 

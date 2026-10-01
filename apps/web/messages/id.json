@@ -207,7 +207,8 @@
     "mediaLayoutTitle": "Layout media",
     "layoutGrid": "Grid",
     "layoutCarousel": "Carousel",
-    "whatsOnYourMind": "Apa yang Anda pikirkan, {name}?"
+    "whatsOnYourMind": "Apa yang Anda pikirkan, {name}?",
+    "tagPeople": "Tandai orang"
   },
   "filter": {
     "favorite": "Favorit",

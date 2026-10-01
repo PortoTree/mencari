@@ -207,7 +207,8 @@
     "mediaLayoutTitle": "Media layout",
     "layoutGrid": "Grid",
     "layoutCarousel": "Carousel",
-    "whatsOnYourMind": "What's on your mind, {name}?"
+    "whatsOnYourMind": "What's on your mind, {name}?",
+    "tagPeople": "Tag people"
   },
   "filter": {
     "favorite": "Favorites",
