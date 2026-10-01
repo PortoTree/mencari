@@ -14,9 +14,10 @@ interface CreatePostModalProps {
   onSuccess?: () => void;
   initialPost?: any;
   startWithMediaModal?: boolean;
+  startWithTagModal?: boolean;
 }
 
-export default function CreatePostModal({ isOpen, onClose, currentUser, onSuccess, initialPost, startWithMediaModal }: CreatePostModalProps) {
+export default function CreatePostModal({ isOpen, onClose, currentUser, onSuccess, initialPost, startWithMediaModal, startWithTagModal }: CreatePostModalProps) {
   const t = useTranslations();
   const [postPrivacy, setPostPrivacy] = useState<"PUBLIC" | "FRIENDS" | "PRIVATE" | "COMMUNITY_ONLY">("PUBLIC");
   const [isPrivacyDropdownOpen, setIsPrivacyDropdownOpen] = useState(false);
@@ -182,12 +183,13 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
       setMediaLayout(initialPost?.mediaLayout || "GRID");
       setMediaPreviewList(initialPost?.mediaUrls?.map((url: string) => ({ type: 'url', url })) || []);
       setIsMediaModalOpen(startWithMediaModal || false);
+      setIsTagModalOpen(startWithTagModal || false);
       setTaggedUsers(initialPost?.taggedUsers || []);
       setLinkPreviewData(initialPost?.linkMetadata || null);
       setInlineTaggedUsernames([]);
       setMentionQuery(null);
     }
-  }, [isOpen, initialPost, startWithMediaModal]);
+  }, [isOpen, initialPost, startWithMediaModal, startWithTagModal]);
 
   useEffect(() => {
     if (isOpen) {
@@ -724,7 +726,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
               <div className="relative">
                 <input
                   type="text"
-                  placeholder="Cari teman..."
+                  placeholder={t("feed.searchFriendsPlaceholder")}
                   value={searchTagQuery}
                   onChange={(e) => setSearchTagQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 bg-gray-100 dark:bg-[#3A3B3C] border-none rounded-full text-[15px] text-black dark:text-[#E4E6EB] focus:outline-none focus:ring-2 focus:ring-[#1877F2]"
@@ -768,18 +770,18 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
                   >
                     <img src={user.profile?.avatarUrl || "/default-avatar.svg"} className="w-10 h-10 rounded-full object-cover" />
                     <div className="flex flex-col">
-                      <span className="font-semibold text-[15px] dark:text-[#E4E6EB]">{user.profile?.displayName || user.username} {isSelf && "(Anda)"}</span>
+                      <span className="font-semibold text-[15px] dark:text-[#E4E6EB]">{user.profile?.displayName || user.username} {isSelf && `(${t("feed.you")})`}</span>
                       <span className="text-[13px] text-gray-500">@{user.username}</span>
                     </div>
                   </button>
                 )})
               ) : searchTagQuery.trim() ? (
                 <div className="text-center text-gray-500 dark:text-[#B0B3B8] py-8">
-                  Tidak ada pengguna ditemukan.
+                  {t("feed.noUserFound")}
                 </div>
               ) : (
                 <div className="text-center text-gray-500 dark:text-[#B0B3B8] py-8">
-                  Ketik nama untuk mencari.
+                  {t("feed.typeNameToSearch")}
                 </div>
               )}
             </div>

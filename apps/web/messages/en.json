@@ -208,7 +208,15 @@
     "layoutGrid": "Grid",
     "layoutCarousel": "Carousel",
     "whatsOnYourMind": "What's on your mind, {name}?",
-    "tagPeople": "Tag people"
+    "tagPeople": "Tag people",
+    "tagPeopleTitle": "Tag people",
+    "searchFriendsPlaceholder": "Search for friends...",
+    "typeNameToSearch": "Type a name to search.",
+    "taggedPeople": "Tagged people",
+    "peopleCount": "{count} people",
+    "profile": "Profile",
+    "noUserFound": "No user found.",
+    "you": "You"
   },
   "filter": {
     "favorite": "Favorites",

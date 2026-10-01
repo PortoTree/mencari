@@ -208,7 +208,15 @@
     "layoutGrid": "Grid",
     "layoutCarousel": "Carousel",
     "whatsOnYourMind": "Apa yang Anda pikirkan, {name}?",
-    "tagPeople": "Tandai orang"
+    "tagPeople": "Tandai orang",
+    "tagPeopleTitle": "Tandai orang",
+    "searchFriendsPlaceholder": "Cari teman...",
+    "typeNameToSearch": "Ketik nama untuk mencari.",
+    "taggedPeople": "Orang yang ditandai",
+    "peopleCount": "{count} orang",
+    "profile": "Profil",
+    "noUserFound": "Tidak ada pengguna ditemukan.",
+    "you": "Anda"
   },
   "filter": {
     "favorite": "Favorit",

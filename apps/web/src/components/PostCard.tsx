@@ -362,8 +362,8 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
                 ))}
               </div>
               <div className="flex flex-col">
-                <span className="font-semibold text-[15px] dark:text-[#E4E6EB]">Orang yang ditandai</span>
-                <span className="text-[13px] text-gray-500">{post.taggedUsers.length} orang</span>
+                <span className="font-semibold text-[15px] dark:text-[#E4E6EB]">{t("feed.taggedPeople")}</span>
+                <span className="text-[13px] text-gray-500">{t("feed.peopleCount", { count: post.taggedUsers.length })}</span>
               </div>
             </div>
           )}
@@ -500,7 +500,7 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
           <div className="w-full max-w-[400px] bg-white dark:bg-[#242526] rounded-xl shadow-xl flex flex-col relative border border-gray-200 dark:border-[#3E4042] overflow-hidden max-h-[80vh]">
             <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-[#3E4042]">
               <h2 className="text-[20px] font-bold text-black dark:text-[#E4E6EB]">
-                Orang yang ditandai
+                {t("feed.taggedPeople")}
               </h2>
               <button onClick={() => setIsTagListModalOpen(false)} className="w-9 h-9 bg-gray-200 dark:bg-[#3A3B3C] rounded-full flex items-center justify-center hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors text-gray-600 dark:text-[#B0B3B8]">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
@@ -530,7 +530,7 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
                     }}
                     className="px-3 py-1.5 bg-gray-100 dark:bg-[#4E4F50] hover:bg-gray-200 dark:hover:bg-[#5C5D5F] rounded-lg text-sm font-semibold text-black dark:text-[#E4E6EB] transition-colors"
                   >
-                    Profil
+                    {t("feed.profile")}
                   </button>
                 </div>
               ))}

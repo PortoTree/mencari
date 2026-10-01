@@ -263,6 +263,7 @@ export default function Beranda() {
   }, [isProductModalOpen]);
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
   const [startWithMediaModal, setStartWithMediaModal] = useState(false);
+  const [startWithTagModal, setStartWithTagModal] = useState(false);
   const [postPrivacy, setPostPrivacy] = useState("public");
   const [isPrivacyDropdownOpen, setIsPrivacyDropdownOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
@@ -1709,11 +1710,13 @@ export default function Beranda() {
                       placeholder={t("feed.createPost")}
                       className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-[#E4E6EB] dark:hover:bg-[#4E4F50] transition-colors rounded-full px-4 py-2.5 focus:outline-none cursor-pointer text-gray-600 dark:text-[#B0B3B8] text-[17px]"
                       readOnly
-                    onClick={() => { setStartWithMediaModal(false); setIsCreatePostModalOpen(true); setPostPrivacy(activeTab === "friend" ? "friends" : "public"); }}
+                    onClick={() => { setStartWithMediaModal(false); setStartWithTagModal(false); setIsCreatePostModalOpen(true); setPostPrivacy(activeTab === "friend" ? "friends" : "public"); }}
                     />
                   </div>
                   <div className="flex justify-between items-center pt-3 px-1">
-                    <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
+                    <button 
+                      onClick={() => { setStartWithMediaModal(true); setStartWithTagModal(false); setIsCreatePostModalOpen(true); setPostPrivacy(activeTab === "friend" ? "friends" : "public"); }}
+                      className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
                       <svg
                         className="w-[24px] h-[24px] text-[#45BD62]"
                         fill="currentColor"
@@ -1727,7 +1730,9 @@ export default function Beranda() {
                       </svg>
                       {t("feed.photo")}
                     </button>
-                    <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
+                    <button 
+                      onClick={() => { setStartWithMediaModal(false); setStartWithTagModal(true); setIsCreatePostModalOpen(true); setPostPrivacy(activeTab === "friend" ? "friends" : "public"); }}
+                      className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
                       <svg
                         className="w-[24px] h-[24px] text-[#1877F2]"
                         fill="currentColor"
@@ -2235,14 +2240,14 @@ export default function Beranda() {
                   <input
                     type="text"
                     placeholder={t("feed.createPost")}
-                    onClick={() => { setStartWithMediaModal(false); setIsCreatePostModalOpen(true); setPostPrivacy(activeTab === "friend" ? "friends" : "public"); }}
+                    onClick={() => { setStartWithMediaModal(false); setStartWithTagModal(false); setIsCreatePostModalOpen(true); setPostPrivacy(activeTab === "friend" ? "friends" : "public"); }}
                     className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-[#E4E6EB] dark:hover:bg-[#4E4F50] transition-colors rounded-full px-4 py-2.5 focus:outline-none cursor-pointer text-gray-600 dark:text-[#B0B3B8] text-[17px]"
                     readOnly
                   />
                 </div>
                 <div className="flex justify-between items-center pt-3 px-1">
                   <button 
-                    onClick={() => { setStartWithMediaModal(true); setIsCreatePostModalOpen(true); setPostPrivacy(activeTab === "friend" ? "friends" : "public"); }}
+                    onClick={() => { setStartWithMediaModal(true); setStartWithTagModal(false); setIsCreatePostModalOpen(true); setPostPrivacy(activeTab === "friend" ? "friends" : "public"); }}
                     className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors"
                   >
                     <svg
@@ -2258,7 +2263,9 @@ export default function Beranda() {
                     </svg>
                     {t("feed.photo")}
                   </button>
-                  <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
+                  <button 
+                    onClick={() => { setStartWithMediaModal(false); setStartWithTagModal(true); setIsCreatePostModalOpen(true); setPostPrivacy(activeTab === "friend" ? "friends" : "public"); }}
+                    className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
                     <svg
                       className="w-[24px] h-[24px] text-[#1877F2]"
                       fill="currentColor"
@@ -5558,6 +5565,7 @@ export default function Beranda() {
         onClose={() => setIsCreatePostModalOpen(false)}
         currentUser={currentUser}
         startWithMediaModal={startWithMediaModal}
+        startWithTagModal={startWithTagModal}
       />
 
       {/* Product Modal */}
