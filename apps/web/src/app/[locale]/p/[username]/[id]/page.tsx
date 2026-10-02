@@ -231,6 +231,20 @@ export default function ProfilePage({
   const [expandedGroupTab, setExpandedGroupTab] = useState<'managed' | 'joined' | null>(null);
   const [statPage, setStatPage] = useState(1);
   const [groupPage, setGroupPage] = useState(1);
+  const [showScrollToTabs, setShowScrollToTabs] = useState(false);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      const anchorEl = document.getElementById('profile-tabs-anchor');
+      if (anchorEl) {
+        const rect = anchorEl.getBoundingClientRect();
+        setShowScrollToTabs(rect.top < -100);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const carouselRef = React.useRef<HTMLDivElement>(null);
   const albumCarouselRef = React.useRef<HTMLDivElement>(null);
 
@@ -1430,7 +1444,7 @@ export default function ProfilePage({
                 </div>
 
                 {/* Divider */}
-                <div className="w-full max-w-[590px] mx-auto border-t border-gray-300 dark:border-gray-700 mt-4"></div>
+                <div id="profile-tabs-anchor" className="w-full max-w-[590px] mx-auto border-t border-gray-300 dark:border-gray-700 mt-4"></div>
 
                 {/* Tabs Navigation - Gradient Pill Style */}
                 <div className="flex justify-center w-full relative z-10">
@@ -1926,6 +1940,23 @@ export default function ProfilePage({
           </div>
         </div>
       )}
+
+      {/* Floating Back to Tabs Button */}
+      <button
+        onClick={() => {
+          const anchorEl = document.getElementById('profile-tabs-anchor');
+          if (anchorEl) {
+            const rect = anchorEl.getBoundingClientRect();
+            window.scrollTo({ top: window.scrollY + rect.top - 60, behavior: 'smooth' });
+          }
+        }}
+        className={`fixed bottom-6 right-6 z-[90] flex items-center gap-2 px-4 py-3 bg-white dark:bg-[#3A3B3C] text-blue-500 dark:text-blue-400 font-bold rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.15)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.4)] border border-gray-100 dark:border-white/5 transition-all duration-300 ${
+          showScrollToTabs ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0 pointer-events-none"
+        }`}
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>
+        <span className="text-[14px]">Ke Menu Tab</span>
+      </button>
     </main>
   );
 }
