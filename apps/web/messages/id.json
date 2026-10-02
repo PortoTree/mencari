@@ -522,9 +522,9 @@
     "addProf": "Tambahkan profesi",
     "fileTooLargeTitle": "File Terlalu Besar",
     "fileTooLargeAvatar": "Ukuran file avatar maksimal 3MB. Silakan pilih gambar dengan ukuran yang lebih kecil.",
-    "fileTooLargeAvatarAnim": "Ukuran file avatar maksimal 3MB. Tips: Jika Anda mengupload animasi yang terlalu besar, convert ke format .WEBP agar ukurannya jauh lebih kecil!",
     "fileTooLargeCover": "Ukuran file sampul maksimal 5MB. Silakan pilih gambar dengan ukuran yang lebih kecil.",
-    "fileTooLargeCoverAnim": "Ukuran file sampul maksimal 5MB. Tips: Jika Anda mengupload animasi yang terlalu besar, convert ke format .WEBP agar ukurannya jauh lebih kecil!",
+    "invalidFormatTitle": "Format Tidak Didukung",
+    "invalidFormatMessage": "Hanya format JPG, PNG, dan WEBP yang diizinkan.",
     "reupload": "Upload Ulang",
     "profPlaceholder": "Misal: Web Developer, UI/UX Designer...",
     "education": "Pendidikan",
@@ -589,6 +589,15 @@
     "genderOther": "Lainnya",
     "addLocation": "Tambahkan lokasi",
     "accountName": "Nama Akun",
+    "mediaSelection": {
+      "changeAvatar": "Ubah Avatar",
+      "changeCover": "Ubah Sampul",
+      "uploadImage": "Upload Gambar",
+      "library": "Pilih dari Galeri Animasi",
+      "uploadFromDevice": "Upload File dari Perangkat",
+      "supportedFormats": "Format yang didukung: JPG, PNG, WEBP (Max {size})",
+      "selectFile": "Pilih File"
+    },
     "months": {
       "jan": "Januari",
       "feb": "Februari",

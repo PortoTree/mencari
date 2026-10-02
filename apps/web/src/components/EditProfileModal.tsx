@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import React, { useState, useEffect, useRef } from "react";
 import CropModal from "@/components/CropModal";
+import ProfileMediaSelectionModal from "@/components/ProfileMediaSelectionModal";
 import { uploadToCloudinary } from "@/utils/uploadImage";
 import { profileCache } from "@/utils/profileCache";
 import { useRouter } from "next/navigation";
@@ -471,6 +472,9 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [cropImageSrc, setCropImageSrc] = useState("");
   const [cropType, setCropType] = useState<"avatar" | "cover">("avatar");
   const [errorModal, setErrorModal] = useState<{ isOpen: boolean, title: string, message: string, retryType: "avatar" | "cover" | null }>({ isOpen: false, title: "", message: "", retryType: null });
+  
+  const [mediaModalOpen, setMediaModalOpen] = useState(false);
+  const [mediaModalType, setMediaModalType] = useState<"avatar" | "cover">("avatar");
 
   const MAX_AVATAR_SIZE = 3.2 * 1024 * 1024; // 3.2MB internal limit
   const MAX_COVER_SIZE = 5 * 1024 * 1024; // 5MB
@@ -478,21 +482,22 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      const validTypes = ["image/jpeg", "image/png", "image/webp"];
+      if (!validTypes.includes(file.type)) {
+        setErrorModal({ isOpen: true, title: t("invalidFormatTitle"), message: t("invalidFormatMessage"), retryType: "avatar" });
+        if (avatarInputRef.current) avatarInputRef.current.value = '';
+        return;
+      }
       if (file.size > MAX_AVATAR_SIZE) {
-        const isAnimation = file.type === "image/gif" || file.type === "video/mp4" || file.type === "image/webp" || file.type === "image/avif";
-        setErrorModal({ isOpen: true, title: t("fileTooLargeTitle"), message: isAnimation ? t("fileTooLargeAvatarAnim") : t("fileTooLargeAvatar"), retryType: "avatar" });
+        setErrorModal({ isOpen: true, title: t("fileTooLargeTitle"), message: t("fileTooLargeAvatar"), retryType: "avatar" });
         if (avatarInputRef.current) avatarInputRef.current.value = '';
         return;
       }
       setErrorModal(prev => ({ ...prev, isOpen: false }));
       const url = URL.createObjectURL(file);
-      if (file.type === "image/gif" || file.type === "image/webp" || file.type === "image/avif") {
-        handleCropComplete(url, "avatar");
-      } else {
-        setCropImageSrc(url);
-        setCropType("avatar");
-        setCropModalOpen(true);
-      }
+      setCropImageSrc(url);
+      setCropType("avatar");
+      setCropModalOpen(true);
       if (avatarInputRef.current) avatarInputRef.current.value = '';
     }
   };
@@ -500,21 +505,22 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      const validTypes = ["image/jpeg", "image/png", "image/webp"];
+      if (!validTypes.includes(file.type)) {
+        setErrorModal({ isOpen: true, title: t("invalidFormatTitle"), message: t("invalidFormatMessage"), retryType: "cover" });
+        if (coverInputRef.current) coverInputRef.current.value = '';
+        return;
+      }
       if (file.size > MAX_COVER_SIZE) {
-        const isAnimation = file.type === "image/gif" || file.type === "video/mp4" || file.type === "image/webp" || file.type === "image/avif";
-        setErrorModal({ isOpen: true, title: t("fileTooLargeTitle"), message: isAnimation ? t("fileTooLargeCoverAnim") : t("fileTooLargeCover"), retryType: "cover" });
+        setErrorModal({ isOpen: true, title: t("fileTooLargeTitle"), message: t("fileTooLargeCover"), retryType: "cover" });
         if (coverInputRef.current) coverInputRef.current.value = '';
         return;
       }
       setErrorModal(prev => ({ ...prev, isOpen: false }));
       const url = URL.createObjectURL(file);
-      if (file.type === "image/gif" || file.type === "image/webp" || file.type === "image/avif") {
-        handleCropComplete(url, "cover");
-      } else {
-        setCropImageSrc(url);
-        setCropType("cover");
-        setCropModalOpen(true);
-      }
+      setCropImageSrc(url);
+      setCropType("cover");
+      setCropModalOpen(true);
       if (coverInputRef.current) coverInputRef.current.value = '';
     }
   };
@@ -556,6 +562,40 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
       }
     } catch (error) {
       console.error("Failed to save image:", error);
+    }
+  };
+
+  const handleSelectLibraryItem = async (url: string) => {
+    if (mediaModalType === "avatar") {
+      setAvatarPreview(url);
+    } else {
+      setCoverPreview(url);
+    }
+
+    try {
+      if (currentUser?.id) {
+        const token = localStorage.getItem("token") || "";
+        const res = await updateProfileMedia(token, currentUser.id, mediaModalType, url);
+        const finalUrl = res.success && res.url ? res.url : url;
+        
+        if (profileCache.has(currentUser.id)) {
+           const cached = profileCache.get(currentUser.id);
+           if (mediaModalType === 'avatar') cached.avatarUrl = finalUrl;
+           else cached.coverUrl = finalUrl;
+           profileCache.set(currentUser.id, cached);
+        }
+
+        router.refresh();
+
+        window.dispatchEvent(new CustomEvent("avatar-updated", {
+          detail: { type: mediaModalType, url: finalUrl }
+        }));
+        window.dispatchEvent(new CustomEvent("profile_updated", {
+          detail: { type: mediaModalType, url: finalUrl }
+        }));
+      }
+    } catch (error) {
+      console.error("Failed to save library image:", error);
     }
   };
 
@@ -993,15 +1033,15 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                 <div>
                   <label className="block text-base font-bold text-gray-900 dark:text-white mb-4">{t("avatarTitle")}</label>
                   <div className="flex items-center gap-6">
-                    <input type="file" ref={avatarInputRef} onChange={handleAvatarChange} className="hidden" accept="image/*,image/avif,image/webp" />
-                    <div onClick={() => avatarInputRef.current?.click()} className="w-24 h-24 rounded-full overflow-hidden border-4 border-gray-100 dark:border-gray-700 relative group cursor-pointer shadow-sm shrink-0">
+                    <input type="file" ref={avatarInputRef} onChange={handleAvatarChange} className="hidden" accept="image/jpeg,image/png,image/webp" />
+                    <div onClick={() => { setMediaModalType("avatar"); setMediaModalOpen(true); }} className="w-24 h-24 rounded-full overflow-hidden border-4 border-gray-100 dark:border-gray-700 relative group cursor-pointer shadow-sm shrink-0">
                       <img src={getOptimizedUrl(avatarPreview, "avatar") || "/default-avatar.svg"} alt="Avatar" className="w-full h-full object-cover bg-white dark:bg-gray-800" />
                       <div className="absolute inset-0 bg-black/50 hidden group-hover:flex items-center justify-center transition-all">
                         <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                       </div>
                     </div>
                     <div>
-                      <button onClick={() => avatarInputRef.current?.click()} className="px-4 py-2 rounded-xl bg-gray-100 dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-gray-600 text-sm font-semibold transition-colors">{t("avatarBtn")}</button>
+                      <button onClick={() => { setMediaModalType("avatar"); setMediaModalOpen(true); }} className="px-4 py-2 rounded-xl bg-gray-100 dark:bg-[#3A3B3C] hover:bg-gray-200 dark:hover:bg-gray-600 text-sm font-semibold transition-colors">{t("avatarBtn")}</button>
                       <p className="text-xs text-gray-500 mt-2">{t("avatarDesc")}</p>
                     </div>
                   </div>
@@ -1011,8 +1051,8 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
                 <div>
                   <label className="block text-base font-bold text-gray-900 dark:text-white mb-4">{t("coverTitle")}</label>
-                  <input type="file" ref={coverInputRef} onChange={handleCoverChange} className="hidden" accept="image/*,image/avif,image/webp" />
-                  <div onClick={() => coverInputRef.current?.click()} className="w-full h-[150px] rounded-2xl overflow-hidden relative group cursor-pointer border border-gray-200 dark:border-gray-700">
+                  <input type="file" ref={coverInputRef} onChange={handleCoverChange} className="hidden" accept="image/jpeg,image/png,image/webp" />
+                  <div onClick={() => { setMediaModalType("cover"); setMediaModalOpen(true); }} className="w-full h-[150px] rounded-2xl overflow-hidden relative group cursor-pointer border border-gray-200 dark:border-gray-700">
                     <img src={getOptimizedUrl(coverPreview, "cover") || "/sampul-placeholder.png"} alt="Cover" className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-black/50 hidden group-hover:flex items-center justify-center transition-all">
                       <span className="text-white font-semibold flex items-center gap-2">
@@ -1688,6 +1728,16 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
         onCropComplete={handleCropComplete}
         aspect={cropType === "avatar" ? 1 : 3 / 1}
         cropShape={cropType === "avatar" ? "round" : "rect"}
+      />
+      <ProfileMediaSelectionModal
+        isOpen={mediaModalOpen}
+        onClose={() => setMediaModalOpen(false)}
+        type={mediaModalType}
+        onTriggerUpload={() => {
+          if (mediaModalType === "avatar") avatarInputRef.current?.click();
+          else coverInputRef.current?.click();
+        }}
+        onSelectLibraryItem={handleSelectLibraryItem}
       />
     </div>
   );

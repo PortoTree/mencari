@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import PostFeed from "@/components/PostFeed";
 import EditProfileModal from "@/components/EditProfileModal";
 import CropModal from "@/components/CropModal";
+import ProfileMediaSelectionModal from "@/components/ProfileMediaSelectionModal";
 import ImagePreviewModal from "@/components/ImagePreviewModal";
 import { ShinyButton } from "@/components/ui/shiny-button";
 import { uploadToCloudinary } from "@/utils/uploadImage";
@@ -72,6 +73,9 @@ export default function ProfilePage({
   const [errorModal, setErrorModal] = useState<{ isOpen: boolean, title: string, message: string, retryType: "avatar" | "cover" | null }>({ isOpen: false, title: "", message: "", retryType: null });
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   const [isUploadingCover, setIsUploadingCover] = useState(false);
+  
+  const [mediaModalOpen, setMediaModalOpen] = useState(false);
+  const [mediaModalType, setMediaModalType] = useState<"avatar" | "cover">("avatar");
 
   const MAX_AVATAR_SIZE = 3.2 * 1024 * 1024; // 3.2MB internal limit
   const MAX_COVER_SIZE = 5 * 1024 * 1024; // 5MB
@@ -79,21 +83,22 @@ export default function ProfilePage({
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      const validTypes = ["image/jpeg", "image/png", "image/webp"];
+      if (!validTypes.includes(file.type)) {
+        setErrorModal({ isOpen: true, title: tEdit("invalidFormatTitle"), message: tEdit("invalidFormatMessage"), retryType: "avatar" });
+        if (avatarInputRef.current) avatarInputRef.current.value = '';
+        return;
+      }
       if (file.size > MAX_AVATAR_SIZE) {
-        const isAnimation = file.type === "image/gif" || file.type === "video/mp4" || file.type === "image/webp" || file.type === "image/avif";
-        setErrorModal({ isOpen: true, title: tEdit("fileTooLargeTitle"), message: isAnimation ? tEdit("fileTooLargeAvatarAnim") : tEdit("fileTooLargeAvatar"), retryType: "avatar" });
+        setErrorModal({ isOpen: true, title: tEdit("fileTooLargeTitle"), message: tEdit("fileTooLargeAvatar"), retryType: "avatar" });
         if (avatarInputRef.current) avatarInputRef.current.value = '';
         return;
       }
       setErrorModal(prev => ({ ...prev, isOpen: false }));
       const url = URL.createObjectURL(file);
-      if (file.type === "image/gif" || file.type === "image/webp" || file.type === "image/avif") {
-        handleCropComplete(url, "avatar");
-      } else {
-        setCropImageSrc(url);
-        setCropType("avatar");
-        setCropModalOpen(true);
-      }
+      setCropImageSrc(url);
+      setCropType("avatar");
+      setCropModalOpen(true);
       if (avatarInputRef.current) avatarInputRef.current.value = '';
     }
   };
@@ -101,21 +106,22 @@ export default function ProfilePage({
   const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      const validTypes = ["image/jpeg", "image/png", "image/webp"];
+      if (!validTypes.includes(file.type)) {
+        setErrorModal({ isOpen: true, title: tEdit("invalidFormatTitle"), message: tEdit("invalidFormatMessage"), retryType: "cover" });
+        if (coverInputRef.current) coverInputRef.current.value = '';
+        return;
+      }
       if (file.size > MAX_COVER_SIZE) {
-        const isAnimation = file.type === "image/gif" || file.type === "video/mp4" || file.type === "image/webp" || file.type === "image/avif";
-        setErrorModal({ isOpen: true, title: tEdit("fileTooLargeTitle"), message: isAnimation ? tEdit("fileTooLargeCoverAnim") : tEdit("fileTooLargeCover"), retryType: "cover" });
+        setErrorModal({ isOpen: true, title: tEdit("fileTooLargeTitle"), message: tEdit("fileTooLargeCover"), retryType: "cover" });
         if (coverInputRef.current) coverInputRef.current.value = '';
         return;
       }
       setErrorModal(prev => ({ ...prev, isOpen: false }));
       const url = URL.createObjectURL(file);
-      if (file.type === "image/gif" || file.type === "image/webp" || file.type === "image/avif") {
-        handleCropComplete(url, "cover");
-      } else {
-        setCropImageSrc(url);
-        setCropType("cover");
-        setCropModalOpen(true);
-      }
+      setCropImageSrc(url);
+      setCropType("cover");
+      setCropModalOpen(true);
       if (coverInputRef.current) coverInputRef.current.value = '';
     }
   };
@@ -168,6 +174,43 @@ export default function ProfilePage({
       } else {
         setIsUploadingCover(false);
       }
+    }
+  };
+
+  const handleSelectLibraryItem = async (url: string) => {
+    if (mediaModalType === "avatar") {
+      setAvatarPreview(url);
+    } else {
+      setCoverPreview(url);
+    }
+
+    try {
+      const token = localStorage.getItem("token") || "";
+      if (!token) return;
+
+      let userId: string | null = null;
+      try {
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        userId = payload.sub || payload.id || payload._id || payload.userId || null;
+      } catch (e) {
+        console.error("Failed to decode token");
+      }
+
+      if (userId) {
+        const res = await updateProfileMedia(token, userId, mediaModalType, url);
+        if (!res.success) {
+          console.error("updateProfileMedia failed:", res.error);
+        } else {
+          window.dispatchEvent(new CustomEvent("avatar-updated", {
+            detail: { url, type: mediaModalType }
+          }));
+          window.dispatchEvent(new CustomEvent("profile_updated", {
+            detail: { url, type: mediaModalType }
+          }));
+        }
+      }
+    } catch (error) {
+      console.error("Failed to save library image:", error);
     }
   };
 
@@ -566,14 +609,19 @@ export default function ProfilePage({
             <div className="w-full h-full bg-gray-300 dark:bg-[#3E4042] animate-pulse" />
           ) : (
             <>
-              <input type="file" ref={coverInputRef} onChange={handleCoverChange} className="hidden" accept="image/*,image/avif,image/webp" />
+              <input type="file" ref={coverInputRef} onChange={handleCoverChange} className="hidden" accept="image/jpeg,image/png,image/webp" />
               <img 
                 src={isProfileInaccessible ? "/sampul-placeholder.png" : (getOptimizedUrl(coverPreview, "cover") || "/sampul-placeholder.png")} 
                 alt="Cover" 
                 className={`w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity ${isUploadingCover ? "opacity-50" : ""}`} 
                 onClick={() => {
-                  setPreviewImageSrc(coverPreview || "/sampul-placeholder.png");
-                  setPreviewModalOpen(true);
+                  if (isOwnProfile) {
+                    setMediaModalType("cover");
+                    setMediaModalOpen(true);
+                  } else {
+                    setPreviewImageSrc(coverPreview || "/sampul-placeholder.png");
+                    setPreviewModalOpen(true);
+                  }
                 }}
               />
               {isUploadingCover && (
@@ -584,7 +632,7 @@ export default function ProfilePage({
             </>
           )}
           {isOwnProfile && (
-            <button onClick={() => coverInputRef.current?.click()} className="absolute bottom-4 right-4 bg-black/50 hover:bg-black/70 text-white p-2.5 rounded-full backdrop-blur-sm transition-colors cursor-pointer shadow-md z-30">
+            <button onClick={() => { setMediaModalType("cover"); setMediaModalOpen(true); }} className="absolute bottom-4 right-4 bg-black/50 hover:bg-black/70 text-white p-2.5 rounded-full backdrop-blur-sm transition-colors cursor-pointer shadow-md z-30">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
               </svg>
@@ -607,14 +655,19 @@ export default function ProfilePage({
                   <div className="w-full h-full bg-gray-300 dark:bg-[#3E4042] animate-pulse" />
                 ) : (
                   <>
-                    <input type="file" ref={avatarInputRef} onChange={handleAvatarChange} className="hidden" accept="image/*,image/avif,image/webp" />
+                    <input type="file" ref={avatarInputRef} onChange={handleAvatarChange} className="hidden" accept="image/jpeg,image/png,image/webp" />
                     <img 
                       src={isProfileInaccessible ? "/default-avatar.svg" : (getOptimizedUrl(avatarPreview, "avatar") || "/default-avatar.svg")} 
                       alt="Avatar" 
                       className={`w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity ${isUploadingAvatar ? "opacity-50" : ""}`} 
                       onClick={() => {
-                        setPreviewImageSrc(avatarPreview || "/default-avatar.svg");
-                        setPreviewModalOpen(true);
+                        if (isOwnProfile) {
+                          setMediaModalType("avatar");
+                          setMediaModalOpen(true);
+                        } else {
+                          setPreviewImageSrc(avatarPreview || "/default-avatar.svg");
+                          setPreviewModalOpen(true);
+                        }
                       }}
                     />
                     {isUploadingAvatar && (
@@ -626,7 +679,7 @@ export default function ProfilePage({
                 )}
               </div>
               {isOwnProfile && (
-                <button onClick={() => avatarInputRef.current?.click()} className="absolute bottom-0 right-0 bg-gray-200 hover:bg-gray-300 dark:bg-[#4E4F50] dark:hover:bg-[#5E5F60] p-2 rounded-full border-[3px] border-white dark:border-[#3A3B3C] shadow-sm transition-colors text-black dark:text-white cursor-pointer z-10">
+                <button onClick={() => { setMediaModalType("avatar"); setMediaModalOpen(true); }} className="absolute bottom-0 right-0 bg-gray-200 hover:bg-gray-300 dark:bg-[#4E4F50] dark:hover:bg-[#5E5F60] p-2 rounded-full border-[3px] border-white dark:border-[#3A3B3C] shadow-sm transition-colors text-black dark:text-white cursor-pointer z-10">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                   </svg>
@@ -1748,6 +1801,17 @@ export default function ProfilePage({
           </div>
         </div>
       )}
+      
+      <ProfileMediaSelectionModal
+        isOpen={mediaModalOpen}
+        onClose={() => setMediaModalOpen(false)}
+        type={mediaModalType}
+        onTriggerUpload={() => {
+          if (mediaModalType === "avatar") avatarInputRef.current?.click();
+          else coverInputRef.current?.click();
+        }}
+        onSelectLibraryItem={handleSelectLibraryItem}
+      />
     </main>
   );
 }
