@@ -17,6 +17,7 @@ const LIBRARY_AVATARS = [
   "/library/cute anime GIF.gif",
   "/library/Dance Beatboxing GIF.gif",
   "/library/Hunter X Hunter GIF.webp",
+  "/library/anime love GIF.gif",
 ];
 
 const LIBRARY_COVERS = [
@@ -24,6 +25,7 @@ const LIBRARY_COVERS = [
   "/library/Chisa Franxx GIF.webp",
   "/library/cowboy bebop smoking GIF.gif",
   "/library/Hunter X Hunter GIF.webp",
+  "/library/anime love GIF.gif",
 ];
 
 export default function ProfileMediaSelectionModal({
@@ -62,14 +64,14 @@ export default function ProfileMediaSelectionModal({
   const modalContent = (
     <div className="fixed inset-0 z-[10500] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
-      
+
       <div className="bg-white dark:bg-[#242526] rounded-2xl shadow-xl w-full max-w-lg overflow-hidden relative z-10 animate-scaleIn">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-[#3E4042]">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">
             {type === "avatar" ? t("changeAvatar") : t("changeCover")}
           </h2>
-          <button 
+          <button
             onClick={onClose}
             className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-white/10 text-gray-500 transition-colors"
           >
@@ -79,13 +81,13 @@ export default function ProfileMediaSelectionModal({
 
         {/* Tabs */}
         <div className="flex w-full border-b border-gray-200 dark:border-[#3E4042]">
-          <button 
+          <button
             className={`flex-1 py-3 text-sm font-semibold transition-colors ${activeTab === "upload" ? "text-blue-500 border-b-2 border-blue-500" : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"}`}
             onClick={() => setActiveTab("upload")}
           >
             {t("uploadImage")}
           </button>
-          <button 
+          <button
             className={`flex-1 py-3 text-sm font-semibold transition-colors ${activeTab === "library" ? "text-blue-500 border-b-2 border-blue-500" : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"}`}
             onClick={() => setActiveTab("library")}
           >
@@ -106,7 +108,7 @@ export default function ProfileMediaSelectionModal({
               <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">
                 {t("supportedFormats", { size: type === "avatar" ? "3MB" : "5MB" })}
               </p>
-              <button 
+              <button
                 onClick={() => {
                   onTriggerUpload();
                   onClose();
@@ -119,8 +121,8 @@ export default function ProfileMediaSelectionModal({
           ) : (
             <div className={type === "avatar" ? "grid grid-cols-3 gap-4" : "grid grid-cols-2 gap-4"}>
               {libraryItems.map((url, i) => (
-                <div 
-                  key={i} 
+                <div
+                  key={i}
                   className={`relative cursor-pointer rounded-xl overflow-hidden border-2 border-transparent hover:border-blue-500 transition-all ${type === "avatar" ? "aspect-square" : "aspect-[3/1]"}`}
                   onClick={() => {
                     onSelectLibraryItem(url);

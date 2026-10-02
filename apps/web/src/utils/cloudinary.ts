@@ -7,12 +7,13 @@ export function getOptimizedUrl(
   type: "avatar" | "cover" | "preview"
 ): string {
   if (!url) return "";
+  const cleanUrl = url.trim();
 
   // If it's a local blob (during preview before upload completes), return as is
-  if (url.startsWith("blob:") || url.startsWith("data:") || url.startsWith("/")) return url;
+  if (cleanUrl.startsWith("blob:") || cleanUrl.startsWith("data:") || cleanUrl.startsWith("/")) return cleanUrl;
 
   // If it's not a Cloudinary URL, return as is
-  if (!url.includes("res.cloudinary.com") || !url.includes("/image/upload/")) return url;
+  if (!cleanUrl.includes("res.cloudinary.com") || !cleanUrl.includes("/image/upload/")) return cleanUrl;
 
   // Define our standard transformations based on Blueprint
   let transformation = "q_auto,f_auto"; // Default fallback
@@ -29,5 +30,5 @@ export function getOptimizedUrl(
   }
 
   // Inject transformation right after "/upload/"
-  return url.replace("/upload/", `/upload/${transformation}/`);
+  return cleanUrl.replace("/upload/", `/upload/${transformation}/`);
 }

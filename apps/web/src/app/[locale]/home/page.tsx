@@ -1063,7 +1063,7 @@ export default function Beranda() {
                     <>
                       <div 
                         className="h-20 bg-gray-200 dark:bg-[#3A3B3C] w-full relative bg-cover bg-center"
-                        style={currentUser?.profile?.coverUrl ? { backgroundImage: `url(${getOptimizedUrl(currentUser.profile.coverUrl, "cover")})` } : {}}
+                        style={currentUser?.profile?.coverUrl ? { backgroundImage: `url('${getOptimizedUrl(currentUser.profile.coverUrl, "cover")}')` } : {}}
                       >
                         {/* Profile image overlapping */}
                         <div className="absolute -bottom-8 left-4 w-[72px] h-[72px] bg-white dark:bg-[#242526] rounded-full p-1 shadow-sm">
