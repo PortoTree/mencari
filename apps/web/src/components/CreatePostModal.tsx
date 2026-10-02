@@ -45,6 +45,9 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
   const [searchTagQuery, setSearchTagQuery] = useState("");
   const [searchTagResults, setSearchTagResults] = useState<any[]>([]);
   const [isSearchingTags, setIsSearchingTags] = useState(false);
+  const [isMorePopupOpen, setIsMorePopupOpen] = useState(false);
+  const morePopupRef = useRef<HTMLDivElement>(null);
+  const moreBtnRef = useRef<HTMLButtonElement>(null);
 
   // Inline Mentions State
   const [mentionQuery, setMentionQuery] = useState<{ query: string; position: number; top: number; left: number } | null>(null);
@@ -565,39 +568,83 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
           </div>
 
           {/* Add to your post */}
-          <div className="flex items-center justify-between border border-gray-300 dark:border-[#4E4F50] rounded-xl p-3 mb-4 shadow-sm">
+          <div className="relative flex items-center justify-between border border-gray-300 dark:border-[#4E4F50] rounded-xl p-3 mb-4 shadow-sm">
             <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{t("feed.addToYourPost")}</span>
             <div className="flex items-center gap-1">
+              {/* Photo */}
               <button onClick={() => setIsMediaModalOpen(true)} className="group relative p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
                 <svg className="w-6 h-6 text-[#45BD62]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" /></svg>
                 <span className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/80 text-white text-xs px-2.5 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
                   {t("feed.addPhoto")}
                 </span>
               </button>
+
+              {/* Tag People */}
               <button onClick={() => setIsTagModalOpen(true)} className="group relative p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-colors">
                 <svg className="w-6 h-6 text-[#1877F2]" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" /></svg>
                 <span className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/80 text-white text-xs px-2.5 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
                   {t("feed.tagPeople")}
                 </span>
               </button>
+
+              {/* Giveaway */}
               <button className="group relative p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-colors opacity-50 cursor-not-allowed">
-                <div className="w-6 h-6 bg-current text-[#8B4513]" style={{ WebkitMask: "url(/navigasi/produk-aktif.svg) center/contain no-repeat", mask: "url(/navigasi/produk-aktif.svg) center/contain no-repeat" }} />
+                <img src="/navigasi/giveaway.svg" alt="Giveaway" className="w-6 h-6 object-contain" />
                 <span className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/80 text-white text-xs px-2.5 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
-                  {t("feed.product") || "Product"}
+                  {t("feed.giveaway") || "Giveaway"}
                 </span>
               </button>
-              <button className="group relative p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-colors opacity-50 cursor-not-allowed">
-                <div className="w-6 h-6 bg-current text-purple-500" style={{ WebkitMask: "url(/navigasi/project.svg) center/contain no-repeat", mask: "url(/navigasi/project.svg) center/contain no-repeat" }} />
-                <span className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/80 text-white text-xs px-2.5 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
-                  {t("feed.project") || "Project"}
-                </span>
-              </button>
-              <button className="group relative p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-colors opacity-50 cursor-not-allowed">
-                <img src="/visit.png" alt="Page" className="w-6 h-6 object-contain" />
-                <span className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/80 text-white text-xs px-2.5 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
-                  {t("feed.page") || "Halaman"}
-                </span>
-              </button>
+
+              {/* More / Options */}
+              <div className="relative" ref={morePopupRef}>
+                <button
+                  ref={moreBtnRef}
+                  onClick={() => setIsMorePopupOpen(prev => !prev)}
+                  className={`group relative p-1.5 rounded-full transition-colors ${
+                    isMorePopupOpen
+                      ? "bg-gray-200 dark:bg-[#3A3B3C]"
+                      : "hover:bg-gray-200 dark:hover:bg-[#3A3B3C]"
+                  }`}
+                >
+                  <svg className="w-6 h-6 text-gray-500 dark:text-[#B0B3B8]" fill="currentColor" viewBox="0 0 24 24">
+                    <circle cx="5" cy="12" r="2"/>
+                    <circle cx="12" cy="12" r="2"/>
+                    <circle cx="19" cy="12" r="2"/>
+                  </svg>
+                  {!isMorePopupOpen && (
+                    <span className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/80 text-white text-xs px-2.5 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                      {t("feed.more") || "Lainnya"}
+                    </span>
+                  )}
+                </button>
+
+                {/* Floating More Popup */}
+                {isMorePopupOpen && (
+                  <div className="absolute bottom-full right-0 mb-2 w-[180px] bg-white dark:bg-[#3A3B3C] rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.25)] border border-gray-200 dark:border-[#4E4F50] py-2 z-[200]">
+                    {/* Product */}
+                    <button className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-100 dark:hover:bg-[#4E4F50] transition-colors opacity-50 cursor-not-allowed">
+                      <div className="w-8 h-8 rounded-full bg-[#8B4513]/10 dark:bg-[#CD853F]/10 flex items-center justify-center shrink-0">
+                        <div className="w-5 h-5 bg-[#8B4513] dark:bg-[#CD853F]" style={{ WebkitMask: "url(/navigasi/produk-aktif.svg) center/contain no-repeat", mask: "url(/navigasi/produk-aktif.svg) center/contain no-repeat" }} />
+                      </div>
+                      <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">{t("feed.product") || "Produk"}</span>
+                    </button>
+                    {/* Project */}
+                    <button className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-100 dark:hover:bg-[#4E4F50] transition-colors opacity-50 cursor-not-allowed">
+                      <div className="w-8 h-8 rounded-full bg-purple-500/10 flex items-center justify-center shrink-0">
+                        <div className="w-5 h-5 bg-purple-500" style={{ WebkitMask: "url(/navigasi/project.svg) center/contain no-repeat", mask: "url(/navigasi/project.svg) center/contain no-repeat" }} />
+                      </div>
+                      <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">{t("feed.project") || "Proyek"}</span>
+                    </button>
+                    {/* Page */}
+                    <button className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-100 dark:hover:bg-[#4E4F50] transition-colors opacity-50 cursor-not-allowed">
+                      <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0">
+                        <img src="/visit.png" alt="Page" className="w-5 h-5 object-contain" />
+                      </div>
+                      <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">{t("feed.page") || "Halaman"}</span>
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 

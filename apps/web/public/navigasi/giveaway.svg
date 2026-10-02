@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <defs>
+    <linearGradient id="pinkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6EC7"/>
+      <stop offset="100%" stop-color="#FF1493"/>
+    </linearGradient>
+    <linearGradient id="pinkGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF9ED8"/>
+      <stop offset="100%" stop-color="#FF6EC7"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Box body -->
+  <rect x="3" y="11" width="18" height="10" rx="1.5" fill="url(#pinkGrad)"/>
+
+  <!-- Lid -->
+  <rect x="2" y="7" width="20" height="4" rx="1.5" fill="url(#pinkGrad2)"/>
+
+  <!-- Vertical ribbon on box -->
+  <rect x="11" y="11" width="2" height="10" fill="white" opacity="0.5"/>
+
+  <!-- Horizontal ribbon on lid -->
+  <rect x="2" y="9" width="20" height="2" fill="white" opacity="0.5"/>
+
+  <!-- Bow left loop -->
+  <path d="M12 7 C10 5, 6 5, 7 8 C8 9, 11 8, 12 7Z" fill="url(#pinkGrad2)" stroke="white" stroke-width="0.4"/>
+
+  <!-- Bow right loop -->
+  <path d="M12 7 C14 5, 18 5, 17 8 C16 9, 13 8, 12 7Z" fill="url(#pinkGrad2)" stroke="white" stroke-width="0.4"/>
+
+  <!-- Bow center knot -->
+  <circle cx="12" cy="7.5" r="1.2" fill="white" opacity="0.8"/>
+</svg>
