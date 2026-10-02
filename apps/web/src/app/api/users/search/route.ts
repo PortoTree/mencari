@@ -63,10 +63,10 @@ export async function GET(req: NextRequest) {
           {
             OR: [
               { profileSettings: { is: null } },
-              { profileSettings: { privacyTag: "PUBLIC" } },
+              { profileSettings: { privacyTag: "PUBLIC" as any } },
               ...(friendIds.length > 0 ? [{
                 AND: [
-                  { profileSettings: { privacyTag: "FRIENDS" } },
+                  { profileSettings: { privacyTag: "FRIENDS" as any } },
                   { id: { in: friendIds } }
                 ]
               }] : [])

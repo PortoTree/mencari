@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidateTag, revalidatePath } from "next/cache";
+import { revalidatePath } from "next/cache";
 import jwt from "jsonwebtoken";
 
 import prisma from "@/utils/prisma";
@@ -101,7 +101,6 @@ export async function updateDisplayName(token: string, userId: string, newDispla
       },
     });
 
-    revalidateTag(`profile-${userId}`);
     revalidatePath("/", "layout");
 
     return { success: true, displayName: newDisplayName, remainingChanges: 2 - recentChanges.length };
@@ -199,7 +198,6 @@ export async function updateProfileInfo(token: string, userId: string, data: any
         }
       });
 
-    revalidateTag(`profile-${userId}`);
     revalidatePath("/", "layout");
     return { success: true };
   } catch (error) {
