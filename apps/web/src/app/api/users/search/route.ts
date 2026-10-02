@@ -1,8 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
+import jwt from "jsonwebtoken";
 
 import prisma from "@/utils/prisma";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const q = searchParams.get("q");
@@ -13,7 +14,43 @@ export async function GET(req: Request) {
 
     const query = q.toLowerCase();
 
-    // Find users by username or displayName where privacyTag is PUBLIC
+    // Check for current user via token cookie
+    const token = req.cookies.get("token")?.value;
+    let currentUserId: string | null = null;
+    let friendIds: string[] = [];
+
+    if (token) {
+      try {
+        const secret = process.env.JWT_SECRET || 'mencari-online-secret-key-dev';
+        const decoded = jwt.verify(token, secret) as any;
+        currentUserId = decoded.sub;
+      } catch (err) {
+        // Ignore invalid token
+      }
+    }
+
+    if (currentUserId) {
+      const friendships = await prisma.friendship.findMany({
+        where: {
+          OR: [
+            { userId: currentUserId },
+            { friendId: currentUserId },
+          ],
+          status: "ACCEPTED",
+        },
+        select: {
+          userId: true,
+          friendId: true,
+        },
+      });
+
+      friendIds = friendships.map(f => (f.userId === currentUserId ? f.friendId : f.userId));
+      
+      // Also allow user to find themselves
+      friendIds.push(currentUserId);
+    }
+
+    // Find users by username or displayName where privacyTag is PUBLIC, or FRIENDS (if they are friends)
     const users = await prisma.user.findMany({
       where: {
         AND: [
@@ -27,6 +64,12 @@ export async function GET(req: Request) {
             OR: [
               { profileSettings: { is: null } },
               { profileSettings: { privacyTag: "PUBLIC" } },
+              ...(friendIds.length > 0 ? [{
+                AND: [
+                  { profileSettings: { privacyTag: "FRIENDS" } },
+                  { id: { in: friendIds } }
+                ]
+              }] : [])
             ],
           },
         ],

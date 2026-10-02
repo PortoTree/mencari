@@ -425,37 +425,43 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
               value={postContent}
               onChange={handleContentChange}
             />
-            {mentionQuery && mentionResults.length > 0 && (
+            {mentionQuery && (
               <div 
                 className="fixed z-[999999] bg-white dark:bg-[#3A3B3C] border border-gray-200 dark:border-[#4E4F50] rounded-xl shadow-xl w-[250px] max-h-48 overflow-y-auto"
                 style={{ top: mentionQuery.top, left: mentionQuery.left }}
               >
-                {mentionResults.map((user) => (
-                  <button
-                    key={user.id}
-                    className="w-full flex items-center gap-3 p-2 hover:bg-gray-100 dark:hover:bg-[#4E4F50] transition-colors text-left"
-                    onClick={() => {
-                      const textBefore = postContent.slice(0, mentionQuery.position - mentionQuery.query.length - 1);
-                      const textAfter = postContent.slice(mentionQuery.position);
-                      const newContent = `${textBefore}@${user.username} ${textAfter}`;
-                      setPostContent(newContent);
-                      
-                      if (!inlineTaggedUsernames.includes(user.username)) {
-                        setInlineTaggedUsernames(prev => [...prev, user.username]);
-                      }
-                      if (!taggedUsers.find(tu => tu.id === user.id)) {
-                        setTaggedUsers(prev => [...prev, user]);
-                      }
-                      setMentionQuery(null);
-                    }}
-                  >
-                    <img src={user.profile?.avatarUrl || "/default-avatar.svg"} className="w-8 h-8 rounded-full object-cover" />
-                    <div className="flex flex-col">
-                      <span className="font-semibold text-[14px] dark:text-[#E4E6EB]">{user.profile?.displayName || user.username}</span>
-                      <span className="text-[12px] text-gray-500">@{user.username}</span>
-                    </div>
-                  </button>
-                ))}
+                {mentionResults.length > 0 ? (
+                  mentionResults.map((user) => (
+                    <button
+                      key={user.id}
+                      className="w-full flex items-center gap-3 p-2 hover:bg-gray-100 dark:hover:bg-[#4E4F50] transition-colors text-left"
+                      onClick={() => {
+                        const textBefore = postContent.slice(0, mentionQuery.position - mentionQuery.query.length - 1);
+                        const textAfter = postContent.slice(mentionQuery.position);
+                        const newContent = `${textBefore}@${user.username} ${textAfter}`;
+                        setPostContent(newContent);
+                        
+                        if (!inlineTaggedUsernames.includes(user.username)) {
+                          setInlineTaggedUsernames(prev => [...prev, user.username]);
+                        }
+                        if (!taggedUsers.find(tu => tu.id === user.id)) {
+                          setTaggedUsers(prev => [...prev, user]);
+                        }
+                        setMentionQuery(null);
+                      }}
+                    >
+                      <img src={user.profile?.avatarUrl || "/default-avatar.svg"} className="w-8 h-8 rounded-full object-cover" />
+                      <div className="flex flex-col">
+                        <span className="font-semibold text-[14px] dark:text-[#E4E6EB]">{user.profile?.displayName || user.username}</span>
+                        <span className="text-[12px] text-gray-500">@{user.username}</span>
+                      </div>
+                    </button>
+                  ))
+                ) : (
+                  <div className="p-3 text-center text-[13px] text-gray-500 dark:text-[#B0B3B8]">
+                    {t("feed.mentionNoUserFound")}
+                  </div>
+                )}
               </div>
             )}
             {mediaPreviewList.length > 0 && (

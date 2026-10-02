@@ -216,6 +216,7 @@
     "peopleCount": "{count} people",
     "profile": "Profile",
     "noUserFound": "No user found.",
+    "mentionNoUserFound": "User not found or private",
     "you": "You"
   },
   "filter": {

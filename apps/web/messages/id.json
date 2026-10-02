@@ -216,6 +216,7 @@
     "peopleCount": "{count} orang",
     "profile": "Profil",
     "noUserFound": "Tidak ada pengguna ditemukan.",
+    "mentionNoUserFound": "Pengguna tidak ditemukan atau private",
     "you": "Anda"
   },
   "filter": {
