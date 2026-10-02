@@ -61,7 +61,8 @@ function RegisterContent() {
     }
   }, [secureToken]);
 
-  const [usernameStatus, setUsernameStatus] = useState<'idle' | 'checking' | 'available' | 'taken'>('idle');
+  const [usernameStatus, setUsernameStatus] = useState<'idle' | 'checking' | 'available' | 'taken' | 'invalid'>('idle');
+  const [usernameError, setUsernameError] = useState("");
   const [otpCode, setOtpCode] = useState("");
   const [loading, setLoading] = useState(false);
   
@@ -123,22 +124,47 @@ function RegisterContent() {
     }
   }, []);
 
-    // Efek buat ngecek username tiap berhenti ngetik 3 detik
+    // Efek buat ngecek username tiap berhenti ngetik
     useEffect(() => {
       const username = formData.username;
       if (!username) {
         setUsernameStatus('idle');
+        setUsernameError('');
+        return;
+      }
+      
+      if (username.length < 3 || /^\d+$/.test(username)) {
+        setUsernameStatus('invalid');
+        setUsernameError("Username tidak valid");
+        return;
+      }
+      
+      if (/\.(com|net|org|id|co|info|biz|me|io|us|uk|my|tv|ai|dev|app|website|store|online)$/i.test(username)) {
+        setUsernameStatus('invalid');
+        setUsernameError("Tidak boleh berupa ekstensi domain (.com, .net, dll)");
+        return;
+      }
+      const reservedWords = ['home', 'explore', 'profile', 'login', 'register', 'settings', 'api', 'admin', 'auth', 'search', 'post', 'messages', 'notifications', 'dashboard', 'secure', 'p'];
+      if (reservedWords.includes(username.toLowerCase())) {
+        setUsernameStatus('invalid');
+        setUsernameError("Username ini tidak dapat digunakan");
         return;
       }
       
       setUsernameStatus('checking');
+      setUsernameError('');
       
       const delayDebounce = setTimeout(async () => {
         try {
           const res = await fetch(`/api/auth/check-username?username=${username}`);
           if (res.ok) {
             const data = await res.json();
-            setUsernameStatus(data.available ? 'available' : 'taken');
+            if (data.error) {
+              setUsernameStatus('invalid');
+              setUsernameError(data.error);
+            } else {
+              setUsernameStatus(data.available ? 'available' : 'taken');
+            }
           } else {
             setUsernameStatus('idle');
           }
@@ -272,7 +298,10 @@ function RegisterContent() {
                         usernameStatus === 'available' ? 'border-emerald-400 focus:border-emerald-500' :
                         'border-gray-200 focus:border-emerald-500'
                       }`}
-                      value={formData.username} onChange={e => setFormData({...formData, username: e.target.value})} />
+                      value={formData.username} onChange={e => {
+                        const val = e.target.value.toLowerCase().replace(/ /g, '_').replace(/[^a-z0-9._-]/g, '');
+                        setFormData({...formData, username: val});
+                      }} />
                     
                     <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
                       {usernameStatus === 'checking' && (
@@ -292,6 +321,7 @@ function RegisterContent() {
                           onClick={() => {
                             setFormData({...formData, username: ""});
                             setUsernameStatus('idle');
+                            setUsernameError('');
                           }}
                           className="flex items-center justify-center text-red-500 hover:text-red-700 hover:scale-110 transition-all focus:outline-none mt-[2px]"
                           title="Hapus username"
@@ -301,14 +331,34 @@ function RegisterContent() {
                           </svg>
                         </button>
                       )}
+                      {usernameStatus === 'invalid' && (
+                        <button 
+                          type="button"
+                          onClick={() => {
+                            setFormData({...formData, username: ""});
+                            setUsernameStatus('idle');
+                            setUsernameError('');
+                          }}
+                          className="flex items-center justify-center text-red-500 hover:text-red-700 hover:scale-110 transition-all focus:outline-none mt-[2px]"
+                          title="Hapus username"
+                        >
+                          <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                          </svg>
+                        </button>
+                      )}
                     </div>
                   </div>
                   {usernameStatus === 'taken' && (
                     <p className="text-red-500 text-xs font-semibold mt-1">Username sudah dipakai, coba yang lain.</p>
                   )}
+                  {usernameStatus === 'invalid' && (
+                    <p className="text-red-500 text-xs font-semibold mt-1">{usernameError}</p>
+                  )}
                   {usernameStatus === 'available' && (
                     <p className="text-emerald-500 text-xs font-semibold mt-1">Username tersedia!</p>
                   )}
+                  <p className="text-gray-500 text-xs mt-1">(a-z) Huruf kecil, ( . ) Titik, ( _ ) Garis bawah, ( - ) Strip</p>
                 </div>
               <div>
                 <label className="block text-sm font-bold mb-1 text-gray-800">Email</label>

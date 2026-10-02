@@ -2,9 +2,11 @@ import { getExplorePosts } from "@/app/actions/posts";
 import PostCard from "@/components/PostCard";
 import Link from "next/link";
 
-export default async function ExplorePage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function ExplorePage({ params, searchParams }: { params: Promise<{ locale: string }>, searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const { locale } = await params;
-  const { posts } = await getExplorePosts();
+  const resolvedSearchParams = await searchParams;
+  const tag = typeof resolvedSearchParams.tag === "string" ? resolvedSearchParams.tag : undefined;
+  const { posts } = await getExplorePosts(tag);
 
   const generateSlug = (content: string, id: string) => {
     const text = content.slice(0, 50).replace(/[^a-zA-Z0-9\s]/g, "").trim().replace(/\s+/g, "-").toLowerCase();
@@ -14,8 +16,12 @@ export default async function ExplorePage({ params }: { params: Promise<{ locale
   return (
     <div className="w-full max-w-[600px] mx-auto min-h-screen bg-[#F0F2F5] dark:bg-[#18191A] p-4">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-black dark:text-[#E4E6EB]">Explore</h1>
-        <p className="text-sm text-gray-500 dark:text-[#B0B3B8]">Temukan apa yang orang-orang cari.</p>
+        <h1 className="text-2xl font-bold text-black dark:text-[#E4E6EB]">
+          {tag ? `#${tag}` : "Explore"}
+        </h1>
+        <p className="text-sm text-gray-500 dark:text-[#B0B3B8]">
+          {tag ? `Postingan tentang #${tag}` : "Temukan apa yang orang-orang cari."}
+        </p>
       </div>
 
       <div className="flex flex-col gap-4">

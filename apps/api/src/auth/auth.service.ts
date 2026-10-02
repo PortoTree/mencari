@@ -17,8 +17,28 @@ export class AuthService {
     this.resend = new Resend(process.env.RESEND_API_KEY);
   }
 
+  private validateUsername(username: string): string | null {
+    if (username.length < 3 || /^\d+$/.test(username)) {
+      return "Username tidak valid";
+    }
+    if (!/^[a-zA-Z0-9._-]+$/.test(username)) {
+      return "Username hanya boleh mengandung huruf, angka, titik (.), garis bawah (_), dan strip (-)";
+    }
+    if (/\.(com|net|org|id|co|info|biz|me|io|us|uk|my|tv|ai|dev|app|website|store|online)$/i.test(username)) {
+      return "Username tidak boleh menyerupai ekstensi domain";
+    }
+    const reservedWords = ['home', 'explore', 'profile', 'login', 'register', 'settings', 'api', 'admin', 'auth', 'search', 'post', 'messages', 'notifications', 'dashboard', 'secure', 'p'];
+    if (reservedWords.includes(username.toLowerCase())) {
+      return "Username ini tidak dapat digunakan";
+    }
+    return null;
+  }
+
   async checkUsername(username: string) {
-    if (!username) return { available: false };
+    if (!username) return { available: false, error: 'Username tidak boleh kosong' };
+    const validationError = this.validateUsername(username);
+    if (validationError) return { available: false, error: validationError };
+
     const user = await this.usersService.findOneByUsername(username);
     return { available: !user };
   }
@@ -44,6 +64,10 @@ export class AuthService {
     if (data.turnstileToken) {
       await this.verifyTurnstile(data.turnstileToken);
     }
+    
+    const validationError = this.validateUsername(data.username);
+    if (validationError) throw new BadRequestException(validationError);
+
     // 1. Cek apakah email atau username udah beneran terdaftar di tabel User asli
     const existingUser = await this.usersService.findOneByEmail(data.email);
     if (existingUser) throw new BadRequestException('Email sudah terdaftar dan aktif');

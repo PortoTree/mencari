@@ -188,6 +188,7 @@ model Post {
   notifications Notification[]
   postMedia     PostMedia[]
   taggedUsers   User[]         @relation("PostTags")
+  hashtags      Hashtag[]      @relation("PostToHashtag")
 }
 
 model Comment {
@@ -351,4 +352,13 @@ model PostMedia {
   media Media @relation(fields: [mediaId], references: [id], onDelete: Cascade)
 
   @@id([postId, mediaId])
+}
+
+model Hashtag {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  count     Int      @default(0)
+  createdAt DateTime @default(now())
+  
+  posts     Post[]   @relation("PostToHashtag")
 }

@@ -33,6 +33,19 @@ export async function createPost(data: {
   taggedUserIds?: string[];
 }) {
   try {
+    const extractedTags = data.content.match(/#[\w_]+/g)?.map(t => t.slice(1).toLowerCase()) || [];
+    const uniqueTags = [...new Set(extractedTags)];
+
+    if (uniqueTags.length > 0) {
+      await Promise.all(uniqueTags.map(tag =>
+        prisma.hashtag.upsert({
+          where: { name: tag },
+          update: { count: { increment: 1 } },
+          create: { name: tag, count: 1 }
+        })
+      ));
+    }
+
     const newPost = await prisma.post.create({
       data: {
         content: data.content,
@@ -57,6 +70,9 @@ export async function createPost(data: {
         } : undefined,
         taggedUsers: data.taggedUserIds && data.taggedUserIds.length > 0 ? {
           connect: data.taggedUserIds.map(id => ({ id }))
+        } : undefined,
+        hashtags: uniqueTags.length > 0 ? {
+          connect: uniqueTags.map(tag => ({ name: tag }))
         } : undefined
       },
       include: {
@@ -178,10 +194,19 @@ export async function getFeedPosts(userId: string, targetProfileId?: string) {
 
 export async function deletePost(postId: string, authorId: string) {
   try {
-    const post = await prisma.post.findUnique({ where: { id: postId } });
+    const post = await prisma.post.findUnique({ where: { id: postId }, include: { hashtags: true } });
     if (!post || post.authorId !== authorId) {
       return { success: false, error: "Unauthorized or not found" };
     }
+    
+    const tagsToRemove = post.hashtags.map(h => h.name);
+    if (tagsToRemove.length > 0) {
+      await prisma.hashtag.updateMany({
+        where: { name: { in: tagsToRemove } },
+        data: { count: { decrement: 1 } }
+      });
+    }
+
     await prisma.post.delete({ where: { id: postId } });
     
     revalidateTag("feed_posts", "page");
@@ -195,10 +220,35 @@ export async function deletePost(postId: string, authorId: string) {
 
 export async function updatePost(postId: string, authorId: string, content: string, visibility: "PUBLIC" | "FRIENDS" | "PRIVATE" | "COMMUNITY_ONLY", label?: "DEFAULT" | "MENCARI" | "LOKASI" | "PROFESI" | "SEKOLAH", mediaLayout?: "GRID" | "CAROUSEL", taggedUserIds?: string[]) {
   try {
-    const post = await prisma.post.findUnique({ where: { id: postId } });
+    const post = await prisma.post.findUnique({ where: { id: postId }, include: { hashtags: true } });
     if (!post || post.authorId !== authorId) {
       return { success: false, error: "Unauthorized or not found" };
     }
+
+    const extractedTags = content.match(/#[\w_]+/g)?.map(t => t.slice(1).toLowerCase()) || [];
+    const newUniqueTags = [...new Set(extractedTags)];
+    const oldTags = post.hashtags.map(h => h.name);
+    
+    const tagsToAdd = newUniqueTags.filter(t => !oldTags.includes(t));
+    const tagsToRemove = oldTags.filter(t => !newUniqueTags.includes(t));
+
+    if (tagsToRemove.length > 0) {
+      await prisma.hashtag.updateMany({
+        where: { name: { in: tagsToRemove } },
+        data: { count: { decrement: 1 } }
+      });
+    }
+
+    if (tagsToAdd.length > 0) {
+      await Promise.all(tagsToAdd.map(tag =>
+        prisma.hashtag.upsert({
+          where: { name: tag },
+          update: { count: { increment: 1 } },
+          create: { name: tag, count: 1 }
+        })
+      ));
+    }
+
     const updatedPost = await prisma.post.update({
       where: { id: postId },
       data: { 
@@ -208,7 +258,11 @@ export async function updatePost(postId: string, authorId: string, content: stri
         mediaLayout: mediaLayout || undefined,
         taggedUsers: taggedUserIds ? {
           set: taggedUserIds.map(id => ({ id }))
-        } : undefined
+        } : undefined,
+        hashtags: {
+          disconnect: tagsToRemove.map(tag => ({ name: tag })),
+          connect: tagsToAdd.map(tag => ({ name: tag }))
+        }
       },
       include: {
         postMedia: { include: { media: true } }
@@ -224,13 +278,21 @@ export async function updatePost(postId: string, authorId: string, content: stri
   }
 }
 
-export async function getExplorePosts() {
+export async function getExplorePosts(tag?: string) {
   try {
+    const whereClause: any = {
+      visibility: "PUBLIC",
+    };
+    if (tag) {
+      whereClause.hashtags = {
+        some: { name: tag }
+      };
+    } else {
+      whereClause.label = "MENCARI";
+    }
+
     const posts = await prisma.post.findMany({
-      where: {
-        label: "MENCARI",
-        visibility: "PUBLIC",
-      },
+      where: whereClause,
       include: {
         author: {
           include: { profile: true }

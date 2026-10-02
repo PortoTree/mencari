@@ -76,8 +76,8 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
   const renderContentWithLinks = (text: string) => {
     if (!text) return null;
     
-    // Split by URLs and @mentions
-    const regex = /(https?:\/\/[^\s]+|@\w+)/g;
+    // Split by URLs, @mentions (allowing dots), and #hashtags
+    const regex = /(https?:\/\/[^\s]+|@[\w.]+|#[\w_]+)/g;
     const parts = text.split(regex);
     
     return parts.map((part, i) => {
@@ -87,7 +87,7 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
             {part}
           </a>
         );
-      } else if (part.match(/^@\w+$/)) {
+      } else if (part.match(/^@[\w.]+$/)) {
         const username = part.slice(1);
         const taggedUser = post.taggedUsers?.find((u: any) => u.username === username);
         if (taggedUser) {
@@ -107,6 +107,20 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
         } else {
           return <span key={i} className="text-blue-500 font-semibold bg-blue-50 dark:bg-[#263951] px-1 rounded">{part}</span>;
         }
+      } else if (part.match(/^#[\w_]+$/)) {
+        const tag = part.slice(1).toLowerCase();
+        return (
+          <span 
+            key={i} 
+            className="text-blue-500 hover:underline cursor-pointer font-medium"
+            onClick={(e) => {
+              e.stopPropagation();
+              router.push(`/${locale}/explore?tag=${tag}`);
+            }}
+          >
+            {part}
+          </span>
+        );
       }
       return <span key={i}>{part}</span>;
     });
