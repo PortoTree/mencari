@@ -323,6 +323,12 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
     setIsUpdatingName(false);
     
     if (res.success) {
+      if (profileCache.has(currentUser.id)) {
+        profileCache.delete(currentUser.id);
+      }
+      router.refresh();
+      window.dispatchEvent(new CustomEvent("profile_updated", { detail: { type: "info" } }));
+
       setCurrentDisplayName(res.displayName || draftDisplayName);
       if (res.remainingChanges !== undefined) {
         setDisplayNameChangesRemaining(res.remainingChanges);
@@ -407,6 +413,11 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
     });
     setIsUpdatingInfo(false);
     if (res.success) {
+      if (profileCache.has(currentUser.id)) {
+        profileCache.delete(currentUser.id);
+      }
+      router.refresh();
+      window.dispatchEvent(new CustomEvent("profile_updated", { detail: { type: "info" } }));
       fieldToClose(false);
     } else {
       alert("Gagal menyimpan profil: " + res.error);
@@ -459,13 +470,29 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const [cropModalOpen, setCropModalOpen] = useState(false);
   const [cropImageSrc, setCropImageSrc] = useState("");
   const [cropType, setCropType] = useState<"avatar" | "cover">("avatar");
+  const [errorModal, setErrorModal] = useState<{ isOpen: boolean, title: string, message: string, retryType: "avatar" | "cover" | null }>({ isOpen: false, title: "", message: "", retryType: null });
+
+  const MAX_AVATAR_SIZE = 3.2 * 1024 * 1024; // 3.2MB internal limit
+  const MAX_COVER_SIZE = 5 * 1024 * 1024; // 5MB
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setCropImageSrc(URL.createObjectURL(file));
-      setCropType("avatar");
-      setCropModalOpen(true);
+      if (file.size > MAX_AVATAR_SIZE) {
+        const isAnimation = file.type === "image/gif" || file.type === "video/mp4" || file.type === "image/webp" || file.type === "image/avif";
+        setErrorModal({ isOpen: true, title: t("fileTooLargeTitle"), message: isAnimation ? t("fileTooLargeAvatarAnim") : t("fileTooLargeAvatar"), retryType: "avatar" });
+        if (avatarInputRef.current) avatarInputRef.current.value = '';
+        return;
+      }
+      setErrorModal(prev => ({ ...prev, isOpen: false }));
+      const url = URL.createObjectURL(file);
+      if (file.type === "image/gif" || file.type === "image/webp" || file.type === "image/avif") {
+        handleCropComplete(url, "avatar");
+      } else {
+        setCropImageSrc(url);
+        setCropType("avatar");
+        setCropModalOpen(true);
+      }
       if (avatarInputRef.current) avatarInputRef.current.value = '';
     }
   };
@@ -473,15 +500,28 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
   const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setCropImageSrc(URL.createObjectURL(file));
-      setCropType("cover");
-      setCropModalOpen(true);
+      if (file.size > MAX_COVER_SIZE) {
+        const isAnimation = file.type === "image/gif" || file.type === "video/mp4" || file.type === "image/webp" || file.type === "image/avif";
+        setErrorModal({ isOpen: true, title: t("fileTooLargeTitle"), message: isAnimation ? t("fileTooLargeCoverAnim") : t("fileTooLargeCover"), retryType: "cover" });
+        if (coverInputRef.current) coverInputRef.current.value = '';
+        return;
+      }
+      setErrorModal(prev => ({ ...prev, isOpen: false }));
+      const url = URL.createObjectURL(file);
+      if (file.type === "image/gif" || file.type === "image/webp" || file.type === "image/avif") {
+        handleCropComplete(url, "cover");
+      } else {
+        setCropImageSrc(url);
+        setCropType("cover");
+        setCropModalOpen(true);
+      }
       if (coverInputRef.current) coverInputRef.current.value = '';
     }
   };
 
-  const handleCropComplete = async (croppedUrl: string) => {
-    if (cropType === "avatar") {
+  const handleCropComplete = async (croppedUrl: string, typeOverride?: "avatar" | "cover") => {
+    const typeToUse = typeOverride || cropType;
+    if (typeToUse === "avatar") {
       setAvatarPreview(croppedUrl);
     } else {
       setCoverPreview(croppedUrl);
@@ -491,13 +531,13 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
       const cloudinaryUrl = await uploadToCloudinary(croppedUrl, "profile-image");
       if (currentUser?.id) {
         const token = localStorage.getItem("token") || "";
-        const res = await updateProfileMedia(token, currentUser.id, cropType, cloudinaryUrl);
+        const res = await updateProfileMedia(token, currentUser.id, typeToUse, cloudinaryUrl);
         const finalUrl = res.success && res.url ? res.url : cloudinaryUrl;
         
         // Update local cache for immediate navigation feedback
         if (profileCache.has(currentUser.id)) {
            const cached = profileCache.get(currentUser.id);
-           if (cropType === 'avatar') cached.avatarUrl = finalUrl;
+           if (typeToUse === 'avatar') cached.avatarUrl = finalUrl;
            else cached.coverUrl = finalUrl;
            profileCache.set(currentUser.id, cached);
         }
@@ -506,12 +546,12 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
         // Notify Navbar
         window.dispatchEvent(new CustomEvent("avatar-updated", {
-          detail: { type: cropType, url: finalUrl }
+          detail: { type: typeToUse, url: finalUrl }
         }));
         
         // Notify Home & Profile Pages
         window.dispatchEvent(new CustomEvent("profile_updated", {
-          detail: { type: cropType, url: finalUrl }
+          detail: { type: typeToUse, url: finalUrl }
         }));
       }
     } catch (error) {
@@ -953,7 +993,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
                 <div>
                   <label className="block text-base font-bold text-gray-900 dark:text-white mb-4">{t("avatarTitle")}</label>
                   <div className="flex items-center gap-6">
-                    <input type="file" ref={avatarInputRef} onChange={handleAvatarChange} className="hidden" accept="image/*" />
+                    <input type="file" ref={avatarInputRef} onChange={handleAvatarChange} className="hidden" accept="image/*,image/avif,image/webp" />
                     <div onClick={() => avatarInputRef.current?.click()} className="w-24 h-24 rounded-full overflow-hidden border-4 border-gray-100 dark:border-gray-700 relative group cursor-pointer shadow-sm shrink-0">
                       <img src={getOptimizedUrl(avatarPreview, "avatar") || "/default-avatar.svg"} alt="Avatar" className="w-full h-full object-cover bg-white dark:bg-gray-800" />
                       <div className="absolute inset-0 bg-black/50 hidden group-hover:flex items-center justify-center transition-all">
@@ -971,7 +1011,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
 
                 <div>
                   <label className="block text-base font-bold text-gray-900 dark:text-white mb-4">{t("coverTitle")}</label>
-                  <input type="file" ref={coverInputRef} onChange={handleCoverChange} className="hidden" accept="image/*" />
+                  <input type="file" ref={coverInputRef} onChange={handleCoverChange} className="hidden" accept="image/*,image/avif,image/webp" />
                   <div onClick={() => coverInputRef.current?.click()} className="w-full h-[150px] rounded-2xl overflow-hidden relative group cursor-pointer border border-gray-200 dark:border-gray-700">
                     <img src={getOptimizedUrl(coverPreview, "cover") || "/sampul-placeholder.png"} alt="Cover" className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-black/50 hidden group-hover:flex items-center justify-center transition-all">
@@ -1605,6 +1645,42 @@ export default function EditProfileModal({ isOpen, onClose, currentUser }: EditP
           </div>
         </div>
       </div>
+      {errorModal.isOpen && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-[#242526] w-full max-w-sm rounded-[24px] shadow-xl overflow-hidden animate-in zoom-in-95 duration-200 border border-gray-100 dark:border-gray-800">
+            <div className="p-6 text-center">
+              <div className="w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mx-auto mb-4 border-4 border-red-50 dark:border-red-900/10">
+                <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+              </div>
+              <h3 className="text-xl font-black text-gray-900 dark:text-white mb-2">{errorModal.title}</h3>
+              <p className="text-gray-500 dark:text-gray-400 text-[15px] mb-6 leading-relaxed">{errorModal.message}</p>
+              
+              <div className="flex gap-3 w-full">
+                <button 
+                  onClick={() => setErrorModal({ ...errorModal, isOpen: false })}
+                  className="flex-1 py-3 rounded-xl bg-gray-100 dark:bg-[#3A3B3C] text-gray-700 dark:text-gray-200 font-bold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                >
+                  {t("cancel")}
+                </button>
+                <button 
+                  onClick={() => {
+                    const type = errorModal.retryType;
+                    setErrorModal({ ...errorModal, isOpen: false });
+                    setTimeout(() => {
+                      if (type === "avatar") avatarInputRef.current?.click();
+                      if (type === "cover") coverInputRef.current?.click();
+                    }, 300);
+                  }}
+                  className="flex-1 py-3 rounded-xl bg-red-500 text-white font-bold hover:bg-red-600 transition-colors shadow-lg shadow-red-500/30"
+                >
+                  {t("reupload")}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <CropModal
         isOpen={cropModalOpen}
         imageSrc={cropImageSrc}

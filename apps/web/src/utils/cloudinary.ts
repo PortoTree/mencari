@@ -18,11 +18,11 @@ export function getOptimizedUrl(
   let transformation = "q_auto,f_auto"; // Default fallback
   
   if (type === "avatar") {
-    // 300x300, fill, optimize quality & format
-    transformation = "c_fill,w_300,h_300,q_auto,f_auto";
+    // 300x300, fill, optimize quality & format, preserve animation
+    transformation = "c_fill,w_300,h_300,q_auto,f_auto,fl_animated";
   } else if (type === "cover") {
-    // 1200x400 (3:1 aspect ratio), fill, optimize quality & format
-    transformation = "c_fill,w_1200,h_400,q_auto,f_auto";
+    // 1200x400 (3:1 aspect ratio), fill, optimize quality & format, preserve animation
+    transformation = "c_fill,w_1200,h_400,q_auto,f_auto,fl_animated";
   } else if (type === "preview") {
     // Max 1600 width for fullscreen viewing, keep aspect ratio
     transformation = "c_limit,w_1600,q_auto,f_auto";

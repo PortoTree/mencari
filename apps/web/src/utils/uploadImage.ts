@@ -3,9 +3,21 @@ export async function uploadToCloudinary(blobUrl: string, preset: string = "menc
   const response = await fetch(blobUrl);
   const blob = await response.blob();
   
+  // Determine extension from blob type
+  let extension = "png";
+  if (blob.type) {
+    const typeParts = blob.type.split("/");
+    if (typeParts.length === 2) {
+      extension = typeParts[1];
+    }
+  }
+  
+  // Use a random filename to avoid CDN caching if preset allows use_filename
+  const randomStr = Math.random().toString(36).substring(2, 10);
+  
   // Prepare FormData for Cloudinary
   const formData = new FormData();
-  formData.append("file", blob);
+  formData.append("file", blob, `img_${randomStr}.${extension}`);
   formData.append("upload_preset", preset);
   
   // Cloudinary unauthenticated upload endpoint
