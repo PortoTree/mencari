@@ -34,6 +34,11 @@ note: nanti akan ada postingan khusus only komunitas, apakah di kerjakan logikan
 - [ ] **Optimasi Navbar**: Refactor Navbar ke dalam file `layout.tsx` supaya setiap kali pindah halaman, navbar tidak perlu merender ulang terus-menerus.
 - [ ] **Pecah Kode (Code Splitting) Halaman Utama**: Refactor file raksasa `app/[locale]/home/page.tsx` (5000+ baris) menjadi komponen-komponen kecil yang terpisah (seperti komponen tab, modal, dan helper) agar *maintenance* jauh lebih mudah tanpa merubah alur routing.
 
+## Phase 2.2: Mobile Responsive
+- [ ] **Navigasi & Sidebar**: Menyembunyikan sidebar dan membuat *bottom navigation*.
+- [ ] **Layout Responsif**: Menyesuaikan layout grid dari desktop ke versi kolom tunggal untuk *mobile*.
+- [ ] **Optimasi Komponen UX**: Memastikan ukuran modal, padding, dan tombol sesuai untuk navigasi layar sentuh.
+
 ## Phase 3: Portofolio & Etalase
 Melengkapi profil pengguna dengan tempat unjuk karya.
 - [ ] **Database Gallery**: Logika untuk menyimpan dan menampilkan koleksi gambar/galeri user.
