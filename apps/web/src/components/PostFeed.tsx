@@ -115,9 +115,20 @@ function PostFeedContent({ currentUser, onProfileClick, targetProfileId }: PostF
 
   if (error) {
     return (
-      <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-red-100 dark:border-red-900/30 py-8 flex flex-col items-center justify-center text-center">
-        <p className="text-[14px] text-red-500">{t("feed.loadError")} {error}</p>
-        <button onClick={() => fetchPosts()} className="mt-2 text-blue-500 hover:underline text-[14px]">{t("feed.tryAgain")}</button>
+      <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-red-100 dark:border-red-900/30 py-10 flex flex-col items-center justify-center text-center">
+        <svg className="w-12 h-12 text-red-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+        <p className="text-[15px] font-bold text-gray-800 dark:text-gray-200 mb-1">{t("feed.loadError")}</p>
+        <p className="text-[13px] text-gray-500 dark:text-gray-400 mb-4 max-w-sm px-4">
+          Terjadi masalah saat mencoba terhubung ke server. Silakan coba lagi.
+        </p>
+        <button 
+          onClick={() => fetchPosts()} 
+          className="px-5 py-2 bg-red-50 hover:bg-red-100 dark:bg-red-500/10 dark:hover:bg-red-500/20 text-red-600 dark:text-red-400 rounded-full text-[13px] font-bold transition-colors"
+        >
+          {t("feed.tryAgain")}
+        </button>
       </div>
     );
   }

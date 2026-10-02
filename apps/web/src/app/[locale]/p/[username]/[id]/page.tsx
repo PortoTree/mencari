@@ -13,6 +13,7 @@ import ImagePreviewModal from "@/components/ImagePreviewModal";
 import { ShinyButton } from "@/components/ui/shiny-button";
 import { uploadToCloudinary } from "@/utils/uploadImage";
 import { updateProfileMedia, getProfile } from "@/app/actions/profile";
+import { getUserGalleries, createGallery } from "@/app/actions/galleries";
 import { getConnectionStatus, handlePrimaryConnectionAction, toggleBlock, removeFollower } from "@/app/actions/connections";
 import { getOptimizedUrl } from "@/utils/cloudinary";
 
@@ -76,6 +77,12 @@ export default function ProfilePage({
 
   const [mediaModalOpen, setMediaModalOpen] = useState(false);
   const [mediaModalType, setMediaModalType] = useState<"avatar" | "cover">("avatar");
+
+  // Gallery states
+  const [galleries, setGalleries] = useState<any[]>([]);
+  const [isCreateGalleryOpen, setIsCreateGalleryOpen] = useState(false);
+  const [newGalleryName, setNewGalleryName] = useState("");
+  const [isCreatingGallery, setIsCreatingGallery] = useState(false);
 
   const MAX_AVATAR_SIZE = 3.2 * 1024 * 1024; // 3.2MB internal limit
   const MAX_COVER_SIZE = 5 * 1024 * 1024; // 5MB
@@ -216,6 +223,9 @@ export default function ProfilePage({
 
   const [activeAlbumIdx, setActiveAlbumIdx] = useState<number | null>(null);
   const [albumGridCols, setAlbumGridCols] = useState<number>(3);
+  const [inlineCarouselIdx, setInlineCarouselIdx] = useState(0);
+  const [galleryPreviewModalOpen, setGalleryPreviewModalOpen] = useState(false);
+  const [galleryPreviewIdx, setGalleryPreviewIdx] = useState(0);
   const [activeStatTab, setActiveStatTab] = useState<'friends' | 'followers' | null>(null);
   const [statSearchQuery, setStatSearchQuery] = useState("");
   const [expandedGroupTab, setExpandedGroupTab] = useState<'managed' | 'joined' | null>(null);
@@ -312,17 +322,21 @@ export default function ProfilePage({
     // Fetch real profile data to populate initial images and details
     // We use `id` from the URL, NOT `userId` from the token!
     const profilePromise = getProfile(id);
+    const galleriesPromise = getUserGalleries(id);
     const connectionPromise = currentId
       ? getConnectionStatus(currentId, id)
       : Promise.resolve({ friendshipStatus: null, isFollowing: false, isBlocked: false });
 
-    Promise.all([profilePromise, connectionPromise]).then(([res, status]) => {
+    Promise.all([profilePromise, connectionPromise, galleriesPromise]).then(([res, status, galleriesRes]) => {
       if (res.success && res.profile) {
         profileCache.set(id, res.profile);
         if (res.profile.avatarUrl) setAvatarPreview(res.profile.avatarUrl);
         if (res.profile.coverUrl) setCoverPreview(res.profile.coverUrl);
         if (res.profile.displayName) setDisplayName(res.profile.displayName);
         setProfileData(res.profile);
+      }
+      if (galleriesRes.success) {
+        setGalleries(galleriesRes.galleries || []);
       }
       if (connectionCacheKey) {
         connectionCache.set(connectionCacheKey, status);
@@ -353,6 +367,20 @@ export default function ProfilePage({
       window.removeEventListener("profile_updated", handleProfileUpdated);
     };
   }, [id]);
+
+  const handleCreateGallery = async () => {
+    if (!newGalleryName.trim() || !currentUser) return;
+    setIsCreatingGallery(true);
+    const res = await createGallery(currentUser.id, newGalleryName.trim());
+    if (res.success && res.gallery) {
+      setGalleries(prev => [res.gallery, ...prev]);
+      setIsCreateGalleryOpen(false);
+      setNewGalleryName("");
+    } else {
+      alert(res.error || "Failed to create gallery");
+    }
+    setIsCreatingGallery(false);
+  };
 
   const handlePrimaryAction = async () => {
     if (!currentUser || isProcessing) return;
@@ -1031,9 +1059,9 @@ export default function ProfilePage({
                           onClick={handlePrimaryAction}
                           disabled={isProcessing}
                           className={`${connectionStatus.friendshipStatus === "ACCEPTED" ? "bg-gray-200 hover:bg-red-500 text-black hover:text-white" :
-                              connectionStatus.friendshipStatus === "PENDING" && connectionStatus.friendshipRequestedBy !== currentUser?.id ? "bg-yellow-500 hover:bg-yellow-600 text-white" :
-                                (connectionStatus.friendshipStatus === "PENDING" || connectionStatus.isFollowing) ? "bg-transparent border border-gray-300 dark:border-[#4E4F50] text-black dark:text-[#E4E6EB] hover:bg-red-50 hover:border-red-500 hover:text-red-500 dark:hover:bg-red-500/10 dark:hover:border-red-500 dark:hover:text-red-400" :
-                                  "bg-[#10B981] hover:bg-emerald-600 text-white"
+                            connectionStatus.friendshipStatus === "PENDING" && connectionStatus.friendshipRequestedBy !== currentUser?.id ? "bg-yellow-500 hover:bg-yellow-600 text-white" :
+                              (connectionStatus.friendshipStatus === "PENDING" || connectionStatus.isFollowing) ? "bg-transparent border border-gray-300 dark:border-[#4E4F50] text-black dark:text-[#E4E6EB] hover:bg-red-50 hover:border-red-500 hover:text-red-500 dark:hover:bg-red-500/10 dark:hover:border-red-500 dark:hover:text-red-400" :
+                                "bg-[#10B981] hover:bg-emerald-600 text-white"
                             } font-bold py-2 px-4 rounded-full text-sm shadow-sm transition-colors ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}>
                           {connectionStatus.friendshipStatus === "ACCEPTED" ? t("friendBtn") :
                             connectionStatus.friendshipStatus === "PENDING" && connectionStatus.friendshipRequestedBy !== currentUser?.id ? t("acceptRequestBtn") :
@@ -1413,8 +1441,8 @@ export default function ProfilePage({
                         icon: <div className="w-6 h-6 bg-current" style={{ WebkitMask: "url(/navigasi/posting.svg) center/contain no-repeat", mask: "url(/navigasi/posting.svg) center/contain no-repeat" }} />
                       },
                       {
-                        id: 'media', label: 'Media', gradientFrom: '#56CCF2', gradientTo: '#2F80ED',
-                        icon: <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                        id: 'gallery', label: 'Gallery', gradientFrom: '#56CCF2', gradientTo: '#2F80ED',
+                        icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 11V9a2 2 0 00-2-2H9a2 2 0 00-2 2v9a2 2 0 002 2h8a2 2 0 002-2v-2M15 4H5a2 2 0 00-2 2v10m12 0l-3-3m0 0l-3 3m3-3v6" /></svg>
                       },
                       {
                         id: 'project', label: 'Project', gradientFrom: '#a955ff', gradientTo: '#ea51ff',
@@ -1454,12 +1482,12 @@ export default function ProfilePage({
                     <PostFeed currentUser={currentUser} targetProfileId={id} />
                   ) : null}
 
-                  {activeTab === 'media' ? (
+                  {activeTab === 'gallery' ? (
                     <>
                       <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-4">
                         {isOwnProfile && (
                           <div className="flex justify-end mb-4">
-                            <button className="flex items-center gap-1.5 border-[2px] border-[#10B981] bg-transparent text-[#10B981] hover:bg-[#10B981] hover:text-white px-3 py-1 rounded-lg font-bold text-[13px] transition-colors shadow-sm">
+                            <button onClick={() => setIsCreateGalleryOpen(true)} className="flex items-center gap-1.5 border-[2px] border-[#10B981] bg-transparent text-[#10B981] hover:bg-[#10B981] hover:text-white px-3 py-1 rounded-lg font-bold text-[13px] transition-colors shadow-sm cursor-pointer">
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
                               Tambah Gallery
                             </button>
@@ -1476,19 +1504,26 @@ export default function ProfilePage({
 
                           {/* Carousel Container */}
                           <div ref={albumCarouselRef} className="flex overflow-x-auto gap-4 sidebar-scrollbar snap-x snap-mandatory py-2 px-1">
-
-                            {[...Array(8)].map((_, i) => (
-                              <div key={i} onClick={() => setActiveAlbumIdx(activeAlbumIdx === i ? null : i)} className={`shrink-0 w-[140px] snap-start flex flex-col gap-1.5 group cursor-pointer p-1 rounded-xl transition-colors ${activeAlbumIdx === i ? 'bg-gray-100 dark:bg-[#3A3B3C]' : 'hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50'}`}>
-                                <div className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden relative border border-gray-100 dark:border-[#3E4042]">
-                                  <img src="/sampul-placeholder.png" alt={`Media ${i}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+                            {galleries.length === 0 ? (
+                              <div className="text-gray-500 dark:text-[#B0B3B8] text-[14px] text-center w-full py-4">Belum ada gallery.</div>
+                            ) : (
+                              galleries.map((gallery, i) => (
+                                <div key={gallery.id} onClick={() => setActiveAlbumIdx(activeAlbumIdx === i ? null : i)} className={`shrink-0 w-[140px] snap-start flex flex-col gap-1.5 group cursor-pointer p-1 rounded-xl transition-colors ${activeAlbumIdx === i ? 'bg-gray-100 dark:bg-[#3A3B3C]' : 'hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50'}`}>
+                                  <div className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden relative border border-gray-100 dark:border-[#3E4042] flex items-center justify-center">
+                                    {/* Default media preview (placeholder for now, wait until posts API logic is there) */}
+                                    {gallery.posts && gallery.posts.length > 0 && gallery.posts[0].postMedia && gallery.posts[0].postMedia.length > 0 ? (
+                                      <img src={gallery.posts[0].postMedia[0].media.originalUrl} alt={gallery.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                    ) : (
+                                      <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                    )}
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+                                  </div>
+                                  <p className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB] truncate px-1">
+                                    {gallery.name}
+                                  </p>
                                 </div>
-                                <p className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB] truncate px-1">
-                                  Foto Liburan {i + 1}
-                                </p>
-                              </div>
-                            ))}
-
+                              ))
+                            )}
                           </div>
 
                           {/* Right Arrow */}
@@ -1504,7 +1539,7 @@ export default function ProfilePage({
                       {activeAlbumIdx !== null && (
                         <div className="animate-in slide-in-from-top-2 fade-in duration-300 w-full mt-2">
                           <div className="flex items-center justify-between mb-4 px-1">
-                            <h3 className="font-bold text-[17px] text-black dark:text-[#E4E6EB]">Isi Album: Foto Liburan {activeAlbumIdx + 1}</h3>
+                            <h3 className="font-bold text-[17px] text-black dark:text-[#E4E6EB]">Isi Album: {galleries[activeAlbumIdx]?.name}</h3>
 
                             <div className="flex items-center gap-4">
                               {/* Grid toggles */}
@@ -1570,15 +1605,63 @@ export default function ProfilePage({
                               </button>
                             </div>
                           </div>
-                          <div
-                            className={`grid gap-2 transition-all duration-300 ${albumGridCols === 1 ? 'grid-cols-1' : albumGridCols === 3 ? 'grid-cols-3' : 'grid-cols-5'}`}
-                          >
-                            {[...Array(10)].map((_, idx) => (
-                              <div key={idx} className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden group relative cursor-pointer">
-                                <img src="/sampul-placeholder.png" alt={`Album item ${idx}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                          {(() => {
+                            const activeGallery = galleries[activeAlbumIdx];
+                            const albumMediaItems = activeGallery ? activeGallery.posts.flatMap((post: any) => post.postMedia.map((pm: any) => pm.media.originalUrl)) : [];
+
+                            if (albumMediaItems.length === 0) {
+                              return <div className="text-gray-500 text-center py-8">Belum ada foto/video di album ini.</div>;
+                            }
+
+                            const safeInlineIdx = Math.max(0, Math.min(inlineCarouselIdx, albumMediaItems.length - 1));
+
+                            if (albumGridCols === 1) {
+                              return (
+                                <div className="relative w-full">
+                                  <div className="flex w-full aspect-[4/3] sm:aspect-video bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden group relative items-center justify-center">
+                                    <img
+                                      src={albumMediaItems[safeInlineIdx]}
+                                      alt={`Album item ${safeInlineIdx}`}
+                                      className="w-full h-full object-contain bg-black cursor-pointer"
+                                      onClick={() => { setGalleryPreviewIdx(safeInlineIdx); setGalleryPreviewModalOpen(true); }}
+                                    />
+                                    {safeInlineIdx > 0 && (
+                                      <button
+                                        onClick={() => setInlineCarouselIdx(prev => prev - 1)}
+                                        className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 hover:bg-black/70 text-white flex items-center justify-center transition-colors"
+                                      >
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+                                      </button>
+                                    )}
+                                    {safeInlineIdx < albumMediaItems.length - 1 && (
+                                      <button
+                                        onClick={() => setInlineCarouselIdx(prev => prev + 1)}
+                                        className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 hover:bg-black/70 text-white flex items-center justify-center transition-colors"
+                                      >
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                                      </button>
+                                    )}
+                                  </div>
+                                </div>
+                              );
+                            }
+
+                            return (
+                              <div
+                                className={`grid gap-2 transition-all duration-300 ${albumGridCols === 3 ? 'grid-cols-3' : 'grid-cols-5'}`}
+                              >
+                                {albumMediaItems.map((url: string, idx: number) => (
+                                  <div
+                                    key={idx}
+                                    className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden group relative cursor-pointer"
+                                    onClick={() => { setGalleryPreviewIdx(idx); setGalleryPreviewModalOpen(true); }}
+                                  >
+                                    <img src={url} alt={`Album item ${idx}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                  </div>
+                                ))}
                               </div>
-                            ))}
-                          </div>
+                            );
+                          })()}
                         </div>
                       )}
                     </>
@@ -1815,6 +1898,34 @@ export default function ProfilePage({
         }}
         onSelectLibraryItem={handleSelectLibraryItem}
       />
+      {/* Create Gallery Popup Modal */}
+      {isCreateGalleryOpen && (
+        <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/60 px-4">
+          <div className="w-full max-w-[400px] bg-white dark:bg-[#242526] rounded-xl shadow-xl flex flex-col p-4 border border-gray-200 dark:border-[#3E4042]">
+            <h3 className="text-[18px] font-bold text-black dark:text-[#E4E6EB] mb-4">Buat Gallery Baru</h3>
+            <input
+              type="text"
+              placeholder="Nama gallery..."
+              value={newGalleryName}
+              onChange={(e) => setNewGalleryName(e.target.value)}
+              className="w-full bg-gray-100 dark:bg-[#3A3B3C] text-black dark:text-[#E4E6EB] border border-gray-300 dark:border-[#4E4F50] rounded-lg px-3 py-2 outline-none focus:border-blue-500 mb-4"
+              autoFocus
+            />
+            <div className="flex justify-end gap-2">
+              <button onClick={() => setIsCreateGalleryOpen(false)} className="px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-lg transition-colors cursor-pointer">
+                Batal
+              </button>
+              <button
+                onClick={handleCreateGallery}
+                disabled={!newGalleryName.trim() || isCreatingGallery}
+                className="px-4 py-2 text-sm font-semibold bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
+              >
+                {isCreatingGallery ? "Menyimpan..." : "Simpan"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

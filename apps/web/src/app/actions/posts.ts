@@ -31,6 +31,7 @@ export async function createPost(data: {
   mediaLayout?: "GRID" | "CAROUSEL";
   linkMetadata?: any;
   taggedUserIds?: string[];
+  galleryId?: string;
 }) {
   try {
     const extractedTags = data.content.match(/#[\w_]+/g)?.map(t => t.slice(1).toLowerCase()) || [];
@@ -54,6 +55,7 @@ export async function createPost(data: {
         label: data.label || "DEFAULT",
         mediaLayout: data.mediaLayout || "GRID",
         linkMetadata: data.linkMetadata || null,
+        galleryId: data.galleryId || null,
         postMedia: data.mediaUrls && data.mediaUrls.length > 0 ? {
           create: data.mediaUrls.map((url, idx) => ({
             order: idx,

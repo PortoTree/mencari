@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { createPost, updatePost } from "@/app/actions/posts";
+import { getUserGalleries, createGallery } from "@/app/actions/galleries";
 import { uploadToCloudinary } from "@/utils/uploadImage";
 import { MediaRenderer } from "./MediaRenderer";
 import { getCaretCoordinates } from "@/utils/getCaretCoordinates";
@@ -48,6 +49,15 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
   const [isMorePopupOpen, setIsMorePopupOpen] = useState(false);
   const morePopupRef = useRef<HTMLDivElement>(null);
   const moreBtnRef = useRef<HTMLButtonElement>(null);
+
+  // Gallery state
+  const [galleries, setGalleries] = useState<any[]>([]);
+  const [selectedGalleryId, setSelectedGalleryId] = useState<string>("none");
+  const [isGalleryDropdownOpen, setIsGalleryDropdownOpen] = useState(false);
+  const galleryDropdownRef = useRef<HTMLDivElement>(null);
+  const [isCreateGalleryOpen, setIsCreateGalleryOpen] = useState(false);
+  const [newGalleryName, setNewGalleryName] = useState("");
+  const [isCreatingGallery, setIsCreatingGallery] = useState(false);
 
   // Inline Mentions State
   const [mentionQuery, setMentionQuery] = useState<{ query: string; position: number; top: number; left: number } | null>(null);
@@ -96,6 +106,31 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
     }, 300);
     return () => clearTimeout(delayDebounceFn);
   }, [mentionQuery?.query, currentUser?.id]);
+
+  useEffect(() => {
+    if (currentUser?.id && isOpen) {
+      getUserGalleries(currentUser.id).then(res => {
+        if (res.success) {
+          setGalleries(res.galleries || []);
+        }
+      });
+    }
+  }, [currentUser?.id, isOpen]);
+
+  const handleCreateGallery = async () => {
+    if (!newGalleryName.trim()) return;
+    setIsCreatingGallery(true);
+    const res = await createGallery(currentUser.id, newGalleryName.trim());
+    if (res.success && res.gallery) {
+      setGalleries(prev => [res.gallery, ...prev]);
+      setSelectedGalleryId(res.gallery.id);
+      setIsCreateGalleryOpen(false);
+      setNewGalleryName("");
+    } else {
+      alert(res.error || "Failed to create gallery");
+    }
+    setIsCreatingGallery(false);
+  };
 
   const handleContentChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const text = e.target.value;
@@ -218,6 +253,9 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
       if (labelDropdownRef.current && !labelDropdownRef.current.contains(event.target as Node)) {
         setIsLabelDropdownOpen(false);
       }
+      if (galleryDropdownRef.current && !galleryDropdownRef.current.contains(event.target as Node)) {
+        setIsGalleryDropdownOpen(false);
+      }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -310,6 +348,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
           mediaLayout: mediaLayout,
           linkMetadata: linkPreviewData,
           taggedUserIds: taggedUsers.map((u: any) => u.id),
+          galleryId: selectedGalleryId !== "none" ? selectedGalleryId : undefined,
         });
       }
 
@@ -323,6 +362,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
         setMediaLayout("GRID");
         setInlineTaggedUsernames([]);
         setMentionQuery(null);
+        setSelectedGalleryId("none");
         onClose();
         if (onSuccess) onSuccess();
         // Dispatch custom event to trigger feed refresh
@@ -339,7 +379,8 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
   };
 
   return (
-    <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/60 dark:bg-black/70 px-4">
+    <>
+      <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/60 dark:bg-black/70 px-4">
       <div className="w-full max-w-[500px] bg-white dark:bg-[#242526] rounded-xl shadow-xl flex flex-col relative border border-gray-200 dark:border-[#3E4042]">
         {/* Header */}
         <div className="flex items-center justify-center p-4 border-b border-gray-200 dark:border-[#3E4042] relative">
@@ -390,6 +431,37 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
                   )}
                 </div>
 
+                {/* Gallery Dropdown */}
+                {(mediaPreviewList.length > 0 || tempFilePreviews.length > 0) && (
+                  <div className="relative" ref={galleryDropdownRef}>
+                    <button 
+                      onClick={() => setIsGalleryDropdownOpen(!isGalleryDropdownOpen)} 
+                      className={`flex items-center gap-1 bg-gray-200 dark:bg-[#3A3B3C] px-2 py-0.5 rounded-md text-[12px] font-semibold text-gray-700 dark:text-[#E4E6EB]`}
+                    >
+                      <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" /></svg>
+                      {selectedGalleryId === "none" ? "Gallery" : galleries.find(g => g.id === selectedGalleryId)?.name || "Gallery"}
+                      <svg className="w-3.5 h-3.5 ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+                    </button>
+                    {isGalleryDropdownOpen && (
+                      <div className="absolute top-full left-0 mt-1 w-48 bg-white dark:bg-[#242526] rounded-lg shadow-xl border border-gray-200 dark:border-[#3E4042] py-2 z-50">
+                        <button onClick={() => { setSelectedGalleryId("none"); setIsGalleryDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left">
+                          <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">Tanpa Gallery</span>
+                        </button>
+                        {galleries.map(gallery => (
+                          <button key={gallery.id} onClick={() => { setSelectedGalleryId(gallery.id); setIsGalleryDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left">
+                            <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">{gallery.name}</span>
+                          </button>
+                        ))}
+                        <div className="border-t border-gray-200 dark:border-[#3E4042] my-1"></div>
+                        <button onClick={() => { setIsCreateGalleryOpen(true); setIsGalleryDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left text-blue-500">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                          <span className="text-[14px] font-semibold">Tambah Gallery</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+                
                 <div className="relative" ref={privacyDropdownRef}>
                   <button 
                     onClick={() => postLabel !== "MENCARI" && setIsPrivacyDropdownOpen(!isPrivacyDropdownOpen)} 
@@ -849,5 +921,34 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
       </div>
     </div>
 
+      {/* Create Gallery Popup */}
+      {isCreateGalleryOpen && (
+        <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/60 px-4">
+          <div className="w-full max-w-[400px] bg-white dark:bg-[#242526] rounded-xl shadow-xl flex flex-col p-4 border border-gray-200 dark:border-[#3E4042]">
+            <h3 className="text-[18px] font-bold text-black dark:text-[#E4E6EB] mb-4">Buat Gallery Baru</h3>
+            <input 
+              type="text" 
+              placeholder="Nama gallery..."
+              value={newGalleryName}
+              onChange={(e) => setNewGalleryName(e.target.value)}
+              className="w-full bg-gray-100 dark:bg-[#3A3B3C] text-black dark:text-[#E4E6EB] border border-gray-300 dark:border-[#4E4F50] rounded-lg px-3 py-2 outline-none focus:border-blue-500 mb-4"
+              autoFocus
+            />
+            <div className="flex justify-end gap-2">
+              <button onClick={() => setIsCreateGalleryOpen(false)} className="px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-lg transition-colors">
+                Batal
+              </button>
+              <button 
+                onClick={handleCreateGallery} 
+                disabled={!newGalleryName.trim() || isCreatingGallery}
+                className="px-4 py-2 text-sm font-semibold bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors disabled:opacity-50"
+              >
+                {isCreatingGallery ? "Menyimpan..." : "Simpan"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
