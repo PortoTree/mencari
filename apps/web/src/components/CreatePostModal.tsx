@@ -581,19 +581,19 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
                 </span>
               </button>
               <button className="group relative p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-colors opacity-50 cursor-not-allowed">
-                <svg className="w-6 h-6 text-[#EF4444]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+                <div className="w-6 h-6 bg-current text-[#8B4513]" style={{ WebkitMask: "url(/navigasi/produk-aktif.svg) center/contain no-repeat", mask: "url(/navigasi/produk-aktif.svg) center/contain no-repeat" }} />
                 <span className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/80 text-white text-xs px-2.5 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
                   {t("feed.product") || "Product"}
                 </span>
               </button>
               <button className="group relative p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-colors opacity-50 cursor-not-allowed">
-                <svg className="w-6 h-6 text-[#9333EA]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 011 1v1h2V4a1 1 0 011-1h4a1 1 0 011 1v2H3V4zm14 4H3v8a2 2 0 002 2h10a2 2 0 002-2V8z" clipRule="evenodd" /></svg>
+                <div className="w-6 h-6 bg-current text-purple-500" style={{ WebkitMask: "url(/navigasi/project.svg) center/contain no-repeat", mask: "url(/navigasi/project.svg) center/contain no-repeat" }} />
                 <span className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/80 text-white text-xs px-2.5 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
                   {t("feed.project") || "Project"}
                 </span>
               </button>
               <button className="group relative p-1.5 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] rounded-full transition-colors opacity-50 cursor-not-allowed">
-                <svg className="w-6 h-6 text-[#F97316]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clipRule="evenodd" /></svg>
+                <img src="/visit.png" alt="Page" className="w-6 h-6 object-contain" />
                 <span className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/80 text-white text-xs px-2.5 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
                   {t("feed.page") || "Halaman"}
                 </span>

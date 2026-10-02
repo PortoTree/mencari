@@ -1390,7 +1390,7 @@ export default function Beranda() {
                   </button>
                   <button className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors">
                     <svg
-                      className="w-6 h-6 text-purple-500"
+                      className="w-6 h-6 text-red-500"
                       fill="currentColor"
                       viewBox="0 0 24 24"
                     >
@@ -1401,15 +1401,15 @@ export default function Beranda() {
                     </span>
                   </button>
                   <button className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors">
-                    <svg
-                      className="w-6 h-6 text-orange-500"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
-                      <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM5 8V6h14v2H5z" />
-                    </svg>
+                    <div
+                      className="w-6 h-6 bg-current text-purple-500"
+                      style={{
+                        WebkitMask: "url(/navigasi/project.svg) center/contain no-repeat",
+                        mask: "url(/navigasi/project.svg) center/contain no-repeat",
+                      }}
+                    />
                     <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
-                      {t("sidebar.events")}
+                      {t("feed.project")}
                     </span>
                   </button>
                 </div>
@@ -1715,15 +1715,15 @@ export default function Beranda() {
                   </div>
                   <div className="flex justify-between items-center pt-3 px-1">
                     <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
-                      <svg className="w-[24px] h-[24px] text-[#EF4444]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+                      <div className="w-[24px] h-[24px] bg-current text-[#8B4513]" style={{ WebkitMask: "url(/navigasi/produk-aktif.svg) center/contain no-repeat", mask: "url(/navigasi/produk-aktif.svg) center/contain no-repeat" }} />
                       {t("feed.product") || "Product"}
                     </button>
                     <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
-                      <svg className="w-[24px] h-[24px] text-[#9333EA]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 011 1v1h2V4a1 1 0 011-1h4a1 1 0 011 1v2H3V4zm14 4H3v8a2 2 0 002 2h10a2 2 0 002-2V8z" clipRule="evenodd" /></svg>
+                      <div className="w-[24px] h-[24px] bg-current text-purple-500" style={{ WebkitMask: "url(/navigasi/project.svg) center/contain no-repeat", mask: "url(/navigasi/project.svg) center/contain no-repeat" }} />
                       {t("feed.project")}
                     </button>
                     <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
-                      <svg className="w-[24px] h-[24px] text-[#F97316]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clipRule="evenodd" /></svg>
+                      <img src="/visit.png" alt="Page" className="w-[24px] h-[24px] object-contain" />
                       {t("feed.page") || "Halaman"}
                     </button>
                   </div>
@@ -2207,15 +2207,15 @@ export default function Beranda() {
                 </div>
                 <div className="flex justify-between items-center pt-3 px-1">
                   <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
-                    <svg className="w-[24px] h-[24px] text-[#EF4444]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+                    <div className="w-[24px] h-[24px] bg-current text-[#8B4513]" style={{ WebkitMask: "url(/navigasi/produk-aktif.svg) center/contain no-repeat", mask: "url(/navigasi/produk-aktif.svg) center/contain no-repeat" }} />
                     {t("feed.product") || "Product"}
                   </button>
                   <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
-                    <svg className="w-[24px] h-[24px] text-[#9333EA]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 011 1v1h2V4a1 1 0 011-1h4a1 1 0 011 1v2H3V4zm14 4H3v8a2 2 0 002 2h10a2 2 0 002-2V8z" clipRule="evenodd" /></svg>
+                    <div className="w-[24px] h-[24px] bg-current text-purple-500" style={{ WebkitMask: "url(/navigasi/project.svg) center/contain no-repeat", mask: "url(/navigasi/project.svg) center/contain no-repeat" }} />
                     {t("feed.project")}
                   </button>
                   <button className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
-                    <svg className="w-[24px] h-[24px] text-[#F97316]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clipRule="evenodd" /></svg>
+                    <img src="/visit.png" alt="Page" className="w-[24px] h-[24px] object-contain" />
                     {t("feed.page") || "Halaman"}
                   </button>
                 </div>
