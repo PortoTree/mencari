@@ -3777,14 +3777,14 @@ export default function Beranda() {
                 {/* Cover photo */}
                 <div className="h-[130px] w-full overflow-hidden relative">
                   <img
-                    src={selectedProfile.cover || "/default-cover.jpg"}
+                    key={selectedProfile.cover || "default"}
+                    src={selectedProfile.cover || "/sampul-placeholder.png"}
                     alt="Cover"
                     className="w-full h-full object-cover"
                     onError={(e) => {
-                      e.currentTarget.style.display = "none";
-                      if (e.currentTarget.parentElement)
-                        e.currentTarget.parentElement.style.background =
-                          "linear-gradient(135deg,#059669 0%,#0d9488 50%,#0891b2 100%)";
+                      if (!e.currentTarget.src.includes("/sampul-placeholder.png")) {
+                        e.currentTarget.src = "/sampul-placeholder.png";
+                      }
                     }}
                   />
                   {/* gradient overlay */}

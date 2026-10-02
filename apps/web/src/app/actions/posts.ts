@@ -86,7 +86,8 @@ export async function createPost(data: {
             profile: {
               select: {
                 displayName: true,
-                avatarUrl: true
+                avatarUrl: true,
+                coverUrl: true
               }
             }
           }
@@ -172,7 +173,8 @@ export async function getFeedPosts(userId: string, targetProfileId?: string) {
             profile: {
               select: {
                 displayName: true,
-                avatarUrl: true
+                avatarUrl: true,
+                coverUrl: true
               }
             }
           }
@@ -308,7 +310,8 @@ export async function getExplorePosts(tag?: string) {
             profile: {
               select: {
                 displayName: true,
-                avatarUrl: true
+                avatarUrl: true,
+                coverUrl: true
               }
             }
           }
@@ -346,7 +349,8 @@ export async function getPostById(postId: string) {
             profile: {
               select: {
                 displayName: true,
-                avatarUrl: true
+                avatarUrl: true,
+                coverUrl: true
               }
             }
           }
