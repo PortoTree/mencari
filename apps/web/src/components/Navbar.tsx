@@ -396,9 +396,9 @@ export default function Navbar({
                         className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 dark:bg-[#3A3B3C] hover:bg-emerald-50 dark:hover:bg-[#203D2E] transition-colors shrink-0 border border-gray-200 dark:border-[#4E4F50]"
                       >
                         <img
-                          src="/icon-apk.png"
-                          alt="NetHubz"
-                          className="w-7 h-7 object-contain group-hover/visit:scale-110 transition-transform"
+                          src="/navigasi/mencari-online.png"
+                          alt="Mencari Online"
+                          className="w-8 h-8 object-contain group-hover/visit:scale-110 transition-transform"
                         />
                       </button>
                       <div className="absolute top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/80 text-white text-[13px] rounded-lg opacity-0 group-hover/visit:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap z-[60]">

@@ -1303,7 +1303,7 @@ export default function Beranda() {
                     }}
                     className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-[#3A3B3C] transition-colors"
                   >
-                    <img src="/logo.png" alt="NetHubz" className="w-6 h-6 object-contain" />
+                    <img src="/navigasi/mencari-online.png" alt="Mencari Online" className="w-8 h-8 object-contain" />
                     <span className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">
                       {t("tabs.search")}
                     </span>
