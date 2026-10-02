@@ -39,11 +39,14 @@ export default function ProfileMediaSelectionModal({
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     }
     return () => {
       document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     };
   }, [isOpen]);
 
@@ -57,7 +60,7 @@ export default function ProfileMediaSelectionModal({
   const libraryItems = type === "avatar" ? LIBRARY_AVATARS : LIBRARY_COVERS;
 
   const modalContent = (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[10500] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
       
       <div className="bg-white dark:bg-[#242526] rounded-2xl shadow-xl w-full max-w-lg overflow-hidden relative z-10 animate-scaleIn">
