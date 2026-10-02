@@ -687,5 +687,13 @@
     "ulasan_pembeli": "Ulasan Pembeli",
     "selengkapnya": "Selengkapnya",
     "tambah_ulasan_kamu": "+Ulasan kamu"
+  },
+  "postLabel": {
+    "default": "Label",
+    "mencari": "Bertanya/Question (Public)",
+    "mencariShort": "Bertanya/Question",
+    "lokasi": "Lokasi",
+    "profesi": "Profesi",
+    "sekolah": "Sekolah"
   }
 }

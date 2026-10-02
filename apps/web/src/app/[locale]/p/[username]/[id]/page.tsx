@@ -1347,7 +1347,7 @@ export default function ProfilePage({
               {/* Tab Content Area */}
               <div className="mt-2 flex flex-col gap-4 max-w-[590px] w-full mx-auto">
                 {activeTab === 'posts' ? (
-                  <PostFeed currentUser={currentUser} />
+                  <PostFeed currentUser={currentUser} targetProfileId={id} />
                 ) : null}
 
                 {activeTab === 'media' ? (

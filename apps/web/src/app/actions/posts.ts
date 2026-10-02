@@ -103,7 +103,7 @@ export async function createPost(data: {
   }
 }
 
-export async function getFeedPosts(userId: string) {
+export async function getFeedPosts(userId: string, targetProfileId?: string) {
   try {
     const friendships = await prisma.friendship.findMany({
       where: {
@@ -116,17 +116,31 @@ export async function getFeedPosts(userId: string) {
     
     const friendIds = friendships.map(f => f.userId === userId ? f.friendId : f.userId);
 
+    const visibilityFilter = {
+      OR: [
+        { visibility: "PUBLIC" },
+        { authorId: userId },
+        { 
+          visibility: "FRIENDS", 
+          authorId: { in: friendIds } 
+        }
+      ]
+    };
+
+    const whereClause = targetProfileId ? {
+      AND: [
+        {
+          OR: [
+            { authorId: targetProfileId },
+            { taggedUsers: { some: { id: targetProfileId } } }
+          ]
+        },
+        visibilityFilter
+      ]
+    } : visibilityFilter;
+
     const posts = await prisma.post.findMany({
-      where: {
-        OR: [
-          { visibility: "PUBLIC" },
-          { authorId: userId },
-          { 
-            visibility: "FRIENDS", 
-            authorId: { in: friendIds } 
-          }
-        ]
-      },
+      where: whereClause as any,
       include: {
         author: {
           include: { profile: true }

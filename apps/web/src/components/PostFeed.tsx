@@ -9,9 +9,10 @@ import { useSearchParams } from "next/navigation";
 interface PostFeedProps {
   currentUser: any;
   onProfileClick?: (user: any) => void;
+  targetProfileId?: string;
 }
 
-function PostFeedContent({ currentUser, onProfileClick }: PostFeedProps) {
+function PostFeedContent({ currentUser, onProfileClick, targetProfileId }: PostFeedProps) {
   const t = useTranslations();
   const searchParams = useSearchParams();
   const highlightedPostId = searchParams.get("postId");
@@ -20,13 +21,13 @@ function PostFeedContent({ currentUser, onProfileClick }: PostFeedProps) {
   const [error, setError] = useState<string | null>(null);
 
   // Simple global cache for stale-while-revalidate
-  const cacheKey = currentUser?.id || "anonymous";
+  const cacheKey = targetProfileId ? `profile_${targetProfileId}` : (currentUser?.id || "anonymous");
 
   const fetchPosts = useCallback(async (isBackground = false) => {
     if (!currentUser?.id) return;
     try {
       if (!isBackground) setIsLoading(true);
-      const res = await getFeedPosts(currentUser.id);
+      const res = await getFeedPosts(currentUser.id, targetProfileId);
       let loadedPosts = res.posts || [];
 
       if (highlightedPostId) {
@@ -54,7 +55,7 @@ function PostFeedContent({ currentUser, onProfileClick }: PostFeedProps) {
     } finally {
       if (!isBackground) setIsLoading(false);
     }
-  }, [currentUser?.id, highlightedPostId, cacheKey]);
+  }, [currentUser?.id, targetProfileId, highlightedPostId, cacheKey]);
 
   useEffect(() => {
     const cachedPosts = (window as any).__POST_FEED_CACHE?.[cacheKey];

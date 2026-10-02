@@ -681,5 +681,13 @@
     "ulasan_pembeli": "Customer Reviews",
     "selengkapnya": "See All",
     "tambah_ulasan_kamu": "+Your review"
+  },
+  "postLabel": {
+    "default": "Label",
+    "mencari": "Question (Public)",
+    "mencariShort": "Question",
+    "lokasi": "Location",
+    "profesi": "Profession",
+    "sekolah": "School"
   }
 }

@@ -357,30 +357,30 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
                 <div className="relative" ref={labelDropdownRef}>
                   <button onClick={() => setIsLabelDropdownOpen(!isLabelDropdownOpen)} className="flex items-center gap-1 bg-gray-200 dark:bg-[#3A3B3C] px-2 py-0.5 rounded-md text-[12px] font-semibold text-gray-700 dark:text-[#E4E6EB]">
                     <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" /></svg>
-                    {postLabel === "DEFAULT" ? "Label" : postLabel === "MENCARI" ? "Mencari" : postLabel === "LOKASI" ? "Lokasi" : postLabel === "PROFESI" ? "Profesi" : "Sekolah"}
+                    {postLabel === "DEFAULT" ? t("postLabel.default") : postLabel === "MENCARI" ? t("postLabel.mencariShort") : postLabel === "LOKASI" ? t("postLabel.lokasi") : postLabel === "PROFESI" ? t("postLabel.profesi") : t("postLabel.sekolah")}
                     <svg className="w-3.5 h-3.5 ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
                   </button>
                   {isLabelDropdownOpen && (
                     <div className="absolute top-full left-0 mt-1 w-40 bg-white dark:bg-[#242526] rounded-lg shadow-xl border border-gray-200 dark:border-[#3E4042] py-2 z-50">
                       <button onClick={() => { setPostLabel("DEFAULT"); setIsLabelDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left">
-                        <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">Default</span>
+                        <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">{t("postLabel.default")}</span>
                       </button>
                       <button onClick={() => { setPostLabel("MENCARI"); setPostPrivacy("PUBLIC"); setIsLabelDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left">
-                        <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">Mencari (Public)</span>
+                        <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">{t("postLabel.mencari")}</span>
                       </button>
                       {currentUser?.profile?.locationName && (
                         <button onClick={() => { setPostLabel("LOKASI"); setIsLabelDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left">
-                          <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">Lokasi</span>
+                          <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">{t("postLabel.lokasi")}</span>
                         </button>
                       )}
                       {currentUser?.profile?.profession && (
                         <button onClick={() => { setPostLabel("PROFESI"); setIsLabelDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left">
-                          <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">Profesi</span>
+                          <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">{t("postLabel.profesi")}</span>
                         </button>
                       )}
                       {currentUser?.profile?.school && (
                         <button onClick={() => { setPostLabel("SEKOLAH"); setIsLabelDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left">
-                          <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">Sekolah</span>
+                          <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">{t("postLabel.sekolah")}</span>
                         </button>
                       )}
                     </div>
