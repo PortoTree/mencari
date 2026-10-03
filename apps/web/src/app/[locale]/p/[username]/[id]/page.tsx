@@ -20,7 +20,7 @@ import { getOptimizedUrl } from "@/utils/cloudinary";
 import { MediaRenderer } from "@/components/MediaRenderer";
 import CreatePostModal from "@/components/CreatePostModal";
 
-import { profileCache, connectionCache } from "@/utils/profileCache";
+import { profileCache, connectionCache, galleryCache } from "@/utils/profileCache";
 
 function ProfilePageContent({
   params,
@@ -388,21 +388,22 @@ function ProfilePageContent({
       setIsLoadingProfile(false);
     }
 
-    const fetchGalleriesData = () => {
+    const fetchGalleriesData = (isBackground = false) => {
       getUserGalleries(id, currentId).then(galleriesRes => {
         if (galleriesRes.success) {
           const loadedGalleries = galleriesRes.galleries || [];
           setGalleries(loadedGalleries);
+          galleryCache.set(id, loadedGalleries);
           
           // Auto-open the specified gallery if deep-linked (only on initial load)
-          if (urlTab === "gallery" && urlGalleryId && !galleries.length) {
+          if (urlTab === "gallery" && urlGalleryId && !isBackground && !galleries.length) {
             const idx = loadedGalleries.findIndex((g: any) => g.id === urlGalleryId);
             if (idx !== -1) {
               setActiveAlbumIdx(idx);
             }
           }
         }
-        setIsLoadingGalleries(false);
+        if (!isBackground) setIsLoadingGalleries(false);
       });
     };
 
@@ -413,7 +414,13 @@ function ProfilePageContent({
       ? getConnectionStatus(currentId, id)
       : Promise.resolve({ friendshipStatus: null, isFollowing: false, isBlocked: false });
 
-    fetchGalleriesData();
+    if (galleryCache.has(id)) {
+      setGalleries(galleryCache.get(id));
+      setIsLoadingGalleries(false);
+      fetchGalleriesData(true); // background revalidate
+    } else {
+      fetchGalleriesData(false);
+    }
 
     Promise.all([profilePromise, connectionPromise]).then(([res, status]) => {
       if (res.success && res.profile) {
@@ -446,7 +453,7 @@ function ProfilePageContent({
     };
     
     const handleFeedRefresh = () => {
-      fetchGalleriesData();
+      fetchGalleriesData(true);
     };
 
     window.addEventListener("profile_updated", handleProfileUpdated);
@@ -480,7 +487,11 @@ function ProfilePageContent({
     setIsCreatingGallery(true);
     const res = await createGallery(currentUser.id, newGalleryName.trim());
     if (res.success && res.gallery) {
-      setGalleries(prev => [...prev, res.gallery]);
+      setGalleries(prev => {
+        const next = [...prev, res.gallery];
+        galleryCache.set(id, next);
+        return next;
+      });
       setIsCreateGalleryOpen(false);
       setNewGalleryName("");
       setCreatedGalleryId(res.gallery.id);
@@ -497,7 +508,11 @@ function ProfilePageContent({
     setIsEditingGalleryLoading(true);
     const res = await updateGallery(editingGalleryId, editingGalleryName.trim());
     if (res.success && res.gallery) {
-      setGalleries(prev => prev.map(g => g.id === editingGalleryId ? { ...g, name: res.gallery.name } : g));
+      setGalleries(prev => {
+        const next = prev.map(g => g.id === editingGalleryId ? { ...g, name: res.gallery.name } : g);
+        galleryCache.set(id, next);
+        return next;
+      });
       setEditingGalleryId(null);
       setEditingGalleryName("");
     } else {
@@ -511,7 +526,11 @@ function ProfilePageContent({
     setIsDeletingGalleryLoading(true);
     const res = await deleteGallery(deletingGalleryId);
     if (res.success) {
-      setGalleries(prev => prev.filter(g => g.id !== deletingGalleryId));
+      setGalleries(prev => {
+        const next = prev.filter(g => g.id !== deletingGalleryId);
+        galleryCache.set(id, next);
+        return next;
+      });
       if (activeAlbumIdx !== null && galleries[activeAlbumIdx]?.id === deletingGalleryId) {
         setActiveAlbumIdx(null);
       }
@@ -543,6 +562,7 @@ function ProfilePageContent({
       const res = await getUserGalleries(id, currentUser?.id);
       if (res.success && res.galleries) {
         setGalleries(res.galleries);
+        galleryCache.set(id, res.galleries);
       }
     }
     setIsDeletingMediaLoading(false);
