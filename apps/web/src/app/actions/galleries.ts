@@ -177,8 +177,17 @@ export async function deleteMediaFromGallery(postId: string, mediaId: string) {
     });
 
     // If it was the only media and there's no text content, delete the post entirely
-    if (post.postMedia.length === 1 && post.postMedia[0].mediaId === mediaId && (!post.content || post.content.trim() === '')) {
+    const postWasDeleted = post.postMedia.length === 1 && post.postMedia[0].mediaId === mediaId && (!post.content || post.content.trim() === '');
+    if (postWasDeleted) {
       await prisma.post.delete({ where: { id: postId } });
+    }
+
+    // Auto-delete gallery if it's now empty (no more posts)
+    if (post.galleryId) {
+      const remainingPostsInGallery = await prisma.post.count({ where: { galleryId: post.galleryId } });
+      if (remainingPostsInGallery === 0) {
+        await prisma.gallery.delete({ where: { id: post.galleryId } });
+      }
     }
 
     // Check if the media is used in any other post

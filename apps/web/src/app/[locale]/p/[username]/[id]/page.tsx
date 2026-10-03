@@ -1746,7 +1746,7 @@ function ProfilePageContent({
                             ) : (
                               <>
                                 {galleries.length === 0 ? (
-                                  !isOwnProfile ? <div className="text-gray-500 dark:text-[#B0B3B8] text-[14px] flex items-center px-4 py-4">{t("noGallery")}</div> : null
+                                  !isOwnProfile ? <div className="text-gray-500 dark:text-[#B0B3B8] text-[14px] flex items-center justify-center w-full py-4">{t("noGallery")}</div> : null
                                 ) : (
                               galleries.map((gallery, i) => (
                                 <div key={gallery.id} onClick={() => { setActiveAlbumIdx(activeAlbumIdx === i ? null : i); setInlineCarouselIdx(0); }} className="shrink-0 w-[140px] snap-start flex flex-col gap-1.5 group cursor-pointer">

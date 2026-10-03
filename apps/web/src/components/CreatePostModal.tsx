@@ -431,11 +431,11 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
   return createPortal(
     <>
       <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/60 dark:bg-black/70 px-4">
-      <div className="w-full max-w-[500px] bg-white dark:bg-[#242526] rounded-xl shadow-xl flex flex-col relative border border-gray-200 dark:border-[#3E4042]">
+      <div className={`w-full max-w-[500px] bg-white dark:bg-[#242526] rounded-xl shadow-xl flex flex-col relative border border-gray-200 dark:border-[#3E4042] ${isPosting ? 'pointer-events-none select-none' : ''}`}>
         {/* Header */}
         <div className="flex items-center justify-center p-4 border-b border-gray-200 dark:border-[#3E4042] relative">
           <h2 className="text-[20px] font-bold text-black dark:text-[#E4E6EB]">{initialPost ? "Edit post" : "Create post"}</h2>
-          <button onClick={onClose} className="absolute right-4 w-9 h-9 bg-gray-200 dark:bg-[#3A3B3C] rounded-full flex items-center justify-center hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors text-gray-600 dark:text-[#B0B3B8]">
+          <button onClick={isPosting ? undefined : onClose} disabled={isPosting} className={`absolute right-4 w-9 h-9 bg-gray-200 dark:bg-[#3A3B3C] rounded-full flex items-center justify-center hover:bg-gray-300 dark:hover:bg-[#4E4F50] transition-colors text-gray-600 dark:text-[#B0B3B8] ${isPosting ? 'opacity-40 cursor-not-allowed' : ''}`}>
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
         </div>
@@ -780,7 +780,15 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
             disabled={(!postContent.trim() && mediaPreviewList.length === 0) || isPosting}
             className="w-full bg-[#1877F2] hover:bg-blue-600 disabled:bg-gray-200 disabled:dark:bg-[#4E4F50] text-white disabled:text-gray-400 disabled:dark:text-gray-500 font-semibold py-2 rounded-lg transition-colors flex justify-center items-center gap-2"
           >
-            {isPosting ? (initialPost ? "Menyimpan..." : "Posting...") : (initialPost ? "Simpan" : "Post")}
+            {isPosting ? (
+              <>
+                <svg className="animate-spin w-4 h-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                </svg>
+                {initialPost ? "Menyimpan..." : "Posting..."}
+              </>
+            ) : (initialPost ? "Simpan" : "Post")}
           </button>
         </div>
 
