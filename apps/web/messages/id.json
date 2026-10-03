@@ -231,7 +231,11 @@
     "galleryNamePlaceholder": "Nama gallery...",
     "cancel": "Batal",
     "save": "Simpan",
-    "saving": "Menyimpan..."
+    "saving": "Menyimpan...",
+    "moveGallery": "Pindah gallery...",
+    "deleteMedia": "Hapus media",
+    "setAsCover": "Jadikan cover",
+    "deleteMediaConfirmText": "Media ini akan terhapus di postingan"
   },
   "filter": {
     "favorite": "Favorit",

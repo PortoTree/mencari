@@ -1,4 +1,4 @@
-"use server";
+﻿"use server";
 
 import { revalidatePath } from "next/cache";
 import prisma from "@/utils/prisma";
@@ -113,3 +113,106 @@ export async function deleteGallery(galleryId: string) {
     return { success: false, error: "Failed to delete gallery" };
   }
 }
+
+export async function deleteMediaFromGallery(postId: string, mediaId: string) {
+  try {
+    // Check if the post exists and has other media or content
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+      include: { postMedia: true }
+    });
+
+    if (!post) {
+      return { success: false, error: "Post not found" };
+    }
+
+    // Delete the specific media link
+    await prisma.postMedia.deleteMany({
+      where: {
+        postId: postId,
+        mediaId: mediaId
+      }
+    });
+
+    // If it was the only media and there's no text content, delete the post entirely
+    if (post.postMedia.length === 1 && post.postMedia[0].mediaId === mediaId && (!post.content || post.content.trim() === '')) {
+      await prisma.post.delete({ where: { id: postId } });
+    }
+
+    revalidatePath("/", "layout");
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting media from gallery:", error);
+    return { success: false, error: "Failed to delete media" };
+  }
+}
+
+export async function moveMediaToAnotherGallery(userId: string, postId: string, mediaId: string, targetGalleryId: string) {
+  try {
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+      include: { postMedia: true }
+    });
+
+    if (!post) {
+      return { success: false, error: "Post not found" };
+    }
+
+    // Target gallery privacy
+    const gallery = await prisma.gallery.findUnique({
+      where: { id: targetGalleryId }
+    });
+    const newVisibility = gallery ? gallery.privacy as any : "PUBLIC";
+
+    // 1. Create a new post for this single media in the new gallery
+    const newPost = await prisma.post.create({
+      data: {
+        authorId: userId,
+        content: "",
+        visibility: newVisibility,
+        label: post.label,
+        mediaLayout: "GRID",
+        galleryId: targetGalleryId,
+      }
+    });
+
+    // 2. Re-link the media to the new post
+    await prisma.postMedia.updateMany({
+      where: {
+        postId: postId,
+        mediaId: mediaId
+      },
+      data: {
+        postId: newPost.id,
+        order: 0
+      }
+    });
+
+    // 3. Clean up old post if it's now empty
+    if (post.postMedia.length === 1 && post.postMedia[0].mediaId === mediaId && (!post.content || post.content.trim() === '')) {
+      await prisma.post.delete({ where: { id: postId } });
+    }
+
+    revalidatePath("/", "layout");
+    return { success: true };
+  } catch (error) {
+    console.error("Error moving media:", error);
+    return { success: false, error: "Failed to move media" };
+  }
+}
+
+export async function setGalleryCover(galleryId: string, mediaUrl: string) {
+  try {
+    await prisma.gallery.update({
+      where: { id: galleryId },
+      data: { coverUrl: mediaUrl }
+    });
+    revalidatePath("/", "layout");
+    return { success: true };
+  } catch (error) {
+    console.error("Error setting gallery cover:", error);
+    return { success: false, error: "Failed to set gallery cover" };
+  }
+}
+
+

@@ -72,9 +72,49 @@ function PostFeedContent({ currentUser, onProfileClick, targetProfileId }: PostF
   // Optionally listen for a custom event if we want to refresh when a post is created from the modal
   useEffect(() => {
     const handleRefresh = () => fetchPosts();
+    const handleSilentRefresh = () => fetchPosts(true);
+    
+    const handleMediaRemoved = (e: any) => {
+      const { postId, mediaId, originalUrl } = e.detail;
+      setPosts(prev => {
+        const newPosts = prev.map(p => {
+          if (p.id === postId) {
+            let newMediaUrls = p.mediaUrls || [];
+            if (originalUrl) {
+              newMediaUrls = newMediaUrls.filter((url: string) => url !== originalUrl);
+            }
+            if (newMediaUrls.length === 0 && (!p.content || p.content.trim() === '')) return null;
+            return { ...p, mediaUrls: newMediaUrls };
+          }
+          return p;
+        }).filter(Boolean);
+        (window as any).__POST_FEED_CACHE = (window as any).__POST_FEED_CACHE || {};
+        (window as any).__POST_FEED_CACHE[cacheKey] = newPosts;
+        return newPosts as any[];
+      });
+    };
+
+    const handleGalleryDeleted = (e: any) => {
+      const { galleryId } = e.detail;
+      setPosts(prev => {
+        const newPosts = prev.filter(p => p.galleryId !== galleryId);
+        (window as any).__POST_FEED_CACHE = (window as any).__POST_FEED_CACHE || {};
+        (window as any).__POST_FEED_CACHE[cacheKey] = newPosts;
+        return newPosts;
+      });
+    };
+
     window.addEventListener("refresh_feed", handleRefresh);
-    return () => window.removeEventListener("refresh_feed", handleRefresh);
-  }, [fetchPosts]);
+    window.addEventListener("silent_refresh_feed", handleSilentRefresh);
+    window.addEventListener("post_media_removed", handleMediaRemoved);
+    window.addEventListener("gallery_deleted", handleGalleryDeleted);
+    return () => {
+      window.removeEventListener("refresh_feed", handleRefresh);
+      window.removeEventListener("silent_refresh_feed", handleSilentRefresh);
+      window.removeEventListener("post_media_removed", handleMediaRemoved);
+      window.removeEventListener("gallery_deleted", handleGalleryDeleted);
+    };
+  }, [fetchPosts, cacheKey]);
 
   if (isLoading) {
     return (

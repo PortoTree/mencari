@@ -231,7 +231,11 @@
     "galleryNamePlaceholder": "Gallery name...",
     "cancel": "Cancel",
     "save": "Save",
-    "saving": "Saving..."
+    "saving": "Saving...",
+    "moveGallery": "Move gallery...",
+    "deleteMedia": "Delete media",
+    "setAsCover": "Set as cover",
+    "deleteMediaConfirmText": "This media will be deleted from the post"
   },
   "filter": {
     "favorite": "Favorites",

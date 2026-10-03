@@ -14,7 +14,7 @@ import ImagePreviewModal from "@/components/ImagePreviewModal";
 import { ShinyButton } from "@/components/ui/shiny-button";
 import { uploadToCloudinary } from "@/utils/uploadImage";
 import { updateProfileMedia, getProfile } from "@/app/actions/profile";
-import { getUserGalleries, createGallery, updateGallery, deleteGallery } from "@/app/actions/galleries";
+import { getUserGalleries, createGallery, updateGallery, deleteGallery, deleteMediaFromGallery, moveMediaToAnotherGallery, setGalleryCover } from "@/app/actions/galleries";
 import { getConnectionStatus, handlePrimaryConnectionAction, toggleBlock, removeFollower } from "@/app/actions/connections";
 import { getOptimizedUrl } from "@/utils/cloudinary";
 import { MediaRenderer } from "@/components/MediaRenderer";
@@ -29,6 +29,7 @@ function ProfilePageContent({
 }) {
   const t = useTranslations("profile");
   const tEdit = useTranslations("editProfile");
+  const tFeed = useTranslations("feed");
 
   const getMediaThumbnail = (url: string) => {
     if (!url) return '';
@@ -108,8 +109,18 @@ function ProfilePageContent({
   const [editingGalleryId, setEditingGalleryId] = useState<string | null>(null);
   const [editingGalleryName, setEditingGalleryName] = useState("");
   const [isEditingGalleryLoading, setIsEditingGalleryLoading] = useState(false);
+  const [activeMediaMenuId, setActiveMediaMenuId] = useState<string | null>(null);
+  const [mediaMenuCoords, setMediaMenuCoords] = useState<{ x: number, y: number } | null>(null);
+  
+  // Move Media States
+  const [isMoveGalleryModalOpen, setIsMoveGalleryModalOpen] = useState(false);
+  const [mediaToMove, setMediaToMove] = useState<{ postId: string, mediaId: string, currentGalleryId?: string, mediaUrl?: string, originalUrl?: string } | null>(null);
+  const [isMovingMediaId, setIsMovingMediaId] = useState<string | null>(null);
+  const [isGridLayoutExpanded, setIsGridLayoutExpanded] = useState(false);
   const [deletingGalleryId, setDeletingGalleryId] = useState<string | null>(null);
   const [isDeletingGalleryLoading, setIsDeletingGalleryLoading] = useState(false);
+  const [isDeleteMediaModalOpen, setIsDeleteMediaModalOpen] = useState(false);
+  const [isDeletingMediaLoading, setIsDeletingMediaLoading] = useState(false);
 
   const MAX_AVATAR_SIZE = 3.2 * 1024 * 1024; // 3.2MB internal limit
   const MAX_COVER_SIZE = 5 * 1024 * 1024; // 5MB
@@ -489,11 +500,39 @@ function ProfilePageContent({
       if (activeAlbumIdx !== null && galleries[activeAlbumIdx]?.id === deletingGalleryId) {
         setActiveAlbumIdx(null);
       }
+      
+      // Update post feed
+      window.dispatchEvent(new CustomEvent("gallery_deleted", {
+        detail: { galleryId: deletingGalleryId }
+      }));
+      
       setDeletingGalleryId(null);
     } else {
       alert(res.error || "Failed to delete gallery");
     }
     setIsDeletingGalleryLoading(false);
+  };
+
+  const handleDeleteMedia = async () => {
+    if (!mediaToMove) return;
+    setIsDeletingMediaLoading(true);
+    const token = localStorage.getItem("token");
+    if (token) {
+      // Optimistic post update
+      window.dispatchEvent(new CustomEvent("post_media_removed", {
+        detail: { postId: mediaToMove.postId, mediaId: mediaToMove.mediaId, originalUrl: mediaToMove.originalUrl }
+      }));
+
+      await deleteMediaFromGallery(mediaToMove.postId, mediaToMove.mediaId);
+      // Refresh galleries
+      const res = await getUserGalleries(id, currentUser?.id);
+      if (res.success && res.galleries) {
+        setGalleries(res.galleries);
+      }
+    }
+    setIsDeletingMediaLoading(false);
+    setIsDeleteMediaModalOpen(false);
+    setMediaToMove(null);
   };
 
   useEffect(() => {
@@ -502,10 +541,14 @@ function ProfilePageContent({
         setActiveGalleryMenuId(null);
         setGalleryMenuCoords(null);
       }
+      if (activeMediaMenuId) {
+        setActiveMediaMenuId(null);
+        setMediaMenuCoords(null);
+      }
     };
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
-  }, [activeGalleryMenuId]);
+  }, [activeGalleryMenuId, activeMediaMenuId]);
 
   const handlePrimaryAction = async () => {
     if (!currentUser || isProcessing) return;
@@ -1703,7 +1746,7 @@ function ProfilePageContent({
                             ) : (
                               <>
                                 {galleries.length === 0 ? (
-                                  <div className="text-gray-500 dark:text-[#B0B3B8] text-[14px] flex items-center px-4 py-4">{t("noGallery")}</div>
+                                  !isOwnProfile ? <div className="text-gray-500 dark:text-[#B0B3B8] text-[14px] flex items-center px-4 py-4">{t("noGallery")}</div> : null
                                 ) : (
                               galleries.map((gallery, i) => (
                                 <div key={gallery.id} onClick={() => setActiveAlbumIdx(activeAlbumIdx === i ? null : i)} className="shrink-0 w-[140px] snap-start flex flex-col gap-1.5 group cursor-pointer">
@@ -1711,7 +1754,13 @@ function ProfilePageContent({
                                   <div className={`p-1 rounded-xl transition-colors ${activeAlbumIdx === i ? 'bg-gray-100 dark:bg-[#3A3B3C]' : 'hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50'}`}>
                                     <div className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden relative border border-gray-100 dark:border-[#3E4042] flex items-center justify-center">
                                       {/* Default media preview (placeholder for now, wait until posts API logic is there) */}
-                                      {gallery.posts && gallery.posts.length > 0 && gallery.posts[gallery.posts.length - 1].postMedia && gallery.posts[gallery.posts.length - 1].postMedia.length > 0 ? (
+                                      {gallery.coverUrl ? (
+                                        gallery.coverUrl.endsWith('.mp4') || gallery.coverUrl.endsWith('.webm') ? (
+                                          <video src={gallery.coverUrl} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" muted playsInline />
+                                        ) : (
+                                          <img src={getMediaThumbnail(gallery.coverUrl)} alt={gallery.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                        )
+                                      ) : gallery.posts && gallery.posts.length > 0 && gallery.posts[gallery.posts.length - 1].postMedia && gallery.posts[gallery.posts.length - 1].postMedia.length > 0 ? (
                                         (() => {
                                           const coverMedia = gallery.posts[gallery.posts.length - 1].postMedia[0].media;
                                           const coverUrl = coverMedia.thumbUrl || coverMedia.feedUrl || coverMedia.originalUrl;
@@ -1792,10 +1841,17 @@ function ProfilePageContent({
                             <div className="flex items-center gap-4">
                               {/* Grid toggles */}
                               <div className="flex items-center bg-gray-200/60 dark:bg-[#242526] rounded-lg p-1 border border-gray-300/50 dark:border-[#3E4042]">
-                                {[1, 3, 5].map((cols) => (
+                                {(isGridLayoutExpanded ? [1, 3, 5] : [albumGridCols]).map((cols) => (
                                   <button
                                     key={cols}
-                                    onClick={() => setAlbumGridCols(cols)}
+                                    onClick={() => {
+                                      if (isGridLayoutExpanded) {
+                                        setAlbumGridCols(cols);
+                                        setIsGridLayoutExpanded(false);
+                                      } else {
+                                        setIsGridLayoutExpanded(true);
+                                      }
+                                    }}
                                     className={`w-8 h-7 flex items-center justify-center rounded-md text-[13px] font-bold transition-all ${albumGridCols === cols ? 'bg-white dark:bg-[#4E4F50] text-black dark:text-white shadow-sm' : 'text-gray-500 dark:text-[#B0B3B8] hover:text-black dark:hover:text-white'}`}
                                   >
                                     {cols === 1 ? (
@@ -1865,10 +1921,34 @@ function ProfilePageContent({
                             }
 
                             const activeGallery = activeAlbumIdx !== null ? galleries[activeAlbumIdx] : null;
-                            const albumMediaItems = activeGallery ? (activeGallery.posts ?? []).flatMap((post: any) => (post.postMedia ?? []).map((pm: any) => pm.media)) : [];
+                            const albumMediaItems = activeGallery ? (activeGallery.posts ?? []).flatMap((post: any) => (post.postMedia ?? []).map((pm: any) => ({ ...pm.media, postId: post.id, galleryId: activeGallery.id }))) : [];
+
+                            const renderAddMediaBox = () => {
+                              if (!isOwnProfile || !activeGallery) return null;
+                              return (
+                                <div
+                                  onClick={() => {
+                                    setCreatedGalleryId(activeGallery.id);
+                                    setCreatedGallery(activeGallery);
+                                    setIsCreatePostModalOpen(true);
+                                    setStartWithGalleryModal(false);
+                                  }}
+                                  className="aspect-square rounded-lg border-2 border-dashed border-gray-300 dark:border-[#4E4F50] hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 flex flex-col items-center justify-center cursor-pointer transition-colors"
+                                >
+                                  <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                                  </div>
+                                </div>
+                              );
+                            };
 
                             if (albumMediaItems.length === 0) {
-                              return <div className="text-gray-500 text-center py-8">{t("emptyAlbum")}</div>;
+                              return (
+                                <div className={`grid gap-2 transition-all duration-300 ${albumGridCols === 3 ? 'grid-cols-3' : 'grid-cols-5'}`}>
+                                  {renderAddMediaBox()}
+                                  {!isOwnProfile && <div className="col-span-full text-gray-500 text-center py-8">{t("emptyAlbum")}</div>}
+                                </div>
+                              );
                             }
 
                             const safeInlineIdx = Math.max(0, Math.min(inlineCarouselIdx, albumMediaItems.length - 1));
@@ -1891,6 +1971,30 @@ function ProfilePageContent({
                                         onClick={() => { setGalleryPreviewIdx(safeInlineIdx); setGalleryPreviewModalOpen(true); }}
                                       />
                                     )}
+                                    {isOwnProfile && (
+                                      <button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          const media = albumMediaItems[safeInlineIdx];
+                                          const mId = media?.id || safeInlineIdx.toString();
+                                          if (activeMediaMenuId === mId) {
+                                            setActiveMediaMenuId(null);
+                                            setMediaMenuCoords(null);
+                                            setMediaToMove(null);
+                                          } else {
+                                            const rect = e.currentTarget.getBoundingClientRect();
+                                            setMediaMenuCoords({ x: rect.right, y: rect.bottom });
+                                            setActiveMediaMenuId(mId);
+                                            if (media) {
+                                              setMediaToMove({ postId: media.postId, mediaId: media.id, currentGalleryId: media.galleryId, mediaUrl: media.thumbUrl || media.feedUrl || media.originalUrl, originalUrl: media.originalUrl });
+                                            }
+                                          }
+                                        }}
+                                        className="absolute top-4 right-4 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full opacity-100 transition-opacity z-10 cursor-pointer"
+                                      >
+                                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16"><path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>
+                                      </button>
+                                    )}
                                     {safeInlineIdx > 0 && (
                                       <button
                                         onClick={() => setInlineCarouselIdx(prev => prev - 1)}
@@ -1908,6 +2012,21 @@ function ProfilePageContent({
                                       </button>
                                     )}
                                   </div>
+                                  {isOwnProfile && activeGallery && (
+                                    <div
+                                      onClick={() => {
+                                        setCreatedGalleryId(activeGallery.id);
+                                        setCreatedGallery(activeGallery);
+                                        setIsCreatePostModalOpen(true);
+                                        setStartWithGalleryModal(false);
+                                      }}
+                                      className="mt-2 w-full py-3 rounded-lg border-2 border-dashed border-gray-300 dark:border-[#4E4F50] hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 flex items-center justify-center cursor-pointer transition-colors"
+                                    >
+                                      <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                                      </div>
+                                    </div>
+                                  )}
                                 </div>
                               );
                             }
@@ -1927,8 +2046,30 @@ function ProfilePageContent({
                                     ) : (
                                       <img src={getMediaThumbnail(media?.thumbUrl || media?.feedUrl || media?.originalUrl)} alt={`Album item ${idx}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                     )}
+                                    {isOwnProfile && (
+                                      <button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          const mId = media.id || idx.toString();
+                                          if (activeMediaMenuId === mId) {
+                                            setActiveMediaMenuId(null);
+                                            setMediaMenuCoords(null);
+                                            setMediaToMove(null);
+                                          } else {
+                                            const rect = e.currentTarget.getBoundingClientRect();
+                                            setMediaMenuCoords({ x: rect.right, y: rect.bottom });
+                                            setActiveMediaMenuId(mId);
+                                            setMediaToMove({ postId: media.postId, mediaId: media.id, currentGalleryId: media.galleryId, mediaUrl: media.thumbUrl || media.feedUrl || media.originalUrl, originalUrl: media.originalUrl });
+                                          }
+                                        }}
+                                        className="absolute top-2 right-2 p-1.5 bg-black/50 hover:bg-black/70 text-white rounded-full opacity-100 transition-opacity z-10 cursor-pointer"
+                                      >
+                                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 16 16"><path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>
+                                      </button>
+                                    )}
                                   </div>
                                 ))}
+                                {renderAddMediaBox()}
                               </div>
                             );
                           })()}
@@ -2209,6 +2350,137 @@ function ProfilePageContent({
         document.body
       )}
 
+      {/* Move Gallery Modal */}
+      {isMoveGalleryModalOpen && mediaToMove && (
+        <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/60 px-4">
+          <div className="w-full max-w-[400px] bg-white dark:bg-[#242526] rounded-xl shadow-xl flex flex-col p-4 border border-gray-200 dark:border-[#3E4042]">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-[18px] font-bold text-black dark:text-[#E4E6EB]">{tFeed("moveGallery")}</h3>
+              <button onClick={() => { setIsMoveGalleryModalOpen(false); setMediaToMove(null); }} className="text-gray-500 hover:text-black dark:hover:text-white">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            
+            <div className="flex flex-col gap-2 max-h-[300px] overflow-y-auto">
+              {galleries.filter(g => g.id !== mediaToMove.currentGalleryId).map(gallery => (
+                <button
+                  key={gallery.id}
+                  disabled={isMovingMediaId !== null}
+                  onClick={async () => {
+                    const token = localStorage.getItem("token");
+                    if (token) {
+                      setIsMovingMediaId(gallery.id);
+                      try {
+                        // Optimistic post update
+                        window.dispatchEvent(new CustomEvent("post_media_removed", {
+                          detail: { postId: mediaToMove.postId, mediaId: mediaToMove.mediaId, originalUrl: mediaToMove.originalUrl }
+                        }));
+                        // Background refresh for new post
+                        window.dispatchEvent(new CustomEvent("silent_refresh_feed"));
+                        
+                        await moveMediaToAnotherGallery(currentUser.id, mediaToMove.postId, mediaToMove.mediaId, gallery.id);
+                        const res = await getUserGalleries(id, currentUser?.id);
+                        if (res.success && res.galleries) {
+                          setGalleries(res.galleries);
+                        }
+                      } finally {
+                        setIsMovingMediaId(null);
+                        setIsMoveGalleryModalOpen(false);
+                        setMediaToMove(null);
+                      }
+                    }
+                  }}
+                  className="w-full text-left px-4 py-3 rounded-lg flex items-center justify-between hover:bg-gray-100 dark:hover:bg-[#3A3B3C] border border-gray-200 dark:border-[#3E4042] transition-colors disabled:opacity-50"
+                >
+                  <div>
+                    <div className="font-semibold text-gray-800 dark:text-[#E4E6EB]">{gallery.name}</div>
+                    <div className="text-xs text-gray-500">
+                      {gallery.posts?.reduce((acc: number, post: any) => acc + (post.postMedia?.length || 0), 0) || 0} media
+                    </div>
+                  </div>
+                  {isMovingMediaId === gallery.id && (
+                    <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                  )}
+                </button>
+              ))}
+              {galleries.filter(g => g.id !== mediaToMove.currentGalleryId).length === 0 && (
+                <div className="text-center py-4 text-gray-500 text-sm">
+                  Tidak ada gallery lain.
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Floating Media Menu */}
+      {activeMediaMenuId && mediaMenuCoords && typeof document !== 'undefined' && createPortal(
+        <div 
+          className="fixed z-[99999] w-48 bg-white dark:bg-[#242526] rounded-lg shadow-lg border border-gray-100 dark:border-gray-700 py-1"
+          style={{ top: mediaMenuCoords.y + 4, left: mediaMenuCoords.x - 160 }}
+        >
+          {mediaToMove?.currentGalleryId && mediaToMove?.mediaUrl && (
+            <>
+              <button 
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  const token = localStorage.getItem("token");
+                  if (token && mediaToMove.currentGalleryId && mediaToMove.mediaUrl) {
+                    const targetGalleryId = mediaToMove.currentGalleryId;
+                    const targetMediaUrl = mediaToMove.mediaUrl;
+                    
+                    // Optimistic update
+                    setGalleries(prev => prev.map(g => g.id === targetGalleryId ? { ...g, coverUrl: targetMediaUrl } : g));
+                    
+                    await setGalleryCover(targetGalleryId, targetMediaUrl);
+                  }
+                  setActiveMediaMenuId(null); 
+                  setMediaMenuCoords(null);
+                }}
+                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-[#E4E6EB] hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                {tFeed("setAsCover")}
+              </button>
+              
+              <div className="h-px bg-gray-200 dark:bg-gray-700 my-1"></div>
+            </>
+          )}
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsMoveGalleryModalOpen(true);
+              setActiveMediaMenuId(null); 
+              setMediaMenuCoords(null);
+            }}
+            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-[#E4E6EB] hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
+            {tFeed("moveGallery")}
+          </button>
+          
+          <div className="h-px bg-gray-200 dark:bg-gray-700 my-1"></div>
+
+          <button 
+            onClick={(e) => { 
+              e.stopPropagation(); 
+              if (mediaToMove) {
+                setIsDeleteMediaModalOpen(true);
+              }
+              setActiveMediaMenuId(null); 
+              setMediaMenuCoords(null);
+            }}
+            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+            {tFeed("deleteMedia")}
+          </button>
+        </div>,
+        document.body
+      )}
+
+
+
       {/* Edit Gallery Popup Modal */}
       {editingGalleryId && (
         <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/60 px-4">
@@ -2256,6 +2528,36 @@ function ProfilePageContent({
                 className="px-4 py-2 text-sm font-semibold bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
               >
                 {isDeletingGalleryLoading ? "..." : t("delete")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Media Popup Modal */}
+      {isDeleteMediaModalOpen && (
+        <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/60 px-4">
+          <div className="w-full max-w-[400px] bg-white dark:bg-[#242526] rounded-xl shadow-xl flex flex-col p-4 border border-gray-200 dark:border-[#3E4042]">
+            <h3 className="text-[18px] font-bold text-black dark:text-[#E4E6EB] mb-4">{tFeed("deleteMedia")}</h3>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              {tFeed("deleteMediaConfirmText")}
+            </p>
+            <div className="flex justify-end gap-2">
+              <button 
+                onClick={() => {
+                  setIsDeleteMediaModalOpen(false);
+                  setMediaToMove(null);
+                }} 
+                className="px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-lg transition-colors cursor-pointer"
+              >
+                {tFeed("cancel")}
+              </button>
+              <button
+                onClick={handleDeleteMedia}
+                disabled={isDeletingMediaLoading}
+                className="px-4 py-2 text-sm font-semibold bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
+              >
+                {isDeletingMediaLoading ? "..." : t("delete")}
               </button>
             </div>
           </div>
