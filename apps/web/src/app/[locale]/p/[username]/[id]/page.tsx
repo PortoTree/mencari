@@ -1749,6 +1749,41 @@ function ProfilePageContent({
                 {/* Tab Content Area */}
                 <div className="mt-2 flex flex-col gap-4 max-w-[590px] w-full mx-auto min-h-[100vh] pb-8">
                   <div className={activeTab === 'posts' ? 'block' : 'hidden'}>
+                    {/* Create Post Input */}
+                    {isOwnProfile && (
+                      <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-4 w-full mb-4">
+                        <div className="flex items-center gap-3 pb-4 border-b border-gray-100 dark:border-[#3E4042]">
+                          <div className="w-[40px] h-[40px] rounded-full flex items-center justify-center shrink-0 overflow-hidden border border-emerald-600 dark:border-emerald-400">
+                            <img
+                              src={avatarPreview ? getOptimizedUrl(avatarPreview, "avatar") : "/default-avatar.svg"}
+                              alt="Profile"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <input
+                            type="text"
+                            placeholder={tFeed("createPost")}
+                            className="w-full bg-[#F0F2F5] dark:bg-[#3A3B3C] hover:bg-[#E4E6EB] dark:hover:bg-[#4E4F50] transition-colors rounded-full px-4 py-2.5 focus:outline-none cursor-pointer text-gray-600 dark:text-[#B0B3B8] text-[17px]"
+                            readOnly
+                            onClick={() => { setStartWithGalleryModal(false); setIsCreatePostModalOpen(true); }}
+                          />
+                        </div>
+                        <div className="flex justify-between items-center pt-3 px-1">
+                          <button onClick={() => { setStartWithGalleryModal(false); setIsCreatePostModalOpen(true); }} className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
+                            <div className="w-[24px] h-[24px] bg-current text-[#8B4513]" style={{ WebkitMask: "url(/navigasi/produk-aktif.svg) center/contain no-repeat", mask: "url(/navigasi/produk-aktif.svg) center/contain no-repeat" }} />
+                            {tFeed("product") || "Product"}
+                          </button>
+                          <button onClick={() => { setStartWithGalleryModal(false); setIsCreatePostModalOpen(true); }} className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
+                            <div className="w-[24px] h-[24px] bg-current text-purple-500" style={{ WebkitMask: "url(/navigasi/project.svg) center/contain no-repeat", mask: "url(/navigasi/project.svg) center/contain no-repeat" }} />
+                            {tFeed("project") || "Project"}
+                          </button>
+                          <button onClick={() => { setStartWithGalleryModal(false); setIsCreatePostModalOpen(true); }} className="flex items-center gap-2 text-[15px] font-semibold text-[#65676B] dark:text-[#B0B3B8] hover:bg-gray-200 dark:hover:bg-[#3A3B3C] p-2 rounded-lg flex-1 justify-center transition-colors">
+                            <img src="/visit.png" alt="Page" className="w-[24px] h-[24px] object-contain" />
+                            {tFeed("page") || "Halaman"}
+                          </button>
+                        </div>
+                      </div>
+                    )}
                     <PostFeed currentUser={currentUser} targetProfileId={id} />
                   </div>
 
