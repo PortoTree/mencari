@@ -2,6 +2,7 @@
 
 import { useTranslations, useLocale } from "next-intl";
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { deletePost } from "@/app/actions/posts";
 import CreatePostModal from "./CreatePostModal";
@@ -575,7 +576,7 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
       )}
 
       
-      {isMediaModalOpen && (
+      {isMediaModalOpen && typeof document !== "undefined" && createPortal(
         <div className="fixed inset-0 z-[100000] bg-black/95 flex flex-col">
           {/* Header */}
           <div className={`${modalViewMode === "CAROUSEL" ? "absolute top-0 inset-x-0 z-10 bg-gradient-to-b from-black/80 to-transparent" : "bg-black/95 shrink-0"} flex justify-between items-center p-4`}>
@@ -657,7 +658,8 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
               </div>
             )}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );

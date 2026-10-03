@@ -17,6 +17,7 @@ import { updateProfileMedia, getProfile } from "@/app/actions/profile";
 import { getUserGalleries, createGallery, updateGallery, deleteGallery } from "@/app/actions/galleries";
 import { getConnectionStatus, handlePrimaryConnectionAction, toggleBlock, removeFollower } from "@/app/actions/connections";
 import { getOptimizedUrl } from "@/utils/cloudinary";
+import { MediaRenderer } from "@/components/MediaRenderer";
 
 import { profileCache, connectionCache } from "@/utils/profileCache";
 
@@ -27,6 +28,15 @@ function ProfilePageContent({
 }) {
   const t = useTranslations("profile");
   const tEdit = useTranslations("editProfile");
+
+  const getMediaThumbnail = (url: string) => {
+    if (!url) return '';
+    const ytMatch = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
+    if (ytMatch && ytMatch[1]) {
+      return `https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg`;
+    }
+    return url;
+  };
 
   const unwrappedParams = use(params);
   const username = unwrappedParams.username ? decodeURIComponent(unwrappedParams.username) : "pampam";
@@ -1699,7 +1709,14 @@ function ProfilePageContent({
                                     <div className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden relative border border-gray-100 dark:border-[#3E4042] flex items-center justify-center">
                                       {/* Default media preview (placeholder for now, wait until posts API logic is there) */}
                                       {gallery.posts && gallery.posts.length > 0 && gallery.posts[gallery.posts.length - 1].postMedia && gallery.posts[gallery.posts.length - 1].postMedia.length > 0 ? (
-                                        <img src={gallery.posts[gallery.posts.length - 1].postMedia[0].media.thumbUrl || gallery.posts[gallery.posts.length - 1].postMedia[0].media.feedUrl || gallery.posts[gallery.posts.length - 1].postMedia[0].media.originalUrl} alt={gallery.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                        (() => {
+                                          const coverMedia = gallery.posts[gallery.posts.length - 1].postMedia[0].media;
+                                          const coverUrl = coverMedia.thumbUrl || coverMedia.feedUrl || coverMedia.originalUrl;
+                                          if (coverMedia.type === 'VIDEO') {
+                                            return <video src={coverUrl} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" muted playsInline />;
+                                          }
+                                          return <img src={getMediaThumbnail(coverUrl)} alt={gallery.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />;
+                                        })()
                                       ) : (
                                         <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                                       )}
@@ -1753,7 +1770,7 @@ function ProfilePageContent({
                         <div className="animate-in slide-in-from-top-2 fade-in duration-300 w-full mt-2">
                           <div className="flex items-center justify-between mb-4 px-1">
                             <h3 className="font-bold text-[17px] text-black dark:text-[#E4E6EB]">
-                              {t("albumContents")} {isLoadingGalleries ? <span className="inline-block w-32 h-5 bg-gray-200 dark:bg-gray-700 animate-pulse rounded align-middle ml-1"></span> : galleries[activeAlbumIdx]?.name}
+                              {t("albumContents")} {isLoadingGalleries ? <span className="inline-block w-32 h-5 bg-gray-200 dark:bg-gray-700 animate-pulse rounded align-middle ml-1"></span> : (activeAlbumIdx !== null ? galleries[activeAlbumIdx]?.name : "")}
                             </h3>
 
                             <div className="flex items-center gap-4">
@@ -1831,7 +1848,7 @@ function ProfilePageContent({
                               );
                             }
 
-                            const activeGallery = galleries[activeAlbumIdx];
+                            const activeGallery = activeAlbumIdx !== null ? galleries[activeAlbumIdx] : null;
                             const albumMediaItems = activeGallery ? (activeGallery.posts ?? []).flatMap((post: any) => (post.postMedia ?? []).map((pm: any) => pm.media)) : [];
 
                             if (albumMediaItems.length === 0) {
@@ -1844,12 +1861,20 @@ function ProfilePageContent({
                               return (
                                 <div className="relative w-full">
                                   <div className="flex w-full aspect-[4/3] sm:aspect-video bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden group relative items-center justify-center">
-                                    <img
-                                      src={albumMediaItems[safeInlineIdx]?.detailUrl || albumMediaItems[safeInlineIdx]?.originalUrl}
-                                      alt={`Album item ${safeInlineIdx}`}
-                                      className="w-full h-full object-contain bg-black cursor-pointer"
-                                      onClick={() => { setGalleryPreviewIdx(safeInlineIdx); setGalleryPreviewModalOpen(true); }}
-                                    />
+                                    {albumMediaItems[safeInlineIdx]?.type === 'VIDEO' ? (
+                                      <video
+                                        src={albumMediaItems[safeInlineIdx]?.detailUrl || albumMediaItems[safeInlineIdx]?.originalUrl}
+                                        className="w-full h-full object-contain bg-black cursor-pointer"
+                                        controls
+                                      />
+                                    ) : (
+                                      <img
+                                        src={getMediaThumbnail(albumMediaItems[safeInlineIdx]?.detailUrl || albumMediaItems[safeInlineIdx]?.originalUrl)}
+                                        alt={`Album item ${safeInlineIdx}`}
+                                        className="w-full h-full object-contain bg-black cursor-pointer"
+                                        onClick={() => { setGalleryPreviewIdx(safeInlineIdx); setGalleryPreviewModalOpen(true); }}
+                                      />
+                                    )}
                                     {safeInlineIdx > 0 && (
                                       <button
                                         onClick={() => setInlineCarouselIdx(prev => prev - 1)}
@@ -1881,7 +1906,11 @@ function ProfilePageContent({
                                     className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden group relative cursor-pointer"
                                     onClick={() => { setGalleryPreviewIdx(idx); setGalleryPreviewModalOpen(true); }}
                                   >
-                                    <img src={media?.thumbUrl || media?.feedUrl || media?.originalUrl} alt={`Album item ${idx}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                    {media?.type === 'VIDEO' ? (
+                                      <video src={media?.thumbUrl || media?.feedUrl || media?.originalUrl} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 pointer-events-none" muted playsInline />
+                                    ) : (
+                                      <img src={getMediaThumbnail(media?.thumbUrl || media?.feedUrl || media?.originalUrl)} alt={`Album item ${idx}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                    )}
                                   </div>
                                 ))}
                               </div>
@@ -2256,7 +2285,7 @@ function ProfilePageContent({
           </button>
 
           {(() => {
-            const activeGallery = galleries[activeAlbumIdx];
+            const activeGallery = activeAlbumIdx !== null ? galleries[activeAlbumIdx] : null;
             const items = activeGallery ? (activeGallery.posts ?? []).flatMap((post: any) => (post.postMedia ?? []).map((pm: any) => pm.media)) : [];
             const currentItem = items[galleryPreviewIdx];
 
@@ -2264,12 +2293,12 @@ function ProfilePageContent({
 
             return (
               <div className="relative w-full h-full flex items-center justify-center p-4 md:p-12" onClick={() => setGalleryPreviewModalOpen(false)}>
-                <img 
-                  src={currentItem.detailUrl || currentItem.originalUrl} 
-                  alt="Gallery Preview" 
-                  className="max-w-full max-h-full object-contain cursor-default"
-                  onClick={(e) => e.stopPropagation()}
-                />
+                <div className="w-full max-w-5xl aspect-video bg-black rounded-xl overflow-hidden relative flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+                  <MediaRenderer 
+                    url={currentItem.detailUrl || currentItem.originalUrl} 
+                    className="w-full h-full object-contain"
+                  />
+                </div>
 
                 {galleryPreviewIdx > 0 && (
                   <button 
