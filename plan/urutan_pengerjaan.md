@@ -23,10 +23,10 @@ Karena user sudah bisa saling follow, mereka butuh pemberitahuan secara real-tim
 
 ## Phase 2: Sistem Konten Utama (Core)
 Setelah user saling terkoneksi, mereka butuh media untuk berinteraksi dan berbagi.
-- [ ] **Database Postingan**: Skema Prisma, API, dan UI untuk membuat (*create*), membaca (*read*), mengedit (*update*), dan menghapus (*delete*) postingan.
+- [x] **Database Postingan**: Skema Prisma, API, dan UI untuk membuat (*create*), membaca (*read*), mengedit (*update*), dan menghapus (*delete*) postingan.
 - [ ] **Interaksi Postingan**: Logika untuk Like, Comment, Share, dan Save (Simpan) postingan.
-- [ ] **Privacy post**: privasi setiap postingan untuk user (public, friends only, private).
-- [ ] **UI/UX postingan**: Tampilan postingan di halaman utama /home, halaman teman ke teman /friend, dan halaman profil user. termasuk juga ui/ux untuk interaksi postingan, seperti like, comment, share, dan save.
+- [x] **Privacy post**: privasi setiap postingan untuk user (public, friends only, private).
+- [x] **UI/UX postingan**: Tampilan postingan di halaman utama /home, halaman teman ke teman /friend, dan halaman profil user. termasuk juga ui/ux untuk interaksi postingan, seperti like, comment, share, dan save.
 
 note: nanti akan ada postingan khusus only komunitas, apakah di kerjakan logikanya sekalian atau mau terpisah nanti bareng dengan pengerjaan komunitas saja?
 

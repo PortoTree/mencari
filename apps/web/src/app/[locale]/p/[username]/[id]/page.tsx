@@ -2657,7 +2657,7 @@ function ProfilePageContent({
         <CreatePostModal
           isOpen={isCreatePostModalOpen}
           onClose={() => { setIsCreatePostModalOpen(false); setCreatedGalleryId(undefined); setCreatedGallery(undefined); setStartWithGalleryModal(false); }}
-          currentUser={currentUser}
+          currentUser={currentUser?.id === id ? { ...currentUser, profile: profileData } : currentUser}
           initialGalleryId={createdGalleryId}
           initialGallery={createdGallery}
           startWithGalleryModal={startWithGalleryModal}
