@@ -181,6 +181,9 @@ export async function getFeedPosts(userId: string, targetProfileId?: string) {
             }
           }
         },
+        gallery: {
+          select: { id: true, name: true }
+        },
         _count: {
           select: { likes: true, comments: true }
         }
@@ -318,6 +321,9 @@ export async function getExplorePosts(tag?: string) {
             }
           }
         },
+        gallery: {
+          select: { id: true, name: true }
+        },
         _count: {
           select: { likes: true, comments: true }
         }
@@ -356,6 +362,9 @@ export async function getPostById(postId: string) {
               }
             }
           }
+        },
+        gallery: {
+          select: { id: true, name: true }
         },
         _count: {
           select: { likes: true, comments: true }

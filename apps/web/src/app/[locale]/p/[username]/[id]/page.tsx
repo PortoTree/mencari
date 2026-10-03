@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect, use } from "react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import PostFeed from "@/components/PostFeed";
 import EditProfileModal from "@/components/EditProfileModal";
@@ -19,7 +19,7 @@ import { getOptimizedUrl } from "@/utils/cloudinary";
 
 import { profileCache, connectionCache } from "@/utils/profileCache";
 
-export default function ProfilePage({
+function ProfilePageContent({
   params,
 }: {
   params: Promise<{ locale: string; username: string; id: string }>;
@@ -32,8 +32,11 @@ export default function ProfilePage({
   const id = unwrappedParams.id || "123";
   const locale = unwrappedParams.locale || "en";
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const urlTab = searchParams.get("tab");
+  const urlGalleryId = searchParams.get("galleryId");
 
-  const [activeTab, setActiveTab] = useState("posts");
+  const [activeTab, setActiveTab] = useState(urlTab || "posts");
   const [currentUser, setCurrentUser] = useState<any>({ username: "Guest", id: "1" });
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [themeLoaded, setThemeLoaded] = useState(false);
@@ -80,6 +83,7 @@ export default function ProfilePage({
 
   // Gallery states
   const [galleries, setGalleries] = useState<any[]>([]);
+  const [isLoadingGalleries, setIsLoadingGalleries] = useState(true);
   const [isCreateGalleryOpen, setIsCreateGalleryOpen] = useState(false);
   const [newGalleryName, setNewGalleryName] = useState("");
   const [isCreatingGallery, setIsCreatingGallery] = useState(false);
@@ -232,7 +236,7 @@ export default function ProfilePage({
   const [statPage, setStatPage] = useState(1);
   const [groupPage, setGroupPage] = useState(1);
   const [showScrollToTabs, setShowScrollToTabs] = useState(false);
-  
+
   useEffect(() => {
     const handleScroll = () => {
       const anchorEl = document.getElementById('profile-tabs-anchor');
@@ -247,6 +251,23 @@ export default function ProfilePage({
 
   const carouselRef = React.useRef<HTMLDivElement>(null);
   const albumCarouselRef = React.useRef<HTMLDivElement>(null);
+
+  const [showAlbumLeftArrow, setShowAlbumLeftArrow] = useState(false);
+  const [showAlbumRightArrow, setShowAlbumRightArrow] = useState(false);
+
+  const checkAlbumCarouselOverflow = () => {
+    if (albumCarouselRef.current) {
+      const el = albumCarouselRef.current;
+      setShowAlbumLeftArrow(el.scrollLeft > 0);
+      setShowAlbumRightArrow(el.scrollLeft < el.scrollWidth - el.clientWidth - 1);
+    }
+  };
+
+  useEffect(() => {
+    checkAlbumCarouselOverflow();
+    window.addEventListener('resize', checkAlbumCarouselOverflow);
+    return () => window.removeEventListener('resize', checkAlbumCarouselOverflow);
+  }, [galleries, isLoadingGalleries]);
 
   const scrollAlbumCarousel = (direction: 'left' | 'right') => {
     if (albumCarouselRef.current) {
@@ -350,8 +371,18 @@ export default function ProfilePage({
         setProfileData(res.profile);
       }
       if (galleriesRes.success) {
-        setGalleries(galleriesRes.galleries || []);
+        const loadedGalleries = galleriesRes.galleries || [];
+        setGalleries(loadedGalleries);
+
+        // Auto-open the specified gallery if deep-linked
+        if (urlTab === "gallery" && urlGalleryId) {
+          const idx = loadedGalleries.findIndex((g: any) => g.id === urlGalleryId);
+          if (idx !== -1) {
+            setActiveAlbumIdx(idx);
+          }
+        }
       }
+      setIsLoadingGalleries(false);
       if (connectionCacheKey) {
         connectionCache.set(connectionCacheKey, status);
       }
@@ -381,6 +412,19 @@ export default function ProfilePage({
       window.removeEventListener("profile_updated", handleProfileUpdated);
     };
   }, [id]);
+
+  // Immediate auto-scroll for deep-link
+  useEffect(() => {
+    if (urlTab === "gallery") {
+      setTimeout(() => {
+        const anchorEl = document.getElementById('profile-tabs-anchor');
+        if (anchorEl) {
+          const rect = anchorEl.getBoundingClientRect();
+          window.scrollTo({ top: window.scrollY + rect.top - 56, behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, [urlTab]);
 
   const handleCreateGallery = async () => {
     if (!newGalleryName.trim() || !currentUser) return;
@@ -623,6 +667,73 @@ export default function ProfilePage({
   return (
     <main className="min-h-screen bg-[#F3F2EF] dark:bg-[#18191A] text-black dark:text-[#E4E6EB] pb-20 pt-[56px] font-sans">
       <Navbar activeTab={null} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} themeLoaded={themeLoaded} currentUser={currentUser} />
+
+      {/* Cloned Sticky Navigation Bar */}
+      <div 
+        className={`fixed top-[56px] left-0 right-0 z-[45] w-full transition-transform duration-300 pointer-events-none ${
+          showScrollToTabs ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
+        }`}
+      >
+        <div className="max-w-[1100px] mx-auto px-4 md:px-8">
+          <div className="flex flex-col md:flex-row gap-6 px-2 md:px-6">
+            {/* Fake Left Sidebar Spacer */}
+            <div className="hidden md:block w-full md:w-[320px] shrink-0 pointer-events-none"></div>
+            
+            {/* Cloned Nav Container inside Right Column */}
+            <div className="flex-1 min-w-0">
+              <div className="w-full max-w-[590px] mx-auto flex justify-center bg-white/90 dark:bg-[#18191A]/90 backdrop-blur-md py-2 border border-gray-200/50 dark:border-gray-800/50 shadow-sm rounded-b-2xl pointer-events-auto">
+                <ul className="flex gap-3 px-2">
+                  {[
+                    {
+                      id: 'posts', label: 'Post', gradientFrom: '#10B981', gradientTo: '#34D399',
+                      icon: <div className="w-6 h-6 bg-current" style={{ WebkitMask: "url(/navigasi/posting.svg) center/contain no-repeat", mask: "url(/navigasi/posting.svg) center/contain no-repeat" }} />
+                    },
+                    {
+                      id: 'gallery', label: 'Gallery', gradientFrom: '#56CCF2', gradientTo: '#2F80ED',
+                      icon: <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 11V9a2 2 0 00-2-2H9a2 2 0 00-2 2v9a2 2 0 002 2h8a2 2 0 002-2v-2M15 4H5a2 2 0 00-2 2v10m12 0l-3-3m0 0l-3 3m3-3v6" /></svg>
+                    },
+                    {
+                      id: 'project', label: 'Project', gradientFrom: '#a955ff', gradientTo: '#ea51ff',
+                      icon: <div className="w-6 h-6 bg-current" style={{ WebkitMask: "url(/navigasi/project.svg) center/contain no-repeat", mask: "url(/navigasi/project-outline.svg) center/contain no-repeat" }} />
+                    }
+                  ].map(({ id, label, icon, gradientFrom, gradientTo }) => (
+                    <li
+                      key={id}
+                      onClick={() => {
+                        // Ganti tab dulu → tunggu DOM render ulang (2 frame) → 
+                        // baru hitung posisi anchor yang sudah final dan scroll kesana.
+                        // Ini menghilangkan "dua fase scroll" karena posisi target
+                        // sudah tidak akan berubah lagi setelah kita scroll.
+                        setActiveTab(id);
+                        requestAnimationFrame(() => {
+                          requestAnimationFrame(() => {
+                            const anchorEl = document.getElementById('profile-tabs-anchor');
+                            if (anchorEl) {
+                              const rect = anchorEl.getBoundingClientRect();
+                              window.scrollTo({ top: window.scrollY + rect.top - 56, behavior: 'smooth' });
+                            }
+                          });
+                        });
+                      }}
+                      style={{ '--gradient-from': gradientFrom, '--gradient-to': gradientTo } as React.CSSProperties}
+                      className={`relative h-[52px] bg-white dark:bg-[#3A3B3C] shadow-lg dark:shadow-black/40 rounded-full flex items-center justify-center transition-all duration-500 cursor-pointer overflow-hidden ${activeTab === id ? 'w-[140px] shadow-none' : 'w-[52px] group hover:w-[140px]'}`}
+                    >
+                      <span className={`absolute inset-0 rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] transition-opacity duration-500 ${activeTab === id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}></span>
+                      <span className={`absolute top-[10px] inset-x-0 h-full rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] blur-[15px] -z-10 transition-opacity duration-500 ${activeTab === id ? 'opacity-50' : 'opacity-0 group-hover:opacity-50'}`}></span>
+                      <span className={`relative z-10 text-gray-500 dark:text-gray-300 transition-all duration-300 ${activeTab === id ? 'scale-0 w-0 overflow-hidden' : 'scale-100 group-hover:scale-0 group-hover:w-0 group-hover:overflow-hidden'}`}>
+                        {icon}
+                      </span>
+                      <span className={`absolute text-white uppercase tracking-wide text-sm font-bold transition-all duration-300 ${activeTab === id ? 'scale-100 opacity-100' : 'scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100'}`} style={{ transitionDelay: activeTab === id ? '0ms' : '100ms' }}>
+                        {label}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* TOP LOADING BAR (YOUTUBE STYLE) */}
       {isProcessing && (
@@ -1491,14 +1602,14 @@ export default function ProfilePage({
 
 
                 {/* Tab Content Area */}
-                <div className="mt-2 flex flex-col gap-4 max-w-[590px] w-full mx-auto">
+                <div className="mt-2 flex flex-col gap-4 max-w-[590px] w-full mx-auto min-h-[100vh] pb-8">
                   {activeTab === 'posts' ? (
                     <PostFeed currentUser={currentUser} targetProfileId={id} />
                   ) : null}
 
                   {activeTab === 'gallery' ? (
                     <>
-                      <div className="bg-white dark:bg-[#242526] rounded-xl shadow-sm border border-gray-100 dark:border-[#3E4042] p-4">
+                      <div>
                         {isOwnProfile && (
                           <div className="flex justify-end mb-4">
                             <button onClick={() => setIsCreateGalleryOpen(true)} className="flex items-center gap-1.5 border-[2px] border-[#10B981] bg-transparent text-[#10B981] hover:bg-[#10B981] hover:text-white px-3 py-1 rounded-lg font-bold text-[13px] transition-colors shadow-sm cursor-pointer">
@@ -1508,30 +1619,45 @@ export default function ProfilePage({
                           </div>
                         )}
                         <div className="relative group/album">
-                          {/* Left Arrow */}
-                          <button
-                            onClick={() => scrollAlbumCarousel('left')}
-                            className="absolute -left-3 top-1/2 -translate-y-[80%] z-10 w-8 h-8 flex items-center justify-center bg-white dark:bg-[#3A3B3C] rounded-full shadow-md border border-gray-200 dark:border-[#4E4F50] text-gray-600 dark:text-[#E4E6EB] hover:bg-gray-100 dark:hover:bg-[#4E4F50] transition-colors"
-                          >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
-                          </button>
+                          {/* Left Arrow — hanya tampil jika scroll container overflow di sebelah kiri */}
+                          {showAlbumLeftArrow && (
+                            <button
+                              onClick={() => scrollAlbumCarousel('left')}
+                              className="absolute -left-3 top-1/2 -translate-y-[80%] z-10 w-8 h-8 flex items-center justify-center bg-white dark:bg-[#3A3B3C] rounded-full shadow-md border border-gray-200 dark:border-[#4E4F50] text-gray-600 dark:text-[#E4E6EB] hover:bg-gray-100 dark:hover:bg-[#4E4F50] transition-colors"
+                            >
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
+                            </button>
+                          )}
 
                           {/* Carousel Container */}
-                          <div ref={albumCarouselRef} className="flex overflow-x-auto gap-4 sidebar-scrollbar snap-x snap-mandatory py-2 px-1">
-                            {galleries.length === 0 ? (
+                          <div ref={albumCarouselRef} onScroll={checkAlbumCarouselOverflow} className="flex overflow-x-auto gap-4 sidebar-scrollbar snap-x snap-mandatory py-2 px-1">
+                            {isLoadingGalleries ? (
+                              [1, 2, 3].map((n) => (
+                                <div key={n} className="shrink-0 w-[140px] snap-start flex flex-col gap-1.5 animate-pulse">
+                                  <div className="p-1 rounded-xl">
+                                    <div className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
+                                  </div>
+                                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mx-1 mt-1"></div>
+                                </div>
+                              ))
+                            ) : galleries.length === 0 ? (
                               <div className="text-gray-500 dark:text-[#B0B3B8] text-[14px] text-center w-full py-4">Belum ada gallery.</div>
                             ) : (
                               galleries.map((gallery, i) => (
-                                <div key={gallery.id} onClick={() => setActiveAlbumIdx(activeAlbumIdx === i ? null : i)} className={`shrink-0 w-[140px] snap-start flex flex-col gap-1.5 group cursor-pointer p-1 rounded-xl transition-colors ${activeAlbumIdx === i ? 'bg-gray-100 dark:bg-[#3A3B3C]' : 'hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50'}`}>
-                                  <div className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden relative border border-gray-100 dark:border-[#3E4042] flex items-center justify-center">
-                                    {/* Default media preview (placeholder for now, wait until posts API logic is there) */}
-                                    {gallery.posts && gallery.posts.length > 0 && gallery.posts[0].postMedia && gallery.posts[0].postMedia.length > 0 ? (
-                                      <img src={gallery.posts[0].postMedia[0].media.originalUrl} alt={gallery.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                                    ) : (
-                                      <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                                    )}
-                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+                                <div key={gallery.id} onClick={() => setActiveAlbumIdx(activeAlbumIdx === i ? null : i)} className="shrink-0 w-[140px] snap-start flex flex-col gap-1.5 group cursor-pointer">
+                                  {/* Thumbnail card */}
+                                  <div className={`p-1 rounded-xl transition-colors ${activeAlbumIdx === i ? 'bg-gray-100 dark:bg-[#3A3B3C]' : 'hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50'}`}>
+                                    <div className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden relative border border-gray-100 dark:border-[#3E4042] flex items-center justify-center">
+                                      {/* Default media preview (placeholder for now, wait until posts API logic is there) */}
+                                      {gallery.posts && gallery.posts.length > 0 && gallery.posts[0].postMedia && gallery.posts[0].postMedia.length > 0 ? (
+                                        <img src={gallery.posts[0].postMedia[0].media.thumbUrl || gallery.posts[0].postMedia[0].media.feedUrl || gallery.posts[0].postMedia[0].media.originalUrl} alt={gallery.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                      ) : (
+                                        <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                      )}
+                                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+                                    </div>
                                   </div>
+                                  {/* Nama gallery — di luar card, tepat di bawah thumbnail */}
                                   <p className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB] truncate px-1">
                                     {gallery.name}
                                   </p>
@@ -1540,20 +1666,24 @@ export default function ProfilePage({
                             )}
                           </div>
 
-                          {/* Right Arrow */}
-                          <button
-                            onClick={() => scrollAlbumCarousel('right')}
-                            className="absolute -right-3 top-1/2 -translate-y-[80%] z-10 w-8 h-8 flex items-center justify-center bg-white dark:bg-[#3A3B3C] rounded-full shadow-md border border-gray-200 dark:border-[#4E4F50] text-gray-600 dark:text-[#E4E6EB] hover:bg-gray-100 dark:hover:bg-[#4E4F50] transition-colors"
-                          >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
-                          </button>
+                          {/* Right Arrow — hanya tampil jika scroll container overflow di sebelah kanan */}
+                          {showAlbumRightArrow && (
+                            <button
+                              onClick={() => scrollAlbumCarousel('right')}
+                              className="absolute -right-3 top-1/2 -translate-y-[80%] z-10 w-8 h-8 flex items-center justify-center bg-white dark:bg-[#3A3B3C] rounded-full shadow-md border border-gray-200 dark:border-[#4E4F50] text-gray-600 dark:text-[#E4E6EB] hover:bg-gray-100 dark:hover:bg-[#4E4F50] transition-colors"
+                            >
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                            </button>
+                          )}
                         </div>
                       </div>
 
-                      {activeAlbumIdx !== null && (
+                      {(activeAlbumIdx !== null || (isLoadingGalleries && urlGalleryId)) && (
                         <div className="animate-in slide-in-from-top-2 fade-in duration-300 w-full mt-2">
                           <div className="flex items-center justify-between mb-4 px-1">
-                            <h3 className="font-bold text-[17px] text-black dark:text-[#E4E6EB]">Isi Album: {galleries[activeAlbumIdx]?.name}</h3>
+                            <h3 className="font-bold text-[17px] text-black dark:text-[#E4E6EB]">
+                              Isi Album: {isLoadingGalleries ? <span className="inline-block w-32 h-5 bg-gray-200 dark:bg-gray-700 animate-pulse rounded align-middle ml-1"></span> : galleries[activeAlbumIdx]?.name}
+                            </h3>
 
                             <div className="flex items-center gap-4">
                               {/* Grid toggles */}
@@ -1620,8 +1750,18 @@ export default function ProfilePage({
                             </div>
                           </div>
                           {(() => {
+                            if (isLoadingGalleries) {
+                              return (
+                                <div className={`grid gap-2 transition-all duration-300 ${albumGridCols === 3 ? 'grid-cols-3' : 'grid-cols-5'}`}>
+                                  {Array.from({ length: 15 }).map((_, i) => (
+                                    <div key={i} className="aspect-square bg-gray-200 dark:bg-gray-700 animate-pulse rounded-lg"></div>
+                                  ))}
+                                </div>
+                              );
+                            }
+
                             const activeGallery = galleries[activeAlbumIdx];
-                            const albumMediaItems = activeGallery ? activeGallery.posts.flatMap((post: any) => post.postMedia.map((pm: any) => pm.media.originalUrl)) : [];
+                            const albumMediaItems = activeGallery ? (activeGallery.posts ?? []).flatMap((post: any) => (post.postMedia ?? []).map((pm: any) => pm.media)) : [];
 
                             if (albumMediaItems.length === 0) {
                               return <div className="text-gray-500 text-center py-8">Belum ada foto/video di album ini.</div>;
@@ -1634,7 +1774,7 @@ export default function ProfilePage({
                                 <div className="relative w-full">
                                   <div className="flex w-full aspect-[4/3] sm:aspect-video bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden group relative items-center justify-center">
                                     <img
-                                      src={albumMediaItems[safeInlineIdx]}
+                                      src={albumMediaItems[safeInlineIdx]?.detailUrl || albumMediaItems[safeInlineIdx]?.originalUrl}
                                       alt={`Album item ${safeInlineIdx}`}
                                       className="w-full h-full object-contain bg-black cursor-pointer"
                                       onClick={() => { setGalleryPreviewIdx(safeInlineIdx); setGalleryPreviewModalOpen(true); }}
@@ -1664,13 +1804,13 @@ export default function ProfilePage({
                               <div
                                 className={`grid gap-2 transition-all duration-300 ${albumGridCols === 3 ? 'grid-cols-3' : 'grid-cols-5'}`}
                               >
-                                {albumMediaItems.map((url: string, idx: number) => (
+                                {albumMediaItems.map((media: any, idx: number) => (
                                   <div
                                     key={idx}
                                     className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden group relative cursor-pointer"
                                     onClick={() => { setGalleryPreviewIdx(idx); setGalleryPreviewModalOpen(true); }}
                                   >
-                                    <img src={url} alt={`Album item ${idx}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                    <img src={media?.thumbUrl || media?.feedUrl || media?.originalUrl} alt={`Album item ${idx}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                   </div>
                                 ))}
                               </div>
@@ -1941,22 +2081,14 @@ export default function ProfilePage({
         </div>
       )}
 
-      {/* Floating Back to Tabs Button */}
-      <button
-        onClick={() => {
-          const anchorEl = document.getElementById('profile-tabs-anchor');
-          if (anchorEl) {
-            const rect = anchorEl.getBoundingClientRect();
-            window.scrollTo({ top: window.scrollY + rect.top - 60, behavior: 'smooth' });
-          }
-        }}
-        className={`fixed bottom-6 right-6 z-[90] flex items-center gap-2 px-4 py-3 bg-white dark:bg-[#3A3B3C] text-blue-500 dark:text-blue-400 font-bold rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.15)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.4)] border border-gray-100 dark:border-white/5 transition-all duration-300 ${
-          showScrollToTabs ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0 pointer-events-none"
-        }`}
-      >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>
-        <span className="text-[14px]">Ke Menu Tab</span>
-      </button>
     </main>
+  );
+}
+
+export default function ProfilePage(props: { params: Promise<{ locale: string; username: string; id: string }> }) {
+  return (
+    <React.Suspense fallback={null}>
+      <ProfilePageContent {...props} />
+    </React.Suspense>
   );
 }
