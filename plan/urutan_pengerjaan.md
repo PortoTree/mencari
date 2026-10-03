@@ -50,6 +50,20 @@ Skala yang lebih luas untuk interaksi dalam kelompok, butuh penanganan *socket* 
 - [ ] **Postingan komunitas**: secara privasi ini khusus untuk komunitas, bukan untuk user ke user. jadi yang melihat hanya orang yang join komunitas, kecuali jika owner/admin komunitas tersebut membuat pengaturan privasi pada komunitas menjadi public.
 - [ ] **Live Real-time Chat & Group Chat**: Fitur pesan langsung antar user (DM) dan percakapan di dalam komunitas (Grup).
 
+## Phase 4.4: UI/UX Kosmetik Profil (Persiapan Gamification)
+Membangun infrastruktur UI/UX untuk kosmetik dan reward sebelum sistem logika level dijalankan.
+- [ ] **UI/UX Avatar Border & Animasi**: Menyiapkan komponen CSS/Tailwind untuk render border, avatar beranimasi, dan sampul animasi di komponen Profile, Navbar, dan Postingan.
+- [ ] **UI/UX Custom Theme Warna Profil**: Menyiapkan logic CSS variabel untuk memungkinkan user mengubah tema warna spesifik pada halaman profilnya.
+- [ ] **UI/UX Akun Bisnis**: Menyiapkan desain/badge penanda tipe akun bisnis di halaman profil.
+
+## Phase 4.5: Gamification & Sistem Leveling
+Memberikan reward dan kosmetik kepada user aktif yang berhasil membangun jaringan teman dan komunitas. Sangat bergantung pada Phase 1 (Teman) dan Phase 4 (Komunitas).
+- [ ] **Leveling Logic & Tracker**: Background job atau trigger untuk menghitung jumlah teman dan member komunitas untuk menentukan level (Level 0 - 4).
+- [ ] **Downgrade System & Safety Net**: Logika toleransi margin 5% penurunan teman, dan mekanisme lock/disable pengaturan komunitas jika user ter-downgrade.
+- [ ] **Sistem Reward Kosmetik**: Fitur Avatar Animasi, Sampul Animasi, dan Custom Warna Profil berdasarkan pencapaian level.
+- [ ] **Unlock Tipe Akun Bisnis**: Hak akses untuk merubah tipe akun ke Bisnis di level 3.
+- [ ] **Pencapaian Umur Akun (Age Achievement)**: Cron job / pengecekan umur akun otomatis (6 bulan, 1, 2, 3 tahun) untuk unlock Border eksklusif.
+
 ## Phase 5: Monetisasi & Custom Page (End-Game)
 Fitur lanjutan (premium/creator) yang mengandalkan semua fitur dasar yang sudah berjalan stabil.
 - [ ] **Database Toko Produk**: Skema untuk pendaftaran toko, etalase produk digital/fisik.
