@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { createPost, updatePost } from "@/app/actions/posts";
 import { getUserGalleries, createGallery } from "@/app/actions/galleries";
@@ -317,7 +318,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
     setMediaPreviewList(newList);
   };
 
-  if (!isOpen) return null;
+  if (!isOpen || typeof document === 'undefined') return null;
 
   const handlePost = async () => {
     if (!postContent.trim() && mediaPreviewList.length === 0) return;
@@ -378,7 +379,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
     }
   };
 
-  return (
+  return createPortal(
     <>
       <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/60 dark:bg-black/70 px-4">
       <div className="w-full max-w-[500px] bg-white dark:bg-[#242526] rounded-xl shadow-xl flex flex-col relative border border-gray-200 dark:border-[#3E4042]">
@@ -950,6 +951,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
           </div>
         </div>
       )}
-    </>
+    </>,
+    document.body
   );
 }
