@@ -48,7 +48,7 @@ function PostFeedContent({ currentUser, onProfileClick, targetProfileId }: PostF
         (window as any).__POST_FEED_CACHE = (window as any).__POST_FEED_CACHE || {};
         (window as any).__POST_FEED_CACHE[cacheKey] = loadedPosts;
       } else {
-        if (!isBackground) setError(res.error || "Failed to load posts");
+        if (!isBackground) setError(res.error || t("feed.failedToLoadPosts"));
       }
     } catch (err: any) {
       if (!isBackground) setError(err.message);
@@ -121,7 +121,7 @@ function PostFeedContent({ currentUser, onProfileClick, targetProfileId }: PostF
         </svg>
         <p className="text-[15px] font-bold text-gray-800 dark:text-gray-200 mb-1">{t("feed.loadError")}</p>
         <p className="text-[13px] text-gray-500 dark:text-gray-400 mb-4 max-w-sm px-4">
-          Terjadi masalah saat mencoba terhubung ke server. Silakan coba lagi.
+          {t("feed.serverConnectionError")}
         </p>
         <button 
           onClick={() => fetchPosts()} 

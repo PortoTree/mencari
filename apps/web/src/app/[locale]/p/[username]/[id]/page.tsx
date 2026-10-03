@@ -13,7 +13,7 @@ import ImagePreviewModal from "@/components/ImagePreviewModal";
 import { ShinyButton } from "@/components/ui/shiny-button";
 import { uploadToCloudinary } from "@/utils/uploadImage";
 import { updateProfileMedia, getProfile } from "@/app/actions/profile";
-import { getUserGalleries, createGallery } from "@/app/actions/galleries";
+import { getUserGalleries, createGallery, updateGallery, deleteGallery } from "@/app/actions/galleries";
 import { getConnectionStatus, handlePrimaryConnectionAction, toggleBlock, removeFollower } from "@/app/actions/connections";
 import { getOptimizedUrl } from "@/utils/cloudinary";
 
@@ -87,6 +87,13 @@ function ProfilePageContent({
   const [isCreateGalleryOpen, setIsCreateGalleryOpen] = useState(false);
   const [newGalleryName, setNewGalleryName] = useState("");
   const [isCreatingGallery, setIsCreatingGallery] = useState(false);
+  const [activeGalleryMenuId, setActiveGalleryMenuId] = useState<string | null>(null);
+  const [galleryMenuCoords, setGalleryMenuCoords] = useState<{ x: number, y: number } | null>(null);
+  const [editingGalleryId, setEditingGalleryId] = useState<string | null>(null);
+  const [editingGalleryName, setEditingGalleryName] = useState("");
+  const [isEditingGalleryLoading, setIsEditingGalleryLoading] = useState(false);
+  const [deletingGalleryId, setDeletingGalleryId] = useState<string | null>(null);
+  const [isDeletingGalleryLoading, setIsDeletingGalleryLoading] = useState(false);
 
   const MAX_AVATAR_SIZE = 3.2 * 1024 * 1024; // 3.2MB internal limit
   const MAX_COVER_SIZE = 5 * 1024 * 1024; // 5MB
@@ -439,6 +446,47 @@ function ProfilePageContent({
     }
     setIsCreatingGallery(false);
   };
+
+  const handleEditGallery = async () => {
+    if (!editingGalleryId || !editingGalleryName.trim()) return;
+    setIsEditingGalleryLoading(true);
+    const res = await updateGallery(editingGalleryId, editingGalleryName.trim());
+    if (res.success && res.gallery) {
+      setGalleries(prev => prev.map(g => g.id === editingGalleryId ? { ...g, name: res.gallery.name } : g));
+      setEditingGalleryId(null);
+      setEditingGalleryName("");
+    } else {
+      alert(res.error || "Failed to update gallery");
+    }
+    setIsEditingGalleryLoading(false);
+  };
+
+  const handleDeleteGallery = async () => {
+    if (!deletingGalleryId) return;
+    setIsDeletingGalleryLoading(true);
+    const res = await deleteGallery(deletingGalleryId);
+    if (res.success) {
+      setGalleries(prev => prev.filter(g => g.id !== deletingGalleryId));
+      if (activeAlbumIdx !== null && galleries[activeAlbumIdx]?.id === deletingGalleryId) {
+        setActiveAlbumIdx(null);
+      }
+      setDeletingGalleryId(null);
+    } else {
+      alert(res.error || "Failed to delete gallery");
+    }
+    setIsDeletingGalleryLoading(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = () => {
+      if (activeGalleryMenuId) {
+        setActiveGalleryMenuId(null);
+        setGalleryMenuCoords(null);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [activeGalleryMenuId]);
 
   const handlePrimaryAction = async () => {
     if (!currentUser || isProcessing) return;
@@ -1614,7 +1662,7 @@ function ProfilePageContent({
                           <div className="flex justify-end mb-4">
                             <button onClick={() => setIsCreateGalleryOpen(true)} className="flex items-center gap-1.5 border-[2px] border-[#10B981] bg-transparent text-[#10B981] hover:bg-[#10B981] hover:text-white px-3 py-1 rounded-lg font-bold text-[13px] transition-colors shadow-sm cursor-pointer">
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
-                              Tambah Gallery
+                              {t("addGallery")}
                             </button>
                           </div>
                         )}
@@ -1657,10 +1705,32 @@ function ProfilePageContent({
                                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
                                     </div>
                                   </div>
-                                  {/* Nama gallery — di luar card, tepat di bawah thumbnail */}
-                                  <p className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB] truncate px-1">
-                                    {gallery.name}
-                                  </p>
+                                  {/* Nama gallery dan Opsi — di luar card, tepat di bawah thumbnail */}
+                                  <div className="flex items-center justify-between px-1 relative">
+                                    <p className="text-[13px] font-semibold text-gray-700 dark:text-[#E4E6EB] truncate pr-1">
+                                      {gallery.name}
+                                    </p>
+                                    {isOwnProfile && (
+                                      <div className="relative">
+                                        <button 
+                                          onClick={(e) => { 
+                                            e.stopPropagation(); 
+                                            if (activeGalleryMenuId === gallery.id) {
+                                              setActiveGalleryMenuId(null);
+                                              setGalleryMenuCoords(null);
+                                            } else {
+                                              const rect = e.currentTarget.getBoundingClientRect();
+                                              setGalleryMenuCoords({ x: rect.right, y: rect.bottom });
+                                              setActiveGalleryMenuId(gallery.id); 
+                                            }
+                                          }}
+                                          className="p-1 text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors cursor-pointer"
+                                        >
+                                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 16 16"><path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
                                 </div>
                               ))
                             )}
@@ -1682,7 +1752,7 @@ function ProfilePageContent({
                         <div className="animate-in slide-in-from-top-2 fade-in duration-300 w-full mt-2">
                           <div className="flex items-center justify-between mb-4 px-1">
                             <h3 className="font-bold text-[17px] text-black dark:text-[#E4E6EB]">
-                              Isi Album: {isLoadingGalleries ? <span className="inline-block w-32 h-5 bg-gray-200 dark:bg-gray-700 animate-pulse rounded align-middle ml-1"></span> : galleries[activeAlbumIdx]?.name}
+                              {t("albumContents")} {isLoadingGalleries ? <span className="inline-block w-32 h-5 bg-gray-200 dark:bg-gray-700 animate-pulse rounded align-middle ml-1"></span> : galleries[activeAlbumIdx]?.name}
                             </h3>
 
                             <div className="flex items-center gap-4">
@@ -1764,7 +1834,7 @@ function ProfilePageContent({
                             const albumMediaItems = activeGallery ? (activeGallery.posts ?? []).flatMap((post: any) => (post.postMedia ?? []).map((pm: any) => pm.media)) : [];
 
                             if (albumMediaItems.length === 0) {
-                              return <div className="text-gray-500 text-center py-8">Belum ada foto/video di album ini.</div>;
+                              return <div className="text-gray-500 text-center py-8">{t("emptyAlbum")}</div>;
                             }
 
                             const safeInlineIdx = Math.max(0, Math.min(inlineCarouselIdx, albumMediaItems.length - 1));
@@ -2075,6 +2145,96 @@ function ProfilePageContent({
                 className="px-4 py-2 text-sm font-semibold bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
               >
                 {isCreatingGallery ? "Menyimpan..." : "Simpan"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Floating Gallery Menu */}
+      {activeGalleryMenuId && galleryMenuCoords && (
+        <div 
+          className="fixed z-[99999] w-40 bg-white dark:bg-[#242526] rounded-lg shadow-lg border border-gray-100 dark:border-gray-700 py-1"
+          style={{ top: galleryMenuCoords.y + 4, left: galleryMenuCoords.x - 160 }}
+        >
+          <button 
+            onClick={(e) => {
+              e.stopPropagation(); 
+              const g = galleries.find((g: any) => g.id === activeGalleryMenuId);
+              if (g) {
+                setEditingGalleryId(g.id); 
+                setEditingGalleryName(g.name); 
+              }
+              setActiveGalleryMenuId(null); 
+              setGalleryMenuCoords(null);
+            }}
+            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-[#E4E6EB] hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+            {t("editGalleryName")}
+          </button>
+          <button 
+            onClick={(e) => { 
+              e.stopPropagation(); 
+              setDeletingGalleryId(activeGalleryMenuId); 
+              setActiveGalleryMenuId(null); 
+              setGalleryMenuCoords(null);
+            }}
+            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] cursor-pointer"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+            {t("deleteGallery")}
+          </button>
+        </div>
+      )}
+
+      {/* Edit Gallery Popup Modal */}
+      {editingGalleryId && (
+        <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/60 px-4">
+          <div className="w-full max-w-[400px] bg-white dark:bg-[#242526] rounded-xl shadow-xl flex flex-col p-4 border border-gray-200 dark:border-[#3E4042]">
+            <h3 className="text-[18px] font-bold text-black dark:text-[#E4E6EB] mb-4">{t("editGalleryName")}</h3>
+            <input
+              type="text"
+              placeholder={t("editGalleryName")}
+              value={editingGalleryName}
+              onChange={(e) => setEditingGalleryName(e.target.value)}
+              className="w-full bg-gray-100 dark:bg-[#3A3B3C] text-black dark:text-[#E4E6EB] border border-gray-300 dark:border-[#4E4F50] rounded-lg px-3 py-2 outline-none focus:border-blue-500 mb-4"
+              autoFocus
+            />
+            <div className="flex justify-end gap-2">
+              <button onClick={() => setEditingGalleryId(null)} className="px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-lg transition-colors cursor-pointer">
+                {t("cancel")}
+              </button>
+              <button
+                onClick={handleEditGallery}
+                disabled={!editingGalleryName.trim() || isEditingGalleryLoading}
+                className="px-4 py-2 text-sm font-semibold bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
+              >
+                {isEditingGalleryLoading ? "..." : "Simpan"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Gallery Popup Modal */}
+      {deletingGalleryId && (
+        <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/60 px-4">
+          <div className="w-full max-w-[400px] bg-white dark:bg-[#242526] rounded-xl shadow-xl flex flex-col p-4 border border-gray-200 dark:border-[#3E4042]">
+            <h3 className="text-[18px] font-bold text-black dark:text-[#E4E6EB] mb-4">{t("deleteGallery")}</h3>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              {t("deleteGalleryConfirmText")}
+            </p>
+            <div className="flex justify-end gap-2">
+              <button onClick={() => setDeletingGalleryId(null)} className="px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-lg transition-colors cursor-pointer">
+                {t("cancel")}
+              </button>
+              <button
+                onClick={handleDeleteGallery}
+                disabled={isDeletingGalleryLoading}
+                className="px-4 py-2 text-sm font-semibold bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
+              >
+                {isDeletingGalleryLoading ? "..." : t("delete")}
               </button>
             </div>
           </div>

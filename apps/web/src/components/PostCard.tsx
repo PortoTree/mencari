@@ -231,22 +231,6 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
           </div>
         </div>
         <div className="flex items-center gap-2">
-          {/* Gallery badge — tampil jika postingan terkait album */}
-          {post.gallery && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                router.push(`/${locale}/p/${post.author?.username}/${post.authorId}?tab=gallery&galleryId=${post.gallery.id}`);
-              }}
-              className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-700/50 text-emerald-700 dark:text-emerald-400 text-[11px] font-semibold hover:bg-emerald-100 dark:hover:bg-emerald-800/40 transition-colors max-w-[120px]"
-              title={post.gallery.name}
-            >
-              <svg className="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <span className="truncate">{post.gallery.name}</span>
-            </button>
-          )}
           <div className="relative">
           <button
             onClick={() => setActivePostMenu(!activePostMenu)}
@@ -468,6 +452,25 @@ export default function PostCard({ post, currentUser, onProfileClick, isHighligh
               ))}
             </div>
           )}
+        </div>
+      )}
+
+      {/* Gallery badge — tampil jika postingan terkait album */}
+      {post.gallery && (
+        <div className="px-4 pb-2 flex justify-start">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              router.push(`/${locale}/p/${post.author?.username}/${post.authorId}?tab=gallery&galleryId=${post.gallery.id}`);
+            }}
+            className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 text-[13px] font-semibold hover:text-emerald-700 dark:hover:text-emerald-300 hover:underline transition-colors max-w-full"
+            title={post.gallery.name}
+          >
+            <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span className="truncate">{post.gallery.name}</span>
+          </button>
         </div>
       )}
 

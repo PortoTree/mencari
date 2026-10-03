@@ -445,7 +445,8 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
                     {isGalleryDropdownOpen && (
                       <div className="absolute top-full left-0 mt-1 w-48 bg-white dark:bg-[#242526] rounded-lg shadow-xl border border-gray-200 dark:border-[#3E4042] py-2 z-50">
                         <button onClick={() => { setSelectedGalleryId("none"); setIsGalleryDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left">
-                          <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">Tanpa Gallery</span>
+                          <svg className="w-4 h-4 text-gray-500 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
+                          <span className="text-[14px] font-semibold text-gray-500 dark:text-[#B0B3B8]">{t("feed.noGallery")}</span>
                         </button>
                         {galleries.map(gallery => (
                           <button key={gallery.id} onClick={() => { setSelectedGalleryId(gallery.id); setIsGalleryDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left">
@@ -455,7 +456,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
                         <div className="border-t border-gray-200 dark:border-[#3E4042] my-1"></div>
                         <button onClick={() => { setIsCreateGalleryOpen(true); setIsGalleryDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left text-blue-500">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
-                          <span className="text-[14px] font-semibold">Tambah Gallery</span>
+                          <span className="text-[14px] font-semibold">{t("feed.addGallery")}</span>
                         </button>
                       </div>
                     )}
