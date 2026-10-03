@@ -18,6 +18,7 @@ import { getUserGalleries, createGallery, updateGallery, deleteGallery } from "@
 import { getConnectionStatus, handlePrimaryConnectionAction, toggleBlock, removeFollower } from "@/app/actions/connections";
 import { getOptimizedUrl } from "@/utils/cloudinary";
 import { MediaRenderer } from "@/components/MediaRenderer";
+import CreatePostModal from "@/components/CreatePostModal";
 
 import { profileCache, connectionCache } from "@/utils/profileCache";
 
@@ -98,6 +99,10 @@ function ProfilePageContent({
   const [isCreateGalleryOpen, setIsCreateGalleryOpen] = useState(false);
   const [newGalleryName, setNewGalleryName] = useState("");
   const [isCreatingGallery, setIsCreatingGallery] = useState(false);
+  const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
+  const [startWithGalleryModal, setStartWithGalleryModal] = useState(false);
+  const [createdGalleryId, setCreatedGalleryId] = useState<string | undefined>(undefined);
+  const [createdGallery, setCreatedGallery] = useState<any>(undefined);
   const [activeGalleryMenuId, setActiveGalleryMenuId] = useState<string | null>(null);
   const [galleryMenuCoords, setGalleryMenuCoords] = useState<{ x: number, y: number } | null>(null);
   const [editingGalleryId, setEditingGalleryId] = useState<string | null>(null);
@@ -452,6 +457,9 @@ function ProfilePageContent({
       setGalleries(prev => [...prev, res.gallery]);
       setIsCreateGalleryOpen(false);
       setNewGalleryName("");
+      setCreatedGalleryId(res.gallery.id);
+      setCreatedGallery(res.gallery);
+      setIsCreatePostModalOpen(true);
     } else {
       alert(res.error || "Failed to create gallery");
     }
@@ -1662,21 +1670,14 @@ function ProfilePageContent({
 
                 {/* Tab Content Area */}
                 <div className="mt-2 flex flex-col gap-4 max-w-[590px] w-full mx-auto min-h-[100vh] pb-8">
-                  {activeTab === 'posts' ? (
+                  <div className={activeTab === 'posts' ? 'block' : 'hidden'}>
                     <PostFeed currentUser={currentUser} targetProfileId={id} />
-                  ) : null}
+                  </div>
 
-                  {activeTab === 'gallery' ? (
+                  <div className={activeTab === 'gallery' ? 'block' : 'hidden'}>
                     <>
                       <div>
-                        {isOwnProfile && (
-                          <div className="flex justify-end mb-4">
-                            <button onClick={() => setIsCreateGalleryOpen(true)} className="flex items-center gap-1.5 border-[2px] border-[#10B981] bg-transparent text-[#10B981] hover:bg-[#10B981] hover:text-white px-3 py-1 rounded-lg font-bold text-[13px] transition-colors shadow-sm cursor-pointer">
-                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
-                              {t("addGallery")}
-                            </button>
-                          </div>
-                        )}
+
                         <div className="relative group/album">
                           {/* Left Arrow — hanya tampil jika scroll container overflow di sebelah kiri */}
                           {showAlbumLeftArrow && (
@@ -1699,9 +1700,11 @@ function ProfilePageContent({
                                   <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mx-1 mt-1"></div>
                                 </div>
                               ))
-                            ) : galleries.length === 0 ? (
-                              <div className="text-gray-500 dark:text-[#B0B3B8] text-[14px] text-center w-full py-4">{t("noGallery")}</div>
                             ) : (
+                              <>
+                                {galleries.length === 0 ? (
+                                  <div className="text-gray-500 dark:text-[#B0B3B8] text-[14px] flex items-center px-4 py-4">{t("noGallery")}</div>
+                                ) : (
                               galleries.map((gallery, i) => (
                                 <div key={gallery.id} onClick={() => setActiveAlbumIdx(activeAlbumIdx === i ? null : i)} className="shrink-0 w-[140px] snap-start flex flex-col gap-1.5 group cursor-pointer">
                                   {/* Thumbnail card */}
@@ -1751,6 +1754,19 @@ function ProfilePageContent({
                                   </div>
                                 </div>
                               ))
+                                )}
+
+                                {isOwnProfile && (
+                                  <div onClick={() => { setStartWithGalleryModal(true); setIsCreatePostModalOpen(true); }} className="shrink-0 w-[140px] snap-start flex flex-col gap-1.5 group cursor-pointer justify-start">
+                                    <div className="p-1 rounded-xl">
+                                      <div className="aspect-square rounded-lg border-2 border-dashed border-[#10B981] dark:border-[#10B981] flex flex-col items-center justify-center hover:bg-[#10B981]/10 transition-colors">
+                                        <svg className="w-8 h-8 text-[#10B981] mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
+                                        <span className="text-[13px] font-bold text-[#10B981]">{t("addGallery")}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                              </>
                             )}
                           </div>
 
@@ -1919,9 +1935,9 @@ function ProfilePageContent({
                         </div>
                       )}
                     </>
-                  ) : null}
+                  </div>
 
-                  {activeTab === 'project' ? (
+                  <div className={activeTab === 'project' ? 'block' : 'hidden'}>
                     <div className="bg-white dark:bg-[#242526] rounded-[20px] shadow-sm border border-gray-100 dark:border-[#3A3B3C] p-8 text-center flex flex-col items-center justify-center min-h-[250px]">
                       <div className="w-16 h-16 bg-gray-100 dark:bg-[#3A3B3C] rounded-full flex items-center justify-center mb-4">
                         <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
@@ -1929,7 +1945,7 @@ function ProfilePageContent({
                       <p className="text-gray-800 dark:text-[#E4E6EB] font-bold text-[16px] mb-1">Belum ada project</p>
                       <p className="text-gray-500 dark:text-[#B0B3B8] text-[14px] max-w-[250px]">Saat ini {username} belum mempublikasikan project apapun.</p>
                     </div>
-                  ) : null}
+                  </div>
                 </div>
               </>
             ) : (
@@ -2153,33 +2169,7 @@ function ProfilePageContent({
         onSelectLibraryItem={handleSelectLibraryItem}
       />
       {/* Create Gallery Popup Modal */}
-      {isCreateGalleryOpen && (
-        <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/60 px-4">
-          <div className="w-full max-w-[400px] bg-white dark:bg-[#242526] rounded-xl shadow-xl flex flex-col p-4 border border-gray-200 dark:border-[#3E4042]">
-            <h3 className="text-[18px] font-bold text-black dark:text-[#E4E6EB] mb-4">Buat Gallery Baru</h3>
-            <input
-              type="text"
-              placeholder="Nama gallery..."
-              value={newGalleryName}
-              onChange={(e) => setNewGalleryName(e.target.value)}
-              className="w-full bg-gray-100 dark:bg-[#3A3B3C] text-black dark:text-[#E4E6EB] border border-gray-300 dark:border-[#4E4F50] rounded-lg px-3 py-2 outline-none focus:border-blue-500 mb-4"
-              autoFocus
-            />
-            <div className="flex justify-end gap-2">
-              <button onClick={() => setIsCreateGalleryOpen(false)} className="px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-lg transition-colors cursor-pointer">
-                Batal
-              </button>
-              <button
-                onClick={handleCreateGallery}
-                disabled={!newGalleryName.trim() || isCreatingGallery}
-                className="px-4 py-2 text-sm font-semibold bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
-              >
-                {isCreatingGallery ? "Menyimpan..." : "Simpan"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {/* Floating Gallery Menu */}
       {activeGalleryMenuId && galleryMenuCoords && typeof document !== 'undefined' && createPortal(
@@ -2321,6 +2311,18 @@ function ProfilePageContent({
             );
           })()}
         </div>
+      )}
+
+      {/* Create Post Modal */}
+      {isCreatePostModalOpen && (
+        <CreatePostModal
+          isOpen={isCreatePostModalOpen}
+          onClose={() => { setIsCreatePostModalOpen(false); setCreatedGalleryId(undefined); setCreatedGallery(undefined); setStartWithGalleryModal(false); }}
+          currentUser={currentUser}
+          initialGalleryId={createdGalleryId}
+          initialGallery={createdGallery}
+          startWithGalleryModal={startWithGalleryModal}
+        />
       )}
 
     </main>

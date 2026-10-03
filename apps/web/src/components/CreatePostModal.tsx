@@ -17,9 +17,12 @@ interface CreatePostModalProps {
   initialPost?: any;
   startWithMediaModal?: boolean;
   startWithTagModal?: boolean;
+  initialGalleryId?: string;
+  initialGallery?: any;
+  startWithGalleryModal?: boolean;
 }
 
-export default function CreatePostModal({ isOpen, onClose, currentUser, onSuccess, initialPost, startWithMediaModal, startWithTagModal }: CreatePostModalProps) {
+export default function CreatePostModal({ isOpen, onClose, currentUser, onSuccess, initialPost, startWithMediaModal, startWithTagModal, initialGalleryId, initialGallery, startWithGalleryModal }: CreatePostModalProps) {
   const t = useTranslations();
   const [postPrivacy, setPostPrivacy] = useState<"PUBLIC" | "FRIENDS" | "PRIVATE" | "COMMUNITY_ONLY">("PUBLIC");
   const [isPrivacyDropdownOpen, setIsPrivacyDropdownOpen] = useState(false);
@@ -53,12 +56,34 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
 
   // Gallery state
   const [galleries, setGalleries] = useState<any[]>([]);
-  const [selectedGalleryId, setSelectedGalleryId] = useState<string>("none");
+  const [selectedGalleryId, setSelectedGalleryId] = useState<string>(initialGalleryId || initialPost?.galleryId || "none");
   const [isGalleryDropdownOpen, setIsGalleryDropdownOpen] = useState(false);
+
+  // Sync initialGalleryId when it changes
+  useEffect(() => {
+    if (initialGalleryId) {
+      setSelectedGalleryId(initialGalleryId);
+    }
+  }, [initialGalleryId]);
+
+  // Sync initialGallery object if provided (useful for newly created galleries before refetch completes)
+  useEffect(() => {
+    if (initialGallery) {
+      setGalleries(prev => {
+        if (!prev.find(g => g.id === initialGallery.id)) {
+          return [initialGallery, ...prev];
+        }
+        return prev;
+      });
+      setSelectedGalleryId(initialGallery.id);
+    }
+  }, [initialGallery]);
   const galleryDropdownRef = useRef<HTMLDivElement>(null);
-  const [isCreateGalleryOpen, setIsCreateGalleryOpen] = useState(false);
+  const [isCreateGalleryOpen, setIsCreateGalleryOpen] = useState(startWithGalleryModal || false);
   const [newGalleryName, setNewGalleryName] = useState("");
   const [isCreatingGallery, setIsCreatingGallery] = useState(false);
+  const [pendingGalleryName, setPendingGalleryName] = useState<string | null>(null);
+  const [noMediaGalleryWarning, setNoMediaGalleryWarning] = useState(false);
 
   // Inline Mentions State
   const [mentionQuery, setMentionQuery] = useState<{ query: string; position: number; top: number; left: number } | null>(null);
@@ -121,15 +146,22 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
   const handleCreateGallery = async () => {
     if (!newGalleryName.trim()) return;
     setIsCreatingGallery(true);
-    const res = await createGallery(currentUser.id, newGalleryName.trim());
-    if (res.success && res.gallery) {
-      setGalleries(prev => [res.gallery, ...prev]);
-      setSelectedGalleryId(res.gallery.id);
-      setIsCreateGalleryOpen(false);
-      setNewGalleryName("");
-    } else {
-      alert(res.error || "Failed to create gallery");
-    }
+    
+    const newName = newGalleryName.trim();
+    const tempId = "pending_new_gallery";
+    
+    const tempGallery = {
+      id: tempId,
+      name: newName,
+      isPending: true
+    };
+    
+    setGalleries(prev => [tempGallery, ...prev]);
+    setSelectedGalleryId(tempId);
+    setPendingGalleryName(newName);
+    
+    setIsCreateGalleryOpen(false);
+    setNewGalleryName("");
     setIsCreatingGallery(false);
   };
 
@@ -322,9 +354,26 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
 
   const handlePost = async () => {
     if (!postContent.trim() && mediaPreviewList.length === 0) return;
+    
+    if (selectedGalleryId !== "none" && mediaPreviewList.length === 0) {
+      setNoMediaGalleryWarning(true);
+      return;
+    }
+    
     setIsPosting(true);
 
     try {
+      let finalGalleryId = selectedGalleryId !== "none" ? selectedGalleryId : undefined;
+      
+      if (finalGalleryId === "pending_new_gallery" && pendingGalleryName) {
+        const res = await createGallery(currentUser.id, pendingGalleryName);
+        if (res.success && res.gallery) {
+          finalGalleryId = res.gallery.id;
+        } else {
+          finalGalleryId = undefined;
+        }
+      }
+
       const finalMediaUrls: string[] = [];
       for (const media of mediaPreviewList) {
         if (media.type === 'file' && media.url) {
@@ -349,7 +398,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
           mediaLayout: mediaLayout,
           linkMetadata: linkPreviewData,
           taggedUserIds: taggedUsers.map((u: any) => u.id),
-          galleryId: selectedGalleryId !== "none" ? selectedGalleryId : undefined,
+          galleryId: finalGalleryId,
         });
       }
 
@@ -397,7 +446,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
           <div className="flex items-center gap-3 mb-4">
             <img src={currentUser?.profile?.avatarUrl || "/default-avatar.svg"} className="w-10 h-10 rounded-full object-cover border border-gray-200 dark:border-[#3E4042]" />
             <div>
-              <h3 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{currentUser?.profile?.displayName || currentUser?.username}</h3>
+              <h3 className="font-semibold text-[15px] text-black dark:text-[#E4E6EB]">{currentUser?.profile?.displayName || currentUser?.displayName || currentUser?.username}</h3>
               <div className="flex items-center gap-2 mt-0.5">
                 <div className="relative" ref={labelDropdownRef}>
                   <button onClick={() => setIsLabelDropdownOpen(!isLabelDropdownOpen)} className="flex items-center gap-1 bg-gray-200 dark:bg-[#3A3B3C] px-2 py-0.5 rounded-md text-[12px] font-semibold text-gray-700 dark:text-[#E4E6EB]">
@@ -433,36 +482,39 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
                 </div>
 
                 {/* Gallery Dropdown */}
-                {(mediaPreviewList.length > 0 || tempFilePreviews.length > 0) && (
-                  <div className="relative" ref={galleryDropdownRef}>
-                    <button 
-                      onClick={() => setIsGalleryDropdownOpen(!isGalleryDropdownOpen)} 
-                      className={`flex items-center gap-1 bg-gray-200 dark:bg-[#3A3B3C] px-2 py-0.5 rounded-md text-[12px] font-semibold text-gray-700 dark:text-[#E4E6EB]`}
-                    >
-                      <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" /></svg>
-                      {selectedGalleryId === "none" ? "Gallery" : galleries.find(g => g.id === selectedGalleryId)?.name || "Gallery"}
-                      <svg className="w-3.5 h-3.5 ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
-                    </button>
-                    {isGalleryDropdownOpen && (
-                      <div className="absolute top-full left-0 mt-1 w-48 bg-white dark:bg-[#242526] rounded-lg shadow-xl border border-gray-200 dark:border-[#3E4042] py-2 z-50">
-                        <button onClick={() => { setSelectedGalleryId("none"); setIsGalleryDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left">
-                          <svg className="w-4 h-4 text-gray-500 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
-                          <span className="text-[14px] font-semibold text-gray-500 dark:text-[#B0B3B8]">{t("feed.noGallery")}</span>
+                <div className="relative" ref={galleryDropdownRef}>
+                  <button 
+                    onClick={() => setIsGalleryDropdownOpen(!isGalleryDropdownOpen)} 
+                    disabled={mediaPreviewList.length === 0 && tempFilePreviews.length === 0}
+                    className={`flex items-center gap-1 px-2 py-0.5 rounded-md text-[12px] font-semibold ${
+                      (mediaPreviewList.length === 0 && tempFilePreviews.length === 0) 
+                        ? 'bg-gray-100 dark:bg-[#3A3B3C]/50 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                        : 'bg-gray-200 dark:bg-[#3A3B3C] text-gray-700 dark:text-[#E4E6EB]'
+                    }`}
+                  >
+                    <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" /></svg>
+                    {selectedGalleryId === "none" ? "Gallery" : galleries.find(g => g.id === selectedGalleryId)?.name || pendingGalleryName || "Gallery"}
+                    <svg className="w-3.5 h-3.5 ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+                  </button>
+                  {isGalleryDropdownOpen && (
+                    <div className="absolute top-full left-0 mt-1 w-48 bg-white dark:bg-[#242526] rounded-lg shadow-xl border border-gray-200 dark:border-[#3E4042] py-2 z-50">
+                      <button onClick={() => { setSelectedGalleryId("none"); setIsGalleryDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left">
+                        <svg className="w-4 h-4 text-gray-500 dark:text-[#B0B3B8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
+                        <span className="text-[14px] font-semibold text-gray-500 dark:text-[#B0B3B8]">{t("feed.noGallery")}</span>
+                      </button>
+                      {galleries.map(gallery => (
+                        <button key={gallery.id} onClick={() => { setSelectedGalleryId(gallery.id); setIsGalleryDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left">
+                          <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">{gallery.name}</span>
                         </button>
-                        {galleries.map(gallery => (
-                          <button key={gallery.id} onClick={() => { setSelectedGalleryId(gallery.id); setIsGalleryDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left">
-                            <span className="text-[14px] font-semibold text-black dark:text-[#E4E6EB]">{gallery.name}</span>
-                          </button>
-                        ))}
-                        <div className="border-t border-gray-200 dark:border-[#3E4042] my-1"></div>
-                        <button onClick={() => { setIsCreateGalleryOpen(true); setIsGalleryDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left text-blue-500">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
-                          <span className="text-[14px] font-semibold">{t("feed.addGallery")}</span>
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                )}
+                      ))}
+                      <div className="border-t border-gray-200 dark:border-[#3E4042] my-1"></div>
+                      <button onClick={() => { setIsCreateGalleryOpen(true); setIsGalleryDropdownOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-200 dark:hover:bg-[#3A3B3C] text-left text-blue-500">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                        <span className="text-[14px] font-semibold">{t("feed.addGallery")}</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
                 
                 <div className="relative" ref={privacyDropdownRef}>
                   <button 
@@ -497,7 +549,7 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
           {/* Textarea */}
           <div className="overflow-y-auto max-h-[300px] mt-2 mb-2 relative">
             <textarea 
-              placeholder={t("feed.whatsOnYourMind", { name: currentUser?.profile?.displayName || currentUser?.username })}
+              placeholder={t("feed.whatsOnYourMind", { name: currentUser?.profile?.displayName || currentUser?.displayName || currentUser?.username })}
               className="w-full bg-transparent border-none outline-none text-[24px] text-black dark:text-[#E4E6EB] placeholder-gray-500 min-h-[120px] resize-none"
               value={postContent}
               onChange={handleContentChange}
@@ -923,14 +975,45 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
       </div>
     </div>
 
+      {/* No Media Warning Popup */}
+      {noMediaGalleryWarning && (
+        <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/60 px-4">
+          <div className="w-full max-w-[400px] bg-white dark:bg-[#242526] rounded-xl shadow-xl flex flex-col p-5 border border-gray-200 dark:border-[#3E4042] text-center">
+            <h3 className="text-[16px] font-semibold text-black dark:text-[#E4E6EB] mb-6 leading-relaxed">
+              Anda menambahkan <span className="font-bold text-blue-500">"{selectedGalleryId === 'pending_new_gallery' ? pendingGalleryName : galleries.find(g => g.id === selectedGalleryId)?.name}"</span> ke dalam gallery, upload atau isi URL media anda.
+            </h3>
+            <div className="flex flex-col gap-3">
+              <button 
+                onClick={() => {
+                  setNoMediaGalleryWarning(false);
+                  setIsMediaModalOpen(true);
+                }} 
+                className="w-full py-2.5 text-[15px] font-semibold bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+              >
+                Upload media
+              </button>
+              <button 
+                onClick={() => {
+                  setNoMediaGalleryWarning(false);
+                  setSelectedGalleryId("none");
+                }} 
+                className="w-full py-2.5 text-[15px] font-semibold bg-gray-200 dark:bg-[#3A3B3C] hover:bg-gray-300 dark:hover:bg-[#4E4F50] text-gray-800 dark:text-[#E4E6EB] rounded-lg transition-colors"
+              >
+                Lanjut, tanpa gallery
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Create Gallery Popup */}
       {isCreateGalleryOpen && (
         <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/60 px-4">
           <div className="w-full max-w-[400px] bg-white dark:bg-[#242526] rounded-xl shadow-xl flex flex-col p-4 border border-gray-200 dark:border-[#3E4042]">
-            <h3 className="text-[18px] font-bold text-black dark:text-[#E4E6EB] mb-4">Buat Gallery Baru</h3>
+            <h3 className="text-[18px] font-bold text-black dark:text-[#E4E6EB] mb-4">{t("feed.createGallery")}</h3>
             <input 
               type="text" 
-              placeholder="Nama gallery..."
+              placeholder={t("feed.galleryNamePlaceholder")}
               value={newGalleryName}
               onChange={(e) => setNewGalleryName(e.target.value)}
               className="w-full bg-gray-100 dark:bg-[#3A3B3C] text-black dark:text-[#E4E6EB] border border-gray-300 dark:border-[#4E4F50] rounded-lg px-3 py-2 outline-none focus:border-blue-500 mb-4"
@@ -938,14 +1021,14 @@ export default function CreatePostModal({ isOpen, onClose, currentUser, onSucces
             />
             <div className="flex justify-end gap-2">
               <button onClick={() => setIsCreateGalleryOpen(false)} className="px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#3A3B3C] rounded-lg transition-colors">
-                Batal
+                {t("feed.cancel")}
               </button>
               <button 
                 onClick={handleCreateGallery} 
                 disabled={!newGalleryName.trim() || isCreatingGallery}
                 className="px-4 py-2 text-sm font-semibold bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors disabled:opacity-50"
               >
-                {isCreatingGallery ? "Menyimpan..." : "Simpan"}
+                {isCreatingGallery ? t("feed.saving") : t("feed.save")}
               </button>
             </div>
           </div>
