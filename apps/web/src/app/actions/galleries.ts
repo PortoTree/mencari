@@ -1,4 +1,4 @@
-﻿"use server";
+"use server";
 
 import { revalidatePath } from "next/cache";
 import prisma from "@/utils/prisma";
@@ -103,9 +103,51 @@ export async function updateGallery(galleryId: string, name?: string, privacy?: 
 
 export async function deleteGallery(galleryId: string) {
   try {
+    // 1. Ambil semua posts dan medianya sebelum dihapus
+    const galleryPosts = await prisma.post.findMany({
+      where: { galleryId },
+      include: { postMedia: { include: { media: true } } }
+    });
+
+    // 2. Kumpulkan semua media yang perlu dihapus dari Cloudinary
+    const mediaToDelete = new Map<string, any>();
+    galleryPosts.forEach(post => {
+      post.postMedia.forEach(pm => {
+        if (pm.media && pm.media.publicId) {
+          mediaToDelete.set(pm.media.id, pm.media);
+        }
+      });
+    });
+
+    // 3. Hapus semua posts di dalam gallery ini
+    //    (PostMedia akan ikut terhapus via onDelete: Cascade)
+    if (galleryPosts.length > 0) {
+      await prisma.post.deleteMany({
+        where: { galleryId }
+      });
+    }
+
+    // 4. Hapus gallery-nya
     await prisma.gallery.delete({
       where: { id: galleryId }
     });
+
+    // 5. Hapus media dari Cloudinary dan database (yang sudah tidak dipakai post manapun)
+    if (mediaToDelete.size > 0) {
+      const { deleteFromCloudinary } = await import('@/lib/cloudinary');
+      for (const [mediaId, media] of mediaToDelete) {
+        const stillUsed = await prisma.postMedia.findFirst({ where: { mediaId } });
+        if (!stillUsed) {
+          try {
+            await deleteFromCloudinary(media.publicId, media.type === 'VIDEO' ? 'video' : 'image');
+            await prisma.media.delete({ where: { id: mediaId } });
+          } catch (e) {
+            console.error("Failed to delete media from Cloudinary/DB:", e);
+          }
+        }
+      }
+    }
+
     revalidatePath("/", "layout");
     return { success: true };
   } catch (error) {
@@ -137,6 +179,31 @@ export async function deleteMediaFromGallery(postId: string, mediaId: string) {
     // If it was the only media and there's no text content, delete the post entirely
     if (post.postMedia.length === 1 && post.postMedia[0].mediaId === mediaId && (!post.content || post.content.trim() === '')) {
       await prisma.post.delete({ where: { id: postId } });
+    }
+
+    // Check if the media is used in any other post
+    const otherUsage = await prisma.postMedia.findFirst({
+      where: { mediaId: mediaId }
+    });
+
+    if (!otherUsage) {
+      // Find the media to get its URL/publicId
+      const media = await prisma.media.findUnique({
+        where: { id: mediaId }
+      });
+
+      if (media && media.publicId) {
+        try {
+          const { deleteFromCloudinary } = await import('@/lib/cloudinary');
+          const resourceType = media.type === 'VIDEO' ? 'video' : 'image';
+          await deleteFromCloudinary(media.publicId, resourceType);
+          
+          // Delete from database
+          await prisma.media.delete({ where: { id: mediaId } });
+        } catch (e) {
+          console.error("Failed to delete media from Cloudinary/DB:", e);
+        }
+      }
     }
 
     revalidatePath("/", "layout");

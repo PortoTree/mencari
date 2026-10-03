@@ -4,7 +4,7 @@
  */
 export function getOptimizedUrl(
   url: string | null | undefined, 
-  type: "avatar" | "cover" | "preview"
+  type: "avatar" | "cover" | "preview" | "thumb" | "feed"
 ): string {
   if (!url) return "";
   const cleanUrl = url.trim();
@@ -21,6 +21,12 @@ export function getOptimizedUrl(
   if (type === "avatar") {
     // 300x300, fill, optimize quality & format
     transformation = "c_fill,w_300,h_300,q_auto,f_auto";
+  } else if (type === "thumb") {
+    // 400x400 (for grid cells), fill, optimize
+    transformation = "c_fill,w_400,h_400,q_auto,f_auto";
+  } else if (type === "feed") {
+    // Max 800 width (for feed views), keep aspect ratio
+    transformation = "c_limit,w_800,q_auto,f_auto";
   } else if (type === "cover") {
     // 1200x400 (3:1 aspect ratio), fill, optimize quality & format
     transformation = "c_fill,w_1200,h_400,q_auto,f_auto";

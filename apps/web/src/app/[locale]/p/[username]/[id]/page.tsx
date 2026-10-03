@@ -31,13 +31,13 @@ function ProfilePageContent({
   const tEdit = useTranslations("editProfile");
   const tFeed = useTranslations("feed");
 
-  const getMediaThumbnail = (url: string) => {
+  const getMediaThumbnail = (url: string, type: 'thumb' | 'feed' | 'preview' = 'thumb') => {
     if (!url) return '';
     const ytMatch = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
     if (ytMatch && ytMatch[1]) {
       return `https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg`;
     }
-    return url;
+    return getOptimizedUrl(url, type);
   };
 
   const unwrappedParams = use(params);
@@ -1967,7 +1967,7 @@ function ProfilePageContent({
                                     ) : (
                                       <img
                                         key={`img-${albumMediaItems[safeInlineIdx]?.id || safeInlineIdx}`}
-                                        src={getMediaThumbnail(albumMediaItems[safeInlineIdx]?.detailUrl || albumMediaItems[safeInlineIdx]?.originalUrl)}
+                                        src={getMediaThumbnail(albumMediaItems[safeInlineIdx]?.detailUrl || albumMediaItems[safeInlineIdx]?.originalUrl, 'feed')}
                                         alt={`Album item ${safeInlineIdx}`}
                                         className="w-full h-full object-contain bg-black cursor-pointer"
                                         onClick={() => { setGalleryPreviewIdx(safeInlineIdx); setGalleryPreviewModalOpen(true); }}

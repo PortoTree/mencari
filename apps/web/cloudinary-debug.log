@@ -1,0 +1,21 @@
+Attempting to delete publicId: fjyahlm2zbod0ygvk01z with type: image
+Config keys present? name: false, key: false, secret: false
+Cloudinary Error: Must supply api_key
+Attempting to delete publicId: awc9hhlcbbox27sosi2z with type: image
+Config keys present? name: true, key: true, secret: true
+Cloudinary delete result: {"result":"ok"}
+Attempting to delete publicId: xkmybilsz50e9hbotp4w with type: image
+Config keys present? name: true, key: true, secret: true
+Cloudinary delete result: {"result":"ok"}
+Attempting to delete publicId: ph8xfnyog1u8uwux6xvb with type: image
+Config keys present? name: true, key: true, secret: true
+Cloudinary delete result: {"result":"ok"}
+Attempting to delete publicId: eu4iq098vu2sfbdjpt7m with type: image
+Config keys present? name: true, key: true, secret: true
+Cloudinary delete result: {"result":"ok"}
+Attempting to delete publicId: lkpirwkqz0ijdothqgqp with type: image
+Config keys present? name: true, key: true, secret: true
+Cloudinary delete result: {"result":"ok"}
+Attempting to delete publicId: cxML98SQTJU?si=vcTSn2Frp8x_E9kJ with type: image
+Config keys present? name: true, key: true, secret: true
+Cloudinary delete result: {"result":"not found"}

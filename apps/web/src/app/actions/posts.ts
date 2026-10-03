@@ -212,7 +212,10 @@ export async function getFeedPosts(userId: string, targetProfileId?: string) {
 
 export async function deletePost(postId: string, authorId: string) {
   try {
-    const post = await prisma.post.findUnique({ where: { id: postId }, include: { hashtags: true } });
+    const post = await prisma.post.findUnique({ 
+      where: { id: postId }, 
+      include: { hashtags: true, postMedia: { include: { media: true } } } 
+    });
     if (!post || post.authorId !== authorId) {
       return { success: false, error: "Unauthorized or not found" };
     }
@@ -227,6 +230,24 @@ export async function deletePost(postId: string, authorId: string) {
 
     await prisma.post.delete({ where: { id: postId } });
     
+    // Check orphaned media and delete from Cloudinary
+    if (post.postMedia && post.postMedia.length > 0) {
+      const { deleteFromCloudinary } = await import('@/lib/cloudinary');
+      for (const pm of post.postMedia) {
+        if (pm.media && pm.media.publicId) {
+          const stillUsed = await prisma.postMedia.findFirst({ where: { mediaId: pm.media.id } });
+          if (!stillUsed) {
+            try {
+              await deleteFromCloudinary(pm.media.publicId, pm.media.type === 'VIDEO' ? 'video' : 'image');
+              await prisma.media.delete({ where: { id: pm.media.id } });
+            } catch (e) {
+              console.error("Failed to delete media from Cloudinary/DB:", e);
+            }
+          }
+        }
+      }
+    }
+
     revalidateTag("feed_posts", "page");
     revalidateTag(`profile_posts_${authorId}`, "page");
     
