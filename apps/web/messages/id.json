@@ -405,11 +405,13 @@
                     "posts":  "Postingan",
                     "gallery":  "Galeri",
                     "editProfile":  "Edit Profil",
-                    "editGalleryName":  "Edit Nama",
+                    "privacySettings": "Pengaturan privasi", "public": "Publik", "friendsOnly": "Hanya Teman", "moveGallery": "Pindah gallery", "removeFromGallery": "Hapus foto", "editPrivacy": "Edit privasi", "editGalleryName":  "Edit Nama",
                     "deleteGallery":  "Hapus",
                     "deleteGalleryConfirmText":  "Hapus gallery termasuk menghapus isi gallery, ingin melanjutkan?",
                     "delete":  "Hapus",
                     "cancel":  "Batal",
+                    "back": "Kembali",
+                    "private": "Privat",
                     "addFriend":  "Follow",
                     "message":  "Pesan",
                     "unblock":  "Buka Blokir",
@@ -490,7 +492,8 @@
                     "noLocation":  "Belum ada lokasi",
                     "addGallery":  "Tambah Galeri",
                     "albumContents":  "Isi Album:",
-                    "emptyAlbum":  "Belum ada foto/video di album ini."
+                    "emptyAlbum":  "Belum ada foto/video di album ini.",
+                    "noGallery":  "User tidak memiliki gallery"
                 },
     "editProfile":  {
                         "title":  "Edit Profil",

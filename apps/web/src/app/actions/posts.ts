@@ -47,11 +47,22 @@ export async function createPost(data: {
       ));
     }
 
+    let finalVisibility = data.visibility;
+    if (data.galleryId) {
+      const gallery = await prisma.gallery.findUnique({
+        where: { id: data.galleryId },
+        select: { privacy: true }
+      });
+      if (gallery) {
+        finalVisibility = gallery.privacy as any;
+      }
+    }
+
     const newPost = await prisma.post.create({
       data: {
         content: data.content,
         authorId: data.authorId,
-        visibility: data.visibility,
+        visibility: finalVisibility,
         label: data.label || "DEFAULT",
         mediaLayout: data.mediaLayout || "GRID",
         linkMetadata: data.linkMetadata || null,

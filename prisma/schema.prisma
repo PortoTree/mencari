@@ -375,4 +375,5 @@ model Gallery {
 
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   posts     Post[]
+  privacy   String   @default("PUBLIC")
 }

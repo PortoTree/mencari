@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, use } from "react";
+import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
@@ -364,7 +365,7 @@ function ProfilePageContent({
     // Fetch real profile data to populate initial images and details
     // We use `id` from the URL, NOT `userId` from the token!
     const profilePromise = getProfile(id);
-    const galleriesPromise = getUserGalleries(id);
+    const galleriesPromise = getUserGalleries(id, currentId);
     const connectionPromise = currentId
       ? getConnectionStatus(currentId, id)
       : Promise.resolve({ friendshipStatus: null, isFollowing: false, isBlocked: false });
@@ -438,7 +439,7 @@ function ProfilePageContent({
     setIsCreatingGallery(true);
     const res = await createGallery(currentUser.id, newGalleryName.trim());
     if (res.success && res.gallery) {
-      setGalleries(prev => [res.gallery, ...prev]);
+      setGalleries(prev => [...prev, res.gallery]);
       setIsCreateGalleryOpen(false);
       setNewGalleryName("");
     } else {
@@ -1678,7 +1679,7 @@ function ProfilePageContent({
                           )}
 
                           {/* Carousel Container */}
-                          <div ref={albumCarouselRef} onScroll={checkAlbumCarouselOverflow} className="flex overflow-x-auto gap-4 sidebar-scrollbar snap-x snap-mandatory py-2 px-1">
+                          <div ref={albumCarouselRef} onScroll={checkAlbumCarouselOverflow} className="flex overflow-x-auto gap-4 snap-x snap-mandatory py-2 px-1 [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                             {isLoadingGalleries ? (
                               [1, 2, 3].map((n) => (
                                 <div key={n} className="shrink-0 w-[140px] snap-start flex flex-col gap-1.5 animate-pulse">
@@ -1689,7 +1690,7 @@ function ProfilePageContent({
                                 </div>
                               ))
                             ) : galleries.length === 0 ? (
-                              <div className="text-gray-500 dark:text-[#B0B3B8] text-[14px] text-center w-full py-4">Belum ada gallery.</div>
+                              <div className="text-gray-500 dark:text-[#B0B3B8] text-[14px] text-center w-full py-4">{t("noGallery")}</div>
                             ) : (
                               galleries.map((gallery, i) => (
                                 <div key={gallery.id} onClick={() => setActiveAlbumIdx(activeAlbumIdx === i ? null : i)} className="shrink-0 w-[140px] snap-start flex flex-col gap-1.5 group cursor-pointer">
@@ -1697,8 +1698,8 @@ function ProfilePageContent({
                                   <div className={`p-1 rounded-xl transition-colors ${activeAlbumIdx === i ? 'bg-gray-100 dark:bg-[#3A3B3C]' : 'hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50'}`}>
                                     <div className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden relative border border-gray-100 dark:border-[#3E4042] flex items-center justify-center">
                                       {/* Default media preview (placeholder for now, wait until posts API logic is there) */}
-                                      {gallery.posts && gallery.posts.length > 0 && gallery.posts[0].postMedia && gallery.posts[0].postMedia.length > 0 ? (
-                                        <img src={gallery.posts[0].postMedia[0].media.thumbUrl || gallery.posts[0].postMedia[0].media.feedUrl || gallery.posts[0].postMedia[0].media.originalUrl} alt={gallery.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                      {gallery.posts && gallery.posts.length > 0 && gallery.posts[gallery.posts.length - 1].postMedia && gallery.posts[gallery.posts.length - 1].postMedia.length > 0 ? (
+                                        <img src={gallery.posts[gallery.posts.length - 1].postMedia[0].media.thumbUrl || gallery.posts[gallery.posts.length - 1].postMedia[0].media.feedUrl || gallery.posts[gallery.posts.length - 1].postMedia[0].media.originalUrl} alt={gallery.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                       ) : (
                                         <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                                       )}
@@ -2152,9 +2153,9 @@ function ProfilePageContent({
       )}
 
       {/* Floating Gallery Menu */}
-      {activeGalleryMenuId && galleryMenuCoords && (
+      {activeGalleryMenuId && galleryMenuCoords && typeof document !== 'undefined' && createPortal(
         <div 
-          className="fixed z-[99999] w-40 bg-white dark:bg-[#242526] rounded-lg shadow-lg border border-gray-100 dark:border-gray-700 py-1"
+          className="fixed z-[99999] w-48 bg-white dark:bg-[#242526] rounded-lg shadow-lg border border-gray-100 dark:border-gray-700 py-1"
           style={{ top: galleryMenuCoords.y + 4, left: galleryMenuCoords.x - 160 }}
         >
           <button 
@@ -2185,7 +2186,8 @@ function ProfilePageContent({
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
             {t("deleteGallery")}
           </button>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Edit Gallery Popup Modal */}
@@ -2238,6 +2240,57 @@ function ProfilePageContent({
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+
+
+      {/* Media Preview Modal */}
+      {galleryPreviewModalOpen && activeAlbumIdx !== null && (
+        <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/95">
+          <button 
+            onClick={() => setGalleryPreviewModalOpen(false)}
+            className="absolute top-4 right-4 text-white hover:text-gray-300 w-10 h-10 flex items-center justify-center bg-black/50 rounded-full transition-colors z-[100001] cursor-pointer"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
+
+          {(() => {
+            const activeGallery = galleries[activeAlbumIdx];
+            const items = activeGallery ? (activeGallery.posts ?? []).flatMap((post: any) => (post.postMedia ?? []).map((pm: any) => pm.media)) : [];
+            const currentItem = items[galleryPreviewIdx];
+
+            if (!currentItem) return null;
+
+            return (
+              <div className="relative w-full h-full flex items-center justify-center p-4 md:p-12" onClick={() => setGalleryPreviewModalOpen(false)}>
+                <img 
+                  src={currentItem.detailUrl || currentItem.originalUrl} 
+                  alt="Gallery Preview" 
+                  className="max-w-full max-h-full object-contain cursor-default"
+                  onClick={(e) => e.stopPropagation()}
+                />
+
+                {galleryPreviewIdx > 0 && (
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); setGalleryPreviewIdx(galleryPreviewIdx - 1); }}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full transition-colors cursor-pointer"
+                  >
+                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
+                  </button>
+                )}
+
+                {galleryPreviewIdx < items.length - 1 && (
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); setGalleryPreviewIdx(galleryPreviewIdx + 1); }}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full transition-colors cursor-pointer"
+                  >
+                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                  </button>
+                )}
+              </div>
+            );
+          })()}
         </div>
       )}
 

@@ -399,11 +399,13 @@
                     "posts":  "Posts",
                     "gallery":  "Gallery",
                     "editProfile":  "Edit Profile",
-                    "editGalleryName":  "Edit Name",
+                    "privacySettings": "Privacy settings", "public": "Public", "friendsOnly": "Friends Only", "moveGallery": "Move gallery", "removeFromGallery": "Remove photo", "editPrivacy": "Edit privacy", "editGalleryName":  "Edit Name",
                     "deleteGallery":  "Delete",
                     "deleteGalleryConfirmText":  "Deleting the gallery will also delete its contents. Do you want to continue?",
                     "delete":  "Delete",
                     "cancel":  "Cancel",
+                    "back": "Back",
+                    "private": "Private",
                     "addFriend":  "Follow",
                     "message":  "Message",
                     "unblock":  "Unblock",
@@ -484,7 +486,8 @@
                     "noLocation":  "No location added",
                     "addGallery":  "Add Gallery",
                     "albumContents":  "Album Contents:",
-                    "emptyAlbum":  "No photos/videos in this album yet."
+                    "emptyAlbum":  "No photos/videos in this album yet.",
+                    "noGallery":  "User doesn't have a gallery"
                 },
     "editProfile":  {
                         "title":  "Edit Profile",
