@@ -1749,7 +1749,7 @@ function ProfilePageContent({
                                   !isOwnProfile ? <div className="text-gray-500 dark:text-[#B0B3B8] text-[14px] flex items-center px-4 py-4">{t("noGallery")}</div> : null
                                 ) : (
                               galleries.map((gallery, i) => (
-                                <div key={gallery.id} onClick={() => setActiveAlbumIdx(activeAlbumIdx === i ? null : i)} className="shrink-0 w-[140px] snap-start flex flex-col gap-1.5 group cursor-pointer">
+                                <div key={gallery.id} onClick={() => { setActiveAlbumIdx(activeAlbumIdx === i ? null : i); setInlineCarouselIdx(0); }} className="shrink-0 w-[140px] snap-start flex flex-col gap-1.5 group cursor-pointer">
                                   {/* Thumbnail card */}
                                   <div className={`p-1 rounded-xl transition-colors ${activeAlbumIdx === i ? 'bg-gray-100 dark:bg-[#3A3B3C]' : 'hover:bg-gray-200 dark:hover:bg-[#3A3B3C]/50'}`}>
                                     <div className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden relative border border-gray-100 dark:border-[#3E4042] flex items-center justify-center">
@@ -1959,12 +1959,14 @@ function ProfilePageContent({
                                   <div className="flex w-full aspect-[4/3] sm:aspect-video bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden group relative items-center justify-center">
                                     {albumMediaItems[safeInlineIdx]?.type === 'VIDEO' ? (
                                       <video
+                                        key={`video-${albumMediaItems[safeInlineIdx]?.id || safeInlineIdx}`}
                                         src={albumMediaItems[safeInlineIdx]?.detailUrl || albumMediaItems[safeInlineIdx]?.originalUrl}
                                         className="w-full h-full object-contain bg-black cursor-pointer"
                                         controls
                                       />
                                     ) : (
                                       <img
+                                        key={`img-${albumMediaItems[safeInlineIdx]?.id || safeInlineIdx}`}
                                         src={getMediaThumbnail(albumMediaItems[safeInlineIdx]?.detailUrl || albumMediaItems[safeInlineIdx]?.originalUrl)}
                                         alt={`Album item ${safeInlineIdx}`}
                                         className="w-full h-full object-contain bg-black cursor-pointer"
@@ -2037,7 +2039,7 @@ function ProfilePageContent({
                               >
                                 {albumMediaItems.map((media: any, idx: number) => (
                                   <div
-                                    key={idx}
+                                    key={media?.id || idx}
                                     className="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden group relative cursor-pointer"
                                     onClick={() => { setGalleryPreviewIdx(idx); setGalleryPreviewModalOpen(true); }}
                                   >
