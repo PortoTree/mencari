@@ -388,15 +388,34 @@ function ProfilePageContent({
       setIsLoadingProfile(false);
     }
 
+    const fetchGalleriesData = () => {
+      getUserGalleries(id, currentId).then(galleriesRes => {
+        if (galleriesRes.success) {
+          const loadedGalleries = galleriesRes.galleries || [];
+          setGalleries(loadedGalleries);
+          
+          // Auto-open the specified gallery if deep-linked (only on initial load)
+          if (urlTab === "gallery" && urlGalleryId && !galleries.length) {
+            const idx = loadedGalleries.findIndex((g: any) => g.id === urlGalleryId);
+            if (idx !== -1) {
+              setActiveAlbumIdx(idx);
+            }
+          }
+        }
+        setIsLoadingGalleries(false);
+      });
+    };
+
     // Fetch real profile data to populate initial images and details
     // We use `id` from the URL, NOT `userId` from the token!
     const profilePromise = getProfile(id);
-    const galleriesPromise = getUserGalleries(id, currentId);
     const connectionPromise = currentId
       ? getConnectionStatus(currentId, id)
       : Promise.resolve({ friendshipStatus: null, isFollowing: false, isBlocked: false });
 
-    Promise.all([profilePromise, connectionPromise, galleriesPromise]).then(([res, status, galleriesRes]) => {
+    fetchGalleriesData();
+
+    Promise.all([profilePromise, connectionPromise]).then(([res, status]) => {
       if (res.success && res.profile) {
         profileCache.set(id, res.profile);
         if (res.profile.avatarUrl) setAvatarPreview(res.profile.avatarUrl);
@@ -404,19 +423,6 @@ function ProfilePageContent({
         if (res.profile.displayName) setDisplayName(res.profile.displayName);
         setProfileData(res.profile);
       }
-      if (galleriesRes.success) {
-        const loadedGalleries = galleriesRes.galleries || [];
-        setGalleries(loadedGalleries);
-
-        // Auto-open the specified gallery if deep-linked
-        if (urlTab === "gallery" && urlGalleryId) {
-          const idx = loadedGalleries.findIndex((g: any) => g.id === urlGalleryId);
-          if (idx !== -1) {
-            setActiveAlbumIdx(idx);
-          }
-        }
-      }
-      setIsLoadingGalleries(false);
       if (connectionCacheKey) {
         connectionCache.set(connectionCacheKey, status);
       }
@@ -438,12 +444,21 @@ function ProfilePageContent({
         });
       }
     };
+    
+    const handleFeedRefresh = () => {
+      fetchGalleriesData();
+    };
+
     window.addEventListener("profile_updated", handleProfileUpdated);
+    window.addEventListener("refresh_feed", handleFeedRefresh);
+    window.addEventListener("silent_refresh_feed", handleFeedRefresh);
 
     setThemeLoaded(true);
 
     return () => {
       window.removeEventListener("profile_updated", handleProfileUpdated);
+      window.removeEventListener("refresh_feed", handleFeedRefresh);
+      window.removeEventListener("silent_refresh_feed", handleFeedRefresh);
     };
   }, [id]);
 
